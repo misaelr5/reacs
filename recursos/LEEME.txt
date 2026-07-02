@@ -1,0 +1,7 @@
+Colocá acá los 4 PDFs de lead magnets con EXACTAMENTE estos nombres
+(así los botones de la sección "Recursos" funcionan sin tocar el código):
+
+  auditoria-sitio-web.pdf
+  auditoria-meta-ads.pdf
+  auditoria-google-ads.pdf
+  auditoria-negocio-digital.pdf
