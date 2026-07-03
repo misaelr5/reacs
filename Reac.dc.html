@@ -386,6 +386,20 @@
     .nl-form input:focus{border-color:rgba(255,255,255,.5); background:rgba(255,255,255,.16);}
     @media(max-width:980px){.recursos-grid{grid-template-columns:1fr 1fr !important;}.nl-band{grid-template-columns:1fr !important;}}
     @media(max-width:560px){.recursos-grid{grid-template-columns:1fr !important;}}
+    /* ===== Toggle interactivo "Sin/Con Reac" (problema que resolvemos) ===== */
+    .prob-radio{position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;}
+    .prob-pills{display:inline-flex; padding:5px; border-radius:16px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); margin-bottom:34px; gap:4px; -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);}
+    .prob-pill{cursor:pointer; padding:11px 22px; border-radius:12px; font-size:14.5px; font-weight:600; color:rgba(255,255,255,.68); transition:background .3s ease, color .3s ease, box-shadow .3s ease; user-select:none; white-space:nowrap;}
+    .prob-pill:hover{color:#fff;}
+    .prob-panel{display:none;}
+    @keyframes probFade{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;}}
+    #prob-sin:checked ~ .prob-pills label[for="prob-sin"]{background:linear-gradient(135deg,#FA3601,#F0430A); color:#fff; box-shadow:0 10px 24px -10px rgba(250,54,1,.7);}
+    #prob-con:checked ~ .prob-pills label[for="prob-con"]{background:#FDFCFE; color:#1710A5; box-shadow:0 10px 24px -10px rgba(0,0,0,.45);}
+    #prob-sin:checked ~ .prob-body .prob-panel-sin{display:block; animation:probFade .5s cubic-bezier(.16,1,.3,1) both;}
+    #prob-con:checked ~ .prob-body .prob-panel-con{display:block; animation:probFade .5s cubic-bezier(.16,1,.3,1) both;}
+    .prob-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; align-items:stretch;}
+    .prob-chip{display:flex; align-items:center; gap:12px; padding:15px 18px; border-radius:14px; background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.24);}
+    @media(max-width:860px){.prob-cards{grid-template-columns:1fr;}.prob-chips{grid-template-columns:1fr !important;}}
   </style>
 </helmet>
 <div data-motion="{{ motionAttr }}" style="font-family:Satoshi, 'Segoe UI', system-ui, -apple-system, sans-serif; background:#070712; color:#FDFCFE; position:relative;">
@@ -434,7 +448,6 @@
   <!-- ===== HERO (dark) ===== -->
   <section id="hero-sec" data-screen-label="Hero" style="position:relative; min-height:100vh; padding:30px 6vw 70px; overflow:hidden; display:flex; flex-direction:column;">
     <div style="position:absolute; inset:0; z-index:0; overflow:hidden;">
-      <div id="hero-spot" style="position:absolute; inset:0; z-index:1; pointer-events:none; opacity:0; transition:opacity .55s ease; background:radial-gradient(460px circle at var(--mx,50%) var(--my,28%), rgba(110,116,255,.26), rgba(124,58,237,.12) 38%, transparent 64%); mix-blend-mode:screen; will-change:background;"></div>
       <div style="position:absolute; inset:-25% -12%; transform:rotate(-19deg); animation:bgDrift 18s ease-in-out infinite;">
         <div style="position:absolute; top:14%; left:0; width:62%; height:1.5px; background:rgba(255,255,255,.04);"><div style="position:absolute; top:-1px; height:3px; width:130px; left:-18%; border-radius:3px; background:linear-gradient(90deg,transparent,#1F27EB,#7C3AED,transparent); box-shadow:0 0 18px #4f6ef7; animation:beamMove 7.5s linear infinite;"></div></div>
         <div style="position:absolute; top:30%; left:6%; width:54%; height:1.5px; background:rgba(255,255,255,.04);"><div style="position:absolute; top:-1px; height:3px; width:90px; left:-18%; border-radius:3px; background:linear-gradient(90deg,transparent,#7C3AED,#1F27EB,transparent); box-shadow:0 0 16px #7c5cf0; animation:beamMove 9s linear infinite 1.2s;"></div></div>
@@ -501,21 +514,56 @@
         <h2 style="font-size:clamp(30px,3.6vw,48px); line-height:1.08; font-weight:700; letter-spacing:-.03em; margin:0;">No tenés que aprender marketing, ni programar, ni pelearte con mil herramientas.</h2>
         <p style="font-size:16px; color:rgba(255,255,255,.72); margin:16px 0 0; line-height:1.6; max-width:600px;">La mayoría de los negocios terminan coordinando una persona para la web, otra para las campañas y otra para los sistemas. Nosotros lo hacemos simple: un solo equipo se ocupa de todo y te lo deja funcionando.</p>
       </div>
-      <div class="ib-stats reveal" style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px; align-items:stretch;">
-        <div class="ib-stat-card" style="background:#0E1020; border:1px solid #262B47; border-radius:24px; padding:34px; display:flex; flex-direction:column; box-shadow:0 20px 50px -28px rgba(0,0,0,.55);">
-          <span style="width:46px; height:46px; border-radius:13px; background:linear-gradient(135deg,#1F27EB,#2E37FF); display:flex; align-items:center; justify-content:center; color:#FDFCFE; margin-bottom:20px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
-          <div style="font-size:20px; font-weight:700; letter-spacing:-.02em; margin-bottom:8px;">Un solo interlocutor</div>
-          <div style="font-size:15px; color:#868CA6; line-height:1.6;">Dejás de coordinar proveedores sueltos. Hablás con un equipo que entiende todo tu ecosistema y responde por el resultado completo.</div>
+      <div class="prob-switch reveal">
+        <input class="prob-radio" type="radio" name="probview" id="prob-sin">
+        <input class="prob-radio" type="radio" name="probview" id="prob-con" checked>
+        <div class="prob-pills" role="tablist">
+          <label for="prob-sin" class="prob-pill">Sin Reac Studio</label>
+          <label for="prob-con" class="prob-pill">Con Reac Studio</label>
         </div>
-        <div class="ib-stat-card" style="background:#0E1020; border:1px solid #262B47; border-radius:24px; padding:34px; display:flex; flex-direction:column; box-shadow:0 20px 50px -28px rgba(0,0,0,.55);">
-          <span style="width:46px; height:46px; border-radius:13px; background:linear-gradient(135deg,#2E37FF,#7C3AED); display:flex; align-items:center; justify-content:center; color:#FDFCFE; margin-bottom:20px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path></svg></span>
-          <div style="font-size:20px; font-weight:700; letter-spacing:-.02em; margin-bottom:8px;">Todo conectado</div>
-          <div style="font-size:15px; color:#868CA6; line-height:1.6;">Tu web, tus campañas y tus automatizaciones trabajan juntas, no como piezas separadas que nadie termina de integrar.</div>
-        </div>
-        <div class="ib-stat-card" style="background:linear-gradient(135deg,#1F27EB,#7C3AED); color:#FDFCFE; border-radius:24px; padding:34px; display:flex; flex-direction:column; box-shadow:0 18px 40px -18px rgba(46,55,255,.6);">
-          <span style="width:46px; height:46px; border-radius:13px; background:rgba(255,255,255,.14); display:flex; align-items:center; justify-content:center; color:#FDFCFE; margin-bottom:20px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></span>
-          <div style="font-size:20px; font-weight:700; letter-spacing:-.02em; margin-bottom:8px;">Vos a lo tuyo</div>
-          <div style="font-size:15px; color:rgba(255,255,255,.9); line-height:1.6;">Nos ocupamos de la parte técnica y digital para que uses tu tiempo en lo que sabés hacer: hacer crecer tu negocio.</div>
+        <div class="prob-body">
+
+          <!-- Panel: SIN Reac (el caos) -->
+          <div class="prob-panel prob-panel-sin">
+            <div style="background:#0E1020; border:1px solid #3A2A2A; border-radius:24px; padding:clamp(28px,3vw,40px); box-shadow:0 20px 50px -28px rgba(0,0,0,.55);">
+              <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+                <span style="flex:none; width:40px; height:40px; border-radius:12px; background:rgba(250,54,1,.16); border:1px solid rgba(250,54,1,.32); color:#FF7A4D; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path><path d="M12 9v4M12 17h.01"></path></svg></span>
+                <div style="font-size:19px; font-weight:700; letter-spacing:-.01em;">Cada cosa con un proveedor distinto</div>
+              </div>
+              <p style="font-size:15px; color:#868CA6; line-height:1.6; margin:0 0 24px; max-width:620px;">Uno te hace la web, otro las campañas, otro las redes, otro los sistemas. Ninguno habla con el otro y, en el medio, quedás vos coordinando a todos.</p>
+              <div class="prob-chips" style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:24px;">
+                <div class="prob-chip"><span style="color:#7A819B;">🌐</span><span style="font-size:14px; color:#C4C8D8;">Diseñador web</span></div>
+                <div class="prob-chip"><span style="color:#7A819B;">📣</span><span style="font-size:14px; color:#C4C8D8;">Agencia de ads</span></div>
+                <div class="prob-chip"><span style="color:#7A819B;">📱</span><span style="font-size:14px; color:#C4C8D8;">Community manager</span></div>
+                <div class="prob-chip"><span style="color:#7A819B;">⚙️</span><span style="font-size:14px; color:#C4C8D8;">Programador de sistemas</span></div>
+                <div class="prob-chip"><span style="color:#7A819B;">📊</span><span style="font-size:14px; color:#C4C8D8;">Alguien que mida todo</span></div>
+                <div class="prob-chip" style="border-style:solid; border-color:rgba(250,54,1,.35); background:rgba(250,54,1,.08);"><span>🧍</span><span style="font-size:14px; color:#FF7A4D; font-weight:600;">Vos, coordinando</span></div>
+              </div>
+              <div style="display:inline-flex; align-items:center; gap:8px; font-size:14px; color:#FF7A4D; font-weight:600; background:rgba(250,54,1,.1); border:1px solid rgba(250,54,1,.28); border-radius:999px; padding:9px 16px;">Resultado: se pierde tiempo, plata y oportunidades.</div>
+            </div>
+          </div>
+
+          <!-- Panel: CON Reac (la solución) · visible por defecto -->
+          <div class="prob-panel prob-panel-con">
+            <div class="prob-cards">
+              <div class="ib-stat-card" style="background:#0E1020; border:1px solid #262B47; border-radius:24px; padding:34px; display:flex; flex-direction:column; box-shadow:0 20px 50px -28px rgba(0,0,0,.55);">
+                <span style="width:46px; height:46px; border-radius:13px; background:linear-gradient(135deg,#1F27EB,#2E37FF); display:flex; align-items:center; justify-content:center; color:#FDFCFE; margin-bottom:20px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
+                <div style="font-size:20px; font-weight:700; letter-spacing:-.02em; margin-bottom:8px;">Un solo interlocutor</div>
+                <div style="font-size:15px; color:#868CA6; line-height:1.6;">Dejás de coordinar proveedores sueltos. Hablás con un equipo que entiende todo tu ecosistema y responde por el resultado completo.</div>
+              </div>
+              <div class="ib-stat-card" style="background:#0E1020; border:1px solid #262B47; border-radius:24px; padding:34px; display:flex; flex-direction:column; box-shadow:0 20px 50px -28px rgba(0,0,0,.55);">
+                <span style="width:46px; height:46px; border-radius:13px; background:linear-gradient(135deg,#2E37FF,#7C3AED); display:flex; align-items:center; justify-content:center; color:#FDFCFE; margin-bottom:20px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path></svg></span>
+                <div style="font-size:20px; font-weight:700; letter-spacing:-.02em; margin-bottom:8px;">Todo conectado</div>
+                <div style="font-size:15px; color:#868CA6; line-height:1.6;">Tu web, tus campañas y tus automatizaciones trabajan juntas, no como piezas separadas que nadie termina de integrar.</div>
+              </div>
+              <div class="ib-stat-card" style="background:linear-gradient(135deg,#1F27EB,#7C3AED); color:#FDFCFE; border-radius:24px; padding:34px; display:flex; flex-direction:column; box-shadow:0 18px 40px -18px rgba(46,55,255,.6);">
+                <span style="width:46px; height:46px; border-radius:13px; background:rgba(255,255,255,.14); display:flex; align-items:center; justify-content:center; color:#FDFCFE; margin-bottom:20px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></span>
+                <div style="font-size:20px; font-weight:700; letter-spacing:-.02em; margin-bottom:8px;">Vos a lo tuyo</div>
+                <div style="font-size:15px; color:rgba(255,255,255,.9); line-height:1.6;">Nos ocupamos de la parte técnica y digital para que uses tu tiempo en lo que sabés hacer: hacer crecer tu negocio.</div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -1227,6 +1275,7 @@ class Component extends DCLogic {
   }
 
   initHeroSpot(){
+    return; // spotlight que seguía al cursor · desactivado
     if (this.reduceMotion) return;
     if (window.matchMedia && !window.matchMedia('(hover:hover)').matches) return;
     const run = (tries) => {
