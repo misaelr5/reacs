@@ -387,19 +387,15 @@
     @media(max-width:980px){.recursos-grid{grid-template-columns:1fr 1fr !important;}.nl-band{grid-template-columns:1fr !important;}}
     @media(max-width:560px){.recursos-grid{grid-template-columns:1fr !important;}}
     /* ===== Toggle interactivo "Sin/Con Reac" (problema que resolvemos) ===== */
-    .prob-radio{position:absolute; width:1px; height:1px; opacity:0; pointer-events:none;}
     .prob-pills{display:inline-flex; padding:5px; border-radius:16px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); margin-bottom:34px; gap:4px; -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);}
-    .prob-pill{cursor:pointer; padding:11px 22px; border-radius:12px; font-size:14.5px; font-weight:600; color:rgba(255,255,255,.68); transition:background .3s ease, color .3s ease, box-shadow .3s ease; user-select:none; white-space:nowrap;}
-    .prob-pill:hover{color:#fff;}
-    .prob-panel{display:none;}
-    @keyframes probFade{from{opacity:0; transform:translateY(14px);} to{opacity:1; transform:none;}}
-    #prob-sin:checked ~ .prob-pills label[for="prob-sin"]{background:linear-gradient(135deg,#FA3601,#F0430A); color:#fff; box-shadow:0 10px 24px -10px rgba(250,54,1,.7);}
-    #prob-con:checked ~ .prob-pills label[for="prob-con"]{background:#FDFCFE; color:#1710A5; box-shadow:0 10px 24px -10px rgba(0,0,0,.45);}
-    #prob-sin:checked ~ .prob-body .prob-panel-sin{display:block; animation:probFade .5s cubic-bezier(.16,1,.3,1) both;}
-    #prob-con:checked ~ .prob-body .prob-panel-con{display:block; animation:probFade .5s cubic-bezier(.16,1,.3,1) both;}
+    .prob-pill{cursor:pointer; padding:11px 22px; border-radius:12px; font-size:14.5px; font-weight:600; user-select:none; white-space:nowrap; transition:background .35s cubic-bezier(.22,1,.36,1), color .35s ease, box-shadow .35s ease, transform .25s ease;}
+    .prob-pill:hover{transform:translateY(-1px);}
+    .prob-body{position:relative; min-height:300px;}
+    .prob-panel-anim{animation:probFade .6s cubic-bezier(.16,1,.3,1) both; will-change:transform,opacity,filter;}
+    @keyframes probFade{from{opacity:0; transform:translateY(16px) scale(.985); filter:blur(3px);} to{opacity:1; transform:none; filter:blur(0);}}
     .prob-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; align-items:stretch;}
     .prob-chip{display:flex; align-items:center; gap:12px; padding:15px 18px; border-radius:14px; background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.24);}
-    @media(max-width:860px){.prob-cards{grid-template-columns:1fr;}.prob-chips{grid-template-columns:1fr !important;}}
+    @media(max-width:860px){.prob-cards{grid-template-columns:1fr;}.prob-chips{grid-template-columns:1fr !important;}.prob-body{min-height:0;}}
   </style>
 </helmet>
 <div data-motion="{{ motionAttr }}" style="font-family:Satoshi, 'Segoe UI', system-ui, -apple-system, sans-serif; background:#070712; color:#FDFCFE; position:relative;">
@@ -515,16 +511,15 @@
         <p style="font-size:16px; color:rgba(255,255,255,.72); margin:16px 0 0; line-height:1.6; max-width:600px;">La mayoría de los negocios terminan coordinando una persona para la web, otra para las campañas y otra para los sistemas. Nosotros lo hacemos simple: un solo equipo se ocupa de todo y te lo deja funcionando.</p>
       </div>
       <div class="prob-switch reveal">
-        <input class="prob-radio" type="radio" name="probview" id="prob-sin">
-        <input class="prob-radio" type="radio" name="probview" id="prob-con" checked>
         <div class="prob-pills" role="tablist">
-          <label for="prob-sin" class="prob-pill">Sin Reac Studio</label>
-          <label for="prob-con" class="prob-pill">Con Reac Studio</label>
+          <span onClick="{{ setProbSin }}" class="prob-pill" style="background:{{ probSinPillBg }}; color:{{ probSinPillCol }}; box-shadow:{{ probSinPillSh }};">Sin Reac Studio</span>
+          <span onClick="{{ setProbCon }}" class="prob-pill" style="background:{{ probConPillBg }}; color:{{ probConPillCol }}; box-shadow:{{ probConPillSh }};">Con Reac Studio ✦</span>
         </div>
         <div class="prob-body">
 
           <!-- Panel: SIN Reac (el caos) -->
-          <div class="prob-panel prob-panel-sin">
+          <sc-if value="{{ probShowSin }}" hint-placeholder-val="{{ true }}">
+          <div class="prob-panel-anim">
             <div style="background:#0E1020; border:1px solid #3A2A2A; border-radius:24px; padding:clamp(28px,3vw,40px); box-shadow:0 20px 50px -28px rgba(0,0,0,.55);">
               <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
                 <span style="flex:none; width:40px; height:40px; border-radius:12px; background:rgba(250,54,1,.16); border:1px solid rgba(250,54,1,.32); color:#FF7A4D; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path><path d="M12 9v4M12 17h.01"></path></svg></span>
@@ -542,9 +537,11 @@
               <div style="display:inline-flex; align-items:center; gap:8px; font-size:14px; color:#FF7A4D; font-weight:600; background:rgba(250,54,1,.1); border:1px solid rgba(250,54,1,.28); border-radius:999px; padding:9px 16px;">Resultado: se pierde tiempo, plata y oportunidades.</div>
             </div>
           </div>
+          </sc-if>
 
-          <!-- Panel: CON Reac (la solución) · visible por defecto -->
-          <div class="prob-panel prob-panel-con">
+          <!-- Panel: CON Reac (la solución) -->
+          <sc-if value="{{ probShowCon }}" hint-placeholder-val="{{ false }}">
+          <div class="prob-panel-anim">
             <div class="prob-cards">
               <div class="ib-stat-card" style="background:#0E1020; border:1px solid #262B47; border-radius:24px; padding:34px; display:flex; flex-direction:column; box-shadow:0 20px 50px -28px rgba(0,0,0,.55);">
                 <span style="width:46px; height:46px; border-radius:13px; background:linear-gradient(135deg,#1F27EB,#2E37FF); display:flex; align-items:center; justify-content:center; color:#FDFCFE; margin-bottom:20px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
@@ -563,6 +560,7 @@
               </div>
             </div>
           </div>
+          </sc-if>
 
         </div>
       </div>
@@ -1120,7 +1118,8 @@ class Component extends DCLogic {
       tg: { wsp: true, leads: false, crm: true, report: false },
       goals: { camp: 72, leadsg: 48 },
       budget: 55,
-      projIndex: 0
+      projIndex: 0,
+      probView: 'sin'
     };
     this.methodRef = React.createRef();
     this.statsRef = React.createRef();
@@ -1752,6 +1751,16 @@ class Component extends DCLogic {
       projDots: projDots,
       projPrev: () => this.prevProj(),
       projNext: () => this.nextProj(),
+      probShowSin: this.state.probView === 'sin',
+      probShowCon: this.state.probView === 'con',
+      setProbSin: () => this.setState({ probView: 'sin' }),
+      setProbCon: () => this.setState({ probView: 'con' }),
+      probSinPillBg: this.state.probView === 'sin' ? 'linear-gradient(135deg,#FA3601,#F0430A)' : 'transparent',
+      probSinPillCol: this.state.probView === 'sin' ? '#FFFFFF' : 'rgba(255,255,255,.7)',
+      probSinPillSh: this.state.probView === 'sin' ? '0 10px 24px -10px rgba(250,54,1,.7)' : 'none',
+      probConPillBg: this.state.probView === 'con' ? '#FDFCFE' : 'rgba(255,255,255,.04)',
+      probConPillCol: this.state.probView === 'con' ? '#1710A5' : '#FDFCFE',
+      probConPillSh: this.state.probView === 'con' ? '0 10px 24px -10px rgba(0,0,0,.45)' : '0 0 0 1.5px rgba(255,255,255,.5) inset, 0 0 22px -6px rgba(255,255,255,.55)',
       toggleWsp: () => this.setState(s => ({ tg: Object.assign({}, s.tg, { wsp: !s.tg.wsp }) })),
       toggleLeads: () => this.setState(s => ({ tg: Object.assign({}, s.tg, { leads: !s.tg.leads }) })),
       toggleCrm: () => this.setState(s => ({ tg: Object.assign({}, s.tg, { crm: !s.tg.crm }) })),
