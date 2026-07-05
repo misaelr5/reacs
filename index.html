@@ -387,14 +387,16 @@
     @media(max-width:980px){.recursos-grid{grid-template-columns:1fr 1fr !important;}.nl-band{grid-template-columns:1fr !important;}}
     @media(max-width:560px){.recursos-grid{grid-template-columns:1fr !important;}}
     /* ===== Toggle interactivo "Sin/Con Reac" (problema que resolvemos) ===== */
-    .prob-pills{display:inline-flex; padding:5px; border-radius:16px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); margin-bottom:34px; gap:4px; -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);}
+    .prob-pills{display:inline-flex; padding:5px; border-radius:16px; background:rgba(255,255,255,.04); border:1px solid #262B47; margin-bottom:34px; gap:4px;}
     .prob-pill{cursor:pointer; padding:11px 22px; border-radius:12px; font-size:14.5px; font-weight:600; user-select:none; white-space:nowrap; transition:background .35s cubic-bezier(.22,1,.36,1), color .35s ease, box-shadow .35s ease, transform .25s ease;}
     .prob-pill:hover{transform:translateY(-1px);}
     .prob-body{position:relative; min-height:300px;}
     .prob-panel-anim{animation:probFade .6s cubic-bezier(.16,1,.3,1) both; will-change:transform,opacity,filter;}
     @keyframes probFade{from{opacity:0; transform:translateY(16px) scale(.985); filter:blur(3px);} to{opacity:1; transform:none; filter:blur(0);}}
     .prob-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; align-items:stretch;}
-    .prob-chip{display:flex; align-items:center; gap:12px; padding:15px 18px; border-radius:14px; background:rgba(255,255,255,.04); border:1px dashed rgba(255,255,255,.24);}
+    .prob-chip{display:flex; align-items:center; gap:12px; padding:12px 15px; border-radius:14px; background:rgba(255,255,255,.03); border:1px dashed rgba(255,255,255,.16);}
+    .prob-chip-ico{flex:none; width:34px; height:34px; border-radius:10px; background:rgba(46,55,255,.10); border:1px solid rgba(110,116,255,.22); color:#8E94FF; display:flex; align-items:center; justify-content:center;}
+    .prob-chip-ico svg{width:16px; height:16px;}
     @media(max-width:860px){.prob-cards{grid-template-columns:1fr;}.prob-chips{grid-template-columns:1fr !important;}.prob-body{min-height:0;}}
   </style>
 </helmet>
@@ -501,14 +503,14 @@
   </section>
 
   <!-- ===== ESTADÍSTICAS (velocímetro + odómetro) ===== -->
-  <section ref="{{ statsRef }}" data-screen-label="Estadisticas" style="position:relative; overflow:hidden; background:linear-gradient(135deg,#1F27EB 0%, #2A037F 60%, #1710A5 100%); color:#FDFCFE; padding:130px 6vw;">
-    <div style="position:absolute; top:-10%; left:-5%; width:480px; height:480px; border-radius:50%; background:radial-gradient(circle,rgba(46,55,255,.35),transparent 60%); filter:blur(30px); animation:softPulse 10s ease-in-out infinite;"></div>
-    <div style="position:absolute; bottom:-10%; right:-5%; width:520px; height:520px; border-radius:50%; background:radial-gradient(circle,rgba(124,58,237,.35),transparent 60%); filter:blur(30px); animation:softPulse 12s ease-in-out infinite 1s;"></div>
+  <section ref="{{ statsRef }}" data-screen-label="Estadisticas" style="position:relative; overflow:hidden; background:#070712; color:#FDFCFE; padding:120px 6vw;">
+    <div style="position:absolute; top:-12%; left:-6%; width:520px; height:520px; border-radius:50%; background:radial-gradient(circle,rgba(46,55,255,.16),transparent 62%); filter:blur(26px); animation:softPulse 10s ease-in-out infinite;"></div>
+    <div style="position:absolute; bottom:-14%; right:-6%; width:560px; height:560px; border-radius:50%; background:radial-gradient(circle,rgba(124,58,237,.14),transparent 62%); filter:blur(28px); animation:softPulse 12s ease-in-out infinite 1s;"></div>
     <div style="position:relative; z-index:2; max-width:1280px; margin:0 auto;">
       <div class="reveal rv-left" style="max-width:720px; margin-bottom:56px;">
-        <div style="font-size:13px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.72); margin-bottom:18px;">El problema que resolvemos</div>
+        <div style="font-size:13px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; background:linear-gradient(120deg,#2E37FF,#6E74FF); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:18px;">El problema que resolvemos</div>
         <h2 style="font-size:clamp(30px,3.6vw,48px); line-height:1.08; font-weight:700; letter-spacing:-.03em; margin:0;">No tenés que aprender marketing, ni programar, ni pelearte con mil herramientas.</h2>
-        <p style="font-size:16px; color:rgba(255,255,255,.72); margin:16px 0 0; line-height:1.6; max-width:600px;">La mayoría de los negocios terminan coordinando una persona para la web, otra para las campañas y otra para los sistemas. Nosotros lo hacemos simple: un solo equipo se ocupa de todo y te lo deja funcionando.</p>
+        <p style="font-size:16px; color:#868CA6; margin:16px 0 0; line-height:1.6; max-width:600px;">La mayoría de los negocios terminan coordinando una persona para la web, otra para las campañas y otra para los sistemas. Nosotros lo hacemos simple: un solo equipo se ocupa de todo y te lo deja funcionando.</p>
       </div>
       <div class="prob-switch reveal">
         <div class="prob-pills" role="tablist">
@@ -520,19 +522,19 @@
           <!-- Panel: SIN Reac (el caos) -->
           <sc-if value="{{ probShowSin }}" hint-placeholder-val="{{ true }}">
           <div class="prob-panel-anim">
-            <div style="background:#0E1020; border:1px solid #3A2A2A; border-radius:24px; padding:clamp(28px,3vw,40px); box-shadow:0 20px 50px -28px rgba(0,0,0,.55);">
+            <div style="background:#0E1020; border:1px solid #262B47; border-radius:24px; padding:clamp(28px,3vw,40px); box-shadow:0 20px 50px -28px rgba(0,0,0,.55);">
               <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
                 <span style="flex:none; width:40px; height:40px; border-radius:12px; background:rgba(250,54,1,.16); border:1px solid rgba(250,54,1,.32); color:#FF7A4D; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path><path d="M12 9v4M12 17h.01"></path></svg></span>
                 <div style="font-size:19px; font-weight:700; letter-spacing:-.01em;">Cada cosa con un proveedor distinto</div>
               </div>
               <p style="font-size:15px; color:#868CA6; line-height:1.6; margin:0 0 24px; max-width:620px;">Uno te hace la web, otro las campañas, otro las redes, otro los sistemas. Ninguno habla con el otro y, en el medio, quedás vos coordinando a todos.</p>
               <div class="prob-chips" style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:24px;">
-                <div class="prob-chip"><span style="color:#7A819B;">🌐</span><span style="font-size:14px; color:#C4C8D8;">Diseñador web</span></div>
-                <div class="prob-chip"><span style="color:#7A819B;">📣</span><span style="font-size:14px; color:#C4C8D8;">Agencia de ads</span></div>
-                <div class="prob-chip"><span style="color:#7A819B;">📱</span><span style="font-size:14px; color:#C4C8D8;">Community manager</span></div>
-                <div class="prob-chip"><span style="color:#7A819B;">⚙️</span><span style="font-size:14px; color:#C4C8D8;">Programador de sistemas</span></div>
-                <div class="prob-chip"><span style="color:#7A819B;">📊</span><span style="font-size:14px; color:#C4C8D8;">Alguien que mida todo</span></div>
-                <div class="prob-chip" style="border-style:solid; border-color:rgba(250,54,1,.35); background:rgba(250,54,1,.08);"><span>🧍</span><span style="font-size:14px; color:#FF7A4D; font-weight:600;">Vos, coordinando</span></div>
+                <div class="prob-chip"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a15.3 15.3 0 0 1 0 18M12 3a15.3 15.3 0 0 0 0 18"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Diseñador web</span></div>
+                <div class="prob-chip"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-7-7 18-2.5-8.5L3 11z"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Agencia de ads</span></div>
+                <div class="prob-chip"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"></rect><path d="M11 18h2"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Community manager</span></div>
+                <div class="prob-chip"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Programador de sistemas</span></div>
+                <div class="prob-chip"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Alguien que mida todo</span></div>
+                <div class="prob-chip" style="border-style:solid; border-color:rgba(250,54,1,.32); background:rgba(250,54,1,.07);"><span class="prob-chip-ico" style="background:rgba(250,54,1,.14); border-color:rgba(250,54,1,.32); color:#FF7A4D;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span style="font-size:14px; color:#FF7A4D; font-weight:600;">Vos, coordinando</span></div>
               </div>
               <div style="display:inline-flex; align-items:center; gap:8px; font-size:14px; color:#FF7A4D; font-weight:600; background:rgba(250,54,1,.1); border:1px solid rgba(250,54,1,.28); border-radius:999px; padding:9px 16px;">Resultado: se pierde tiempo, plata y oportunidades.</div>
             </div>
@@ -553,10 +555,12 @@
                 <div style="font-size:20px; font-weight:700; letter-spacing:-.02em; margin-bottom:8px;">Todo conectado</div>
                 <div style="font-size:15px; color:#868CA6; line-height:1.6;">Tu web, tus campañas y tus automatizaciones trabajan juntas, no como piezas separadas que nadie termina de integrar.</div>
               </div>
-              <div class="ib-stat-card" style="background:linear-gradient(135deg,#1F27EB,#7C3AED); color:#FDFCFE; border-radius:24px; padding:34px; display:flex; flex-direction:column; box-shadow:0 18px 40px -18px rgba(46,55,255,.6);">
-                <span style="width:46px; height:46px; border-radius:13px; background:rgba(255,255,255,.14); display:flex; align-items:center; justify-content:center; color:#FDFCFE; margin-bottom:20px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></span>
+              <div class="ib-stat-card imp-led imp-led-hot" style="--ld:.6s; border-radius:24px;">
+                <div class="imp-led-inner" style="background:#0E1020; border-radius:22px; padding:34px; display:flex; flex-direction:column;">
+                <span style="width:46px; height:46px; border-radius:13px; background:linear-gradient(135deg,#7C3AED,#FA3601); display:flex; align-items:center; justify-content:center; color:#FDFCFE; margin-bottom:20px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></span>
                 <div style="font-size:20px; font-weight:700; letter-spacing:-.02em; margin-bottom:8px;">Vos a lo tuyo</div>
-                <div style="font-size:15px; color:rgba(255,255,255,.9); line-height:1.6;">Nos ocupamos de la parte técnica y digital para que uses tu tiempo en lo que sabés hacer: hacer crecer tu negocio.</div>
+                <div style="font-size:15px; color:#868CA6; line-height:1.6;">Nos ocupamos de la parte técnica y digital para que uses tu tiempo en lo que sabés hacer: hacer crecer tu negocio.</div>
+                </div>
               </div>
             </div>
           </div>
@@ -1755,12 +1759,12 @@ class Component extends DCLogic {
       probShowCon: this.state.probView === 'con',
       setProbSin: () => this.setState({ probView: 'sin' }),
       setProbCon: () => this.setState({ probView: 'con' }),
-      probSinPillBg: this.state.probView === 'sin' ? 'linear-gradient(135deg,#FA3601,#F0430A)' : 'transparent',
-      probSinPillCol: this.state.probView === 'sin' ? '#FFFFFF' : 'rgba(255,255,255,.7)',
-      probSinPillSh: this.state.probView === 'sin' ? '0 10px 24px -10px rgba(250,54,1,.7)' : 'none',
-      probConPillBg: this.state.probView === 'con' ? '#FDFCFE' : 'rgba(255,255,255,.04)',
-      probConPillCol: this.state.probView === 'con' ? '#1710A5' : '#FDFCFE',
-      probConPillSh: this.state.probView === 'con' ? '0 10px 24px -10px rgba(0,0,0,.45)' : '0 0 0 1.5px rgba(255,255,255,.5) inset, 0 0 22px -6px rgba(255,255,255,.55)',
+      probSinPillBg: this.state.probView === 'sin' ? 'rgba(250,54,1,.14)' : 'transparent',
+      probSinPillCol: this.state.probView === 'sin' ? '#FF7A4D' : '#868CA6',
+      probSinPillSh: this.state.probView === 'sin' ? 'inset 0 0 0 1px rgba(250,54,1,.38)' : 'none',
+      probConPillBg: this.state.probView === 'con' ? 'linear-gradient(135deg,#1F27EB,#7C3AED)' : 'transparent',
+      probConPillCol: this.state.probView === 'con' ? '#FDFCFE' : '#868CA6',
+      probConPillSh: this.state.probView === 'con' ? '0 12px 28px -12px rgba(46,55,255,.75)' : 'none',
       toggleWsp: () => this.setState(s => ({ tg: Object.assign({}, s.tg, { wsp: !s.tg.wsp }) })),
       toggleLeads: () => this.setState(s => ({ tg: Object.assign({}, s.tg, { leads: !s.tg.leads }) })),
       toggleCrm: () => this.setState(s => ({ tg: Object.assign({}, s.tg, { crm: !s.tg.crm }) })),
