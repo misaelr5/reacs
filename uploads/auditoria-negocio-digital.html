@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auditoría del negocio digital — Reac Studio</title>
+<style>
+
+@page { size: A4; margin: 0; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  background: #070712; color: #FDFCFE;
+  font-family: "Satoshi", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  font-size: 10.5pt; line-height: 1.45;
+}
+.page {
+  width: 210mm; min-height: 296mm; padding: 15mm;
+  page-break-after: always; break-after: page;
+  position: relative; background: #070712; margin: 0 auto; overflow: hidden;
+}
+.page:last-child { page-break-after: auto; break-after: auto; }
+
+.glow { position: absolute; width: 160mm; height: 160mm; border-radius: 50%; pointer-events: none;
+  background: -webkit-radial-gradient(center, circle cover, rgba(46,55,255,.42) 0%, rgba(7,7,18,0) 66%);
+  background: radial-gradient(circle, rgba(46,55,255,.42) 0%, rgba(7,7,18,0) 66%);
+}
+.glow.tr { top: -70mm; right: -60mm; opacity: .5; }
+.glow.bl { bottom: -80mm; left: -70mm; opacity: .3; }
+
+/* ---------- marca ---------- */
+.brandrow { display: flex; align-items: center; gap: 3mm; }
+.mono {
+  width: 8.4mm; height: 8.4mm; border-radius: 2.4mm; background: #1F27EB;background: -webkit-linear-gradient(left top, #1F27EB 0%, #7C3AED 55%, #FF7A2F 100%);background: linear-gradient(135deg, #1F27EB 0%, #7C3AED 55%, #FF7A2F 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 12pt; color: #FFFFFF;
+}
+.wordmark { font-weight: 800; font-size: 12.5pt; letter-spacing: -.01em; }
+.wordmark i { font-style: normal; color: #2E37FF; }
+
+.pill {
+  display: inline-block; border: 1px solid rgba(253,252,254,.12); border-radius: 999px; padding: 2mm 4.6mm;
+  font-size: 8pt; color: #A6ABC2; font-weight: 600; background: rgba(253,252,254,.035);
+}
+.pill b { color: #FDFCFE; }
+.eyebrow {
+  font-size: 7.8pt; letter-spacing: .22em; text-transform: uppercase;
+  color: #2E37FF; font-weight: 800;
+}
+.muted { color: #A6ABC2; }
+
+.foot {
+  position: absolute; left: 15mm; right: 15mm; bottom: 8mm;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 7.6pt; color: #A6ABC2; border-top: 1px solid rgba(253,252,254,.12); padding-top: 3mm;
+}
+.foot b { color: #FDFCFE; font-weight: 800; }
+.foot i { font-style: normal; color: #2E37FF; }
+
+/* ---------- portada ---------- */
+.cover { display: flex; flex-direction: column; }
+.cover .top { display: flex; justify-content: space-between; align-items: center; position: relative; }
+.cover-mid { flex: 1; display: flex; flex-direction: column; justify-content: center; position: relative; }
+h1.cover-title {
+  font-size: 32pt; line-height: 1.06; letter-spacing: -.025em; font-weight: 800;
+  max-width: 168mm; margin-top: 4.5mm;
+}
+h1.cover-title em { font-style: normal; color: #2E37FF; }
+.cover-sub { margin-top: 6.5mm; font-size: 12pt; color: #A6ABC2; max-width: 132mm; line-height: 1.55; }
+.cta-pill {
+  display: inline-block; margin-top: 8mm; background: #1F27EB;background: -webkit-linear-gradient(left top, #1F27EB 0%, #7C3AED 55%, #FF7A2F 100%);background: linear-gradient(135deg, #1F27EB 0%, #7C3AED 55%, #FF7A2F 100%); color: #FFFFFF;
+  border-radius: 999px; padding: 3.6mm 7mm; font-weight: 800; font-size: 11pt;
+  align-self: flex-start;
+}
+.cta-note { margin-top: 3.5mm; font-size: 8.8pt; color: #A6ABC2; }
+
+.panel {
+  background: rgba(253,252,254,.035); border: 1px solid rgba(253,252,254,.12); border-radius: 5mm;
+  padding: 6mm 6.5mm; position: relative;
+}
+.panel .phead {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 8pt; color: #A6ABC2; margin-bottom: 4.5mm;
+}
+.panel .phead b { color: #FDFCFE; font-weight: 700; }
+.dots { display: inline-flex; gap: 1.6mm; margin-right: 2.6mm; vertical-align: middle; }
+.dots span { width: 2.2mm; height: 2.2mm; border-radius: 50%; display: inline-block; background: rgba(253,252,254,.12); }
+.dots span:first-child { background: #E5484D; }
+.dots span:nth-child(2) { background: #F0C63D; }
+.dots span:nth-child(3) { background: #30A46C; }
+.stats { display: flex; gap: 4mm; }
+.stat {
+  flex: 1; background: rgba(7,7,18,.55); border: 1px solid rgba(253,252,254,.12); border-radius: 3.5mm;
+  padding: 4.5mm 5mm;
+}
+.stat .n { font-size: 19pt; font-weight: 800; letter-spacing: -.02em; }
+.stat .n i { font-style: normal; color: #2E37FF; }
+.stat .l { font-size: 8.2pt; color: #A6ABC2; margin-top: 1mm; line-height: 1.35; }
+
+/* ---------- títulos de página ---------- */
+h2.pg-title {
+  font-size: 21.5pt; font-weight: 800; letter-spacing: -.022em;
+  margin: 2.5mm 0 2mm; line-height: 1.08;
+}
+.lead { font-size: 10.8pt; color: #A6ABC2; max-width: 150mm; }
+
+/* ---------- cómo usar ---------- */
+.steps { margin-top: 8mm; display: grid; gap: 4.5mm; }
+.step {
+  display: flex; gap: 5.5mm; align-items: center;
+  background: rgba(253,252,254,.035); border: 1px solid rgba(253,252,254,.12); border-radius: 4.5mm; padding: 5.5mm 6.5mm;
+}
+.step .n {
+  flex: 0 0 12mm; height: 12mm; border-radius: 3mm; background: #1F27EB;background: -webkit-linear-gradient(left top, #1F27EB 0%, #7C3AED 55%, #FF7A2F 100%);background: linear-gradient(135deg, #1F27EB 0%, #7C3AED 55%, #FF7A2F 100%); color: #FFFFFF;
+  display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14pt;
+}
+.step h3 { font-size: 12pt; font-weight: 800; margin-bottom: 1mm; letter-spacing: -.01em; }
+.step p { color: #A6ABC2; font-size: 9.8pt; }
+.golden {
+  margin-top: 7mm; background: rgba(253,252,254,.035); border: 1px solid rgba(253,252,254,.12);
+  border-left: 1.8mm solid #2E37FF; border-radius: 4mm; padding: 5.5mm 6.5mm; font-size: 10.6pt;
+}
+.golden b { color: #2E37FF; }
+
+/* ---------- checklist ---------- */
+.block {
+  background: rgba(253,252,254,.035); border: 1px solid rgba(253,252,254,.12); border-radius: 4.5mm;
+  padding: 4.5mm 6mm 2.5mm; margin-bottom: 5mm;
+}
+.block-head { display: flex; align-items: center; gap: 4mm; padding-bottom: 3mm; border-bottom: 1px solid rgba(253,252,254,.12); }
+.block-head .bl {
+  flex: 0 0 8mm; height: 8mm; border-radius: 2.2mm; background: #1F27EB;background: -webkit-linear-gradient(left top, #1F27EB 0%, #7C3AED 55%, #FF7A2F 100%);background: linear-gradient(135deg, #1F27EB 0%, #7C3AED 55%, #FF7A2F 100%); color: #FFFFFF;
+  display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 10.5pt;
+}
+.block-head h3 { font-size: 12.5pt; font-weight: 800; letter-spacing: -.012em; flex: 1; }
+.block-head .cnt {
+  font-size: 7.6pt; font-weight: 700; color: #A6ABC2;
+  border: 1px solid rgba(253,252,254,.12); border-radius: 999px; padding: 1.2mm 3.4mm;
+}
+.item { display: flex; gap: 4.2mm; padding: 2.8mm 0; border-bottom: 1px solid rgba(253,252,254,.12); }
+.item:last-child { border-bottom: 0; }
+.box {
+  flex: 0 0 5.8mm; width: 5.8mm; height: 5.8mm; margin-top: .5mm;
+  border: 0.6mm solid #2E37FF; border-radius: 1.6mm; background: rgba(7,7,18,.5);
+}
+.item .t { font-weight: 700; font-size: 10.4pt; }
+.item .why { color: #A6ABC2; font-size: 9pt; margin-top: .6mm; }
+
+/* ---------- semáforo ---------- */
+.bands { margin-top: 7mm; display: grid; gap: 4.5mm; }
+.band {
+  display: flex; align-items: center; gap: 6mm;
+  background: rgba(253,252,254,.035); border: 1px solid rgba(253,252,254,.12); border-radius: 4.5mm; padding: 5.5mm 6.5mm;
+}
+.band .score {
+  flex: 0 0 36mm; border-radius: 3.5mm; text-align: center; padding: 5mm 0 4.2mm;
+  font-weight: 800; font-size: 19pt; letter-spacing: -.02em;
+}
+.band .score small { display: block; font-size: 7.4pt; letter-spacing: .2em; text-transform: uppercase; font-weight: 800; margin-top: .8mm; }
+.band h3 { font-size: 13pt; font-weight: 800; letter-spacing: -.01em; margin-bottom: 1.2mm; }
+.band p { color: #A6ABC2; font-size: 9.6pt; }
+.band.red .score { background: #E5484D; color: #fff; }
+.band.red h3 { color: #E5484D; }
+.band.yellow .score { background: #F0C63D; color: #14140A; }
+.band.yellow h3 { color: #F0C63D; }
+.band.green .score { background: #30A46C; color: #fff; }
+.band.green h3 { color: #30A46C; }
+.extra-close {
+  margin-top: 6mm; background: #1F27EB;background: -webkit-linear-gradient(left top, #1F27EB 0%, #7C3AED 55%, #FF7A2F 100%);background: linear-gradient(135deg, #1F27EB 0%, #7C3AED 55%, #FF7A2F 100%); color: #FFFFFF; border-radius: 4.5mm;
+  padding: 5.5mm 6.5mm; font-size: 11.4pt; font-weight: 700; line-height: 1.5;
+}
+.extra-close span { background: rgba(7,7,18,.32); padding: .4mm 2mm; border-radius: 1.4mm; }
+
+/* ---------- CTA ---------- */
+.cta-mid { margin-top: 14mm; position: relative; }
+h2.cta-title { font-size: 26pt; font-weight: 800; letter-spacing: -.025em; line-height: 1.08; max-width: 160mm; }
+h2.cta-title em { font-style: normal; color: #2E37FF; }
+.cta-sub { margin-top: 5mm; font-size: 11.5pt; color: #A6ABC2; max-width: 150mm; line-height: 1.55; }
+.contact { margin-top: 9mm; display: flex; gap: 5mm; }
+.contact .card {
+  flex: 1; background: rgba(253,252,254,.035); border: 1px solid rgba(253,252,254,.12); border-radius: 4.5mm; padding: 6mm 6.5mm;
+}
+.contact .k { font-size: 8pt; color: #A6ABC2; margin-bottom: 2mm; font-weight: 700; }
+.contact .k i { font-style: normal; color: #2E37FF; }
+.contact .v { font-size: 13.5pt; font-weight: 800; letter-spacing: -.01em; word-break: break-all; }
+.contact .h { margin-top: 1.6mm; font-size: 9pt; color: #A6ABC2; }
+.cta-row { margin-top: 8mm; display: flex; align-items: center; gap: 5mm; }
+.resp-chip {
+  border: 1px solid rgba(253,252,254,.12); background: rgba(253,252,254,.035); border-radius: 999px;
+  padding: 2.6mm 5mm; font-size: 8.8pt; color: #A6ABC2;
+}
+.resp-chip b { color: #FDFCFE; }
+.promise {
+  margin-top: 9mm; border-top: 1px solid rgba(253,252,254,.12); padding-top: 5mm;
+  color: #A6ABC2; font-size: 10pt; max-width: 168mm; line-height: 1.55;
+}
+.promise b { color: #FDFCFE; }
+
+</style>
+</head>
+<body>
+
+<section class="page cover">
+  <div class="glow tr"></div>
+  <div class="top">
+    <div class="brandrow"><div class="mono">R</div><div class="wordmark">Reac Studio<i>.</i></div></div>
+    <div class="pill">Auditoría express · <b>Negocio digital completo</b></div>
+  </div>
+  <div class="cover-mid">
+    <div class="eyebrow">Auditoría del negocio digital · la visión completa</div>
+    <h1 class="cover-title">¿Está ordenado todo mi mundo digital<br>o es <em>un caos que apago a mano</em>?</h1>
+    <p class="cover-sub">18 puntos que recorren las 6 áreas de tu presencia digital: presencia, captación, respuesta, procesos, decisiones y tu propio tiempo. El diagnóstico general, sin tecnicismos.</p>
+    <div class="cta-pill">Empezá a tildar →</div>
+    <div class="cta-note">Sin conocimientos técnicos · Cada punto se responde Sí o No</div>
+  </div>
+  <div class="panel">
+    <div class="phead"><span><span class="dots"><span></span><span></span><span></span></span><b>Reac Studio</b> · Vista rápida de esta auditoría</span><span>PDF · A4</span></div>
+    <div class="stats">
+      <div class="stat"><div class="n">18<i>✓</i></div><div class="l">puntos para tildar a mano</div></div>
+      <div class="stat"><div class="n">6</div><div class="l">bloques temáticos</div></div>
+      <div class="stat"><div class="n">15<i>'</i></div><div class="l">minutos, sin ayuda técnica</div></div>
+      <div class="stat"><div class="n">3</div><div class="l">colores de resultado: rojo, amarillo, verde</div></div>
+    </div>
+  </div>
+  <div class="foot"><span><b>Reac Studio<i>.</i></b> &nbsp;Marketing · Web · Automatización con IA</span><span>01 / 06</span></div>
+</section>
+<section class="page">
+  <div class="glow tr"></div>
+  <div class="eyebrow">Antes de empezar</div>
+  <h2 class="pg-title">Cómo usar esto.</h2>
+  <p class="lead">No hace falta saber de marketing ni de tecnología. Cada punto se responde con un sí o un no, mirando tu propio negocio.</p>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><div>
+      <h3>Abrí lo que vas a auditar</h3>
+      <p>No hace falta abrir nada especial: pensá en tu semana típica y en cómo llegan y se atienden tus clientes hoy. Tené este PDF impreso o a un costado de la pantalla.</p>
+    </div></div>
+    <div class="step"><div class="n">2</div><div>
+      <h3>Tildá cada casilla que cumplís</h3>
+      <p>Si un punto lo cumplís hoy, marcá la casilla. Si dudás, no la marques: la duda casi siempre es un "no".</p>
+    </div></div>
+    <div class="step"><div class="n">3</div><div>
+      <h3>Sumá los ✓ y mirá el semáforo</h3>
+      <p>Al final hay un semáforo de resultado. Contá cuántas casillas tildaste y fijate en qué color caés. Ahí te decimos qué significa y qué hacer.</p>
+    </div></div>
+  </div>
+  <div class="golden"><b>Regla de oro:</b> respondé como dueño, no como técnico. Y si un punto directamente no lo entendés, anotalo: eso también es un dato de esta auditoría.</div>
+  <div class="foot"><span><b>Reac Studio<i>.</i></b> &nbsp;Auditoría del negocio digital</span><span>02 / 06</span></div>
+</section>
+<section class="page">
+  <div class="eyebrow">Checklist · marcá lo que cumplís</div>
+  <h2 class="pg-title">Auditoría del negocio digital.</h2>
+  
+  <div class="block">
+    <div class="block-head"><div class="bl">1</div><h3>Presencia</h3><div class="cnt">3 puntos</div></div>
+    <div class="item"><div class="box"></div><div><div class="t">Tu web, tu ficha de Google Business y tus redes dicen lo mismo: nombre, teléfono, dirección, horarios.</div><div class="why">Datos cruzados confunden al cliente y a Google. La coherencia es gratis.</div></div></div>
+<div class="item"><div class="box"></div><div><div class="t">Tus redes se ven vivas: publicaste algo en los últimos 15 días.</div><div class="why">Un perfil parado hace meses hace dudar si el negocio sigue abierto.</div></div></div>
+<div class="item"><div class="box"></div><div><div class="t">Si buscás tu negocio por nombre en Google, lo que aparece te representa bien.</div><div class="why">Esa búsqueda la hace casi todo cliente antes de comprarte. Probala ahora.</div></div></div>
+  </div>
+  <div class="block">
+    <div class="block-head"><div class="bl">2</div><h3>Captación</h3><div class="cnt">3 puntos</div></div>
+    <div class="item"><div class="box"></div><div><div class="t">Sabés de dónde vienen tus clientes: recomendación, Google, Instagram, cartel, otro.</div><div class="why">Basta con preguntar "¿cómo nos conociste?" y anotarlo.</div></div></div>
+<div class="item"><div class="box"></div><div><div class="t">Sabés qué canal te trae más clientes y cuál no mueve la aguja.</div><div class="why">Sin esto, invertís tiempo y plata por corazonada.</div></div></div>
+<div class="item"><div class="box"></div><div><div class="t">Tenés al menos un canal que genera consultas nuevas todas las semanas.</div><div class="why">Si todo depende del boca en boca, tu crecimiento tiene techo y no lo controlás vos.</div></div></div>
+  </div>
+  <div class="block">
+    <div class="block-head"><div class="bl">3</div><h3>Respuesta</h3><div class="cnt">3 puntos</div></div>
+    <div class="item"><div class="box"></div><div><div class="t">Respondés consultas en menos de 1 hora dentro del horario laboral.</div><div class="why">El que consulta suele escribirle a 2 o 3 negocios a la vez: gana el que contesta primero.</div></div></div>
+<div class="item"><div class="box"></div><div><div class="t">No se te escapan mensajes entre WhatsApp, Instagram y Facebook.</div><div class="why">Cada mensaje sin responder es un cliente que le compró a otro.</div></div></div>
+<div class="item"><div class="box"></div><div><div class="t">Tenés respuestas armadas para las preguntas de siempre: precios, horarios, cómo llegar.</div><div class="why">Responder lo mismo 20 veces por día a mano es tiempo tuyo que se quema.</div></div></div>
+  </div>
+  <div class="foot"><span><b>Reac Studio<i>.</i></b> &nbsp;Auditoría del negocio digital</span><span>03 / 06</span></div>
+</section>
+<section class="page">
+  <div class="eyebrow">Checklist · marcá lo que cumplís</div>
+  <h2 class="pg-title">Auditoría del negocio digital.</h2>
+  
+  <div class="block">
+    <div class="block-head"><div class="bl">4</div><h3>Procesos</h3><div class="cnt">3 puntos</div></div>
+    <div class="item"><div class="box"></div><div><div class="t">Registrás tus consultas en algún lado, aunque sea una planilla: quién, qué pidió, en qué quedó.</div><div class="why">Lo que vive solo en tu memoria y en chats sueltos, se pierde.</div></div></div>
+<div class="item"><div class="box"></div><div><div class="t">Retomás contacto con los que preguntaron y no compraron.</div><div class="why">Muchos no compran porque no era el momento; un mensaje a los días recupera ventas dormidas.</div></div></div>
+<div class="item"><div class="box"></div><div><div class="t">Identificaste tareas repetitivas que podrían automatizarse: recordatorios, respuestas frecuentes, turnos.</div><div class="why">La automatización (que el sistema haga solo lo repetitivo) libera horas todas las semanas.</div></div></div>
+  </div>
+  <div class="block">
+    <div class="block-head"><div class="bl">5</div><h3>Decisiones</h3><div class="cnt">3 puntos</div></div>
+    <div class="item"><div class="box"></div><div><div class="t">Decidís con datos, no solo por intuición: cuánto invertiste, cuánto volvió.</div><div class="why">La intuición sirve, pero sola te puede hacer duplicar la apuesta en lo que no funciona.</div></div></div>
+<div class="item"><div class="box"></div><div><div class="t">Sabés cuánto te cuesta conseguir un cliente nuevo.</div><div class="why">Es el número que ordena todas las demás decisiones de marketing.</div></div></div>
+<div class="item"><div class="box"></div><div><div class="t">Revisás los números de tu negocio digital al menos una vez por mes.</div><div class="why">Media hora al mes alcanza para no manejar a ciegas.</div></div></div>
+  </div>
+  <div class="block">
+    <div class="block-head"><div class="bl">6</div><h3>Tu tiempo y tu foco</h3><div class="cnt">3 puntos</div></div>
+    <div class="item"><div class="box"></div><div><div class="t">Lo digital no te come horas que deberías dedicarle a tu negocio.</div><div class="why">Si el dueño pasa la tarde peleando con Instagram, el negocio paga ese costo dos veces.</div></div></div>
+<div class="item"><div class="box"></div><div><div class="t">No dependés de "alguien que sabe de compus" para cosas críticas.</div><div class="why">Un favor informal no es un sistema: cuando falta esa persona, todo se frena.</div></div></div>
+<div class="item"><div class="box"></div><div><div class="t">Tenés los accesos y claves de todo a tu nombre: dominio, hosting, redes, cuenta de anuncios.</div><div class="why">Es tu negocio. Si las claves las tiene un tercero, tu mundo digital no es tuyo.</div></div></div>
+  </div>
+  <div class="foot"><span><b>Reac Studio<i>.</i></b> &nbsp;Auditoría del negocio digital</span><span>04 / 06</span></div>
+</section>
+<section class="page">
+  <div class="glow bl"></div>
+  <div class="eyebrow">Resultado</div>
+  <h2 class="pg-title">Tu semáforo.</h2>
+  <p class="lead">Contá cuántas casillas tildaste en total (sobre 18) y buscá tu color.</p>
+  <div class="bands">
+    <div class="band red"><div class="score">0–5<small>tildes</small></div>
+      <div><h3>Rojo: es urgente.</h3><p>Tu mundo digital está funcionando a pesar tuyo, no a favor tuyo: cada área floja pierde clientes en silencio. La solución no es un curso ni una app más, es ordenar la base.</p></div></div>
+    <div class="band yellow"><div class="score">6–10<small>tildes</small></div>
+      <div><h3>Amarillo: perdés plata.</h3><p>Hay áreas que funcionan y otras que hacen agua. El riesgo del amarillo: como "más o menos anda", nunca se ordena, y las fugas se vuelven costumbre.</p></div></div>
+    <div class="band green"><div class="score">11+<small>tildes</small></div>
+      <div><h3>Verde: vas bien.</h3><p>Tu negocio digital está ordenado. El siguiente nivel es optimizar: automatizar más, medir mejor y escalar los canales que ya rinden.</p></div></div>
+  </div>
+  <div class="extra-close">Y una lectura más: si marcaste rojo en <span>3 o más áreas</span>, no necesitás otra herramienta ni otra app. Necesitás <span>un equipo que se ocupe de todo</span>, mientras vos te ocupás de tu negocio.</div>
+  <div class="foot"><span><b>Reac Studio<i>.</i></b> &nbsp;Auditoría del negocio digital</span><span>05 / 06</span></div>
+</section>
+<section class="page">
+  <div class="glow tr"></div>
+  <div class="brandrow"><div class="mono">R</div><div class="wordmark">Reac Studio<i>.</i></div></div>
+  <div class="cta-mid">
+    <div class="eyebrow">Hablemos</div>
+    <h2 class="cta-title">¿Te dio rojo o amarillo?<br>Empecemos con un <em>diagnóstico gratis</em>.</h2>
+    <p class="cta-sub">Sin compromiso y sin vueltas: mandanos este checklist con tus marcas (una foto alcanza), revisamos tu presencia digital y te decimos por dónde conviene empezar.</p>
+    <div class="contact">
+      <div class="card">
+        <div class="k"><i>Respuesta rápida</i> · WhatsApp directo</div>
+        <div class="v">+54 9 3544 43-4403</div>
+        <div class="h">Escribinos "AUDITORÍA" y coordinamos.</div>
+      </div>
+      <div class="card">
+        <div class="k"><i>Email</i></div>
+        <div class="v">ledesma.rme@hotmail.com</div>
+        <div class="h">Adjuntá la foto de tu checklist.</div>
+      </div>
+    </div>
+    <div class="cta-row">
+      <div class="cta-pill" style="margin-top:0">Pedí tu diagnóstico gratis →</div>
+      <div class="resp-chip">Sin compromiso · <b>Te respondemos en el día</b></div>
+    </div>
+    <div class="promise"><b>Por qué Reac:</b> marketing, web y automatización con IA en un solo lugar. Hacemos que te encuentren, te escriban y te compren — sin que tengas que estar atrás de todo.</div>
+  </div>
+  <div class="foot"><span><b>Reac Studio<i>.</i></b> &nbsp;© 2026 Reac Studio. Todos los derechos reservados.</span><span>06 / 06</span></div>
+</section>
+</body>
+</html>
