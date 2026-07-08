@@ -181,7 +181,7 @@
 </div>
 <x-dc>
 <helmet>
-<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#070712"/><rect x="30" y="30" width="40" height="40" rx="10" fill="#1F27EB"/><circle cx="68" cy="68" r="9" fill="#FA3601"/></svg></template>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#070712"></rect><rect x="30" y="30" width="40" height="40" rx="10" fill="#1F27EB"></rect><circle cx="68" cy="68" r="9" fill="#FA3601"></circle></svg></template>
   <link rel="preconnect" href="https://api.fontshare.com">
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&amp;display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&amp;display=swap" rel="stylesheet">
@@ -397,7 +397,21 @@
     .prob-chip{display:flex; align-items:center; gap:12px; padding:12px 15px; border-radius:14px; background:rgba(255,255,255,.03); border:1px dashed rgba(255,255,255,.16);}
     .prob-chip-ico{flex:none; width:34px; height:34px; border-radius:10px; background:rgba(46,55,255,.10); border:1px solid rgba(110,116,255,.22); color:#8E94FF; display:flex; align-items:center; justify-content:center;}
     .prob-chip-ico svg{width:16px; height:16px;}
-    @media(max-width:860px){.prob-cards{grid-template-columns:1fr;}.prob-chips{grid-template-columns:1fr !important;}.prob-body{min-height:0;}}
+    /* Mapa del caos (panel SIN) */
+    .prob-map{position:relative; min-height:380px;}
+    .prob-map-chip{position:absolute; display:flex; align-items:center; gap:10px; padding:11px 15px; border-radius:14px; background:rgba(14,16,32,.94); border:1px solid #262B47; box-shadow:0 18px 44px -18px rgba(0,0,0,.75); white-space:nowrap; animation:floatY 7s ease-in-out infinite; z-index:2;}
+    .prob-map-line{stroke:rgba(250,54,1,.38); stroke-width:1.5; stroke-dasharray:5 7; stroke-linecap:round; animation:probDash 1.5s linear infinite;}
+    @keyframes probDash{to{stroke-dashoffset:-24;}}
+    @keyframes probPulse{0%,100%{box-shadow:0 0 0 0 rgba(250,54,1,.35), 0 22px 50px -18px rgba(250,54,1,.5);}50%{box-shadow:0 0 0 14px rgba(250,54,1,0), 0 22px 50px -18px rgba(250,54,1,.5);}}
+    .prob-chips-sm{display:none;}
+    /* Mapa ordenado (panel CON) */
+    .con-map-line{stroke:rgba(110,116,255,.5); stroke-width:1.5; stroke-linecap:round;}
+    .con-map-line-glow{stroke:rgba(46,55,255,.18); stroke-width:5; stroke-linecap:round;}
+    @keyframes conPulse{0%,100%{box-shadow:0 0 0 0 rgba(46,55,255,.4), 0 22px 50px -18px rgba(46,55,255,.55);}50%{box-shadow:0 0 0 14px rgba(46,55,255,0), 0 22px 50px -18px rgba(46,55,255,.55);}}
+    .con-dot{fill:#8E94FF;}
+    @keyframes conTravel{0%{opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{opacity:0;}}
+    @media(max-width:1100px){.prob-map{display:none;}.prob-chips-sm{display:grid !important; grid-template-columns:1fr 1fr !important;}}
+    @media(max-width:860px){.prob-cards{grid-template-columns:1fr;}.prob-chips{grid-template-columns:1fr !important;}.prob-body{min-height:0;}.prob-sin-grid{grid-template-columns:1fr !important;}.prob-chips-sm{grid-template-columns:1fr !important;}}
   </style>
 </helmet>
 <div data-motion="{{ motionAttr }}" style="font-family:Satoshi, 'Segoe UI', system-ui, -apple-system, sans-serif; background:#070712; color:#FDFCFE; position:relative;">
@@ -508,7 +522,7 @@
     <div style="position:absolute; bottom:-14%; right:-6%; width:560px; height:560px; border-radius:50%; background:radial-gradient(circle,rgba(124,58,237,.14),transparent 62%); filter:blur(28px); animation:softPulse 12s ease-in-out infinite 1s;"></div>
     <div style="position:relative; z-index:2; max-width:1280px; margin:0 auto;">
       <div class="reveal rv-left" style="max-width:720px; margin-bottom:56px;">
-        <div style="font-size:13px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; background:linear-gradient(120deg,#2E37FF,#6E74FF); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:18px;">El problema que resolvemos</div>
+        
         <h2 style="font-size:clamp(30px,3.6vw,48px); line-height:1.08; font-weight:700; letter-spacing:-.03em; margin:0;">No tenés que aprender marketing, ni programar, ni pelearte con mil herramientas.</h2>
         <p style="font-size:16px; color:#868CA6; margin:16px 0 0; line-height:1.6; max-width:600px;">La mayoría de los negocios terminan coordinando una persona para la web, otra para las campañas y otra para los sistemas. Nosotros lo hacemos simple: un solo equipo se ocupa de todo y te lo deja funcionando.</p>
       </div>
@@ -522,21 +536,48 @@
           <!-- Panel: SIN Reac (el caos) -->
           <sc-if value="{{ probShowSin }}" hint-placeholder-val="{{ true }}">
           <div class="prob-panel-anim">
-            <div style="background:#0E1020; border:1px solid #262B47; border-radius:24px; padding:clamp(28px,3vw,40px); box-shadow:0 20px 50px -28px rgba(0,0,0,.55);">
-              <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
-                <span style="flex:none; width:40px; height:40px; border-radius:12px; background:rgba(250,54,1,.16); border:1px solid rgba(250,54,1,.32); color:#FF7A4D; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path><path d="M12 9v4M12 17h.01"></path></svg></span>
-                <div style="font-size:19px; font-weight:700; letter-spacing:-.01em;">Cada cosa con un proveedor distinto</div>
+            <div style="position:relative; overflow:hidden; background:#0E1020; border:1px solid #262B47; border-radius:24px; padding:clamp(28px,3vw,44px); box-shadow:0 20px 50px -28px rgba(0,0,0,.55);">
+              <div style="position:absolute; top:-35%; right:-12%; width:520px; height:520px; border-radius:50%; background:radial-gradient(circle, rgba(250,54,1,.13), transparent 62%); filter:blur(26px); pointer-events:none; animation:softPulse 10s ease-in-out infinite;"></div>
+              <div class="prob-sin-grid" style="position:relative; display:grid; grid-template-columns:1fr 1.15fr; gap:clamp(28px,4vw,60px); align-items:center;">
+
+                <!-- texto -->
+                <div>
+                  <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+                    <span style="flex:none; width:40px; height:40px; border-radius:12px; background:rgba(250,54,1,.16); border:1px solid rgba(250,54,1,.32); color:#FF7A4D; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path><path d="M12 9v4M12 17h.01"></path></svg></span>
+                    <div style="font-size:clamp(19px,1.9vw,23px); font-weight:700; letter-spacing:-.02em;">Cada cosa con un proveedor distinto</div>
+                  </div>
+                  <p style="font-size:15px; color:#868CA6; line-height:1.65; margin:0 0 26px;">Uno te hace la web, otro las campañas, otro las redes, otro los sistemas. Ninguno habla con el otro y, en el medio, quedás vos coordinando a todos.</p>
+                  <div style="display:inline-flex; align-items:center; gap:8px; font-size:14px; color:#FF7A4D; font-weight:600; background:rgba(250,54,1,.1); border:1px solid rgba(250,54,1,.28); border-radius:999px; padding:9px 16px;">Resultado: se pierde tiempo, plata y oportunidades.</div>
+                </div>
+
+                <!-- mapa del caos (desktop) -->
+                <div class="prob-map">
+                  <svg viewBox="0 0 480 380" preserveAspectRatio="none" style="position:absolute; inset:0; width:100%; height:100%; z-index:1;">
+                    <line class="prob-map-line" x1="218" y1="202" x2="70" y2="62"></line>
+                    <line class="prob-map-line" x1="218" y1="202" x2="392" y2="26"></line>
+                    <line class="prob-map-line" x1="218" y1="202" x2="428" y2="196"></line>
+                    <line class="prob-map-line" x1="218" y1="202" x2="132" y2="348"></line>
+                    <line class="prob-map-line" x1="218" y1="202" x2="330" y2="362"></line>
+                  </svg>
+                  <div style="position:absolute; top:9%; left:-2%; transform:rotate(-7deg); z-index:2;"><div class="prob-map-chip" style="position:static; animation-delay:-1.2s;"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a15.3 15.3 0 0 1 0 18M12 3a15.3 15.3 0 0 0 0 18"></path></svg></span><span style="font-size:13.5px; color:#C4C8D8;">Diseñador web</span></div></div>
+                  <div style="position:absolute; top:-3%; right:1%; transform:rotate(5deg); z-index:2;"><div class="prob-map-chip" style="position:static; animation-delay:-3.4s;"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-7-7 18-2.5-8.5L3 11z"></path></svg></span><span style="font-size:13.5px; color:#C4C8D8;">Agencia de ads</span></div></div>
+                  <div style="position:absolute; top:46%; right:-4%; transform:rotate(8deg); z-index:2;"><div class="prob-map-chip" style="position:static; animation-delay:-5.1s;"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"></rect><path d="M11 18h2"></path></svg></span><span style="font-size:13.5px; color:#C4C8D8;">Community manager</span></div></div>
+                  <div style="position:absolute; bottom:0; left:7%; transform:rotate(6deg); z-index:2;"><div class="prob-map-chip" style="position:static; animation-delay:-2.3s;"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"></path></svg></span><span style="font-size:13.5px; color:#C4C8D8;">Programador de sistemas</span></div></div>
+                  <div style="position:absolute; bottom:-4%; right:14%; transform:rotate(-6deg); z-index:2;"><div class="prob-map-chip" style="position:static; animation-delay:-4.6s;"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"></path></svg></span><span style="font-size:13.5px; color:#C4C8D8;">Alguien que mida todo</span></div></div>
+                  <div class="prob-map-chip" style="top:53%; left:45%; transform:translate(-50%,-50%) rotate(-2deg); animation:probPulse 3.2s ease-in-out infinite; background:rgba(24,12,12,.95); border:1px solid rgba(250,54,1,.45); z-index:3;"><span class="prob-chip-ico" style="background:rgba(250,54,1,.16); border-color:rgba(250,54,1,.4); color:#FF7A4D;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span style="font-size:14px; color:#FF7A4D; font-weight:700;">Vos, coordinando</span></div>
+                </div>
+
+                <!-- fallback mobile -->
+                <div class="prob-chips-sm" style="grid-template-columns:1fr; gap:12px;">
+                  <div class="prob-chip"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a15.3 15.3 0 0 1 0 18M12 3a15.3 15.3 0 0 0 0 18"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Diseñador web</span></div>
+                  <div class="prob-chip"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-7-7 18-2.5-8.5L3 11z"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Agencia de ads</span></div>
+                  <div class="prob-chip"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"></rect><path d="M11 18h2"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Community manager</span></div>
+                  <div class="prob-chip"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Programador de sistemas</span></div>
+                  <div class="prob-chip"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Alguien que mida todo</span></div>
+                  <div class="prob-chip" style="border-style:solid; border-color:rgba(250,54,1,.32); background:rgba(250,54,1,.07);"><span class="prob-chip-ico" style="background:rgba(250,54,1,.14); border-color:rgba(250,54,1,.32); color:#FF7A4D;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span style="font-size:14px; color:#FF7A4D; font-weight:600;">Vos, coordinando</span></div>
+                </div>
+
               </div>
-              <p style="font-size:15px; color:#868CA6; line-height:1.6; margin:0 0 24px; max-width:620px;">Uno te hace la web, otro las campañas, otro las redes, otro los sistemas. Ninguno habla con el otro y, en el medio, quedás vos coordinando a todos.</p>
-              <div class="prob-chips" style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:24px;">
-                <div class="prob-chip"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a15.3 15.3 0 0 1 0 18M12 3a15.3 15.3 0 0 0 0 18"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Diseñador web</span></div>
-                <div class="prob-chip"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-7-7 18-2.5-8.5L3 11z"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Agencia de ads</span></div>
-                <div class="prob-chip"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"></rect><path d="M11 18h2"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Community manager</span></div>
-                <div class="prob-chip"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Programador de sistemas</span></div>
-                <div class="prob-chip"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Alguien que mida todo</span></div>
-                <div class="prob-chip" style="border-style:solid; border-color:rgba(250,54,1,.32); background:rgba(250,54,1,.07);"><span class="prob-chip-ico" style="background:rgba(250,54,1,.14); border-color:rgba(250,54,1,.32); color:#FF7A4D;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><span style="font-size:14px; color:#FF7A4D; font-weight:600;">Vos, coordinando</span></div>
-              </div>
-              <div style="display:inline-flex; align-items:center; gap:8px; font-size:14px; color:#FF7A4D; font-weight:600; background:rgba(250,54,1,.1); border:1px solid rgba(250,54,1,.28); border-radius:999px; padding:9px 16px;">Resultado: se pierde tiempo, plata y oportunidades.</div>
             </div>
           </div>
           </sc-if>
@@ -544,23 +585,77 @@
           <!-- Panel: CON Reac (la solución) -->
           <sc-if value="{{ probShowCon }}" hint-placeholder-val="{{ false }}">
           <div class="prob-panel-anim">
-            <div class="prob-cards">
-              <div class="ib-stat-card" style="background:#0E1020; border:1px solid #262B47; border-radius:24px; padding:34px; display:flex; flex-direction:column; box-shadow:0 20px 50px -28px rgba(0,0,0,.55);">
-                <span style="width:46px; height:46px; border-radius:13px; background:linear-gradient(135deg,#1F27EB,#2E37FF); display:flex; align-items:center; justify-content:center; color:#FDFCFE; margin-bottom:20px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
-                <div style="font-size:20px; font-weight:700; letter-spacing:-.02em; margin-bottom:8px;">Un solo interlocutor</div>
-                <div style="font-size:15px; color:#868CA6; line-height:1.6;">Dejás de coordinar proveedores sueltos. Hablás con un equipo que entiende todo tu ecosistema y responde por el resultado completo.</div>
-              </div>
-              <div class="ib-stat-card" style="background:#0E1020; border:1px solid #262B47; border-radius:24px; padding:34px; display:flex; flex-direction:column; box-shadow:0 20px 50px -28px rgba(0,0,0,.55);">
-                <span style="width:46px; height:46px; border-radius:13px; background:linear-gradient(135deg,#2E37FF,#7C3AED); display:flex; align-items:center; justify-content:center; color:#FDFCFE; margin-bottom:20px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path></svg></span>
-                <div style="font-size:20px; font-weight:700; letter-spacing:-.02em; margin-bottom:8px;">Todo conectado</div>
-                <div style="font-size:15px; color:#868CA6; line-height:1.6;">Tu web, tus campañas y tus automatizaciones trabajan juntas, no como piezas separadas que nadie termina de integrar.</div>
-              </div>
-              <div class="ib-stat-card imp-led imp-led-hot" style="--ld:.6s; border-radius:24px;">
-                <div class="imp-led-inner" style="background:#0E1020; border-radius:22px; padding:34px; display:flex; flex-direction:column;">
-                <span style="width:46px; height:46px; border-radius:13px; background:linear-gradient(135deg,#7C3AED,#FA3601); display:flex; align-items:center; justify-content:center; color:#FDFCFE; margin-bottom:20px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></span>
-                <div style="font-size:20px; font-weight:700; letter-spacing:-.02em; margin-bottom:8px;">Vos a lo tuyo</div>
-                <div style="font-size:15px; color:#868CA6; line-height:1.6;">Nos ocupamos de la parte técnica y digital para que uses tu tiempo en lo que sabés hacer: hacer crecer tu negocio.</div>
+            <div style="position:relative; overflow:hidden; background:#0E1020; border:1px solid #262B47; border-radius:24px; padding:clamp(28px,3vw,44px); box-shadow:0 20px 50px -28px rgba(0,0,0,.55);">
+              <div style="position:absolute; top:-35%; right:-12%; width:520px; height:520px; border-radius:50%; background:radial-gradient(circle, rgba(46,55,255,.16), transparent 62%); filter:blur(26px); pointer-events:none; animation:softPulse 10s ease-in-out infinite;"></div>
+              <div class="prob-sin-grid" style="position:relative; display:grid; grid-template-columns:1fr 1.15fr; gap:clamp(28px,4vw,60px); align-items:center;">
+
+                <!-- texto: las virtudes -->
+                <div>
+                  <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+                    <span style="flex:none; width:40px; height:40px; border-radius:12px; background:rgba(46,55,255,.18); border:1px solid rgba(110,116,255,.35); color:#8E94FF; display:flex; align-items:center; justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+                    <div style="font-size:clamp(19px,1.9vw,23px); font-weight:700; letter-spacing:-.02em;">Un solo equipo para todo</div>
+                  </div>
+                  <div style="display:flex; flex-direction:column; gap:18px; margin-bottom:26px;">
+                    <div style="display:flex; gap:14px; align-items:flex-start;">
+                      <span style="flex:none; width:36px; height:36px; border-radius:11px; background:linear-gradient(135deg,#1F27EB,#2E37FF); display:flex; align-items:center; justify-content:center; color:#FDFCFE;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
+                      <div>
+                        <div style="font-size:16px; font-weight:700; letter-spacing:-.01em; margin-bottom:3px;">Un solo interlocutor</div>
+                        <div style="font-size:14.5px; color:#868CA6; line-height:1.55;">Hablás con un equipo que entiende todo tu ecosistema y responde por el resultado completo.</div>
+                      </div>
+                    </div>
+                    <div style="display:flex; gap:14px; align-items:flex-start;">
+                      <span style="flex:none; width:36px; height:36px; border-radius:11px; background:linear-gradient(135deg,#2E37FF,#7C3AED); display:flex; align-items:center; justify-content:center; color:#FDFCFE;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5M2 12l10 5 10-5"></path></svg></span>
+                      <div>
+                        <div style="font-size:16px; font-weight:700; letter-spacing:-.01em; margin-bottom:3px;">Todo conectado</div>
+                        <div style="font-size:14.5px; color:#868CA6; line-height:1.55;">Tu web, tus campañas y tus automatizaciones trabajan juntas, no como piezas sueltas.</div>
+                      </div>
+                    </div>
+                    <div style="display:flex; gap:14px; align-items:flex-start;">
+                      <span style="flex:none; width:36px; height:36px; border-radius:11px; background:linear-gradient(135deg,#7C3AED,#FA3601); display:flex; align-items:center; justify-content:center; color:#FDFCFE;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></span>
+                      <div>
+                        <div style="font-size:16px; font-weight:700; letter-spacing:-.01em; margin-bottom:3px;">Vos a lo tuyo</div>
+                        <div style="font-size:14.5px; color:#868CA6; line-height:1.55;">Nos ocupamos de lo técnico y digital para que uses tu tiempo en hacer crecer tu negocio.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display:inline-flex; align-items:center; gap:8px; font-size:14px; color:#8E94FF; font-weight:600; background:rgba(46,55,255,.12); border:1px solid rgba(110,116,255,.32); border-radius:999px; padding:9px 16px;">Resultado: todo funciona junto, sin que tengas que coordinarlo.</div>
                 </div>
+
+                <!-- mapa ordenado (desktop) -->
+                <div class="prob-map">
+                  <svg viewBox="0 0 480 380" preserveAspectRatio="none" style="position:absolute; inset:0; width:100%; height:100%; z-index:1;">
+                    <line class="con-map-line-glow" x1="240" y1="195" x2="92" y2="42"></line>
+                    <line class="con-map-line-glow" x1="240" y1="195" x2="362" y2="32"></line>
+                    <line class="con-map-line-glow" x1="240" y1="195" x2="418" y2="172"></line>
+                    <line class="con-map-line-glow" x1="240" y1="195" x2="98" y2="330"></line>
+                    <line class="con-map-line-glow" x1="240" y1="195" x2="338" y2="350"></line>
+                    <line class="con-map-line" x1="240" y1="195" x2="92" y2="42"></line>
+                    <line class="con-map-line" x1="240" y1="195" x2="362" y2="32"></line>
+                    <line class="con-map-line" x1="240" y1="195" x2="418" y2="172"></line>
+                    <line class="con-map-line" x1="240" y1="195" x2="98" y2="330"></line>
+                    <line class="con-map-line" x1="240" y1="195" x2="338" y2="350"></line>
+                    <circle class="con-dot" r="3.5" style="animation:conTravel 2.6s linear infinite;"><animateMotion dur="2.6s" repeatCount="indefinite" path="M240,195 L92,42"></animateMotion></circle>
+                    <circle class="con-dot" r="3.5" style="animation:conTravel 2.6s linear infinite; animation-delay:-.9s;"><animateMotion dur="2.6s" begin="-0.9s" repeatCount="indefinite" path="M240,195 L418,172"></animateMotion></circle>
+                    <circle class="con-dot" r="3.5" style="animation:conTravel 2.6s linear infinite; animation-delay:-1.7s;"><animateMotion dur="2.6s" begin="-1.7s" repeatCount="indefinite" path="M240,195 L98,330"></animateMotion></circle>
+                  </svg>
+                  <div class="prob-map-chip" style="top:4%; left:2%; animation-delay:-1.2s; border-color:rgba(110,116,255,.28);"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a15.3 15.3 0 0 1 0 18M12 3a15.3 15.3 0 0 0 0 18"></path></svg></span><span style="font-size:13.5px; color:#C4C8D8;">Web</span></div>
+                  <div class="prob-map-chip" style="top:0; right:6%; animation-delay:-3.4s; border-color:rgba(110,116,255,.28);"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-7-7 18-2.5-8.5L3 11z"></path></svg></span><span style="font-size:13.5px; color:#C4C8D8;">Campañas</span></div>
+                  <div class="prob-map-chip" style="top:39%; right:0; animation-delay:-5.1s; border-color:rgba(110,116,255,.28);"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"></rect><path d="M11 18h2"></path></svg></span><span style="font-size:13.5px; color:#C4C8D8;">Redes</span></div>
+                  <div class="prob-map-chip" style="bottom:5%; left:4%; animation-delay:-2.3s; border-color:rgba(110,116,255,.28);"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"></path></svg></span><span style="font-size:13.5px; color:#C4C8D8;">Sistemas</span></div>
+                  <div class="prob-map-chip" style="bottom:0; right:12%; animation-delay:-4.6s; border-color:rgba(110,116,255,.28);"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"></path></svg></span><span style="font-size:13.5px; color:#C4C8D8;">Métricas</span></div>
+                  <div class="prob-map-chip" style="top:50%; left:50%; transform:translate(-50%,-50%); animation:conPulse 3.2s ease-in-out infinite; background:rgba(13,15,36,.96); border:1px solid rgba(110,116,255,.55); z-index:3;"><span class="prob-chip-ico" style="background:linear-gradient(135deg,#1F27EB,#2E37FF); border-color:rgba(110,116,255,.5); color:#FDFCFE;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></span><span style="font-size:14px; color:#FDFCFE; font-weight:700;">Reac Studio</span></div>
+                </div>
+
+                <!-- fallback mobile -->
+                <div class="prob-chips-sm" style="grid-template-columns:1fr; gap:12px;">
+                  <div class="prob-chip" style="border-style:solid; border-color:rgba(110,116,255,.4); background:rgba(46,55,255,.08);"><span class="prob-chip-ico" style="background:linear-gradient(135deg,#1F27EB,#2E37FF); border-color:rgba(110,116,255,.5); color:#FDFCFE;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></span><span style="font-size:14px; color:#FDFCFE; font-weight:600;">Reac Studio</span></div>
+                  <div class="prob-chip" style="border-style:solid;"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a15.3 15.3 0 0 1 0 18M12 3a15.3 15.3 0 0 0 0 18"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Web</span></div>
+                  <div class="prob-chip" style="border-style:solid;"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-7-7 18-2.5-8.5L3 11z"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Campañas</span></div>
+                  <div class="prob-chip" style="border-style:solid;"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"></rect><path d="M11 18h2"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Redes</span></div>
+                  <div class="prob-chip" style="border-style:solid;"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Sistemas</span></div>
+                  <div class="prob-chip" style="border-style:solid;"><span class="prob-chip-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"></path></svg></span><span style="font-size:14px; color:#C4C8D8;">Métricas</span></div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -575,8 +670,7 @@
   <section id="servicios" data-screen-label="Servicios" style="background:#070712; color:#FDFCFE; padding:120px 6vw;">
     <div style="max-width:1280px; margin:0 auto;">
       <div class="reveal" style="text-align:center; max-width:680px; margin:0 auto 60px;">
-        <div style="font-size:13px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; background:linear-gradient(120deg,#2E37FF,#6E74FF); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:18px;">Qué ofrecemos</div>
-        <p style="font-size:14px; font-weight:600; color:#6E74FF; background:rgba(46,55,255,.1); border:1px solid rgba(110,116,255,.25); border-radius:999px; display:inline-block; padding:7px 18px; margin:0 0 20px; letter-spacing:.01em;">Marketing, web y automatización con IA — o todo junto, con un solo equipo.</p>
+        
         <h2 style="font-size:clamp(32px,4vw,52px); line-height:1.06; font-weight:700; letter-spacing:-.03em; margin:0 0 18px;">Elegí por dónde empezar</h2>
         <p style="font-size:17px; color:#868CA6; margin:0; line-height:1.55;">Podés contratar un módulo puntual o dejar que nos ocupemos de todo. Precios claros y sin letra chica: abajo te decimos qué es mensual y qué es pago único.</p>
       </div>
@@ -750,16 +844,14 @@
     <div style="position:absolute; top:-10%; left:-5%; width:480px; height:480px; border-radius:50%; background:radial-gradient(circle,rgba(46,55,255,.35),transparent 60%); filter:blur(30px); animation:softPulse 10s ease-in-out infinite;"></div>
     <div style="position:absolute; bottom:-10%; right:-5%; width:520px; height:520px; border-radius:50%; background:radial-gradient(circle,rgba(124,58,237,.35),transparent 60%); filter:blur(30px); animation:softPulse 12s ease-in-out infinite 1s;"></div>
     <div class="reveal" style="position:relative; z-index:2; text-align:center; max-width:720px; margin:0 auto;">
-      <div style="font-size:13px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.72); margin-bottom:16px;">Un solo equipo, todo el ecosistema</div>
-      <h2 style="font-size:clamp(30px,4vw,52px); line-height:1.08; font-weight:700; letter-spacing:-.03em; margin:0 0 18px; color:#FDFCFE;">Marketing, web y automatización, trabajando juntos.</h2>
+      <h2 style="font-size: clamp(30px,4vw,52px); line-height: 1.08; font-weight: 700; letter-spacing: -.03em; margin: 0 0 18px; color: #FDFCFE; text-transform: capitalize">Marketing, web y automatización, trabajando juntos.</h2>
       <p style="font-size:clamp(16px,1.5vw,19px); line-height:1.55; font-weight:400; color:rgba(255,255,255,.78); margin:0; max-width:560px; margin-left:auto; margin-right:auto;">No armamos piezas sueltas: integramos todo para que funcione como un sistema. Vos seguís tu negocio; nosotros nos ocupamos de que lo digital acompañe.</p>
     </div>
 
     <!-- Cómo trabajamos -->
     <div style="position:relative; z-index:2; max-width:900px; margin:80px auto 0;">
       <div class="reveal" style="text-align:center; margin-bottom:52px;">
-        <div style="font-size:13px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:rgba(255,255,255,.72); margin-bottom:16px;">Cómo trabajamos</div>
-        <h2 style="font-size:clamp(30px,3.6vw,46px); line-height:1.06; font-weight:700; letter-spacing:-.03em; margin:0; color:#FDFCFE;">Un proceso claro, sin humo.</h2>
+        <h2 style="font-size:clamp(30px,3.6vw,46px); line-height:1.06; font-weight:700; letter-spacing:-.03em; margin:0; color:#FDFCFE;">Cómo trabajamos:</h2>
       </div>
       <div ref="{{ methodRef }}" class="reveal" style="display:flex; flex-direction:column;">
         <sc-for list="{{ steps }}" as="step" hint-placeholder-count="4">
@@ -932,28 +1024,28 @@
 
       <div class="reveal svc-billing recursos-grid" style="display:grid; grid-template-columns:repeat(4,1fr); gap:18px;">
         <!-- 1 Sitio web -->
-        <a class="rec-card" href="recursos/auditoria-sitio-web.pdf" download style="text-decoration:none; color:inherit; background:#0E1020; border:1px solid #262B47; border-radius:22px; padding:28px; display:flex; flex-direction:column; gap:14px; transition:transform .35s cubic-bezier(.34,1.56,.5,1), border-color .35s ease, box-shadow .35s ease;">
+        <a class="rec-card" href="recursos/auditoria-sitio-web.pdf" download="" style="text-decoration:none; color:inherit; background:#0E1020; border:1px solid #262B47; border-radius:22px; padding:28px; display:flex; flex-direction:column; gap:14px; transition:transform .35s cubic-bezier(.34,1.56,.5,1), border-color .35s ease, box-shadow .35s ease;">
           <span style="width:46px; height:46px; border-radius:13px; background:linear-gradient(135deg,#1F27EB,#2E37FF); display:flex; align-items:center; justify-content:center; color:#FDFCFE;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"></rect><path d="M8 21h8M12 18v3M3 9h18"></path></svg></span>
           <div style="font-size:17px; font-weight:700; letter-spacing:-.01em;">Auditoría de sitio web</div>
           <div style="font-size:14px; color:#868CA6; line-height:1.55; flex:1;">Checklist para revisar velocidad, mensaje, conversión y SEO básico de tu web.</div>
           <span style="display:inline-flex; align-items:center; gap:7px; font-size:14px; font-weight:600; color:#8E94FF;">Descargar PDF <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg></span>
         </a>
         <!-- 2 Meta Ads -->
-        <a class="rec-card" href="recursos/auditoria-meta-ads.pdf" download style="text-decoration:none; color:inherit; background:#0E1020; border:1px solid #262B47; border-radius:22px; padding:28px; display:flex; flex-direction:column; gap:14px; transition:transform .35s cubic-bezier(.34,1.56,.5,1), border-color .35s ease, box-shadow .35s ease;">
+        <a class="rec-card" href="recursos/auditoria-meta-ads.pdf" download="" style="text-decoration:none; color:inherit; background:#0E1020; border:1px solid #262B47; border-radius:22px; padding:28px; display:flex; flex-direction:column; gap:14px; transition:transform .35s cubic-bezier(.34,1.56,.5,1), border-color .35s ease, box-shadow .35s ease;">
           <span style="width:46px; height:46px; border-radius:13px; background:linear-gradient(135deg,#2E37FF,#7C3AED); display:flex; align-items:center; justify-content:center; color:#FDFCFE;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l18-7-7 18-2.5-8.5L3 11z"></path></svg></span>
           <div style="font-size:17px; font-weight:700; letter-spacing:-.01em;">Auditoría de Meta Ads</div>
           <div style="font-size:14px; color:#868CA6; line-height:1.55; flex:1;">Qué mirar en tus campañas de Facebook e Instagram para dejar de tirar plata.</div>
           <span style="display:inline-flex; align-items:center; gap:7px; font-size:14px; font-weight:600; color:#8E94FF;">Descargar PDF <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg></span>
         </a>
         <!-- 3 Google Ads -->
-        <a class="rec-card" href="recursos/auditoria-google-ads.pdf" download style="text-decoration:none; color:inherit; background:#0E1020; border:1px solid #262B47; border-radius:22px; padding:28px; display:flex; flex-direction:column; gap:14px; transition:transform .35s cubic-bezier(.34,1.56,.5,1), border-color .35s ease, box-shadow .35s ease;">
+        <a class="rec-card" href="recursos/auditoria-google-ads.pdf" download="" style="text-decoration:none; color:inherit; background:#0E1020; border:1px solid #262B47; border-radius:22px; padding:28px; display:flex; flex-direction:column; gap:14px; transition:transform .35s cubic-bezier(.34,1.56,.5,1), border-color .35s ease, box-shadow .35s ease;">
           <span style="width:46px; height:46px; border-radius:13px; background:linear-gradient(135deg,#7C3AED,#9D6BFF); display:flex; align-items:center; justify-content:center; color:#FDFCFE;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.3-4.3"></path></svg></span>
           <div style="font-size:17px; font-weight:700; letter-spacing:-.01em;">Auditoría de Google Ads</div>
           <div style="font-size:14px; color:#868CA6; line-height:1.55; flex:1;">Revisá palabras clave, calidad y estructura para bajar el costo por consulta.</div>
           <span style="display:inline-flex; align-items:center; gap:7px; font-size:14px; font-weight:600; color:#8E94FF;">Descargar PDF <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg></span>
         </a>
         <!-- 4 Negocio digital -->
-        <a class="rec-card" href="recursos/auditoria-negocio-digital.pdf" download style="text-decoration:none; color:inherit; background:radial-gradient(120% 90% at 50% 0%, rgba(250,54,1,.18), #0E1020 62%); border:1px solid #3a2418; border-radius:22px; padding:28px; display:flex; flex-direction:column; gap:14px; transition:transform .35s cubic-bezier(.34,1.56,.5,1), border-color .35s ease, box-shadow .35s ease;">
+        <a class="rec-card" href="recursos/auditoria-negocio-digital.pdf" download="" style="text-decoration:none; color:inherit; background:radial-gradient(120% 90% at 50% 0%, rgba(250,54,1,.18), #0E1020 62%); border:1px solid #3a2418; border-radius:22px; padding:28px; display:flex; flex-direction:column; gap:14px; transition:transform .35s cubic-bezier(.34,1.56,.5,1), border-color .35s ease, box-shadow .35s ease;">
           <span style="width:46px; height:46px; border-radius:13px; background:linear-gradient(135deg,#FA3601,#F0430A); display:flex; align-items:center; justify-content:center; color:#FDFCFE;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M7 14l4-4 3 3 5-6"></path></svg></span>
           <div style="font-size:17px; font-weight:700; letter-spacing:-.01em;">Auditoría del negocio digital</div>
           <div style="font-size:14px; color:#868CA6; line-height:1.55; flex:1;">La foto completa: presencia online, canales de venta y procesos, todo en una guía.</div>
@@ -970,7 +1062,7 @@
           <p style="font-size:15px; color:rgba(255,255,255,.78); margin:0; line-height:1.6; max-width:420px;">Cada tanto te mandamos tácticas concretas de marketing, web y automatización que podés aplicar hoy. Cero spam. Te bajás cuando quieras.</p>
         </div>
         <form class="nl-form" action="mailto:hola@reacstudio.com?subject=Suscripción%20newsletter%20Reac%20Studio" method="post" enctype="text/plain" style="position:relative; z-index:2; display:flex; gap:10px; flex-wrap:wrap;">
-          <input type="email" name="email" required autocomplete="email" placeholder="Tu email" style="flex:1 1 220px; min-width:0; padding:15px 18px; border-radius:13px; border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.1); color:#FDFCFE; font-family:inherit; font-size:15px; outline:none;">
+          <input type="email" name="email" required="" autocomplete="email" placeholder="Tu email" style="flex:1 1 220px; min-width:0; padding:15px 18px; border-radius:13px; border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.1); color:#FDFCFE; font-family:inherit; font-size:15px; outline:none;">
           <button type="submit" class="imp-cta no-shiny" style="flex:none; padding:15px 26px; border-radius:13px; border:none; cursor:pointer; background:linear-gradient(135deg,#FA3601,#F0430A); color:#FDFCFE; font-weight:600; font-size:15px; font-family:inherit; box-shadow:0 12px 28px -10px rgba(250,54,1,.6);">Suscribirme</button>
         </form>
       </div>
@@ -1012,14 +1104,14 @@
               <label class="ct-label" for="ct-nombre">Tu nombre</label>
               <div class="ct-wrap">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c0-3.3 3.1-5.5 7-5.5s7 2.2 7 5.5"></path></svg>
-                <input id="ct-nombre" class="ct-field" type="text" name="nombre" required autocomplete="name" placeholder="Juan Pérez" />
+                <input id="ct-nombre" class="ct-field" type="text" name="nombre" required="" autocomplete="name" placeholder="Juan Pérez">
               </div>
             </div>
             <div class="ct-row">
               <label class="ct-label" for="ct-email">Email</label>
               <div class="ct-wrap">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"></rect><path d="m4 7 8 5.5L20 7"></path></svg>
-                <input id="ct-email" class="ct-field" type="email" name="email" required autocomplete="email" placeholder="vos@ejemplo.com" />
+                <input id="ct-email" class="ct-field" type="email" name="email" required="" autocomplete="email" placeholder="vos@ejemplo.com">
               </div>
             </div>
           </div>
@@ -1027,14 +1119,14 @@
             <label class="ct-label" for="ct-asunto">Asunto</label>
             <div class="ct-wrap">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7"></path></svg>
-              <input id="ct-asunto" class="ct-field" type="text" name="asunto" placeholder="Consulta por web / sistema / e-commerce…" />
+              <input id="ct-asunto" class="ct-field" type="text" name="asunto" placeholder="Consulta por web / sistema / e-commerce…">
             </div>
           </div>
           <div class="ct-row">
             <label class="ct-label" for="ct-mensaje">Mensaje</label>
             <div class="ct-wrap ct-area">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.3L4 21l1.2-3.6A8.4 8.4 0 1 1 21 11.5z"></path></svg>
-              <textarea id="ct-mensaje" class="ct-field" name="mensaje" required placeholder="Contanos tu proyecto, plazos y qué querés lograr…"></textarea>
+              <textarea id="ct-mensaje" class="ct-field" name="mensaje" required="" placeholder="Contanos tu proyecto, plazos y qué querés lograr…"></textarea>
             </div>
           </div>
           <button type="submit" class="ct-send">
