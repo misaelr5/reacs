@@ -1224,7 +1224,7 @@ class Component extends DCLogic {
   getScroller(){
     // El scroll puede ocurrir en window o en un contenedor del runtime; lo detectamos.
     let node = this.p4Ref.current ? this.p4Ref.current.parentElement : null;
-    while (node && node !== document.body && node !== document.documentElement){
+    while (node && node !== document.documentElement){
       let oy = '';
       try { oy = getComputedStyle(node).overflowY; } catch(e){}
       if ((oy === 'auto' || oy === 'scroll' || oy === 'overlay') && node.scrollHeight > node.clientHeight + 4) return node;
@@ -1261,19 +1261,22 @@ class Component extends DCLogic {
         this.applyParallax();
       }
 
-      const st = { scrollY: window.scrollY, vh: window.innerHeight };
-      // Navbar: visible una vez pasado el 2º módulo (Estadísticas); se esconde al volver a subir
+      const currentScroller = this.scroller || window;
+      const currentScrollY = currentScroller === window ? (window.pageYOffset || document.documentElement.scrollTop || 0) : currentScroller.scrollTop;
+      const currentVh = currentScroller === window ? window.innerHeight : currentScroller.clientHeight;
+      const st = { scrollY: currentScrollY, vh: currentVh };
+      // Navbar: aparece al entrar al módulo "El problema que resolvemos" y queda visible hacia abajo.
       const sv2 = this.statsRef.current;
-      if (sv2) st.showNav = sv2.getBoundingClientRect().bottom <= 64;
+      if (sv2) st.showNav = sv2.getBoundingClientRect().top <= 64;
       const el = this.methodRef.current;
       if (el){
         const r = el.getBoundingClientRect();
-        st.methodTop = r.top + window.scrollY;
+        st.methodTop = r.top + currentScrollY;
         st.methodH = r.height;
       }
       this.setState(st);
 
-      const vh = window.innerHeight;
+      const vh = currentVh;
       const sv = this.statsRef.current;
       if (sv && !this.state.statsInView){
         const r = sv.getBoundingClientRect();
