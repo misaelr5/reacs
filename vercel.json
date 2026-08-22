@@ -1,0 +1,4 @@
+{
+  "buildCommand": "python scripts/fix-parallax.py",
+  "outputDirectory": "."
+}
