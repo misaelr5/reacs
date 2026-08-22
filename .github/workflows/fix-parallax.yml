@@ -1,0 +1,79 @@
+name: Fix parallax viewport
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Apply viewport fix
+        shell: python
+        run: |
+          from pathlib import Path
+
+          marker = 'reac-parallax-viewport-fix'
+          css = '''
+          <style id="reac-parallax-viewport-fix">
+            html, body {
+              margin: 0 !important;
+              padding: 0 !important;
+              max-width: 100% !important;
+              overflow-x: hidden !important;
+            }
+
+            #top[data-screen-label="Parallax"] {
+              width: 100vw !important;
+              max-width: none !important;
+              margin-left: calc(50% - 50vw) !important;
+              margin-right: calc(50% - 50vw) !important;
+              overflow: hidden !important;
+              isolation: isolate;
+            }
+
+            #top[data-screen-label="Parallax"] > div:first-child,
+            #top[data-screen-label="Parallax"] > div:first-child > div:first-child {
+              width: 100% !important;
+              max-width: none !important;
+            }
+
+            #top[data-screen-label="Parallax"] img {
+              left: 50% !important;
+              width: max(100vw, 177.78vh) !important;
+              max-width: none !important;
+              height: auto !important;
+            }
+
+            @media (max-width: 700px) {
+              #top[data-screen-label="Parallax"] img {
+                width: max(100vw, 135vh) !important;
+              }
+            }
+          </style>
+          '''
+
+          for filename in ('index.html', 'Reac.dc.html'):
+              path = Path(filename)
+              if not path.exists():
+                  continue
+              text = path.read_text(encoding='utf-8')
+              if marker in text:
+                  continue
+              if '</head>' not in text:
+                  raise SystemExit(f'Missing </head> in {filename}')
+              path.write_text(text.replace('</head>', css + '\n</head>', 1), encoding='utf-8')
+
+      - name: Commit fix
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html Reac.dc.html
+          git diff --cached --quiet || git commit -m "fix: parallax full viewport"
+          git push
