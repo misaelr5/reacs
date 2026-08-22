@@ -381,13 +381,13 @@
     .ib-stat-card:hover .ib-stat-num{transform:scale(1.1);}
     .ib-bento-card{position:relative; transition:transform .4s cubic-bezier(.34,1.56,.5,1), box-shadow .4s ease, border-color .4s ease; will-change:transform;}
     .ib-bento-card:hover{transform:scale(1.03) translateY(-7px); box-shadow:0 38px 80px -28px rgba(46,55,255,.58); border-color:rgba(110,116,255,.55); z-index:2;}
-    .ib-step{position:relative; isolation:isolate; overflow:hidden; transition:transform .45s cubic-bezier(.34,1.56,.5,1), background .45s ease, box-shadow .45s ease, border-color .45s ease; transition-delay:var(--step-delay,0s); border-radius:20px;}
-    .ib-step::before{content:""; position:absolute; inset:0; z-index:-1; opacity:0; background:radial-gradient(85% 130% at 0% 50%, rgba(250,54,1,.28), transparent 58%), linear-gradient(90deg, rgba(250,54,1,.16), rgba(255,122,77,.06) 42%, transparent 74%); transition:opacity .55s ease;}
-    .ib-step::after{content:""; position:absolute; top:0; bottom:0; left:-42%; width:34%; opacity:0; pointer-events:none; background:linear-gradient(90deg, transparent, rgba(255,122,77,.72), transparent); filter:blur(12px); transform:skewX(-16deg); transition:opacity .35s ease;}
-    .ib-step.is-lit,.reveal.is-in .ib-step{background:rgba(250,54,1,.105); border-color:rgba(255,122,77,.62) !important; box-shadow:0 0 0 1px rgba(250,54,1,.24) inset, 0 0 34px rgba(250,54,1,.32), 0 18px 58px -32px rgba(250,54,1,.95);}
+    .ib-step{position:relative; isolation:isolate; overflow:hidden; transition:transform .55s cubic-bezier(.34,1.56,.5,1), background .9s ease, box-shadow .9s ease, border-color .9s ease; transition-delay:var(--step-delay,0s); border-radius:20px;}
+    .ib-step::before{content:""; position:absolute; inset:0; z-index:-1; opacity:0; background:radial-gradient(85% 130% at 0% 50%, rgba(250,54,1,.14), transparent 58%), linear-gradient(90deg, rgba(250,54,1,.08), rgba(255,122,77,.035) 42%, transparent 74%); transition:opacity .9s ease;}
+    .ib-step::after{content:""; position:absolute; top:0; bottom:0; left:-42%; width:34%; opacity:0; pointer-events:none; background:linear-gradient(90deg, transparent, rgba(255,122,77,.38), transparent); filter:blur(16px); transform:skewX(-16deg); transition:opacity .65s ease;}
+    .ib-step.is-lit,.reveal.is-in .ib-step{background:rgba(250,54,1,.045); border-color:rgba(255,122,77,.36) !important; box-shadow:0 0 0 1px rgba(250,54,1,.12) inset, 0 0 18px rgba(250,54,1,.14), 0 18px 58px -32px rgba(250,54,1,.42);}
     .ib-step.is-lit::before,.reveal.is-in .ib-step::before{opacity:1;}
-    .ib-step.is-lit::after,.reveal.is-in .ib-step::after{opacity:1; animation:stepNeonSweep 1.15s cubic-bezier(.16,1,.3,1) both; animation-delay:var(--sweep-delay,0s);}
-    .reveal.is-in .ib-step > div:first-child{color:#FF7A4D !important; text-shadow:0 0 14px rgba(255,122,77,.95), 0 0 34px rgba(250,54,1,.72), 0 0 70px rgba(250,54,1,.42) !important;}
+    .ib-step.is-lit::after,.reveal.is-in .ib-step::after{opacity:1; animation:stepNeonSweep 1.8s cubic-bezier(.16,1,.3,1) both; animation-delay:var(--sweep-delay,0s);}
+    .reveal.is-in .ib-step > div:first-child{color:#FF7A4D !important; text-shadow:0 0 10px rgba(255,122,77,.62), 0 0 24px rgba(250,54,1,.4), 0 0 48px rgba(250,54,1,.2) !important;}
     .reveal.is-in .ib-step > div:nth-child(2) > div:first-child{color:#FDFCFE !important;}
     .reveal.is-in .ib-step > div:nth-child(2) > div:nth-child(2){color:rgba(255,255,255,.84) !important;}
     .ib-step:hover{transform:translateX(14px) scale(1.015); background:rgba(250,54,1,.13);}
@@ -1664,10 +1664,10 @@ class Component extends DCLogic {
         title: s.title,
         body: s.body,
         stepClass: on ? 'is-lit' : '',
-        delay: (i * 0.14).toFixed(2) + 's',
-        sweepDelay: (i * 0.14 + 0.08).toFixed(2) + 's',
+        delay: (i * 0.24).toFixed(2) + 's',
+        sweepDelay: (i * 0.24 + 0.16).toFixed(2) + 's',
         numCol: on ? '#FF7A4D' : 'rgba(255,255,255,.25)',
-        glow: on ? '0 0 14px rgba(255,122,77,.95), 0 0 34px rgba(250,54,1,.72), 0 0 70px rgba(250,54,1,.42)' : 'none',
+        glow: on ? '0 0 10px rgba(255,122,77,.62), 0 0 24px rgba(250,54,1,.4), 0 0 48px rgba(250,54,1,.2)' : 'none',
         titleCol: on ? '#FDFCFE' : 'rgba(255,255,255,.45)',
         bodyCol: on ? 'rgba(255,255,255,.84)' : 'rgba(255,255,255,.32)'
       };
