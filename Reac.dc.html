@@ -102,8 +102,8 @@
 </script>
 
 <script src="./support.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
 <!-- ===== Preloader (pantalla de carga) · CSS crítico en <head> para evitar FOUC ===== -->
 <style id="reac-preloader-style">
@@ -969,7 +969,7 @@
                   <!-- IMAGEN CENTRAL -->
                   <div class="proj-center" style="position:relative;">
                     <div class="proj-card" style="border-radius:18px; overflow:hidden; border:1px solid rgba(255,255,255,.1); box-shadow:0 44px 100px -34px rgba(0,0,0,.8);">
-                      <div style="overflow:hidden;"><img class="proj-card-img" src="{{ p.img }}" alt="{{ p.name }}" style="width:100%; height:430px; object-fit:cover; display:block;"></div>
+                      <div style="overflow:hidden;"><img class="proj-card-img" src="{{ p.img }}" alt="{{ p.name }}" loading="lazy" decoding="async" style="width:100%; height:430px; object-fit:cover; display:block;"></div>
                       <div style="position:absolute; inset:0; background:linear-gradient(to top, rgba(7,7,18,.92) 2%, rgba(7,7,18,.25) 46%, transparent 78%);"></div>
                       <span style="position:absolute; top:16px; left:16px; display:{{ p.badgeDisplay }}; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; background:rgba(14,16,32,.8); border:1px solid rgba(255,255,255,.16); font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#A9B0CF;">{{ p.badge }}</span>
                       <div style="position:absolute; left:0; right:0; bottom:0; padding:24px; display:flex; flex-direction:column; gap:14px;">
@@ -1547,7 +1547,7 @@ class Component extends DCLogic {
     const caso1 = {
       name: 'Más Servicios',
       tag: 'Sitio web WordPress autogestionable',
-      img: 'uploads/imagen-54a347e5.png',
+      img: 'uploads/imagen-54a347e5.webp',
       cta: 'Ver sitio',
       badge: '',
       b1t: 'Cliente',        b1d: 'Centro integral de servicios en Villa Dolores, Córdoba: pagos, envíos, cambio y viajes. +10 años y 2 sucursales.',
@@ -1589,7 +1589,7 @@ class Component extends DCLogic {
     const caso4 = {
       name: 'E-commerce de Indumentaria',
       tag: 'Tienda online',
-      img: 'uploads/imagen-a96384d4.png',
+      img: 'uploads/imagen-a96384d4.webp',
       cta: 'Ver sitio',
       badge: '',
       b1t: 'Cliente',        b1d: 'Marca de indumentaria que necesitaba vender online.',
@@ -1617,7 +1617,7 @@ class Component extends DCLogic {
     const caso6 = {
       name: 'App de Enfoque Pomodoro',
       tag: 'App de escritorio de productividad',
-      img: 'uploads/imagen-730e79f7.png',
+      img: 'uploads/imagen-730e79f7.webp',
       cta: 'Código fuente',
       badge: '',
       b1t: 'Cliente',        b1d: 'Proyecto propio enfocado en productividad y concentración.',
