@@ -511,12 +511,12 @@
   <section id="top" data-screen-label="Parallax" style="position:relative; display:flex; height:100vh; min-height:600px; overflow:hidden; background:radial-gradient(ellipse 75% 55% at 50% 8%, rgba(46,55,255,.38) 0%, rgba(23,16,165,.12) 40%, transparent 62%), radial-gradient(ellipse 95% 60% at 50% 100%, rgba(250,54,1,.32) 0%, rgba(240,67,10,.1) 40%, transparent 62%), radial-gradient(ellipse 60% 32% at 50% 46%, rgba(124,58,237,.3) 0%, transparent 65%), #070712;">
     <div style="position:absolute; inset:0; overflow:hidden;">
       <div style="position:absolute; inset:0; width:100%; height:100%;">
-        <img ref="{{ p1Ref }}" class="reac-parallax-layer reac-parallax-layer--far" src="https://cdn.prod.website-files.com/671752cd4027f01b1b8f1c7f/6717795be09b462b2e8ebf71_osmo-parallax-layer-3.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; opacity:.8; filter:grayscale(1) brightness(.85) sepia(1) hue-rotate(195deg) saturate(2.4) contrast(.98);">
-        <img ref="{{ p2Ref }}" class="reac-parallax-layer reac-parallax-layer--mid" src="https://cdn.prod.website-files.com/671752cd4027f01b1b8f1c7f/6717795b4d5ac529e7d3a562_osmo-parallax-layer-2.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; filter:grayscale(1) brightness(.62) sepia(1) hue-rotate(190deg) saturate(3.2) contrast(1.05);">
+        <img ref="{{ p1Ref }}" src="https://cdn.prod.website-files.com/671752cd4027f01b1b8f1c7f/6717795be09b462b2e8ebf71_osmo-parallax-layer-3.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; opacity:.8; filter:grayscale(1) brightness(.85) sepia(1) hue-rotate(195deg) saturate(2.4) contrast(.98); will-change:transform;">
+        <img ref="{{ p2Ref }}" src="https://cdn.prod.website-files.com/671752cd4027f01b1b8f1c7f/6717795b4d5ac529e7d3a562_osmo-parallax-layer-2.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; filter:grayscale(1) brightness(.62) sepia(1) hue-rotate(190deg) saturate(3.2) contrast(1.05); will-change:transform;">
         <div ref="{{ pTitleRef }}" style="position:absolute; top:38%; left:50%; transform:translate(-50%,-50%); width:100%; text-align:center; z-index:3; will-change:transform;">
           <div aria-hidden="true" style="margin:0; font-family:'Pinyon Script', cursive; font-weight:400; line-height:.9; letter-spacing:.01em; font-size:clamp(3.5rem,13vw,12rem); color:#FDFCFE; text-shadow:0 2px 30px rgba(5,5,9,.6), 0 0 70px rgba(46,55,255,.4), 0 0 120px rgba(124,58,237,.25);">Reac Studio</div>
         </div>
-        <img ref="{{ p4Ref }}" class="reac-parallax-layer reac-parallax-layer--front" src="uploads/hero-front.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; filter:grayscale(1) brightness(.62) sepia(1) hue-rotate(190deg) saturate(3.2) contrast(1.05);">
+        <img ref="{{ p4Ref }}" src="uploads/hero-front.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; filter:grayscale(1) brightness(.62) sepia(1) hue-rotate(190deg) saturate(3.2) contrast(1.05); will-change:transform;">
       </div>
       <div style="position:absolute; inset:0; z-index:5; pointer-events:none; background:linear-gradient(to bottom, transparent 55%, rgba(7,7,18,.6) 80%, #070712 100%);"></div>
       <div style="position:absolute; bottom:0; left:0; width:100%; height:2px; background:#070712; z-index:6;"></div>
@@ -1268,10 +1268,10 @@ class Component extends DCLogic {
     const pp = this._pp || 0;
     if (this._lastAppliedPp === pp) return;
     this._lastAppliedPp = pp;
-    if (this.p1Ref.current) this.p1Ref.current.style.transform = 'translate3d(-50%, ' + (70 * pp) + '%, 0)';
-    if (this.p2Ref.current) this.p2Ref.current.style.transform = 'translate3d(-50%, ' + (55 * pp) + '%, 0)';
-    if (this.pTitleRef.current) this.pTitleRef.current.style.transform = 'translate3d(-50%, calc(-50% + ' + (40 * pp) + '%), 0)';
-    if (this.p4Ref.current) this.p4Ref.current.style.transform = 'translate3d(-50%, ' + (10 * pp) + '%, 0)';
+    if (this.p1Ref.current) this.p1Ref.current.style.transform = 'translate(-50%, ' + (70 * pp) + '%)';
+    if (this.p2Ref.current) this.p2Ref.current.style.transform = 'translate(-50%, ' + (55 * pp) + '%)';
+    if (this.pTitleRef.current) this.pTitleRef.current.style.transform = 'translate(-50%, calc(-50% + ' + (40 * pp) + '%))';
+    if (this.p4Ref.current) this.p4Ref.current.style.transform = 'translate(-50%, ' + (10 * pp) + '%)';
   }
 
   scheduleScroll(){

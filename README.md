@@ -48,9 +48,9 @@ Para una revisión visual, probar al menos 390 px y 1440 px de ancho, teclado, `
 
 ## Parallax y performance
 
-El parallax usa un único ciclo `requestAnimationFrame` por frame de scroll y actualiza las capas con `translate3d`. Las mediciones de layout se hacen sólo cuando cambia el viewport o se detecta el contenedor scrolleable.
+El parallax usa un único ciclo `requestAnimationFrame` por frame de scroll y evita renders redundantes cuando el estado visual no cambió. Las mediciones de layout se hacen sólo cuando cambia el viewport o se detecta el contenedor scrolleable.
 
-En mobile se ocultan las dos capas lejanas y se conserva una sola capa frontal. Los filtros complejos de imagen se reemplazan por opacidad y overlays CSS para reducir rasterización y consumo de GPU.
+Se conserva el tratamiento visual aprobado —capas, filtros, opacidades y secuencia de desplazamiento— tanto en desktop como en mobile. La reducción de costo viene del scheduling y de evitar mediciones y renders innecesarios, sin esconder capas ni alterar la estética. También respeta `prefers-reduced-motion`.
 
 ## Configuración pendiente
 
