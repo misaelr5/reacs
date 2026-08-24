@@ -1,4 +1,7 @@
 {
   "buildCommand": "python scripts/fix-parallax.py",
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "rewrites": [
+    { "source": "/gracias", "destination": "/gracias.html" }
+  ]
 }

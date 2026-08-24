@@ -13,7 +13,7 @@
 
 <!-- ===== SEO / Primary meta ===== -->
 <title>Reac Studio — Tu marketing, tu web y tus automatizaciones. Un solo equipo.</title>
-<meta name="description" content="Nosotros nos ocupamos de todo tu ecosistema digital —marketing, web y automatización con IA— para que vos te enfoques en hacer crecer tu negocio. Sin coordinar varios proveedores ni pelearte con lo técnico. Pedí tu diagnóstico gratis.">
+<meta name="description" content="Marketing, web y automatización con IA para ordenar tu ecosistema digital, atraer consultas y hacer crecer tu negocio. Pedí tu diagnóstico gratis.">
 <meta name="author" content="Reac Studio">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#070712">
@@ -52,12 +52,13 @@
   "url": "https://reacstudio.com/",
   "telephone": ["+543544434403", "+543544581671"],
   "email": "ledesma.rme@gmail.com",
-  "address": {
-    "@type": "PostalAddress",
-    "addressCountry": "AR",
-    "addressRegion": "Córdoba"
-  },
-  "comment_TODO_redes": "Cuando tengas Instagram/LinkedIn agregalas asi: sameAs: [https://www.instagram.com/TU-USUARIO]"
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer service",
+    "email": "ledesma.rme@gmail.com",
+    "telephone": "+543544434403",
+    "availableLanguage": "Spanish"
+  }
 }
 </script>
 
@@ -351,6 +352,12 @@
     .ct-send:hover{transform:translateY(-2px); box-shadow:0 18px 42px -12px rgba(250,54,1,.65);}
     .ct-note{font-size:12.5px; color:#868CA6; text-align:left; margin:6px 0 0; line-height:1.55;}
     .ct-note a{color:#9AA0FF; text-decoration:underline; text-underline-offset:2px;}
+    .mobile-sticky-cta{display:none;}
+    @media(max-width:700px){
+      .mobile-sticky-cta{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:110;display:flex;align-items:center;justify-content:center;min-height:50px;padding:13px 18px;border-radius:15px;background:linear-gradient(135deg,#FA3601,#F0430A);color:#FDFCFE;text-decoration:none;font-size:15px;font-weight:800;box-shadow:0 14px 34px -10px rgba(0,0,0,.8),0 10px 28px -12px rgba(250,54,1,.8);}
+      body{padding-bottom:calc(82px + env(safe-area-inset-bottom));}
+    }
+    @media(prefers-reduced-motion:reduce){.mobile-sticky-cta{transition:none;}}
 
     /* ===== Dropdown de período (metric card) ===== */
     .ib-period:hover{border-color:rgba(110,116,255,.45) !important; background:rgba(255,255,255,.09) !important;}
@@ -478,6 +485,7 @@
       </div>
     </div>
   </nav>
+  <a class="mobile-sticky-cta" href="https://wa.me/5493544434403?text=Hola%20Reac%20Studio,%20quiero%20un%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" aria-label="Hablar por WhatsApp con Reac Studio">Hablar por WhatsApp <span aria-hidden="true">→</span></a>
 
   <!-- ===== CONTENIDO (capa opaca que revela el footer al final) ===== -->
   <div style="position:relative; z-index:1; background:#070712;">
@@ -527,7 +535,7 @@
         <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
           <a class="imp-cta shine-only hero-anim hero-btn1" href="#contacto" style="padding:15px 30px; border-radius:13px; background:linear-gradient(135deg,#FA3601,#F0430A); color:#FDFCFE; font-weight:600; font-size:15.5px; box-shadow:0 12px 30px -8px rgba(250,54,1,.55);">Pedí tu diagnóstico gratis →</a>
         </div>
-        <p class="hero-anim" style="margin:18px 0 0; font-size:13.5px; color:#868CA6; font-weight:400;">Sin compromiso · Te respondemos en el día</p>
+        <p class="hero-anim" style="margin:18px 0 0; font-size:13.5px; color:#868CA6; font-weight:400;">Sin compromiso · Tiempo de respuesta a confirmar</p>
       </div>
 
       <!-- glass metric card -->
@@ -1038,12 +1046,12 @@
       </div>
       <div class="reveal" style="display:flex; flex-direction:column; gap:14px;">
         <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
-          <div class="imp-faq" onClick="{{ f.onToggle }}" style="background:#0E1020; backdrop-filter:blur(8px); border:1px solid #262B47; border-radius:18px; padding:24px 26px; cursor:pointer; transition:border-color .3s ease, box-shadow .3s ease, transform .4s cubic-bezier(.34,1.56,.5,1); box-shadow:{{ f.shadow }};">
+          <div class="imp-faq" role="button" tabindex="0" onClick="{{ f.onToggle }}" onKeyDown="{{ f.onKeyDown }}" aria-expanded="{{ f.expanded }}" aria-controls="{{ f.panelId }}" style="background:#0E1020; backdrop-filter:blur(8px); border:1px solid #262B47; border-radius:18px; padding:24px 26px; cursor:pointer; transition:border-color .3s ease, box-shadow .3s ease, transform .4s cubic-bezier(.34,1.56,.5,1); box-shadow:{{ f.shadow }};">
             <div style="display:flex; align-items:center; justify-content:space-between; gap:18px;">
               <div style="font-size:17px; font-weight:600; letter-spacing:-.01em; color:#FDFCFE;">{{ f.q }}</div>
               <span style="flex:none; width:30px; height:30px; border-radius:50%; background:linear-gradient(135deg,#1F27EB,#7C3AED); color:#FDFCFE; display:flex; align-items:center; justify-content:center; font-size:17px; font-weight:500; transform:rotate({{ f.rot }}); transition:transform .35s cubic-bezier(.22,1,.36,1);">+</span>
             </div>
-            <div style="display:grid; grid-template-rows:{{ f.rows }}; transition:grid-template-rows .4s cubic-bezier(.22,1,.36,1);">
+            <div id="{{ f.panelId }}" style="display:grid; grid-template-rows:{{ f.rows }}; transition:grid-template-rows .4s cubic-bezier(.22,1,.36,1);">
               <div style="overflow:hidden;">
                 <div style="font-size:15.5px; line-height:1.65; color:#868CA6; padding-top:16px;">{{ f.a }}</div>
               </div>
@@ -1055,6 +1063,22 @@
   </section>
 
   <!-- ===== TESTIMONIOS · oculto hasta contar con reseñas reales de clientes ===== -->
+
+  <!-- ===== SOBRE REAC / EQUIPO ===== -->
+  <section id="sobre-reac" data-screen-label="Sobre Reac" style="background:#0A0B16; color:#FDFCFE; padding:110px 6vw;">
+    <div style="max-width:1120px; margin:0 auto; display:grid; grid-template-columns:1.15fr .85fr; gap:48px; align-items:start;">
+      <div class="reveal rv-left">
+        <div style="font-size:13px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:#9AA0FF; margin-bottom:16px;">Sobre Reac</div>
+        <h2 style="font-size:clamp(30px,4vw,52px); line-height:1.06; font-weight:700; letter-spacing:-.04em; margin:0 0 18px;">Un solo equipo para ordenar tu ecosistema digital.</h2>
+        <p style="font-size:17px; color:#A6ABC2; line-height:1.7; margin:0;">Reac Studio ayuda a negocios y profesionales a mejorar y digitalizar su presencia mediante marketing, desarrollo web, automatizaciones e inteligencia artificial.</p>
+      </div>
+      <div class="reveal rv-right" style="padding:26px; border:1px solid #262B47; border-radius:22px; background:#0E1020;">
+        <div style="font-size:13px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:#FF7A4D; margin-bottom:12px;">Equipo</div>
+        <h3 style="font-size:24px; margin:0 0 10px;">Información pendiente</h3>
+        <p style="font-size:15px; color:#A6ABC2; line-height:1.6; margin:0;">La presentación del equipo, fotos y perfiles se incorporará cuando Reac disponga de material real aprobado para publicar.</p>
+      </div>
+    </div>
+  </section>
 
   <!-- ===== RECURSOS (lead magnets descargables) + NEWSLETTER ===== -->
   <section id="recursos" data-screen-label="Recursos" style="position:relative; background:#070712; color:#FDFCFE; padding:120px 6vw; overflow:hidden;">
@@ -1137,7 +1161,7 @@
           </a>
           <div class="ct-method" style="cursor:default;">
             <span class="ct-mico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.2 1.9"></path></svg></span>
-            <span class="ct-mtext"><span class="ct-mlabel">Tiempo de respuesta</span><span class="ct-mval">Menos de 24 hs</span></span>
+            <span class="ct-mtext"><span class="ct-mlabel">Tiempo de respuesta</span><span class="ct-mval">A confirmar</span></span>
           </div>
         </div>
       </aside>
@@ -1220,7 +1244,7 @@
             <h2 style="font-size:clamp(58px,11vw,168px); font-weight:800; line-height:.78; letter-spacing:-.045em; margin:0; background:linear-gradient(120deg,#6E74FF 0%,#2E37FF 45%,#7C3AED 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent;">Reac Studio<span style="-webkit-text-fill-color:#FA3601; color:#FA3601;">.</span></h2>
             <div style="text-align:right; min-width:200px;">
               <p style="font-size:13px; color:#868CA6; margin:0 0 8px;">© 2026 Reac Studio. Todos los derechos reservados.</p>
-              <p style="margin:0 0 14px;"><a class="imp-flink" href="#" style="font-size:13px; color:#868CA6; text-decoration:underline; text-underline-offset:2px;">Política de privacidad</a></p>
+              <p style="margin:0 0 14px;"><a class="imp-flink" href="/politica-de-privacidad.html" style="font-size:13px; color:#868CA6; text-decoration:underline; text-underline-offset:2px;">Política de privacidad</a></p>
               <div style="display:flex; gap:10px; justify-content:flex-end;">
                 <span class="imp-soc" style="width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,.06); display:flex; align-items:center; justify-content:center; color:#C4C8D8;"><svg viewBox="0 0 24 24" fill="none" style="width:17px; height:17px;"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" stroke-width="1.8"></rect><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"></circle><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"></circle></svg></span>
                 <span class="imp-soc" style="width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,.06); display:flex; align-items:center; justify-content:center; color:#C4C8D8;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:17px; height:17px;"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"></path></svg></span>
@@ -1554,7 +1578,7 @@ class Component extends DCLogic {
       b2t: 'El desafío',     b2d: 'Necesitaban una web profesional que el propio equipo pudiera actualizar sin depender de un programador.',
       b3t: 'Servicios',      b3d: 'Desarrollo web completo en WordPress (CMS), diseño a medida y capacitación de gestión.',
       b4t: 'Lo que hicimos', b4d: 'Creamos el sitio entero, 100% autogestionable: servicios, sucursales con mapas, testimonios, FAQ, formularios y WhatsApp.',
-      b5t: 'Resultado',      b5d: 'El cliente edita textos, servicios y secciones por su cuenta. Presencia profesional para +350 operaciones diarias.',
+      b5t: 'Resultado',      b5d: 'Pendiente: documentar resultado con datos verificables del proyecto.',
       b6t: 'Tiempo',         b6d: 'Entregado llave en mano, listo para que lo gestionen ellos mismos.'
     };
     // ── Caso 2: Calculadora de Divisas · TODO: reemplazá img por screenshot real ──
@@ -1568,7 +1592,7 @@ class Component extends DCLogic {
       b2t: 'El desafío',     b2d: 'Calcular cotizaciones y componentes del dólar al instante, sin planillas manuales.',
       b3t: 'Servicios',      b3d: 'Desarrollo web front-end con interfaces editables, listo para integrarse en WordPress.',
       b4t: 'Lo que hicimos', b4d: 'Calculadora modular con parámetros editables y estructura preparada para embeber en un sitio WordPress.',
-      b5t: 'Resultado',      b5d: 'Cotizaciones inmediatas y autoeditables por el propio operador.',
+      b5t: 'Resultado',      b5d: 'Pendiente: documentar resultado con datos verificables del proyecto.',
       b6t: 'Tiempo',         b6d: 'Entregado con código fuente disponible.'
     };
     // ── Caso 3: Detección de Fraude Fiscal · TODO: reemplazá img por screenshot real ──
@@ -1582,7 +1606,7 @@ class Component extends DCLogic {
       b2t: 'El desafío',     b2d: 'Detectar patrones sospechosos en declaraciones impositivas.',
       b3t: 'Servicios',      b3d: 'Modelo de clasificación (Machine Learning) desarrollado en Python.',
       b4t: 'Lo que hicimos', b4d: 'Entrenamos un clasificador que identifica declaraciones con riesgo de fraude a partir de patrones.',
-      b5t: 'Resultado',      b5d: 'Marca automáticamente los casos sospechosos para su revisión.',
+      b5t: 'Resultado',      b5d: 'Pendiente: documentar resultado con datos verificables del proyecto.',
       b6t: 'Tiempo',         b6d: 'Proyecto académico con código fuente disponible.'
     };
     // ── Caso 4: E-commerce de Indumentaria · TODO: reemplazá img por screenshot real ──
@@ -1596,7 +1620,7 @@ class Component extends DCLogic {
       b2t: 'El desafío',     b2d: 'Tener un canal de ventas propio con catálogo y carrito, sin depender de redes sociales.',
       b3t: 'Servicios',      b3d: 'Desarrollo de e-commerce: catálogo, fichas de producto y carrito de compras.',
       b4t: 'Lo que hicimos', b4d: 'Tienda con catálogo, detalle de producto y carrito, preparada para integrarse con pasarela de pago.',
-      b5t: 'Resultado',      b5d: 'Canal de ventas online listo para operar y escalar.',
+      b5t: 'Resultado',      b5d: 'Pendiente: documentar resultado con datos verificables del proyecto.',
       b6t: 'Tiempo',         b6d: 'Proyecto entregado y publicado.'
     };
     // ── Caso 5: Portfolio Web · TODO: reemplazá img por screenshot real ──
@@ -1610,7 +1634,7 @@ class Component extends DCLogic {
       b2t: 'El desafío',     b2d: 'Presentar servicios y trabajos en un solo lugar, con foco en captar contactos.',
       b3t: 'Servicios',      b3d: 'Desarrollo web front-end y diseño UI.',
       b4t: 'Lo que hicimos', b4d: 'Sitio con catálogo de servicios, portfolio, formulario de contacto y enfoque en conversión.',
-      b5t: 'Resultado',      b5d: 'Presencia profesional y un canal de contacto centralizado.',
+      b5t: 'Resultado',      b5d: 'Pendiente: documentar resultado con datos verificables del proyecto.',
       b6t: 'Tiempo',         b6d: 'Entregado con código fuente disponible.'
     };
     // ── Caso 6: App de Enfoque Pomodoro · TODO: reemplazá img por screenshot real ──
@@ -1624,7 +1648,7 @@ class Component extends DCLogic {
       b2t: 'El desafío',     b2d: 'Ayudar a enfocarse y reducir distracciones durante sesiones de estudio o trabajo.',
       b3t: 'Servicios',      b3d: 'Desarrollo de aplicación de escritorio.',
       b4t: 'Lo que hicimos', b4d: 'App con modos de estudio, tareas por sesión, historial y estadísticas semanales exportables.',
-      b5t: 'Resultado',      b5d: 'Herramienta de foco con métricas de productividad medibles.',
+      b5t: 'Resultado',      b5d: 'Pendiente: documentar resultado con datos verificables del proyecto.',
       b6t: 'Tiempo',         b6d: 'Entregado con código fuente disponible.'
     };
     // ── Caso 7: CRM Comercial · TODO: reemplazá img por screenshot real ──
@@ -1638,7 +1662,7 @@ class Component extends DCLogic {
       b2t: 'El desafío',     b2d: 'Centralizar clientes, proyectos, leads, pagos y notas en un solo lugar.',
       b3t: 'Servicios',      b3d: 'Desarrollo de aplicación web a medida (CRM).',
       b4t: 'Lo que hicimos', b4d: 'CRM completo con seguimiento centralizado de clientes, proyectos, leads, pagos y notas.',
-      b5t: 'Resultado',      b5d: 'Gestión comercial ordenada, trazable y en un solo panel.',
+      b5t: 'Resultado',      b5d: 'Pendiente: documentar resultado con datos verificables del proyecto.',
       b6t: 'Tiempo',         b6d: 'Entregado con código fuente disponible.'
     };
     // ── Caso 8: Landing para Profesional · TODO: reemplazá img por screenshot real ──
@@ -1652,7 +1676,7 @@ class Component extends DCLogic {
       b2t: 'El desafío',     b2d: 'Presentar servicios y propuesta de valor con foco en captar contactos.',
       b3t: 'Servicios',      b3d: 'Diseño y desarrollo de landing (HTML, CSS, JavaScript), responsive y UI/UX.',
       b4t: 'Lo que hicimos', b4d: 'Landing moderna con propuesta de valor clara, contacto directo y enfoque en conversión.',
-      b5t: 'Resultado',      b5d: 'Página orientada a generar consultas reales.',
+      b5t: 'Resultado',      b5d: 'Pendiente: documentar resultado con datos verificables del proyecto.',
       b6t: 'Tiempo',         b6d: 'Entregado con demo y código fuente disponibles.'
     };
     // ── Caso 9: Panel Administrativo Modular · TODO: reemplazá img por screenshot real ──
@@ -1666,7 +1690,7 @@ class Component extends DCLogic {
       b2t: 'El desafío',     b2d: 'Gestionar roles, formularios y reportes operativos en un sistema propio.',
       b3t: 'Servicios',      b3d: 'Desarrollo backend con PHP, Laravel y MySQL.',
       b4t: 'Lo que hicimos', b4d: 'Módulo interno con control de roles, formularios y reportes para las operaciones del negocio.',
-      b5t: 'Resultado',      b5d: 'Operación interna centralizada y con permisos por rol.',
+      b5t: 'Resultado',      b5d: 'Pendiente: documentar resultado con datos verificables del proyecto.',
       b6t: 'Tiempo',         b6d: 'Entregado a medida.'
     };
     return [caso1, caso2, caso3, caso4, caso5, caso6, caso7, caso8, caso9];
@@ -1757,18 +1781,14 @@ class Component extends DCLogic {
         rows: open ? '1fr' : '0fr',
         rot: open ? '135deg' : '0deg',
         shadow: open ? '0 18px 44px -22px rgba(46,55,255,.5)' : '0 1px 2px rgba(20,20,60,.04)',
-        onToggle: () => this.setState((st) => ({ openIndex: st.openIndex === i ? -1 : i }))
+        expanded: open ? 'true' : 'false',
+        panelId: 'faq-answer-' + i,
+        onToggle: () => this.setState((st) => ({ openIndex: st.openIndex === i ? -1 : i })),
+        onKeyDown: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.setState((st) => ({ openIndex: st.openIndex === i ? -1 : i })); } }
       };
     });
 
-    const tBase = [
-      { quote: '"En tres meses pasamos de no tener consultas a no dar abasto. Las campañas y el chatbot de IA hacen el trabajo pesado por nosotros."', name: 'Martín Rivas', role: 'Estudio jurídico · Córdoba', initials: 'MR', grad: 'linear-gradient(135deg,#1F27EB,#7C3AED)' },
-      { quote: '"La web nueva nos cambió la cara de la marca y, lo mejor, ahora sabemos exactamente de dónde vienen los clientes. Todo medido."', name: 'Lucía Fernández', role: 'Tienda de deco · Rosario', initials: 'LF', grad: 'linear-gradient(135deg,#2E37FF,#1F27EB)' },
-      { quote: '"Automatizaron el seguimiento de leads y el CRM. Dejamos de perder oportunidades por no contestar a tiempo. Un antes y un después."', name: 'Diego Gómez', role: 'Inmobiliaria · Buenos Aires', initials: 'DG', grad: 'linear-gradient(135deg,#7C3AED,#6E74FF)' },
-      { quote: '"Ahora entiendo mis números. El dashboard me muestra qué campaña trae clientes y cuál no. Tomamos decisiones con datos, no a ciegas."', name: 'Sofía Castro', role: 'Centro estético · Mendoza', initials: 'SC', grad: 'linear-gradient(135deg,#1F27EB,#2E37FF)' },
-      { quote: '"Profesionales y al grano. Nada de humo: propusieron, ejecutaron y midieron. El retorno de la inversión se vio rapidísimo."', name: 'Pablo Suárez', role: 'Gimnasio · La Plata', initials: 'PS', grad: 'linear-gradient(135deg,#6E74FF,#7C3AED)' }
-    ];
-    const testimonials = tBase.concat(tBase);
+    const testimonials = [];
 
     const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
@@ -2072,6 +2092,7 @@ class Component extends DCLogic {
                + mensaje;
       var url = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
       window.location.href = url;
+      setTimeout(function(){ window.location.href = '/gracias'; }, 1200);
     });
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
@@ -2079,6 +2100,26 @@ class Component extends DCLogic {
   // El runtime de DC puede montar el form más tarde: reintento corto.
   setTimeout(init, 500);
   setTimeout(init, 1500);
+})();
+</script>
+<script>
+(function(){
+  if (window.__reacAnalyticsBound) return;
+  window.__reacAnalyticsBound = true;
+  function track(name, params){
+    if (typeof window.gtag === 'function') window.gtag('event', name, params || {});
+  }
+  document.addEventListener('click', function(e){
+    var link = e.target.closest ? e.target.closest('a') : null;
+    if (!link) return;
+    var href = link.getAttribute('href') || '';
+    if (href.indexOf('https://wa.me/') === 0) track('whatsapp_click');
+    else if (href.indexOf('mailto:') === 0) track('email_click');
+    else if (href === '#contacto') track('quote_request');
+  });
+  document.addEventListener('submit', function(e){
+    if (e.target && e.target.id === 'ct-form') track('contact_form_submit');
+  });
 })();
 </script>
 </body>
