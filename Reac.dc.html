@@ -511,12 +511,12 @@
   <section id="top" data-screen-label="Parallax" style="position:relative; display:flex; height:100vh; min-height:600px; overflow:hidden; background:radial-gradient(ellipse 75% 55% at 50% 8%, rgba(46,55,255,.38) 0%, rgba(23,16,165,.12) 40%, transparent 62%), radial-gradient(ellipse 95% 60% at 50% 100%, rgba(250,54,1,.32) 0%, rgba(240,67,10,.1) 40%, transparent 62%), radial-gradient(ellipse 60% 32% at 50% 46%, rgba(124,58,237,.3) 0%, transparent 65%), #070712;">
     <div style="position:absolute; inset:0; overflow:hidden;">
       <div style="position:absolute; inset:0; width:100%; height:100%;">
-        <img ref="{{ p1Ref }}" src="https://cdn.prod.website-files.com/671752cd4027f01b1b8f1c7f/6717795be09b462b2e8ebf71_osmo-parallax-layer-3.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; opacity:.8; filter:grayscale(1) brightness(.85) sepia(1) hue-rotate(195deg) saturate(2.4) contrast(.98); will-change:transform;">
-        <img ref="{{ p2Ref }}" src="https://cdn.prod.website-files.com/671752cd4027f01b1b8f1c7f/6717795b4d5ac529e7d3a562_osmo-parallax-layer-2.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; filter:grayscale(1) brightness(.62) sepia(1) hue-rotate(190deg) saturate(3.2) contrast(1.05); will-change:transform;">
+        <img ref="{{ p1Ref }}" class="reac-parallax-layer reac-parallax-layer--far" src="https://cdn.prod.website-files.com/671752cd4027f01b1b8f1c7f/6717795be09b462b2e8ebf71_osmo-parallax-layer-3.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; opacity:.8; filter:grayscale(1) brightness(.85) sepia(1) hue-rotate(195deg) saturate(2.4) contrast(.98);">
+        <img ref="{{ p2Ref }}" class="reac-parallax-layer reac-parallax-layer--mid" src="https://cdn.prod.website-files.com/671752cd4027f01b1b8f1c7f/6717795b4d5ac529e7d3a562_osmo-parallax-layer-2.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; filter:grayscale(1) brightness(.62) sepia(1) hue-rotate(190deg) saturate(3.2) contrast(1.05);">
         <div ref="{{ pTitleRef }}" style="position:absolute; top:38%; left:50%; transform:translate(-50%,-50%); width:100%; text-align:center; z-index:3; will-change:transform;">
           <div aria-hidden="true" style="margin:0; font-family:'Pinyon Script', cursive; font-weight:400; line-height:.9; letter-spacing:.01em; font-size:clamp(3.5rem,13vw,12rem); color:#FDFCFE; text-shadow:0 2px 30px rgba(5,5,9,.6), 0 0 70px rgba(46,55,255,.4), 0 0 120px rgba(124,58,237,.25);">Reac Studio</div>
         </div>
-        <img ref="{{ p4Ref }}" src="uploads/hero-front.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; filter:grayscale(1) brightness(.62) sepia(1) hue-rotate(190deg) saturate(3.2) contrast(1.05); will-change:transform;">
+        <img ref="{{ p4Ref }}" class="reac-parallax-layer reac-parallax-layer--front" src="uploads/hero-front.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; filter:grayscale(1) brightness(.62) sepia(1) hue-rotate(190deg) saturate(3.2) contrast(1.05);">
       </div>
       <div style="position:absolute; inset:0; z-index:5; pointer-events:none; background:linear-gradient(to bottom, transparent 55%, rgba(7,7,18,.6) 80%, #070712 100%);"></div>
       <div style="position:absolute; bottom:0; left:0; width:100%; height:2px; background:#070712; z-index:6;"></div>
@@ -1266,10 +1266,57 @@ class Component extends DCLogic {
   applyParallax(){
     if (this.reduceMotion) return;
     const pp = this._pp || 0;
-    if (this.p1Ref.current) this.p1Ref.current.style.transform = 'translate(-50%, ' + (70 * pp) + '%)';
-    if (this.p2Ref.current) this.p2Ref.current.style.transform = 'translate(-50%, ' + (55 * pp) + '%)';
-    if (this.pTitleRef.current) this.pTitleRef.current.style.transform = 'translate(-50%, calc(-50% + ' + (40 * pp) + '%))';
-    if (this.p4Ref.current) this.p4Ref.current.style.transform = 'translate(-50%, ' + (10 * pp) + '%)';
+    if (this._lastAppliedPp === pp) return;
+    this._lastAppliedPp = pp;
+    if (this.p1Ref.current) this.p1Ref.current.style.transform = 'translate3d(-50%, ' + (70 * pp) + '%, 0)';
+    if (this.p2Ref.current) this.p2Ref.current.style.transform = 'translate3d(-50%, ' + (55 * pp) + '%, 0)';
+    if (this.pTitleRef.current) this.pTitleRef.current.style.transform = 'translate3d(-50%, calc(-50% + ' + (40 * pp) + '%), 0)';
+    if (this.p4Ref.current) this.p4Ref.current.style.transform = 'translate3d(-50%, ' + (10 * pp) + '%, 0)';
+  }
+
+  scheduleScroll(){
+    if (this._scrollRaf) return;
+    const raf = window.requestAnimationFrame || ((cb) => window.setTimeout(cb, 16));
+    this._scrollRaf = raf(() => {
+      this._scrollRaf = 0;
+      this.updateScrollFrame();
+    });
+  }
+
+  measureScrollLayout(currentScrollY){
+    const el = this.methodRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    this._methodTop = r.top + currentScrollY;
+    this._methodH = r.height;
+    this._needsScrollMeasure = false;
+  }
+
+  updateScrollFrame(){
+    const currentScroller = this.scroller || window;
+    const currentScrollY = currentScroller === window ? (window.pageYOffset || document.documentElement.scrollTop || 0) : currentScroller.scrollTop;
+    const currentVh = currentScroller === window ? window.innerHeight : currentScroller.clientHeight;
+    if (this._needsScrollMeasure) this.measureScrollLayout(currentScrollY);
+
+    if (!this.reduceMotion){
+      const pp = Math.max(0, Math.min(1, currentScrollY / Math.max(1, currentVh)));
+      if (Math.abs(pp - (this._pp || 0)) > 0.001) {
+        this._pp = pp;
+        this.applyParallax();
+      }
+    }
+
+    const nextState = {};
+    if (Math.abs(currentScrollY - (this.state.scrollY || 0)) > 2) nextState.scrollY = currentScrollY;
+    if (this.state.vh !== currentVh) nextState.vh = currentVh;
+    if (this._methodTop != null && this.state.methodTop !== this._methodTop) nextState.methodTop = this._methodTop;
+    if (this._methodH != null && this.state.methodH !== this._methodH) nextState.methodH = this._methodH;
+    const sv2 = this.statsRef.current;
+    if (sv2) {
+      const nextShowNav = sv2.getBoundingClientRect().top <= 64;
+      if (this.state.showNav !== nextShowNav) nextState.showNav = nextShowNav;
+    }
+    if (Object.keys(nextState).length) this.setState(nextState);
   }
 
   componentDidUpdate(){
@@ -1280,37 +1327,13 @@ class Component extends DCLogic {
 
   componentDidMount(){
     this.reduceMotion = (typeof window !== 'undefined' && window.matchMedia) ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
-    this.onScroll = () => {
-      // Parallax Osmo: capas a distinta velocidad (respeta prefers-reduced-motion).
-      // Lee el scroll del contenedor real (window o ancestro scrolleable del runtime).
-      if (!this.reduceMotion){
-        const sc = this.scroller || window;
-        const sy = (sc === window) ? (window.pageYOffset || document.documentElement.scrollTop || 0) : sc.scrollTop;
-        const vh = (sc === window) ? window.innerHeight : sc.clientHeight;
-        this._pp = Math.max(0, Math.min(1, sy / Math.max(1, vh)));
-        this.applyParallax();
-      }
-
-      const currentScroller = this.scroller || window;
-      const currentScrollY = currentScroller === window ? (window.pageYOffset || document.documentElement.scrollTop || 0) : currentScroller.scrollTop;
-      const currentVh = currentScroller === window ? window.innerHeight : currentScroller.clientHeight;
-      const st = { scrollY: currentScrollY, vh: currentVh };
-      // Navbar: aparece al entrar al módulo "El problema que resolvemos" y queda visible hacia abajo.
-      const sv2 = this.statsRef.current;
-      if (sv2) st.showNav = sv2.getBoundingClientRect().top <= 64;
-      const el = this.methodRef.current;
-      if (el){
-        const r = el.getBoundingClientRect();
-        st.methodTop = r.top + currentScrollY;
-        st.methodH = r.height;
-      }
-      this.setState(st);
-
-    };
+    this._needsScrollMeasure = true;
+    this.onScroll = () => this.scheduleScroll();
     this.scroller = this.getScroller();
     this.scroller.addEventListener('scroll', this.onScroll, { passive: true });
     if (this.scroller !== window) window.addEventListener('scroll', this.onScroll, { passive: true });
-    window.addEventListener('resize', this.onScroll);
+    this.onResize = () => { this._needsScrollMeasure = true; this.scheduleScroll(); };
+    window.addEventListener('resize', this.onResize);
     this.onScroll();
     // Re-detecta el scroller cuando ya cargó el layout/imágenes y re-aplica.
     setTimeout(() => {
@@ -1320,6 +1343,7 @@ class Component extends DCLogic {
         if (prev && prev.addEventListener) prev.removeEventListener('scroll', this.onScroll);
         this.scroller.addEventListener('scroll', this.onScroll, { passive: true });
       }
+      this._needsScrollMeasure = true;
       this.onScroll();
     }, 120);
 
@@ -1562,7 +1586,8 @@ class Component extends DCLogic {
   componentWillUnmount(){
     if (this.scroller && this.scroller.removeEventListener) this.scroller.removeEventListener('scroll', this.onScroll);
     window.removeEventListener('scroll', this.onScroll);
-    window.removeEventListener('resize', this.onScroll);
+    if (this.onResize) window.removeEventListener('resize', this.onResize);
+    if (this._scrollRaf && window.cancelAnimationFrame) window.cancelAnimationFrame(this._scrollRaf);
     if (this.revObs) this.revObs.disconnect();
     if (this.projObs) this.projObs.disconnect();
     if (this.projTimer) clearInterval(this.projTimer);
