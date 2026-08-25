@@ -1806,6 +1806,7 @@ class Component extends DCLogic {
     unlock();
     pl.classList.add('is-gone');
     if(pl.parentNode) pl.parentNode.removeChild(pl);
+    document.dispatchEvent(new Event('reac:preloader-finished'));
   }
 
   function finish(){

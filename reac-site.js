@@ -65,6 +65,21 @@
     });
   }
 
+  function mountConsentAfterPreloader() {
+    if (!document.getElementById('reac-preloader')) {
+      mountConsent();
+      return;
+    }
+    var mounted = false;
+    function show() {
+      if (mounted) return;
+      mounted = true;
+      mountConsent();
+    }
+    document.addEventListener('reac:preloader-finished', show, { once: true });
+    window.setTimeout(show, 7000);
+  }
+
   function setFormState(form, state, message) {
     var button = form.querySelector('[data-submit-button]');
     var status = form.querySelector('[data-form-status]');
@@ -178,7 +193,7 @@
   }
 
   function init() {
-    mountConsent();
+    mountConsentAfterPreloader();
     bindContactForm();
     bindNewsletterForm();
     bindLinkTracking();
