@@ -427,8 +427,7 @@
     .proj-fact p{margin:0; color:#858BA7; font-size:13px; line-height:1.52;}
     .proj-fact-status{border-left-color:#FA6B42;}
     .proj-fact-status p{color:#B8BDD0;}
-    .proj-case-footer{display:flex; align-items:center; justify-content:space-between; gap:18px; margin-top:28px; padding-top:18px; border-top:1px solid rgba(255,255,255,.12);}
-    .proj-delivery{max-width:230px; color:#777E9B; font-size:12px; line-height:1.45;}
+    .proj-case-footer{display:flex; align-items:center; justify-content:flex-end; gap:18px; margin-top:28px; padding-top:18px; border-top:1px solid rgba(255,255,255,.12);}
     .proj-case-footer .proj-cta{display:inline-flex; align-items:center; justify-content:center; gap:8px; flex:none; padding:11px 16px; border:0; border-radius:999px; background:linear-gradient(135deg,#FA3601,#F0430A); color:#FDFCFE; font-family:inherit; font-size:13px; font-weight:700; text-decoration:none;}
     @media(max-width:980px){.proj-side-arrow{display:none !important;}}
     @media(max-width:680px){
@@ -443,7 +442,6 @@
       .proj-facts{grid-template-columns:1fr; gap:15px;}
       .proj-fact{padding-left:12px;}
       .proj-case-footer{align-items:stretch; flex-direction:column; gap:14px; margin-top:22px;}
-      .proj-delivery{max-width:none;}
       .proj-case-footer .proj-cta{justify-content:center; width:100%;}
       .proj-dot{height:8px;}
     }
@@ -976,7 +974,7 @@
                       <div class="proj-fact"><span>Alcance documentado</span><p>{{ p.scope }}</p></div>
                       <div class="proj-fact proj-fact-status"><span>Tipo</span><p>{{ p.kind }}</p></div>
                     </div>
-                    <div class="proj-case-footer"><span class="proj-delivery">Sin métricas publicadas hasta contar con datos verificables.</span><a class="proj-cta" data-cta="project_contact" tabindex="{{ p.tabIndex }}" href="#contacto">Consultar este proyecto <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div>
+                    <div class="proj-case-footer"><a class="proj-cta" data-cta="project_contact" tabindex="{{ p.tabIndex }}" href="#contacto">Consultar este proyecto <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div>
                   </div>
                 </article>
               </div>
