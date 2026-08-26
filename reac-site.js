@@ -3,7 +3,7 @@
 
   var CONFIG = {
     analyticsId: 'G-8VJDB377CE',
-    formEndpoint: 'FORM_ENDPOINT',
+    formEndpoint: 'https://formspree.io/f/xqpzryde',
     productionHosts: ['reacstudio.com', 'www.reacstudio.com', 'reacs-studio.vercel.app']
   };
   var CONSENT_KEY = 'reac_analytics_consent';

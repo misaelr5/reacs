@@ -54,7 +54,7 @@ Se conserva el tratamiento visual aprobado —capas, filtros, opacidades y secue
 
 ## Configuración pendiente
 
-Antes de producción hay que reemplazar `FORM_ENDPOINT` en `reac-site.js` por el endpoint real de Formspree y probar la recepción de mensajes. También deben completarse los datos legales de la política de privacidad y configurar el DNS del dominio oficial.
+El formulario de contacto y el newsletter usan el endpoint de Formspree configurado en `reac-site.js`. Después de publicar, conviene hacer un envío real desde producción y confirmar la recepción en el email destino. También deben completarse los datos legales de la política de privacidad y configurar el DNS del dominio oficial.
 
 ## Deploy en Vercel
 
