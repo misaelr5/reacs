@@ -18,8 +18,7 @@ Sitio web estático de Reac Studio para presentar servicios de marketing digital
 - `reac-site.css`: estilos compartidos, responsive, accesibilidad y performance.
 - `reac-site.js`: consentimiento, analytics, formularios y eventos de conversión.
 - `support.js`: runtime del sitio.
-- `scripts/fix-parallax.py`: inyección idempotente del ajuste de viewport del parallax.
-- `vercel.json`: build, rewrite de `/gracias` y headers básicos.
+- `vercel.json`: salida estática, rewrite de `/gracias` y headers básicos.
 
 Cuando una modificación afecta el markup visible, actualizar ambos HTML principales y verificar que no queden divergencias accidentales.
 
@@ -39,18 +38,16 @@ El sitio funciona como archivos estáticos; no se requiere instalar dependencias
 
 ```powershell
 node --check reac-site.js
-python -m py_compile scripts/fix-parallax.py
-python scripts/fix-parallax.py
 git diff --check
 ```
 
 Para una revisión visual, probar al menos 390 px y 1440 px de ancho, teclado, `prefers-reduced-motion`, formularios y el desplazamiento completo hasta el footer.
 
-## Parallax y performance
+## Escena Digital Systems y performance
 
-El parallax usa un único ciclo `requestAnimationFrame` por frame de scroll y evita renders redundantes cuando el estado visual no cambió. Las mediciones de layout se hacen sólo cuando cambia el viewport o se detecta el contenedor scrolleable.
+La escena de cables LED usa SVG Bézier multicapa, CSS y un único ciclo `requestAnimationFrame` por frame de scroll. Los planos de fondo, medio y primer plano se mueven mediante `transform`, sin dependencias 3D ni renders React por cada píxel.
 
-Se conserva el tratamiento visual aprobado —capas, filtros, opacidades y secuencia de desplazamiento— tanto en desktop como en mobile. La reducción de costo viene del scheduling y de evitar mediciones y renders innecesarios, sin esconder capas ni alterar la estética. También respeta `prefers-reduced-motion`.
+En mobile se reduce la cantidad de cables y el costo de los filtros. La composición mantiene contenido legible y respeta `prefers-reduced-motion`.
 
 ## Configuración pendiente
 
@@ -62,7 +59,6 @@ El proyecto usa:
 
 ```json
 {
-  "buildCommand": "python scripts/fix-parallax.py",
   "outputDirectory": "."
 }
 ```
@@ -71,4 +67,4 @@ El build no debe borrar ni regenerar assets sin verificar sus referencias. `/gra
 
 ## Estado
 
-La rama de trabajo contiene las mejoras de SEO, responsive, accesibilidad, conversión, analytics, carrusel de proyectos, equipo y performance del parallax. Los bloqueadores externos —Formspree, DNS, datos legales y deploy final— deben resolverse antes de considerar el sitio listo para producción.
+La rama de trabajo contiene las mejoras de SEO, responsive, accesibilidad, conversión, analytics, carrusel de proyectos, equipo y la escena de infraestructura digital. Los bloqueadores externos —DNS y datos legales— deben resolverse antes de considerar el sitio listo para producción.

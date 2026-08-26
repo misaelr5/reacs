@@ -181,43 +181,6 @@
   }
 </style>
 
-<style id="reac-parallax-viewport-fix">
-  html, body {
-    margin: 0 !important;
-    padding: 0 !important;
-    max-width: 100% !important;
-    overflow-x: hidden !important;
-  }
-
-  #top[data-screen-label="Parallax"] {
-    width: 100vw !important;
-    max-width: none !important;
-    margin-left: calc(50% - 50vw) !important;
-    margin-right: calc(50% - 50vw) !important;
-    overflow: hidden !important;
-    isolation: isolate;
-  }
-
-  #top[data-screen-label="Parallax"] > div:first-child,
-  #top[data-screen-label="Parallax"] > div:first-child > div:first-child {
-    width: 100% !important;
-    max-width: none !important;
-  }
-
-  #top[data-screen-label="Parallax"] img {
-    left: 50% !important;
-    width: max(100vw, 177.78vh) !important;
-    max-width: none !important;
-    height: auto !important;
-  }
-
-  @media (max-width: 700px) {
-    #top[data-screen-label="Parallax"] img {
-      width: max(100vw, 135vh) !important;
-    }
-  }
-</style>
-
 </head>
 <body>
 <!-- ===== Preloader · pantalla de carga (hermano del root dc, no lo toca el hydrate de React) ===== -->
@@ -244,12 +207,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&amp;display=swap" rel="stylesheet">
   <style>
     *{box-sizing:border-box;}
-    html,body{margin:0;padding:0;background:#070712;}
+    html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden;background:#070712;}
     body{-webkit-font-smoothing:antialiased;}
     ::selection{background:#1F27EB;color:#FDFCFE;}
     @keyframes beamMove{0%{left:-18%;opacity:0;}12%{opacity:1;}88%{opacity:1;}100%{left:118%;opacity:0;}}
     @keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-16px);}}
-    @keyframes floatBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
     /* Easing maestro: expo-out, desaceleración larga y sedosa (sin blur, con profundidad 3D) */
     @keyframes heroInRight{0%{opacity:0; transform:perspective(1400px) translateX(96px) translateY(26px) rotateY(-11deg) scale(.9);}100%{opacity:1; transform:perspective(1400px) translateX(0) translateY(0) rotateY(0deg) scale(1);}}
     @keyframes heroReveal{0%{opacity:0; clip-path:inset(0 0 100% 0); transform:translateY(22px);}100%{opacity:1; clip-path:inset(0 0 0 0); transform:translateY(0);}}
@@ -397,6 +359,68 @@
     a:focus-visible, button:focus-visible, [tabindex]:focus-visible{outline:2px solid #6E74FF; outline-offset:3px; border-radius:6px;}
     html{scroll-behavior:smooth;}
     @media (prefers-reduced-motion: reduce){ [data-motion] *{animation-play-state:paused !important;} html{scroll-behavior:auto !important;} }
+    /* ===== Digital systems · escena de cables de datos ===== */
+    .ds-scene{--ds-far-x:0px;--ds-far-y:0px;--ds-far-scale:1;--ds-mid-x:0px;--ds-mid-y:0px;--ds-mid-scale:1;--ds-near-x:0px;--ds-near-y:0px;--ds-near-scale:1;--ds-copy-y:0px;--ds-copy-opacity:1;position:relative;min-height:100vh;min-height:100svh;overflow:hidden;isolation:isolate;background:#030303;color:#FDFCFE;contain:layout paint;}
+    .ds-scene::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 72% 56% at 76% 54%,rgba(250,54,1,.09),transparent 68%),radial-gradient(ellipse 46% 42% at 10% 88%,rgba(250,54,1,.07),transparent 72%),linear-gradient(180deg,#030303 0%,#050505 72%,#070712 100%);}
+    .ds-scene::after{content:"";position:absolute;inset:0;z-index:8;pointer-events:none;background:linear-gradient(180deg,rgba(3,3,3,.58) 0%,transparent 18%,transparent 72%,#070712 100%);}
+    .ds-atmosphere{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+    .ds-ambient{position:absolute;border-radius:50%;opacity:.55;transform:translate3d(0,0,0);animation:dsAmbient 6.8s ease-in-out infinite;}
+    .ds-ambient--a{right:-6%;top:18%;width:44vw;height:44vw;background:radial-gradient(circle,rgba(250,54,1,.16),rgba(250,54,1,.035) 38%,transparent 70%);}
+    .ds-ambient--b{left:-12%;bottom:-24%;width:50vw;height:50vw;background:radial-gradient(circle,rgba(255,91,37,.12),transparent 68%);animation-delay:-2.4s;}
+    .ds-layer{position:absolute;inset:-8%;width:116%;height:116%;pointer-events:none;transform-origin:64% 48%;will-change:transform;}
+    .ds-layer svg{display:block;width:100%;height:100%;overflow:visible;}
+    .ds-layer--far{z-index:1;opacity:.62;transform:translate3d(var(--ds-far-x),var(--ds-far-y),0) scale(var(--ds-far-scale));}
+    .ds-layer--mid{z-index:2;transform:translate3d(var(--ds-mid-x),var(--ds-mid-y),0) scale(var(--ds-mid-scale));}
+    .ds-layer--near{z-index:5;inset:-12%;width:124%;height:124%;transform-origin:48% 62%;transform:translate3d(var(--ds-near-x),var(--ds-near-y),0) scale(var(--ds-near-scale));mix-blend-mode:screen;}
+    .ds-tube{fill:none;stroke-linecap:round;stroke-linejoin:round;}
+    .ds-tube-glow{stroke:#FA3601;stroke-width:var(--halo);opacity:var(--glow-opacity);filter:url(#ds-glow-soft);}
+    .ds-tube-shell{stroke:url(#ds-orange);stroke-width:var(--tube);opacity:var(--tube-opacity);}
+    .ds-tube-core{stroke:url(#ds-core);stroke-width:var(--core);opacity:.96;}
+    .ds-tube-energy{stroke:url(#ds-energy);stroke-width:var(--energy);opacity:.9;stroke-dasharray:180 1180;animation:dsEnergy var(--energy-speed) linear infinite;filter:url(#ds-glow-tight);}
+    .ds-tube--far{--halo:20;--tube:6;--core:1.7;--energy:2.4;--glow-opacity:.22;--tube-opacity:.54;--energy-speed:9s;}
+    .ds-tube--far-b{--halo:14;--tube:4;--core:1.2;--energy:1.8;--glow-opacity:.16;--tube-opacity:.42;--energy-speed:12s;}
+    .ds-tube--mid{--halo:42;--tube:14;--core:3.8;--energy:5;--glow-opacity:.3;--tube-opacity:.9;--energy-speed:6.2s;}
+    .ds-tube--mid-b{--halo:30;--tube:10;--core:3;--energy:4;--glow-opacity:.24;--tube-opacity:.74;--energy-speed:7.8s;}
+    .ds-tube--near{--halo:74;--tube:25;--core:7;--energy:8;--glow-opacity:.34;--tube-opacity:.93;--energy-speed:4.8s;}
+    .ds-tube--near-b{--halo:52;--tube:17;--core:5;--energy:6;--glow-opacity:.28;--tube-opacity:.84;--energy-speed:5.7s;}
+    .ds-node{fill:#FFF4EE;stroke:#FA3601;stroke-width:4;filter:url(#ds-glow-tight);animation:dsNode 3.4s ease-in-out infinite;}
+    .ds-node-ring{fill:none;stroke:rgba(250,54,1,.5);stroke-width:2;transform-box:fill-box;transform-origin:center;animation:dsNodeRing 3.4s ease-out infinite;}
+    .ds-shell{position:relative;z-index:3;width:min(1400px,100%);min-height:100vh;min-height:100svh;margin:0 auto;padding:clamp(92px,10vh,128px) clamp(24px,6vw,94px) clamp(82px,9vh,112px);display:grid;grid-template-rows:auto 1fr auto;}
+    .ds-topline{display:flex;align-items:center;justify-content:space-between;gap:20px;color:#A6A6A6;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;opacity:0;animation:dsReveal .9s cubic-bezier(.16,1,.3,1) .15s forwards;}
+    .ds-topline span:first-child{display:inline-flex;align-items:center;gap:12px;}
+    .ds-topline span:first-child::before{content:"";width:34px;height:1px;background:#FA3601;box-shadow:0 0 12px rgba(250,54,1,.7);}
+    .ds-main{align-self:center;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.6fr);align-items:end;gap:clamp(36px,6vw,100px);transform:translate3d(0,var(--ds-copy-y),0);opacity:var(--ds-copy-opacity);will-change:transform,opacity;}
+    .ds-headline{position:relative;z-index:3;margin:0;max-width:930px;font-size:clamp(52px,7.7vw,126px);font-weight:900;line-height:.83;letter-spacing:-.065em;text-transform:uppercase;}
+    .ds-headline-line{display:block;overflow:hidden;}
+    .ds-headline-line > span{display:block;transform:translateY(115%);animation:dsHeadline 1.15s cubic-bezier(.16,1,.3,1) forwards;}
+    .ds-headline-line:nth-child(2)>span{animation-delay:.1s;}
+    .ds-headline-line:nth-child(3)>span{animation-delay:.24s;margin-top:.18em;}
+    .ds-headline-line:nth-child(4)>span{animation-delay:.34s;}
+    .ds-headline-accent{color:#FA3601;text-shadow:0 0 32px rgba(250,54,1,.22);}
+    .ds-detail{position:relative;z-index:6;max-width:420px;margin-bottom:.55em;padding:24px 0 4px;border-top:1px solid rgba(255,255,255,.18);opacity:0;transform:translateY(28px);animation:dsReveal 1s cubic-bezier(.16,1,.3,1) .55s forwards;}
+    .ds-detail p{margin:0 0 26px;color:#B9B9BE;font-size:clamp(15px,1.3vw,18px);line-height:1.62;}
+    .ds-cta{display:inline-flex;align-items:center;gap:13px;color:#FDFCFE;text-decoration:none;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:14px 0;border-bottom:1px solid rgba(250,54,1,.62);transition:color .25s ease,gap .25s ease,border-color .25s ease;}
+    .ds-cta span{color:#FA3601;font-size:17px;line-height:1;}
+    .ds-cta:hover{color:#FF7A4D;gap:18px;border-color:#FA3601;}
+    .ds-bottomline{position:relative;z-index:6;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;color:#777980;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;}
+    .ds-tags{display:flex;gap:22px;flex-wrap:wrap;}
+    .ds-status{display:inline-flex;align-items:center;gap:9px;}
+    .ds-status::before{content:"";width:6px;height:6px;border-radius:50%;background:#FA3601;box-shadow:0 0 12px #FA3601;animation:dsStatus 2.6s ease-in-out infinite;}
+    .ds-label{position:absolute;z-index:6;color:rgba(255,255,255,.48);font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;pointer-events:none;}
+    .ds-label::before{content:"";position:absolute;right:calc(100% + 9px);top:50%;width:18px;height:1px;background:rgba(250,54,1,.55);}
+    .ds-label--web{top:24%;right:18%;}.ds-label--ai{top:42%;right:8%;}.ds-label--data{bottom:26%;left:48%;}.ds-label--auto{bottom:17%;right:24%;}
+    @keyframes dsEnergy{to{stroke-dashoffset:-1360;}}
+    @keyframes dsAmbient{0%,100%{opacity:.36;transform:scale(.96)}50%{opacity:.62;transform:scale(1.04)}}
+    @keyframes dsHeadline{to{transform:translateY(0)}}
+    @keyframes dsReveal{to{opacity:1;transform:translateY(0)}}
+    @keyframes dsNode{0%,100%{opacity:.6}50%{opacity:1}}
+    @keyframes dsNodeRing{0%{opacity:.8;transform:scale(.35)}100%{opacity:0;transform:scale(2.4)}}
+    @keyframes dsStatus{0%,100%{opacity:.45}50%{opacity:1}}
+    @media(max-width:1024px){.ds-shell{padding-left:5vw;padding-right:5vw}.ds-main{grid-template-columns:1fr .55fr;gap:40px}.ds-headline{font-size:clamp(50px,8vw,88px)}.ds-label--ai,.ds-label--data{display:none}.ds-layer{inset:-4%;width:108%;height:108%}.ds-layer--near{inset:-8%;width:116%;height:116%}}
+    @media(max-width:760px){.ds-scene{min-height:100svh}.ds-shell{padding:88px 22px 68px;grid-template-rows:auto 1fr auto}.ds-topline span:last-child{display:none}.ds-main{align-self:center;grid-template-columns:1fr;align-items:start;gap:34px}.ds-headline{font-size:clamp(47px,14vw,72px);line-height:.87;letter-spacing:-.06em}.ds-detail{max-width:360px;margin:0;padding-top:18px}.ds-detail p{font-size:15px;margin-bottom:18px}.ds-bottomline{align-items:flex-start;flex-direction:column;gap:12px}.ds-tags{gap:14px}.ds-layer--far .ds-hide-mobile,.ds-layer--mid .ds-hide-mobile,.ds-tube--near-b{display:none}.ds-layer--far{opacity:.46}.ds-layer--near{inset:-4% -34%;width:168%;height:108%}.ds-label{display:none}}
+    @media(max-width:430px){.ds-shell{padding-top:82px;padding-bottom:58px}.ds-headline{font-size:clamp(43px,13.5vw,58px)}.ds-detail p{max-width:330px}.ds-tags span:nth-child(4){display:none}.ds-tube--mid{--halo:34;--tube:11;--core:3;--energy:4}.ds-tube--near{--halo:58;--tube:20;--core:5.5;--energy:6}}
+    @media(prefers-reduced-motion:reduce){.ds-scene{--ds-far-x:0px!important;--ds-far-y:0px!important;--ds-far-scale:1!important;--ds-mid-x:0px!important;--ds-mid-y:0px!important;--ds-mid-scale:1!important;--ds-near-x:0px!important;--ds-near-y:0px!important;--ds-near-scale:1!important;--ds-copy-y:0px!important;--ds-copy-opacity:1!important}.ds-layer,.ds-main{transform:none!important}.ds-tube-energy,.ds-ambient,.ds-node,.ds-node-ring,.ds-status::before{animation:none!important}.ds-topline,.ds-detail{opacity:1!important;transform:none!important;animation:none!important}.ds-headline-line>span{transform:none!important;animation:none!important}}
+
     /* ===== Proyectos (slider) ===== */
     .proj-viewport{overflow:hidden;}
     .proj-track{display:flex; transition:transform .6s cubic-bezier(.22,1,.36,1); will-change:transform;}
@@ -511,23 +535,66 @@
   <!-- ===== CONTENIDO (capa opaca que revela el footer al final) ===== -->
   <div style="position:relative; z-index:1; background:#070712;">
 
-  <!-- ===== PARALLAX HERO (Osmo · repo paralaxx-reacs) ===== -->
-  <section id="top" data-screen-label="Parallax" style="position:relative; display:flex; height:100vh; min-height:600px; overflow:hidden; background:radial-gradient(ellipse 75% 55% at 50% 8%, rgba(46,55,255,.38) 0%, rgba(23,16,165,.12) 40%, transparent 62%), radial-gradient(ellipse 95% 60% at 50% 100%, rgba(250,54,1,.32) 0%, rgba(240,67,10,.1) 40%, transparent 62%), radial-gradient(ellipse 60% 32% at 50% 46%, rgba(124,58,237,.3) 0%, transparent 65%), #070712;">
-    <div style="position:absolute; inset:0; overflow:hidden;">
-      <div style="position:absolute; inset:0; width:100%; height:100%;">
-        <img ref="{{ p1Ref }}" src="https://cdn.prod.website-files.com/671752cd4027f01b1b8f1c7f/6717795be09b462b2e8ebf71_osmo-parallax-layer-3.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; opacity:.8; filter:grayscale(1) brightness(.85) sepia(1) hue-rotate(195deg) saturate(2.4) contrast(.98); will-change:transform;">
-        <img ref="{{ p2Ref }}" src="https://cdn.prod.website-files.com/671752cd4027f01b1b8f1c7f/6717795b4d5ac529e7d3a562_osmo-parallax-layer-2.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; filter:grayscale(1) brightness(.62) sepia(1) hue-rotate(190deg) saturate(3.2) contrast(1.05); will-change:transform;">
-        <div ref="{{ pTitleRef }}" style="position:absolute; top:38%; left:50%; transform:translate(-50%,-50%); width:100%; text-align:center; z-index:3; will-change:transform;">
-          <div aria-hidden="true" style="margin:0; font-family:'Pinyon Script', cursive; font-weight:400; line-height:.9; letter-spacing:.01em; font-size:clamp(3.5rem,13vw,12rem); color:#FDFCFE; text-shadow:0 2px 30px rgba(5,5,9,.6), 0 0 70px rgba(46,55,255,.4), 0 0 120px rgba(124,58,237,.25);">Reac Studio</div>
-        </div>
-        <img ref="{{ p4Ref }}" src="uploads/hero-front.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; filter:grayscale(1) brightness(.62) sepia(1) hue-rotate(190deg) saturate(3.2) contrast(1.05); will-change:transform;">
-      </div>
-      <div style="position:absolute; inset:0; z-index:5; pointer-events:none; background:linear-gradient(to bottom, transparent 55%, rgba(7,7,18,.6) 80%, #070712 100%);"></div>
-      <div style="position:absolute; bottom:0; left:0; width:100%; height:2px; background:#070712; z-index:6;"></div>
+  <!-- ===== DIGITAL SYSTEMS · cables LED / infraestructura de datos ===== -->
+  <section id="top" ref="{{ systemsRef }}" class="ds-scene" data-screen-label="Digital Systems" aria-labelledby="ds-title">
+    <svg aria-hidden="true" width="0" height="0" style="position:absolute">
+      <defs>
+        <linearGradient id="ds-orange" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6D1600"></stop><stop offset=".25" stop-color="#FA3601"></stop><stop offset=".68" stop-color="#FF6A2F"></stop><stop offset="1" stop-color="#8B1D00"></stop></linearGradient>
+        <linearGradient id="ds-core" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FF7A4D"></stop><stop offset=".45" stop-color="#FFF5EF"></stop><stop offset=".58" stop-color="#FFD2C2"></stop><stop offset="1" stop-color="#FA3601"></stop></linearGradient>
+        <linearGradient id="ds-energy" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#FA3601" stop-opacity="0"></stop><stop offset=".46" stop-color="#FF8A61"></stop><stop offset=".54" stop-color="#FFFFFF"></stop><stop offset=".64" stop-color="#FA3601"></stop><stop offset="1" stop-color="#FA3601" stop-opacity="0"></stop></linearGradient>
+        <filter id="ds-glow-soft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="13"></feGaussianBlur></filter>
+        <filter id="ds-glow-tight" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="4" result="b"></feGaussianBlur><feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge></filter>
+      </defs>
+    </svg>
+
+    <div class="ds-atmosphere" aria-hidden="true"><span class="ds-ambient ds-ambient--a"></span><span class="ds-ambient ds-ambient--b"></span></div>
+
+    <div class="ds-layer ds-layer--far" aria-hidden="true">
+      <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+        <g class="ds-tube ds-tube--far">
+          <path class="ds-tube-glow" d="M-180 706 C 210 690 338 236 770 238 C 1125 240 1270 506 1770 124"></path><path class="ds-tube-shell" d="M-180 706 C 210 690 338 236 770 238 C 1125 240 1270 506 1770 124"></path><path class="ds-tube-core" d="M-180 706 C 210 690 338 236 770 238 C 1125 240 1270 506 1770 124"></path><path class="ds-tube-energy" d="M-180 706 C 210 690 338 236 770 238 C 1125 240 1270 506 1770 124"></path>
+        </g>
+        <g class="ds-tube ds-tube--far ds-tube--far-b ds-hide-mobile">
+          <path class="ds-tube-glow" d="M-80 420 C 300 382 460 612 802 506 S 1260 142 1700 250"></path><path class="ds-tube-shell" d="M-80 420 C 300 382 460 612 802 506 S 1260 142 1700 250"></path><path class="ds-tube-core" d="M-80 420 C 300 382 460 612 802 506 S 1260 142 1700 250"></path><path class="ds-tube-energy" d="M-80 420 C 300 382 460 612 802 506 S 1260 142 1700 250"></path>
+        </g>
+        <g class="ds-tube ds-tube--far ds-tube--far-b ds-hide-mobile">
+          <path class="ds-tube-glow" d="M260 980 C 360 660 590 746 832 584 C 1060 430 1090 182 1480 -80"></path><path class="ds-tube-shell" d="M260 980 C 360 660 590 746 832 584 C 1060 430 1090 182 1480 -80"></path><path class="ds-tube-core" d="M260 980 C 360 660 590 746 832 584 C 1060 430 1090 182 1480 -80"></path><path class="ds-tube-energy" d="M260 980 C 360 660 590 746 832 584 C 1060 430 1090 182 1480 -80"></path>
+        </g>
+      </svg>
     </div>
-    <div style="position:absolute; left:50%; bottom:34px; transform:translateX(-50%); z-index:7; display:flex; flex-direction:column; align-items:center; gap:9px;">
-      <span style="font-size:12px; letter-spacing:.22em; text-transform:uppercase; color:#868CA6; font-weight:600;">Scroll</span>
-      <svg viewBox="0 0 24 24" fill="none" style="width:22px; height:22px; color:#6E74FF; animation:floatBounce 1.8s ease-in-out infinite;"><path d="M19 14l-7 7m0 0l-7-7m7 7V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+
+    <div class="ds-layer ds-layer--mid" aria-hidden="true">
+      <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+        <g class="ds-tube ds-tube--mid">
+          <path class="ds-tube-glow" d="M-220 862 C 168 818 218 472 594 472 C 984 472 1004 782 1376 608 C 1518 542 1594 390 1776 332"></path><path class="ds-tube-shell" d="M-220 862 C 168 818 218 472 594 472 C 984 472 1004 782 1376 608 C 1518 542 1594 390 1776 332"></path><path class="ds-tube-core" d="M-220 862 C 168 818 218 472 594 472 C 984 472 1004 782 1376 608 C 1518 542 1594 390 1776 332"></path><path class="ds-tube-energy" d="M-220 862 C 168 818 218 472 594 472 C 984 472 1004 782 1376 608 C 1518 542 1594 390 1776 332"></path>
+        </g>
+        <g class="ds-tube ds-tube--mid ds-tube--mid-b ds-hide-mobile">
+          <path class="ds-tube-glow" d="M-160 250 C 224 144 454 358 710 314 C 972 268 1118 22 1740 90"></path><path class="ds-tube-shell" d="M-160 250 C 224 144 454 358 710 314 C 972 268 1118 22 1740 90"></path><path class="ds-tube-core" d="M-160 250 C 224 144 454 358 710 314 C 972 268 1118 22 1740 90"></path><path class="ds-tube-energy" d="M-160 250 C 224 144 454 358 710 314 C 972 268 1118 22 1740 90"></path>
+        </g>
+        <circle class="ds-node-ring" cx="1376" cy="608" r="18"></circle><circle class="ds-node" cx="1376" cy="608" r="6"></circle>
+      </svg>
+    </div>
+
+    <div class="ds-shell">
+      <div class="ds-topline"><span>Reac / Digital Systems</span><span>01 — Infrastructure</span></div>
+      <div class="ds-main">
+        <h2 id="ds-title" class="ds-headline"><span class="ds-headline-line"><span>No hacemos</span></span><span class="ds-headline-line"><span>solo webs.</span></span><span class="ds-headline-line"><span>Construimos</span></span><span class="ds-headline-line"><span class="ds-headline-accent">sistemas.</span></span></h2>
+        <div class="ds-detail"><p>Web, automatización e inteligencia artificial conectadas para crear sistemas que hacen crecer negocios.</p><a class="ds-cta" href="#servicios">Explorar servicios <span aria-hidden="true">→</span></a></div>
+      </div>
+      <div class="ds-bottomline"><div class="ds-tags"><span>Web</span><span>Automation</span><span>AI</span><span>Data</span></div><span class="ds-status">Data flow active</span></div>
+    </div>
+
+    <span class="ds-label ds-label--web" aria-hidden="true">Web</span><span class="ds-label ds-label--ai" aria-hidden="true">AI</span><span class="ds-label ds-label--data" aria-hidden="true">Data</span><span class="ds-label ds-label--auto" aria-hidden="true">Automation</span>
+
+    <div class="ds-layer ds-layer--near" aria-hidden="true">
+      <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+        <g class="ds-tube ds-tube--near">
+          <path class="ds-tube-glow" d="M-310 1010 C 40 748 332 846 536 1018 C 796 1236 1058 876 1276 742 C 1450 636 1624 698 1880 520"></path><path class="ds-tube-shell" d="M-310 1010 C 40 748 332 846 536 1018 C 796 1236 1058 876 1276 742 C 1450 636 1624 698 1880 520"></path><path class="ds-tube-core" d="M-310 1010 C 40 748 332 846 536 1018 C 796 1236 1058 876 1276 742 C 1450 636 1624 698 1880 520"></path><path class="ds-tube-energy" d="M-310 1010 C 40 748 332 846 536 1018 C 796 1236 1058 876 1276 742 C 1450 636 1624 698 1880 520"></path>
+        </g>
+        <g class="ds-tube ds-tube--near ds-tube--near-b">
+          <path class="ds-tube-glow" d="M1180 -180 C 1104 106 1288 278 1540 286 C 1680 290 1754 348 1850 474"></path><path class="ds-tube-shell" d="M1180 -180 C 1104 106 1288 278 1540 286 C 1680 290 1754 348 1850 474"></path><path class="ds-tube-core" d="M1180 -180 C 1104 106 1288 278 1540 286 C 1680 290 1754 348 1850 474"></path><path class="ds-tube-energy" d="M1180 -180 C 1104 106 1288 278 1540 286 C 1680 290 1754 348 1850 474"></path>
+        </g>
+      </svg>
     </div>
   </section>
 
@@ -1169,17 +1236,14 @@ class Component extends DCLogic {
     this.statsRef = React.createRef();
     this.projRef = React.createRef();
     this.dashRef = React.createRef();
-    this.p1Ref = React.createRef();
-    this.p2Ref = React.createRef();
-    this.pTitleRef = React.createRef();
-    this.p4Ref = React.createRef();
+    this.systemsRef = React.createRef();
     this.CAMP_MAX = 10;
     this.LEADS_MAX = 1000;
   }
 
   getScroller(){
     // El scroll puede ocurrir en window o en un contenedor del runtime; lo detectamos.
-    let node = this.p4Ref.current ? this.p4Ref.current.parentElement : null;
+    let node = this.systemsRef.current ? this.systemsRef.current.parentElement : null;
     while (node && node !== document.documentElement){
       let oy = '';
       try { oy = getComputedStyle(node).overflowY; } catch(e){}
@@ -1189,15 +1253,24 @@ class Component extends DCLogic {
     return window;
   }
 
-  applyParallax(){
+  applySystemsMotion(){
     if (this.reduceMotion) return;
     const pp = this._pp || 0;
     if (this._lastAppliedPp === pp) return;
     this._lastAppliedPp = pp;
-    if (this.p1Ref.current) this.p1Ref.current.style.transform = 'translate(-50%, ' + (70 * pp) + '%)';
-    if (this.p2Ref.current) this.p2Ref.current.style.transform = 'translate(-50%, ' + (55 * pp) + '%)';
-    if (this.pTitleRef.current) this.pTitleRef.current.style.transform = 'translate(-50%, calc(-50% + ' + (40 * pp) + '%))';
-    if (this.p4Ref.current) this.p4Ref.current.style.transform = 'translate(-50%, ' + (10 * pp) + '%)';
+    const scene = this.systemsRef.current;
+    if (!scene) return;
+    scene.style.setProperty('--ds-far-x', (-14 * pp).toFixed(2) + 'px');
+    scene.style.setProperty('--ds-far-y', (10 * pp).toFixed(2) + 'px');
+    scene.style.setProperty('--ds-far-scale', (1 + .012 * pp).toFixed(4));
+    scene.style.setProperty('--ds-mid-x', (18 * pp).toFixed(2) + 'px');
+    scene.style.setProperty('--ds-mid-y', (-8 * pp).toFixed(2) + 'px');
+    scene.style.setProperty('--ds-mid-scale', (1 + .024 * pp).toFixed(4));
+    scene.style.setProperty('--ds-near-x', (34 * pp).toFixed(2) + 'px');
+    scene.style.setProperty('--ds-near-y', (-18 * pp).toFixed(2) + 'px');
+    scene.style.setProperty('--ds-near-scale', (1 + .045 * pp).toFixed(4));
+    scene.style.setProperty('--ds-copy-y', (-10 * pp).toFixed(2) + 'px');
+    scene.style.setProperty('--ds-copy-opacity', Math.max(.82, 1 - pp * .16).toFixed(3));
   }
 
   scheduleScroll(){
@@ -1228,7 +1301,7 @@ class Component extends DCLogic {
       const pp = Math.max(0, Math.min(1, currentScrollY / Math.max(1, currentVh)));
       if (Math.abs(pp - (this._pp || 0)) > 0.001) {
         this._pp = pp;
-        this.applyParallax();
+        this.applySystemsMotion();
       }
     }
 
@@ -1246,9 +1319,9 @@ class Component extends DCLogic {
   }
 
   componentDidUpdate(){
-    // El runtime re-aplica el transform inline del template en cada render y pisa el
-    // parallax imperativo; lo re-aplicamos tras cada commit para que persista.
-    this.applyParallax();
+    // El runtime puede reescribir estilos del template; restauramos las variables
+    // de profundidad después de cada commit sin provocar renders por píxel.
+    this.applySystemsMotion();
   }
 
   componentDidMount(){
@@ -1701,10 +1774,7 @@ class Component extends DCLogic {
       statsRef: this.statsRef,
       projRef: this.projRef,
       dashRef: this.dashRef,
-      p1Ref: this.p1Ref,
-      p2Ref: this.p2Ref,
-      pTitleRef: this.pTitleRef,
-      p4Ref: this.p4Ref,
+      systemsRef: this.systemsRef,
       steps,
       faqs
     };
