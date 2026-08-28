@@ -232,23 +232,6 @@
     <div class="pl-logo">
       <div class="pl-ring pl-ring--1"></div>
       <div class="pl-ring pl-ring--2"></div>
-    </div>
-    <div class="pl-word">Reac Studio<b>.</b></div>
-    <div class="pl-bar"><div class="pl-fill"></div></div>
-    <div class="pl-meta"><span class="pl-status">Preparando tu experiencia</span><span class="pl-pct">0%</span></div>
-  </div>
-</div>
-<x-dc>
-<helmet>
-<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#070712"></rect><rect x="30" y="30" width="40" height="40" rx="10" fill="#1F27EB"></rect><circle cx="68" cy="68" r="9" fill="#FA3601"></circle></svg></template>
-  <link rel="preconnect" href="https://api.fontshare.com">
-  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&amp;display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&amp;display=swap" rel="stylesheet">
-  <style>
-    *{box-sizing:border-box;}
-    html,body{margin:0;padding:0;background:#070712;}
-    body{-webkit-font-smoothing:antialiased;}
-    ::selection{background:#1F27EB;color:#FDFCFE;}
     @keyframes beamMove{0%{left:-18%;opacity:0;}12%{opacity:1;}88%{opacity:1;}100%{left:118%;opacity:0;}}
     @keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-16px);}}
     @keyframes floatBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
@@ -1785,63 +1768,7 @@ class Component extends DCLogic {
 }
 </script>
 
-<!-- ===== Preloader · control de progreso y salida (independiente del runtime) ===== -->
-<script>
-(function(){
-  var pl = document.getElementById('reac-preloader');
-  if(!pl) return;
-  var fill = pl.querySelector('.pl-fill');
-  var pct  = pl.querySelector('.pl-pct');
 
-  var reduce = false;
-  try{ reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
-
-  var DURATION = reduce ? 450 : 3000; // "un poquito más lento": llenado pausado
-  var start = null, finished = false, removed = false;
-
-  function lock(){ try{ document.documentElement.style.overflow = 'hidden'; }catch(e){} }
-  function unlock(){ try{ document.documentElement.style.overflow = ''; }catch(e){} }
-  lock();
-
-  function easeOut(t){ return 1 - Math.pow(1 - t, 3); }
-
-  function remove(){
-    if(removed) return; removed = true;
-    unlock();
-    pl.classList.add('is-gone');
-    if(pl.parentNode) pl.parentNode.removeChild(pl);
-    document.dispatchEvent(new Event('reac:preloader-finished'));
-  }
-
-  function finish(){
-    if(finished) return; finished = true;
-    if(fill) fill.style.width = '100%';
-    if(pct) pct.textContent = '100%';
-    if(reduce){
-      pl.classList.add('is-fade');
-      setTimeout(remove, 600);
-      return;
-    }
-    pl.classList.add('is-leaving');                 // el logo/barra se desvanecen y escalan
-    setTimeout(function(){ pl.classList.add('is-curtain'); }, 360); // luego sube el telón
-    setTimeout(remove, 360 + 1000);
-  }
-
-  function tick(now){
-    if(start === null) start = now;
-    var t = Math.min(1, (now - start) / DURATION);
-    var v = Math.round(easeOut(t) * 100);
-    if(fill) fill.style.width = v + '%';
-    if(pct) pct.textContent = v + '%';
-    if(t < 1){ requestAnimationFrame(tick); }
-    else { setTimeout(finish, reduce ? 60 : 240); }
-  }
-  requestAnimationFrame(tick);
-
-  // Red de seguridad: si rAF/transiciones se cuelgan, igual se cierra.
-  setTimeout(remove, DURATION + 4000);
-})();
-</script>
 
 </body>
 </html>
