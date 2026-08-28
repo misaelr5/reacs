@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
-<head><!-- Google Analytics 4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8VJDB377CE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-8VJDB377CE');
-</script>
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/reac-site.css">
+<script defer src="/reac-site.js"></script>
 
 <!-- ===== SEO / Primary meta ===== -->
 <title>Reac Studio — Tu marketing, tu web y tus automatizaciones. Un solo equipo.</title>
-<meta name="description" content="Nosotros nos ocupamos de todo tu ecosistema digital —marketing, web y automatización con IA— para que vos te enfoques en hacer crecer tu negocio. Sin coordinar varios proveedores ni pelearte con lo técnico. Pedí tu diagnóstico gratis.">
+<meta name="description" content="Marketing, web y automatización con IA para ordenar tu ecosistema digital, atraer consultas y hacer crecer tu negocio. Pedí tu diagnóstico gratis.">
 <meta name="author" content="Reac Studio">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#070712">
@@ -44,20 +39,35 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "Reac Studio",
-  "description": "Estudio digital todo en uno: marketing, desarrollo web y automatización con IA. Un solo equipo se ocupa de todo tu ecosistema digital para que te enfoques en tu negocio.",
-  "areaServed": "AR",
-  "knowsLanguage": "es",
-  "url": "https://reacstudio.com/",
-  "telephone": ["+543544434403", "+543544581671"],
-  "email": "ledesma.rme@gmail.com",
-  "address": {
-    "@type": "PostalAddress",
-    "addressCountry": "AR",
-    "addressRegion": "Córdoba"
-  },
-  "comment_TODO_redes": "Cuando tengas Instagram/LinkedIn agregalas asi: sameAs: [https://www.instagram.com/TU-USUARIO]"
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://reacstudio.com/#organization",
+      "name": "Reac Studio",
+      "url": "https://reacstudio.com/",
+      "logo": "https://reacstudio.com/og-image.png",
+      "description": "Estudio digital de marketing, desarrollo web y automatización con IA.",
+      "email": "ledesma.rme@gmail.com"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://reacstudio.com/#website",
+      "url": "https://reacstudio.com/",
+      "name": "Reac Studio",
+      "publisher": { "@id": "https://reacstudio.com/#organization" },
+      "inLanguage": "es-AR"
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://reacstudio.com/#webpage",
+      "url": "https://reacstudio.com/",
+      "name": "Reac Studio — Marketing, web y automatizaciones",
+      "description": "Marketing, desarrollo web y automatización con IA para ordenar el ecosistema digital de negocios.",
+      "isPartOf": { "@id": "https://reacstudio.com/#website" },
+      "about": { "@id": "https://reacstudio.com/#organization" },
+      "inLanguage": "es-AR"
+    }
+  ]
 }
 </script>
 
@@ -79,8 +89,8 @@
     },
     {
       "@type": "Question",
-      "name": "¿Cuánto cuesta?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Cada servicio se cobra distinto: Marketing Digital es una gestión mensual desde US$150/mes (la inversión en anuncios de Meta/Google va aparte). Desarrollo Web (desde US$200) y Automatizaciones con IA (desde US$250) son pago único por proyecto. El mantenimiento de web y automatizaciones es un servicio mensual opcional, aparte, que no está incluido por defecto. El precio final depende del alcance, que definimos juntos en el diagnóstico." }
+      "name": "¿Cuánto cuesta y cómo se cobra?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Cada servicio se cobra distinto. Marketing Digital es una gestión mensual desde USD 150/mes (la inversión en anuncios de Meta/Google la ponés vos, aparte). Desarrollo Web (desde USD 200) y Automatizaciones con IA (desde USD 250) son pago único por proyecto. El mantenimiento de web y automatizaciones es un servicio mensual opcional y no está incluido por defecto. El precio final depende del alcance, que definimos juntos en el diagnóstico." }
     },
     {
       "@type": "Question",
@@ -239,7 +249,6 @@
     @keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-16px);}}
     @keyframes floatBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
     /* Easing maestro: expo-out, desaceleración larga y sedosa (sin blur, con profundidad 3D) */
-    @keyframes heroInLeft{from{opacity:0; transform:translateX(-78px);}to{opacity:1; transform:translateX(0);}}
     @keyframes heroInRight{0%{opacity:0; transform:perspective(1400px) translateX(96px) translateY(26px) rotateY(-11deg) scale(.9);}100%{opacity:1; transform:perspective(1400px) translateX(0) translateY(0) rotateY(0deg) scale(1);}}
     @keyframes heroReveal{0%{opacity:0; clip-path:inset(0 0 100% 0); transform:translateY(22px);}100%{opacity:1; clip-path:inset(0 0 0 0); transform:translateY(0);}}
     @keyframes heroPop{0%{opacity:0; transform:translateY(40px) scale(.8);}55%{opacity:1; transform:translateY(-8px) scale(1.055);}100%{opacity:1; transform:translateY(0) scale(1);}}
@@ -260,7 +269,6 @@
     @media (prefers-reduced-motion: reduce){.reveal{opacity:1 !important; transform:none !important; filter:none !important;}}
     @keyframes softPulse{0%,100%{opacity:.5;transform:scale(1);}50%{opacity:.85;transform:scale(1.08);}}
     @keyframes bgDrift{0%{transform:rotate(-19deg) translate(0,0);}50%{transform:rotate(-19deg) translate(-4%,-3%);}100%{transform:rotate(-19deg) translate(0,0);}}
-    @keyframes drawLine{from{stroke-dashoffset:100;}to{stroke-dashoffset:0;}}
     .imp-card{transition:transform .4s cubic-bezier(.34,1.56,.5,1), box-shadow .4s ease, border-color .35s ease; will-change:transform;}
     .imp-card:hover{transform:scale(1.04) translateY(-9px); box-shadow:0 42px 86px -28px rgba(46,55,255,.55); z-index:2;}
     .ib-dash-wrap{transition:transform .4s cubic-bezier(.34,1.56,.5,1); will-change:transform;}
@@ -306,11 +314,6 @@
     .imp-track{animation:marquee 36s linear infinite;}
     .imp-marquee:hover .imp-track{animation-play-state:paused;}
 
-    /* ===== Gauge dot ===== */
-    .ib-gauge-halo{filter:blur(3px); animation:gaugeHalo 1.9s ease-in-out infinite;}
-    @keyframes gaugeHalo{0%,100%{opacity:.28;}50%{opacity:.7;}}
-    @media (prefers-reduced-motion: reduce){.ib-gauge-halo{animation:none !important;}}
-
     /* ===== Sección "Las tres, trabajando juntas" ===== */
     .tj-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; align-items:stretch;}
     @media(max-width:860px){.tj-grid{grid-template-columns:1fr;}}
@@ -351,45 +354,34 @@
     .ct-send:hover{transform:translateY(-2px); box-shadow:0 18px 42px -12px rgba(250,54,1,.65);}
     .ct-note{font-size:12.5px; color:#868CA6; text-align:left; margin:6px 0 0; line-height:1.55;}
     .ct-note a{color:#9AA0FF; text-decoration:underline; text-underline-offset:2px;}
+    .mobile-sticky-cta{display:none;}
+    @media(max-width:700px){
+      .mobile-sticky-cta{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:110;display:flex;align-items:center;justify-content:center;min-height:50px;padding:13px 18px;border-radius:15px;background:linear-gradient(135deg,#FA3601,#F0430A);color:#FDFCFE;text-decoration:none;font-size:15px;font-weight:800;box-shadow:0 14px 34px -10px rgba(0,0,0,.8),0 10px 28px -12px rgba(250,54,1,.8);}
+      body{padding-bottom:calc(82px + env(safe-area-inset-bottom));}
+    }
+    @media(prefers-reduced-motion:reduce){.mobile-sticky-cta{transition:none;}}
 
-    /* ===== Dropdown de período (metric card) ===== */
-    .ib-period:hover{border-color:rgba(110,116,255,.45) !important; background:rgba(255,255,255,.09) !important;}
-    .ib-period-menu{transform-origin:top right; animation:periodIn .22s cubic-bezier(.16,1,.3,1);}
-    .ib-period-item:hover{background:rgba(110,116,255,.16) !important; color:#FDFCFE !important;}
-    @keyframes periodIn{from{opacity:0; transform:translateY(-8px) scale(.96);}to{opacity:1; transform:translateY(0) scale(1);}}
-    @media (prefers-reduced-motion: reduce){.ib-period-menu{animation:none !important;}}
-    .imp-testi{transition:transform .4s cubic-bezier(.34,1.56,.5,1), box-shadow .4s ease, border-color .4s ease; position:relative;}
-    .imp-testi:hover{transform:scale(1.06) translateY(-8px); box-shadow:0 42px 86px -28px rgba(46,55,255,.6); border-color:rgba(110,116,255,.6); z-index:2;}
     .imp-led{position:relative;border-radius:28px;padding:1.5px;overflow:hidden;background:rgba(255,255,255,.07);display:flex;}
     .imp-led::before{content:"";position:absolute;left:50%;top:50%;width:175%;height:175%;transform:translate(-50%,-50%);background:conic-gradient(from 0deg,transparent 0deg,transparent 276deg,rgba(46,55,255,.85) 316deg,#6E74FF 350deg,transparent 360deg);animation:ledSpin 4.5s linear infinite var(--ld,0s);}
     .imp-led-inner{position:relative;z-index:1;border-radius:26.5px;flex:1;min-width:0;}
     .imp-led-hot{padding:2px;box-shadow:0 30px 70px -24px rgba(46,55,255,.7);}
     .imp-led-hot::before{background:conic-gradient(from 0deg,#1F27EB 0deg,#7C3AED 90deg,#6E74FF 180deg,#7C3AED 270deg,#1F27EB 360deg);}
     @keyframes ledSpin{to{transform:translate(-50%,-50%) rotate(360deg);}}
-    @keyframes knobMove{0%,42%{transform:translateX(0);}54%,100%{transform:translateX(22px);}}
-    @keyframes trackOn{0%,42%{background:#15182B;}54%,100%{background:#1F27EB;}}
-    @keyframes knobMove2{0%,30%{transform:translateX(22px);}42%,100%{transform:translateX(0);}}
-    @keyframes trackOn2{0%,30%{background:#7C3AED;}42%,100%{background:#15182B;}}
-    @keyframes progFill{0%{width:18%;}50%{width:88%;}100%{width:18%;}}
-    @keyframes progFill2{0%{width:64%;}50%{width:32%;}100%{width:64%;}}
-    @keyframes sliderMove{0%{left:6%;}50%{left:82%;}100%{left:6%;}}
-    @media(max-width:860px){.ib-stats{grid-template-columns:1fr !important;}.ib-bento{grid-template-columns:1fr 1fr !important;grid-auto-rows:150px !important;}.ib-bento .ib-bento-a{grid-column:span 2 !important;grid-row:span 1 !important;}}
+    @media(max-width:860px){.ib-bento{grid-template-columns:1fr 1fr !important;grid-auto-rows:150px !important;}.ib-bento .ib-bento-a{grid-column:span 2 !important;grid-row:span 1 !important;}}
     .imp-flink{transition:color .25s ease, transform .25s ease; cursor:pointer;}
     .imp-flink:hover{color:#FA3601 !important; transform:translateX(6px);}
-    .imp-soc{transition:transform .25s ease, background .25s ease, color .25s ease;}
-    .imp-soc:hover{background:linear-gradient(135deg,#1F27EB,#7C3AED); color:#FDFCFE; transform:scale(1.12) rotate(8deg);}
-    .ib-gauge-card{transition:transform .4s cubic-bezier(.34,1.56,.5,1), box-shadow .4s ease, border-color .4s ease; will-change:transform; cursor:pointer;}
-    .ib-gauge-card:hover{transform:scale(1.07) translateY(-8px); box-shadow:0 44px 90px -28px rgba(46,55,255,.75); border-color:rgba(110,116,255,.65);}
-    .ib-gauge-num{display:inline-block; transition:transform .4s cubic-bezier(.34,1.56,.5,1);}
-    .ib-gauge-card:hover .ib-gauge-num{transform:scale(1.12);}
-    .ib-stat-card{transition:transform .4s cubic-bezier(.34,1.56,.5,1), box-shadow .4s ease, border-color .4s ease; will-change:transform; cursor:pointer;}
-    .ib-stat-card:hover{transform:scale(1.05) translateY(-7px); box-shadow:0 40px 84px -26px rgba(46,55,255,.62); border-color:rgba(110,116,255,.6);}
-    .ib-stat-num{display:inline-block; transition:transform .4s cubic-bezier(.34,1.56,.5,1);}
-    .ib-stat-card:hover .ib-stat-num{transform:scale(1.1);}
     .ib-bento-card{position:relative; transition:transform .4s cubic-bezier(.34,1.56,.5,1), box-shadow .4s ease, border-color .4s ease; will-change:transform;}
     .ib-bento-card:hover{transform:scale(1.03) translateY(-7px); box-shadow:0 38px 80px -28px rgba(46,55,255,.58); border-color:rgba(110,116,255,.55); z-index:2;}
-    .ib-step{transition:transform .4s cubic-bezier(.34,1.56,.5,1), background .3s ease; border-radius:16px;}
-    .ib-step:hover{transform:translateX(14px) scale(1.015); background:rgba(110,116,255,.06);}
+    .ib-step{position:relative;display:grid;grid-template-columns:58px minmax(0,1fr);gap:26px;padding:22px 0 30px;align-items:start;}
+    .ib-step:not(:last-child)::after{content:"";position:absolute;left:28px;top:80px;bottom:-2px;width:1px;background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.08));}
+    .process-step-number{position:relative;z-index:1;width:58px;height:58px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.28);border-radius:50%;background:rgba(7,7,18,.3);font-variant-numeric:tabular-nums;}
+    .ib-step:hover .process-step-number{border-color:rgba(255,122,77,.7);background:rgba(250,54,1,.1);}
+    .ib-step.is-lit .process-step-number{border-color:#FF7A4D;background:rgba(250,54,1,.12);box-shadow:0 0 0 1px rgba(250,54,1,.18),0 0 14px rgba(250,54,1,.9),0 0 38px rgba(250,54,1,.48);transform:scale(1.08);transition:transform .6s cubic-bezier(.16,1,.3,1),box-shadow .6s ease,background .6s ease;}
+    .process-step-number::after{content:"";position:absolute;inset:-10px;border-radius:50%;border:1px solid rgba(255,122,77,0);transform:scale(.72);opacity:0;}
+    .ib-step.is-lit .process-step-number::after{border-color:rgba(255,122,77,.65);animation:processNumberPulse 1.8s cubic-bezier(.16,1,.3,1) both;}
+    .ib-step.is-lit:not(:last-child)::after{background:linear-gradient(180deg,#FF7A4D,rgba(250,54,1,.22));box-shadow:0 0 10px rgba(250,54,1,.38);}
+    @keyframes processNumberPulse{0%{opacity:0;transform:scale(.72)}35%{opacity:1}100%{opacity:0;transform:scale(1.45)}}
+    @media(max-width:600px){.ib-step{grid-template-columns:48px minmax(0,1fr);gap:18px;padding:18px 0 26px}.process-step-number{width:48px;height:48px}.ib-step:not(:last-child)::after{left:23px;top:66px;}}
     @media(max-width:760px){.imp-foot-cols{grid-template-columns:repeat(2,1fr) !important;}.svc-billing{grid-template-columns:1fr !important;}}
     [data-motion="off"] *{animation-play-state:paused !important;}
     @media(max-width:980px){.imp-hero-grid{flex-direction:column !important;}.imp-bento{grid-template-columns:1fr 1fr !important;}}
@@ -405,40 +397,55 @@
     @media (prefers-reduced-motion: reduce){ [data-motion] *{animation-play-state:paused !important;} html{scroll-behavior:auto !important;} }
     /* ===== Proyectos (slider) ===== */
     .proj-viewport{overflow:hidden;}
-     .proj-track{display:flex; transition:transform .6s cubic-bezier(.22,1,.36,1); will-change:transform;}
-     .proj-slide{flex:0 0 100%; min-width:0;}
-     .proj-case{display:grid; grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr); min-height:510px; overflow:hidden; border:1px solid #262B47; border-radius:24px; background:linear-gradient(145deg,#101225,#0c0e1c); box-shadow:0 36px 80px -34px rgba(0,0,0,.8);}
-     .proj-case-visual{position:relative; min-height:510px; overflow:hidden; background:radial-gradient(circle at 50% 28%,rgba(46,55,255,.28),transparent 45%),linear-gradient(145deg,#14162c,#090a17);}
-     .proj-card-img{display:block; width:100%; height:100%; min-height:510px; object-fit:cover; transition:transform .7s cubic-bezier(.22,1,.36,1);}
-     .proj-case-visual:hover .proj-card-img{transform:scale(1.04);}
-     .proj-case-overlay{position:absolute; inset:0; background:linear-gradient(to top,rgba(7,7,18,.94) 2%,rgba(7,7,18,.25) 52%,transparent 82%); pointer-events:none;}
-     .proj-case-badge{position:absolute; top:18px; left:18px; padding:7px 12px; border:1px solid rgba(255,255,255,.16); border-radius:999px; background:rgba(14,16,32,.82); color:#C4C8D8; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;}
-     .proj-case-visual-copy{position:absolute; right:24px; bottom:22px; left:24px; display:flex; flex-direction:column; gap:6px; color:#FDFCFE;}
-     .proj-case-visual-copy span,.proj-eyebrow{color:#9AA0BE; font-size:12px; font-weight:600; letter-spacing:.05em; text-transform:uppercase;}
-     .proj-case-visual-copy strong{font-size:clamp(24px,3vw,36px); line-height:1.05; letter-spacing:-.03em;}
-     .proj-case-info{display:flex; flex-direction:column; gap:22px; padding:38px 34px;}
-     .proj-case-heading{display:flex; align-items:flex-start; justify-content:space-between; gap:18px;}
-     .proj-case-heading h3{margin:8px 0 0; color:#FDFCFE; font-size:clamp(24px,2.5vw,34px); line-height:1.08; letter-spacing:-.03em;}
-     .proj-case-index{color:#9AA0FF; font-size:13px; font-weight:700; letter-spacing:.1em; white-space:nowrap;}
-     .proj-case-summary{margin:0; color:#C4C8D8; font-size:16px; line-height:1.6;}
-     .proj-facts{display:grid; gap:15px;}
-     .proj-fact{padding-top:13px; border-top:1px solid rgba(255,255,255,.12);}
-     .proj-fact span{color:#9AA0BE; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;}
-     .proj-fact p{margin:6px 0 0; color:#868CA6; font-size:14px; line-height:1.5;}
-     .proj-case-footer{margin-top:auto;}
-     .proj-cta{display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border-radius:999px; background:linear-gradient(135deg,#FA3601,#F0430A); color:#FDFCFE; font-size:14px; font-weight:600; text-decoration:none; transition:transform .25s ease,box-shadow .25s ease;}
-     .proj-cta:hover{transform:translateY(-2px); box-shadow:0 14px 30px -12px rgba(250,54,1,.7);}
-     .proj-arrow{display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:background .25s ease,border-color .25s ease,transform .25s ease;}
-     .proj-side-arrow{position:absolute; top:50%; z-index:6; transform:translateY(-50%);}
-     .proj-side-arrow:hover{background:linear-gradient(135deg,#1F27EB,#7C3AED)!important; border-color:transparent!important; transform:translateY(-50%) scale(1.08);}
-     .proj-mini-arrow:hover{background:linear-gradient(135deg,#1F27EB,#7C3AED)!important; border-color:transparent!important; transform:scale(1.08);}
-     .proj-dot{cursor:pointer; border:none; padding:0; height:9px; border-radius:999px; transition:width .35s cubic-bezier(.22,1,.36,1),background .35s ease;}
-     .proj-image-placeholder{display:grid; place-items:center; width:100%; height:100%; min-height:510px; background:radial-gradient(circle at 50% 28%,rgba(46,55,255,.28),transparent 45%),linear-gradient(145deg,#14162c,#090a17); color:#949BBE;}
-     .proj-image-placeholder span{padding:9px 12px; border:1px solid #353b63; border-radius:999px; background:rgba(7,7,18,.7); font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;}
-     @media(max-width:980px){.proj-side-arrow{display:none!important;}.proj-case{grid-template-columns:1fr;}.proj-case-visual{min-height:420px;}.proj-card-img,.proj-image-placeholder{min-height:420px;}.proj-case-info{padding:30px 26px;}}
-     @media(min-width:981px){.proj-mini-arrow{display:none!important;}}
-     @media(max-width:620px){.proj-case-visual{min-height:330px;}.proj-card-img,.proj-image-placeholder{min-height:330px;}.proj-case-info{padding:25px 20px;}.proj-case-heading{gap:10px;}.proj-case-summary{font-size:15px;}}
-     @media(prefers-reduced-motion:reduce){.proj-track,.proj-card-img,.proj-cta,.proj-arrow{transition:none!important;}.proj-case-visual:hover .proj-card-img,.proj-cta:hover{transform:none!important;}}
+    .proj-track{display:flex; transition:transform .6s cubic-bezier(.22,1,.36,1); will-change:transform;}
+    .proj-slide{flex:0 0 100%; min-width:0;}
+    .proj-card-img{transition:transform .7s cubic-bezier(.22,1,.36,1); will-change:transform;}
+    .proj-arrow{display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:background .25s ease, border-color .25s ease, transform .25s ease;}
+    .proj-side-arrow{position:absolute; top:50%; z-index:6; transform:translateY(-50%);}
+    .proj-side-arrow:hover{background:linear-gradient(135deg,#1F27EB,#7C3AED) !important; border-color:transparent !important; transform:translateY(-50%) scale(1.08);}
+    .proj-mini-arrow:hover{background:linear-gradient(135deg,#1F27EB,#7C3AED) !important; border-color:transparent !important; transform:scale(1.08);}
+    .proj-dot{cursor:pointer; border:none; padding:0; height:9px; border-radius:999px; transition:width .35s cubic-bezier(.22,1,.36,1), background .35s ease;}
+    .proj-cta{transition:transform .25s ease, box-shadow .25s ease;}
+    .proj-cta:hover{transform:translateY(-2px); box-shadow:0 14px 30px -12px rgba(250,54,1,.7);}
+    .proj-case{display:grid; grid-template-columns:minmax(280px,.92fr) minmax(0,1.08fr); gap:clamp(28px,5vw,76px); align-items:stretch; max-width:1040px; margin:0 auto; padding:8px clamp(0px,3vw,34px);}
+    .proj-case-visual{position:relative; min-height:510px; overflow:hidden; border:1px solid rgba(255,255,255,.12); border-radius:24px; background:#111326; box-shadow:0 34px 80px -38px rgba(0,0,0,.9); isolation:isolate;}
+    .proj-case-visual .proj-card-img{width:100%; height:100%; min-height:510px; object-fit:cover; display:block; transition:transform .8s cubic-bezier(.22,1,.36,1);}
+    .proj-case:hover .proj-card-img{transform:scale(1.045);}
+    .proj-case-overlay{position:absolute; inset:0; z-index:1; background:linear-gradient(180deg,rgba(7,7,18,.08) 35%,rgba(7,7,18,.92) 100%);}
+    .proj-case-badge{position:absolute; top:18px; left:18px; z-index:2; padding:6px 11px; border:1px solid rgba(255,255,255,.2); border-radius:999px; background:rgba(9,11,26,.75); color:#C9CDED; font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;}
+    .proj-case-visual-copy{position:absolute; right:22px; bottom:22px; left:22px; z-index:2; display:flex; flex-direction:column; gap:7px;}
+    .proj-case-visual-copy span,.proj-eyebrow{color:#FA6B42; font-size:11px; font-weight:700; letter-spacing:.11em; text-transform:uppercase;}
+    .proj-case-visual-copy strong{max-width:360px; color:#fff; font-size:clamp(25px,3vw,38px); line-height:1.05; letter-spacing:-.04em;}
+    .proj-case-info{display:flex; flex-direction:column; justify-content:center; min-width:0; padding:14px 0;}
+    .proj-case-heading{display:flex; align-items:flex-start; justify-content:space-between; gap:20px; padding-bottom:18px; border-bottom:1px solid rgba(255,255,255,.12);}
+    .proj-case-heading h3{margin:7px 0 0; color:#FDFCFE; font-size:clamp(28px,3.4vw,45px); line-height:1.02; letter-spacing:-.045em;}
+    .proj-case-index{flex:none; color:#777EA5; font-size:13px; font-variant-numeric:tabular-nums; letter-spacing:.08em;}
+    .proj-case-summary{margin:20px 0 26px; color:#D8DBE8; font-size:17px; line-height:1.55;}
+    .proj-facts{display:grid; grid-template-columns:1fr 1fr; gap:20px 24px;}
+    .proj-fact{padding-left:14px; border-left:2px solid rgba(110,116,255,.6);}
+    .proj-fact span{display:block; margin-bottom:6px; color:#AEB4D4; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;}
+    .proj-fact p{margin:0; color:#858BA7; font-size:13px; line-height:1.52;}
+    .proj-fact-status{border-left-color:#FA6B42;}
+    .proj-fact-status p{color:#B8BDD0;}
+    .proj-case-footer{display:flex; align-items:center; justify-content:flex-end; gap:18px; margin-top:28px; padding-top:18px; border-top:1px solid rgba(255,255,255,.12);}
+    .proj-case-footer .proj-cta{display:inline-flex; align-items:center; justify-content:center; gap:8px; flex:none; padding:11px 16px; border:0; border-radius:999px; background:linear-gradient(135deg,#FA3601,#F0430A); color:#FDFCFE; font-family:inherit; font-size:13px; font-weight:700; text-decoration:none;}
+    @media(max-width:980px){.proj-side-arrow{display:none !important;}}
+    @media(max-width:680px){
+      .proj-case{display:flex; flex-direction:column; gap:22px; padding:0;}
+      .proj-case-visual,.proj-case-visual .proj-card-img{min-height:330px; height:330px; border-radius:20px;}
+      .proj-case-visual-copy{right:18px; bottom:18px; left:18px;}
+      .proj-case-visual-copy strong{font-size:29px;}
+      .proj-case-info{padding:0 2px;}
+      .proj-case-heading{padding-bottom:14px;}
+      .proj-case-heading h3{font-size:30px;}
+      .proj-case-summary{margin:16px 0 22px; font-size:15px;}
+      .proj-facts{grid-template-columns:1fr; gap:15px;}
+      .proj-fact{padding-left:12px;}
+      .proj-case-footer{align-items:stretch; flex-direction:column; gap:14px; margin-top:22px;}
+      .proj-case-footer .proj-cta{justify-content:center; width:100%;}
+      .proj-dot{height:8px;}
+    }
+    @media(min-width:981px){.proj-mini-arrow{display:none !important;}}
     /* ===== Recursos (lead magnets) + Newsletter ===== */
     .rec-card:hover{transform:translateY(-6px); border-color:rgba(110,116,255,.55) !important; box-shadow:0 30px 70px -30px rgba(46,55,255,.6);}
     .rec-card:focus-visible{transform:translateY(-6px); border-color:rgba(110,116,255,.7) !important;}
@@ -493,6 +500,7 @@
       </div>
     </div>
   </nav>
+  <a class="mobile-sticky-cta" href="https://wa.me/5493544434403?text=Hola%20Reac%20Studio,%20quiero%20un%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener" aria-label="Hablar por WhatsApp con Reac Studio">Hablar por WhatsApp <span aria-hidden="true">→</span></a>
 
   <!-- ===== CONTENIDO (capa opaca que revela el footer al final) ===== -->
   <div style="position:relative; z-index:1; background:#070712;">
@@ -501,12 +509,12 @@
   <section id="top" data-screen-label="Parallax" style="position:relative; display:flex; height:100vh; min-height:600px; overflow:hidden; background:radial-gradient(ellipse 75% 55% at 50% 8%, rgba(46,55,255,.38) 0%, rgba(23,16,165,.12) 40%, transparent 62%), radial-gradient(ellipse 95% 60% at 50% 100%, rgba(250,54,1,.32) 0%, rgba(240,67,10,.1) 40%, transparent 62%), radial-gradient(ellipse 60% 32% at 50% 46%, rgba(124,58,237,.3) 0%, transparent 65%), #070712;">
     <div style="position:absolute; inset:0; overflow:hidden;">
       <div style="position:absolute; inset:0; width:100%; height:100%;">
-        <img ref="{{ p1Ref }}" src="https://cdn.prod.website-files.com/671752cd4027f01b1b8f1c7f/6717795be09b462b2e8ebf71_osmo-parallax-layer-3.webp" alt="" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; opacity:.8; filter:grayscale(1) brightness(.85) sepia(1) hue-rotate(195deg) saturate(2.4) contrast(.98); will-change:transform;">
-        <img ref="{{ p2Ref }}" src="https://cdn.prod.website-files.com/671752cd4027f01b1b8f1c7f/6717795b4d5ac529e7d3a562_osmo-parallax-layer-2.webp" alt="" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; filter:grayscale(1) brightness(.62) sepia(1) hue-rotate(190deg) saturate(3.2) contrast(1.05); will-change:transform;">
+        <img ref="{{ p1Ref }}" src="https://cdn.prod.website-files.com/671752cd4027f01b1b8f1c7f/6717795be09b462b2e8ebf71_osmo-parallax-layer-3.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; opacity:.8; filter:grayscale(1) brightness(.85) sepia(1) hue-rotate(195deg) saturate(2.4) contrast(.98); will-change:transform;">
+        <img ref="{{ p2Ref }}" src="https://cdn.prod.website-files.com/671752cd4027f01b1b8f1c7f/6717795b4d5ac529e7d3a562_osmo-parallax-layer-2.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; filter:grayscale(1) brightness(.62) sepia(1) hue-rotate(190deg) saturate(3.2) contrast(1.05); will-change:transform;">
         <div ref="{{ pTitleRef }}" style="position:absolute; top:38%; left:50%; transform:translate(-50%,-50%); width:100%; text-align:center; z-index:3; will-change:transform;">
-          <h2 style="margin:0; font-family:'Pinyon Script', cursive; font-weight:400; line-height:.9; letter-spacing:.01em; font-size:clamp(3.5rem,13vw,12rem); color:#FDFCFE; text-shadow:0 2px 30px rgba(5,5,9,.6), 0 0 70px rgba(46,55,255,.4), 0 0 120px rgba(124,58,237,.25);">Reac Studio</h2>
+          <div aria-hidden="true" style="margin:0; font-family:'Pinyon Script', cursive; font-weight:400; line-height:.9; letter-spacing:.01em; font-size:clamp(3.5rem,13vw,12rem); color:#FDFCFE; text-shadow:0 2px 30px rgba(5,5,9,.6), 0 0 70px rgba(46,55,255,.4), 0 0 120px rgba(124,58,237,.25);">Reac Studio</div>
         </div>
-        <img ref="{{ p4Ref }}" src="uploads/hero-front.webp" alt="" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; filter:grayscale(1) brightness(.62) sepia(1) hue-rotate(190deg) saturate(3.2) contrast(1.05); will-change:transform;">
+        <img ref="{{ p4Ref }}" src="uploads/hero-front.webp" alt="" width="2000" height="1906" loading="eager" style="position:absolute; bottom:0; left:50%; transform:translate(-50%,0); width:max(100vw, 177.78vh); max-width:none; height:auto; pointer-events:none; user-select:none; filter:grayscale(1) brightness(.62) sepia(1) hue-rotate(190deg) saturate(3.2) contrast(1.05); will-change:transform;">
       </div>
       <div style="position:absolute; inset:0; z-index:5; pointer-events:none; background:linear-gradient(to bottom, transparent 55%, rgba(7,7,18,.6) 80%, #070712 100%);"></div>
       <div style="position:absolute; bottom:0; left:0; width:100%; height:2px; background:#070712; z-index:6;"></div>
@@ -542,10 +550,9 @@
         <div style="display:flex; gap:14px; align-items:center; flex-wrap:wrap;">
           <a class="imp-cta shine-only hero-anim hero-btn1" href="#contacto" style="padding:15px 30px; border-radius:13px; background:linear-gradient(135deg,#FA3601,#F0430A); color:#FDFCFE; font-weight:600; font-size:15.5px; box-shadow:0 12px 30px -8px rgba(250,54,1,.55);">Pedí tu diagnóstico gratis →</a>
         </div>
-        <p class="hero-anim" style="margin:18px 0 0; font-size:13.5px; color:#868CA6; font-weight:400;">Sin compromiso · Te respondemos en el día</p>
+        <p class="hero-anim" style="margin:18px 0 0; font-size:13.5px; color:#868CA6; font-weight:400;">Sin compromiso · Primer contacto por WhatsApp o email</p>
       </div>
 
-      <!-- glass metric card -->
       <!-- glass metric card -->
       <sc-if value="{{ showMetric }}" hint-placeholder-val="{{ true }}">
       <div class="hero-anim hero-card" style="flex:0 0 350px; align-self:center;">
@@ -587,9 +594,9 @@
         <p style="font-size:16px; color:#868CA6; margin:16px 0 0; line-height:1.6; max-width:600px;">La mayoría de los negocios terminan coordinando una persona para la web, otra para las campañas y otra para los sistemas. Nosotros lo hacemos simple: un solo equipo se ocupa de todo y te lo deja funcionando.</p>
       </div>
       <div class="prob-switch reveal">
-        <div class="prob-pills" role="tablist">
-          <span onClick="{{ setProbSin }}" class="prob-pill" style="background:{{ probSinPillBg }}; color:{{ probSinPillCol }}; box-shadow:{{ probSinPillSh }};">Sin Reac Studio</span>
-          <span onClick="{{ setProbCon }}" class="prob-pill" style="background:{{ probConPillBg }}; color:{{ probConPillCol }}; box-shadow:{{ probConPillSh }};">Con Reac Studio ✦</span>
+        <div class="prob-pills" role="group" aria-label="Comparar escenarios">
+          <button type="button" aria-pressed="{{ probSinSelected }}" onClick="{{ setProbSin }}" class="prob-pill" style="background:{{ probSinPillBg }}; color:{{ probSinPillCol }}; box-shadow:{{ probSinPillSh }};">Sin Reac Studio</button>
+          <button type="button" aria-pressed="{{ probConSelected }}" onClick="{{ setProbCon }}" class="prob-pill" style="background:{{ probConPillBg }}; color:{{ probConPillCol }}; box-shadow:{{ probConPillSh }};">Con Reac Studio ✦</button>
         </div>
         <div class="prob-body">
 
@@ -660,7 +667,7 @@
                       <span style="flex:none; width:36px; height:36px; border-radius:11px; background:linear-gradient(135deg,#1F27EB,#2E37FF); display:flex; align-items:center; justify-content:center; color:#FDFCFE;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
                       <div>
                         <div style="font-size:16px; font-weight:700; letter-spacing:-.01em; margin-bottom:3px;">Un solo interlocutor</div>
-                        <div style="font-size:14.5px; color:#868CA6; line-height:1.55;">Hablás con un equipo que entiende todo tu ecosistema y responde por el resultado completo.</div>
+                        <div style="font-size:14.5px; color:#868CA6; line-height:1.55;">Hablás con un equipo que entiende tu ecosistema y coordina la implementación de principio a fin.</div>
                       </div>
                     </div>
                     <div style="display:flex; gap:14px; align-items:flex-start;">
@@ -742,7 +749,7 @@
           <div style="font-size:19px; font-weight:700; letter-spacing:-.01em;">Marketing Digital</div>
           <div style="font-size:14px; color:#868CA6; margin:8px 0 20px; line-height:1.5;">Para negocios que necesitan más consultas.</div>
           <div style="font-size:13px; color:#868CA6;">Desde</div>
-          <div style="font-size:30px; font-weight:700; letter-spacing:-.02em; margin-bottom:6px;">$150USD <span style="font-size:14px; color:#868CA6; font-weight:500;">/ mes</span></div>
+          <div style="font-size:30px; font-weight:700; letter-spacing:-.02em; margin-bottom:6px;">USD 150 <span style="font-size:14px; color:#868CA6; font-weight:500;">/ mes</span></div>
           <div style="display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:600; color:#9AA0FF; background:rgba(46,55,255,.12); border:1px solid rgba(110,116,255,.22); border-radius:999px; padding:4px 10px; margin-bottom:22px;">Gestión mensual recurrente</div>
           <div style="display:flex; flex-direction:column; gap:11px; flex:1; margin-bottom:24px;">
             <div style="display:flex; gap:10px; font-size:14px; color:#C4C8D8;"><span style="color:#2E37FF; flex:none;">✓</span>Más consultas reales por WhatsApp</div>
@@ -760,7 +767,7 @@
           <div style="font-size:19px; font-weight:700; letter-spacing:-.01em;">Desarrollo Web</div>
           <div style="font-size:14px; color:#868CA6; margin:8px 0 20px; line-height:1.5;">Para marcas que necesitan presencia profesional.</div>
           <div style="font-size:13px; color:#868CA6;">Desde</div>
-          <div style="font-size:30px; font-weight:700; letter-spacing:-.02em; margin-bottom:6px;">$200USD</div>
+          <div style="font-size:30px; font-weight:700; letter-spacing:-.02em; margin-bottom:6px;">USD 200</div>
           <div style="display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:600; color:#9AA0FF; background:rgba(46,55,255,.12); border:1px solid rgba(110,116,255,.22); border-radius:999px; padding:4px 10px; margin-bottom:22px;">Pago único por proyecto</div>
           <div style="display:flex; flex-direction:column; gap:11px; flex:1; margin-bottom:24px;">
             <div style="display:flex; gap:10px; font-size:14px; color:#C4C8D8;"><span style="color:#2E37FF; flex:none;">✓</span>Landing pages comerciales</div>
@@ -778,7 +785,7 @@
           <div style="font-size:19px; font-weight:700; letter-spacing:-.01em;">Automatizaciones IA</div>
           <div style="font-size:14px; color:#868CA6; margin:8px 0 20px; line-height:1.5;">Para negocios que pierden tiempo en tareas manuales.</div>
           <div style="font-size:13px; color:#868CA6;">Desde</div>
-          <div style="font-size:30px; font-weight:700; letter-spacing:-.02em; margin-bottom:6px;">$250USD</div>
+          <div style="font-size:30px; font-weight:700; letter-spacing:-.02em; margin-bottom:6px;">USD 250</div>
           <div style="display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:600; color:#9AA0FF; background:rgba(46,55,255,.12); border:1px solid rgba(110,116,255,.22); border-radius:999px; padding:4px 10px; margin-bottom:22px;">Pago único por proyecto</div>
           <div style="display:flex; flex-direction:column; gap:11px; flex:1; margin-bottom:24px;">
             <div style="display:flex; gap:10px; font-size:14px; color:#C4C8D8;"><span style="color:#2E37FF; flex:none;">✓</span>Automatización entre apps</div>
@@ -795,9 +802,9 @@
           <div class="imp-led-inner" style="padding:30px; background:radial-gradient(120% 80% at 50% 0%, rgba(46,55,255,.28), rgba(13,13,22,.98) 65%); display:flex; flex-direction:column;">
             <div style="display:inline-flex; align-self:flex-start; align-items:center; gap:6px; padding:6px 12px; border-radius:999px; background:linear-gradient(135deg,#1F27EB,#7C3AED); font-size:12px; font-weight:700; margin-bottom:16px; box-shadow:0 6px 18px -6px rgba(46,55,255,.7);">⭐ Recomendado</div>
             <div style="font-size:19px; font-weight:700; letter-spacing:-.01em;">Solución Integral</div>
-            <div style="font-size:14px; color:#C4C8D8; margin:8px 0 20px; line-height:1.5;">La opción que más eligen los que quieren resultados sin complicarse.</div>
+            <div style="font-size:14px; color:#C4C8D8; margin:8px 0 20px; line-height:1.5;">Integra estrategia, implementación y seguimiento en una sola propuesta.</div>
             <div style="font-size:13px; color:#C4C8D8;">A medida · desde</div>
-            <div style="font-size:30px; font-weight:700; letter-spacing:-.02em; margin-bottom:6px;">$450USD</div>
+            <div style="font-size:30px; font-weight:700; letter-spacing:-.02em; margin-bottom:6px;">USD 450</div>
             <div style="display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:600; color:#FDFCFE; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); border-radius:999px; padding:4px 10px; margin-bottom:22px;">Combina proyectos únicos + gestión mensual</div>
             <div style="display:flex; flex-direction:column; gap:11px; flex:1; margin-bottom:24px;">
               <div style="display:flex; gap:10px; font-size:14px; color:#FDFCFE;"><span style="color:#6E74FF; flex:none;">✓</span>Estrategia + implementación</div>
@@ -848,34 +855,34 @@
             <h3 style="font-size:24px; font-weight:700; letter-spacing:-.02em; margin:12px 0 0;">Reglas que trabajan por vos.</h3>
           </div>
           <div style="display:flex; flex-direction:column; gap:12px;">
-            <div onClick="{{ toggleWsp }}" style="display:flex; align-items:center; justify-content:space-between; padding:13px 18px; border-radius:14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); cursor:pointer; user-select:none;">
+            <button type="button" class="sim-toggle" aria-pressed="{{ wspPressed }}" onClick="{{ toggleWsp }}" style="display:flex; align-items:center; justify-content:space-between; padding:13px 18px; border-radius:14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); cursor:pointer; user-select:none;">
               <span style="font-size:15px; font-weight:500;">Respuesta automática en WhatsApp</span>
               <span style="width:46px; height:26px; border-radius:999px; position:relative; flex:none; background:{{ wspTrack }}; transition:background .3s ease;"><span style="position:absolute; top:3px; left:{{ wspKnob }}; width:20px; height:20px; border-radius:50%; background:#FDFCFE; box-shadow:0 2px 6px rgba(0,0,0,.4); transition:left .3s cubic-bezier(.34,1.56,.5,1);"></span></span>
-            </div>
-            <div onClick="{{ toggleLeads }}" style="display:flex; align-items:center; justify-content:space-between; padding:13px 18px; border-radius:14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); cursor:pointer; user-select:none;">
+            </button>
+            <button type="button" class="sim-toggle" aria-pressed="{{ leadsPressed }}" onClick="{{ toggleLeads }}" style="display:flex; align-items:center; justify-content:space-between; padding:13px 18px; border-radius:14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); cursor:pointer; user-select:none;">
               <span style="font-size:15px; font-weight:500;">Seguimiento de leads</span>
               <span style="width:46px; height:26px; border-radius:999px; position:relative; flex:none; background:{{ leadsTrack }}; transition:background .3s ease;"><span style="position:absolute; top:3px; left:{{ leadsKnob }}; width:20px; height:20px; border-radius:50%; background:#FDFCFE; box-shadow:0 2px 6px rgba(0,0,0,.4); transition:left .3s cubic-bezier(.34,1.56,.5,1);"></span></span>
-            </div>
-            <div onClick="{{ toggleCrm }}" style="display:flex; align-items:center; justify-content:space-between; padding:13px 18px; border-radius:14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); cursor:pointer; user-select:none;">
+            </button>
+            <button type="button" class="sim-toggle" aria-pressed="{{ crmPressed }}" onClick="{{ toggleCrm }}" style="display:flex; align-items:center; justify-content:space-between; padding:13px 18px; border-radius:14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); cursor:pointer; user-select:none;">
               <span style="font-size:15px; font-weight:500;">Sincronización con el CRM</span>
               <span style="width:46px; height:26px; border-radius:999px; position:relative; flex:none; background:{{ crmTrack }}; transition:background .3s ease;"><span style="position:absolute; top:3px; left:{{ crmKnob }}; width:20px; height:20px; border-radius:50%; background:#FDFCFE; box-shadow:0 2px 6px rgba(0,0,0,.4); transition:left .3s cubic-bezier(.34,1.56,.5,1);"></span></span>
-            </div>
-            <div onClick="{{ toggleReport }}" style="display:flex; align-items:center; justify-content:space-between; padding:13px 18px; border-radius:14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); cursor:pointer; user-select:none;">
+            </button>
+            <button type="button" class="sim-toggle" aria-pressed="{{ reportPressed }}" onClick="{{ toggleReport }}" style="display:flex; align-items:center; justify-content:space-between; padding:13px 18px; border-radius:14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); cursor:pointer; user-select:none;">
               <span style="font-size:15px; font-weight:500;">Reporte semanal por email</span>
               <span style="width:46px; height:26px; border-radius:999px; position:relative; flex:none; background:{{ reportTrack }}; transition:background .3s ease;"><span style="position:absolute; top:3px; left:{{ reportKnob }}; width:20px; height:20px; border-radius:50%; background:#FDFCFE; box-shadow:0 2px 6px rgba(0,0,0,.4); transition:left .3s cubic-bezier(.34,1.56,.5,1);"></span></span>
-            </div>
+            </button>
           </div>
         </div>
         <!-- B: progress -->
         <div class="ib-bento-card" style="grid-column:span 2; border-radius:26px; padding:30px 34px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); display:flex; flex-direction:column; justify-content:center; gap:22px;">
           <div style="font-size:18px; font-weight:700; letter-spacing:-.01em;">Objetivos del mes</div>
           <div>
-            <div style="display:flex; justify-content:space-between; font-size:13px; color:#868CA6; margin-bottom:8px;"><span>Campañas activas</span><span ref="{{ campNumRef }}" style="color:#C4C8D8; font-weight:700; font-variant-numeric:tabular-nums; display:inline-block; transform-origin:right center;"><span style="color:#FDFCFE;">{{ campVal }}</span><span style="color:#7A819B;"> / {{ campMax }}</span></span></div>
-            <div onPointerDown="{{ dragCamp }}" style="position:relative; height:9px; border-radius:999px; background:rgba(255,255,255,.08); cursor:ew-resize; touch-action:none;"><div style="height:100%; border-radius:999px; background:linear-gradient(90deg,#1F27EB,#7C3AED); width:{{ campW }}; transition:width .1s ease-out;"></div><span style="position:absolute; top:50%; left:{{ campW }}; width:16px; height:16px; border-radius:50%; background:#FDFCFE; transform:translate(-50%,-50%); box-shadow:0 2px 8px rgba(0,0,0,.5); transition:left .1s ease-out;"></span></div>
+            <div style="display:flex; justify-content:space-between; font-size:13px; color:#868CA6; margin-bottom:8px;"><span>Campañas activas</span><span style="color:#C4C8D8; font-weight:700; font-variant-numeric:tabular-nums; display:inline-block; transform-origin:right center;"><span style="color:#FDFCFE;">{{ campVal }}</span><span style="color:#7A819B;"> / {{ campMax }}</span></span></div>
+            <input class="sim-range" type="range" min="0" max="100" step="1" value="{{ campRange }}" onChange="{{ changeCamp }}" aria-label="Objetivo de campañas activas">
           </div>
           <div>
-            <div style="display:flex; justify-content:space-between; font-size:13px; color:#868CA6; margin-bottom:8px;"><span>Leads contactados</span><span ref="{{ leadsNumRef }}" style="color:#C4C8D8; font-weight:700; font-variant-numeric:tabular-nums; display:inline-block; transform-origin:right center;"><span style="color:#FDFCFE;">{{ leadsGVal }}</span><span style="color:#7A819B;"> / {{ leadsGMax }}</span></span></div>
-            <div onPointerDown="{{ dragLeadsG }}" style="position:relative; height:9px; border-radius:999px; background:rgba(255,255,255,.08); cursor:ew-resize; touch-action:none;"><div style="height:100%; border-radius:999px; background:linear-gradient(90deg,#2E37FF,#1F27EB); width:{{ leadsGW }}; transition:width .1s ease-out;"></div><span style="position:absolute; top:50%; left:{{ leadsGW }}; width:16px; height:16px; border-radius:50%; background:#FDFCFE; transform:translate(-50%,-50%); box-shadow:0 2px 8px rgba(0,0,0,.5); transition:left .1s ease-out;"></span></div>
+            <div style="display:flex; justify-content:space-between; font-size:13px; color:#868CA6; margin-bottom:8px;"><span>Leads contactados</span><span style="color:#C4C8D8; font-weight:700; font-variant-numeric:tabular-nums; display:inline-block; transform-origin:right center;"><span style="color:#FDFCFE;">{{ leadsGVal }}</span><span style="color:#7A819B;"> / {{ leadsGMax }}</span></span></div>
+            <input class="sim-range" type="range" min="0" max="100" step="1" value="{{ leadsRange }}" onChange="{{ changeLeads }}" aria-label="Objetivo de leads contactados">
           </div>
         </div>
         <!-- C: slider -->
@@ -884,16 +891,13 @@
           <div>
             <div style="font-size:30px; font-weight:700; letter-spacing:-.02em; margin-bottom:4px; font-variant-numeric:tabular-nums;">{{ budgetText }}</div>
             <div style="font-size:12.5px; color:#868CA6; margin-bottom:18px;">Presupuesto mensual</div>
-            <div onPointerDown="{{ dragBudget }}" style="position:relative; height:6px; border-radius:999px; background:rgba(255,255,255,.1); cursor:ew-resize; touch-action:none;">
-              <div style="position:absolute; top:0; left:0; height:6px; width:{{ budgetW }}; border-radius:999px; background:linear-gradient(90deg,#1F27EB,#7C3AED); transition:width .1s ease-out;"></div>
-              <span style="position:absolute; top:50%; left:{{ budgetW }}; width:18px; height:18px; border-radius:50%; background:#FDFCFE; transform:translate(-50%,-50%); box-shadow:0 2px 8px rgba(0,0,0,.5); transition:left .1s ease-out;"></span>
-            </div>
+            <input class="sim-range" type="range" min="0" max="100" step="1" value="{{ budgetRange }}" onChange="{{ changeBudget }}" aria-label="Presupuesto mensual simulado">
           </div>
         </div>
         <!-- D: stat mini -->
         <div class="ib-bento-card" style="border-radius:26px; padding:28px; background:linear-gradient(150deg,#1F27EB,#7C3AED); display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 18px 40px -20px rgba(46,55,255,.6);">
-          <div style="font-size:14px; font-weight:600; color:rgba(255,255,255,.85);">Tiempo de respuesta</div>
-          <div><div style="font-size:34px; font-weight:700; letter-spacing:-.02em; color:#FDFCFE;">2.4s</div><div style="font-size:13px; color:rgba(255,255,255,.8); margin-top:4px;">a cada consulta</div></div>
+          <div style="font-size:14px; font-weight:600; color:rgba(255,255,255,.85);">Contacto directo</div>
+          <div><div style="font-size:27px; font-weight:700; letter-spacing:-.02em; color:#FDFCFE;">Hablemos</div><div style="font-size:13px; color:rgba(255,255,255,.8); margin-top:4px;">sobre tu proyecto</div></div>
         </div>
       </div>
     </div>
@@ -915,21 +919,20 @@
       </div>
       <div ref="{{ methodRef }}" class="reveal" style="display:flex; flex-direction:column;">
         <sc-for list="{{ steps }}" as="step" hint-placeholder-count="4">
-          <div class="ib-step" style="display:flex; gap:36px; padding:30px 0; border-top:1px solid rgba(255,255,255,.18); align-items:flex-start;">
-            <div style="flex:none; width:90px; font-size:clamp(40px,4.6vw,62px); font-weight:700; letter-spacing:-.04em; font-variant-numeric:tabular-nums; line-height:1; color:{{ step.numCol }}; text-shadow:{{ step.glow }}; transition:color .5s ease, text-shadow .5s ease;">{{ step.num }}</div>
+          <div class="ib-step {{ step.stepClass }}">
+            <div class="process-step-number" style="font-size:clamp(22px,2.6vw,32px); font-weight:700; letter-spacing:-.04em; line-height:1; color:{{ step.numCol }}; transition:color .5s ease;">{{ step.num }}</div>
             <div style="flex:1; padding-top:4px;">
               <div style="font-size:clamp(21px,2.2vw,28px); font-weight:700; letter-spacing:-.02em; margin-bottom:9px; color:{{ step.titleCol }}; transition:color .5s ease;">{{ step.title }}</div>
               <div style="font-size:16px; line-height:1.6; max-width:600px; color:{{ step.bodyCol }}; transition:color .5s ease;">{{ step.body }}</div>
             </div>
           </div>
         </sc-for>
-        <div style="border-top:1px solid rgba(255,255,255,.18);"></div>
       </div>
     </div>
   </section>
 
   <!-- ===== PROYECTOS REALIZADOS (slider) ===== -->
-  <section id="proyectos" data-screen-label="Proyectos" style="position:relative; background:#070712; color:#FDFCFE; padding:120px 6vw; overflow:hidden;">
+  <section id="proyectos" ref="{{ projRef }}" data-screen-label="Proyectos" style="position:relative; background:#070712; color:#FDFCFE; padding:120px 6vw; overflow:hidden;">
     <div style="position:absolute; top:-6%; left:-4%; width:460px; height:460px; border-radius:50%; background:radial-gradient(circle, rgba(46,55,255,.16), transparent 62%); filter:blur(34px); animation:softPulse 12s ease-in-out infinite;"></div>
     <div style="position:absolute; bottom:-8%; right:-4%; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle, rgba(124,58,237,.16), transparent 62%); filter:blur(34px); animation:softPulse 14s ease-in-out infinite 1s;"></div>
 
@@ -941,7 +944,7 @@
       </div>
 
       <!-- slider -->
-      <div class="reveal" data-rv-delay="120" role="region" aria-label="Proyectos de Reac Studio" style="position:relative;">
+      <div class="reveal" data-rv-delay="120" role="region" aria-label="Proyectos de Reac Studio" onKeyDown="{{ projKeyDown }}" onMouseEnter="{{ projHoverEnter }}" onMouseLeave="{{ projHoverLeave }}" onFocus="{{ projFocusIn }}" onBlur="{{ projFocusOut }}" style="position:relative;">
         <!-- flechas laterales (desktop) -->
         <button type="button" onClick="{{ projPrev }}" aria-label="Proyecto anterior" class="proj-arrow proj-side-arrow" style="left:-6px; width:54px; height:54px; border-radius:50%; background:rgba(14,16,32,.82); border:1px solid rgba(255,255,255,.14); color:#FDFCFE; -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg>
@@ -1003,12 +1006,12 @@
       </div>
       <div class="reveal" style="display:flex; flex-direction:column; gap:14px;">
         <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
-          <div class="imp-faq" onClick="{{ f.onToggle }}" style="background:#0E1020; backdrop-filter:blur(8px); border:1px solid #262B47; border-radius:18px; padding:24px 26px; cursor:pointer; transition:border-color .3s ease, box-shadow .3s ease, transform .4s cubic-bezier(.34,1.56,.5,1); box-shadow:{{ f.shadow }};">
-            <div style="display:flex; align-items:center; justify-content:space-between; gap:18px;">
+          <div class="imp-faq" style="background:#0E1020; backdrop-filter:blur(8px); border:1px solid #262B47; border-radius:18px; padding:24px 26px; transition:border-color .3s ease, box-shadow .3s ease, transform .4s cubic-bezier(.34,1.56,.5,1); box-shadow:{{ f.shadow }};">
+            <button id="{{ f.triggerId }}" type="button" onClick="{{ f.onToggle }}" aria-expanded="{{ f.expanded }}" aria-controls="{{ f.panelId }}" style="display:flex; align-items:center; justify-content:space-between; gap:18px; width:100%; padding:0; border:0; background:transparent; color:inherit; font:inherit; text-align:left; cursor:pointer;">
               <div style="font-size:17px; font-weight:600; letter-spacing:-.01em; color:#FDFCFE;">{{ f.q }}</div>
-              <span style="flex:none; width:30px; height:30px; border-radius:50%; background:linear-gradient(135deg,#1F27EB,#7C3AED); color:#FDFCFE; display:flex; align-items:center; justify-content:center; font-size:17px; font-weight:500; transform:rotate({{ f.rot }}); transition:transform .35s cubic-bezier(.22,1,.36,1);">+</span>
-            </div>
-            <div style="display:grid; grid-template-rows:{{ f.rows }}; transition:grid-template-rows .4s cubic-bezier(.22,1,.36,1);">
+              <span aria-hidden="true" style="flex:none; width:30px; height:30px; border-radius:50%; background:linear-gradient(135deg,#1F27EB,#7C3AED); color:#FDFCFE; display:flex; align-items:center; justify-content:center; font-size:17px; font-weight:500; transform:rotate({{ f.rot }}); transition:transform .35s cubic-bezier(.22,1,.36,1);">+</span>
+            </button>
+            <div id="{{ f.panelId }}" role="region" aria-labelledby="{{ f.triggerId }}" style="display:grid; grid-template-rows:{{ f.rows }}; transition:grid-template-rows .4s cubic-bezier(.22,1,.36,1);">
               <div style="overflow:hidden;">
                 <div style="font-size:15.5px; line-height:1.65; color:#868CA6; padding-top:16px;">{{ f.a }}</div>
               </div>
@@ -1020,6 +1023,25 @@
   </section>
 
   <!-- ===== TESTIMONIOS · oculto hasta contar con reseñas reales de clientes ===== -->
+
+  <!-- ===== SOBRE REAC / EQUIPO ===== -->
+  <section id="sobre-reac" data-screen-label="Sobre Reac" style="background:#0A0B16; color:#FDFCFE; padding:110px 6vw;">
+    <div style="max-width:1120px; margin:0 auto;">
+      <div class="reveal rv-left" style="max-width:760px; margin-bottom:42px;">
+        <div style="font-size:13px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:#9AA0FF; margin-bottom:16px;">Sobre Reac</div>
+        <h2 style="font-size:clamp(30px,4vw,52px); line-height:1.06; font-weight:700; letter-spacing:-.04em; margin:0 0 18px;">Un solo equipo para ordenar tu ecosistema digital.</h2>
+        <p style="font-size:17px; color:#A6ABC2; line-height:1.7; margin:0;">Reac Studio ayuda a negocios y profesionales a mejorar y digitalizar su presencia mediante marketing, desarrollo web, automatizaciones e inteligencia artificial.</p>
+      </div>
+      <div class="team-grid reveal rv-right">
+        <article class="team-card">
+          <div class="team-card-content"><div class="team-role">Desarrollo Web &amp; Tecnología</div><h3 class="team-name">Misael Ledesma</h3><p class="team-copy">Desarrollador full stack enfocado en construir sitios, sistemas e integraciones que convierten necesidades de negocio en soluciones digitales funcionales.</p><div class="team-areas"><span>Desarrollo web</span><span>Backend y sistemas</span><span>Automatización</span><span>Integraciones</span></div></div>
+        </article>
+        <article class="team-card">
+          <div class="team-card-content"><div class="team-role">Marketing &amp; Growth</div><h3 class="team-name">Tomás Ortiz</h3><p class="team-copy">Técnico en Marketing Digital por Universidad Siglo 21, con experiencia práctica en agencia y proyectos freelance. En Reac trabaja sobre estrategia, comunicación y crecimiento digital.</p><div class="team-areas"><span>Estrategia digital</span><span>Growth</span><span>Comunicación</span><span>Agencia y freelance</span></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
 
   <!-- ===== RECURSOS (lead magnets descargables) + NEWSLETTER ===== -->
   <section id="recursos" data-screen-label="Recursos" style="position:relative; background:#070712; color:#FDFCFE; padding:120px 6vw; overflow:hidden;">
@@ -1071,9 +1093,12 @@
           <h3 style="font-size:clamp(24px,2.6vw,34px); line-height:1.1; font-weight:700; letter-spacing:-.02em; margin:0 0 10px; color:#FDFCFE;">Ideas para vender más, sin vueltas.</h3>
           <p style="font-size:15px; color:rgba(255,255,255,.78); margin:0; line-height:1.6; max-width:420px;">Cada tanto te mandamos tácticas concretas de marketing, web y automatización que podés aplicar hoy. Cero spam. Te bajás cuando quieras.</p>
         </div>
-        <form class="nl-form" action="mailto:ledesma.rme@gmail.com?subject=Suscripción%20newsletter%20Reac%20Studio" method="post" enctype="text/plain" style="position:relative; z-index:2; display:flex; gap:10px; flex-wrap:wrap;">
-          <input type="email" name="email" required="" autocomplete="email" placeholder="Tu email" style="flex:1 1 220px; min-width:0; padding:15px 18px; border-radius:13px; border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.1); color:#FDFCFE; font-family:inherit; font-size:15px; outline:none;">
-          <button type="submit" class="imp-cta no-shiny" style="flex:none; padding:15px 26px; border-radius:13px; border:none; cursor:pointer; background:linear-gradient(135deg,#FA3601,#F0430A); color:#FDFCFE; font-weight:600; font-size:15px; font-family:inherit; box-shadow:0 12px 28px -10px rgba(250,54,1,.6);">Suscribirme</button>
+        <form class="nl-form" data-newsletter-form method="post" style="position:relative; z-index:2; display:flex; gap:10px; flex-wrap:wrap;">
+          <input type="hidden" name="form_type" value="newsletter">
+          <input type="hidden" name="_subject" value="Suscripción newsletter Reac Studio">
+          <input type="email" name="email" required="" maxlength="254" autocomplete="email" aria-label="Email para el newsletter" placeholder="Tu email" style="flex:1 1 220px; min-width:0; padding:15px 18px; border-radius:13px; border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.1); color:#FDFCFE; font-family:inherit; font-size:15px; outline:none;">
+          <button type="submit" data-submit-button data-idle-text="Suscribirme" class="imp-cta no-shiny" style="flex:none; padding:15px 26px; border-radius:13px; border:none; cursor:pointer; background:linear-gradient(135deg,#FA3601,#F0430A); color:#FDFCFE; font-weight:600; font-size:15px; font-family:inherit; box-shadow:0 12px 28px -10px rgba(250,54,1,.6);">Suscribirme</button>
+          <p class="form-status form-status--idle" data-form-status role="status" aria-live="polite" style="flex-basis:100%;"></p>
         </form>
       </div>
     </div>
@@ -1094,7 +1119,7 @@
         <div class="ct-methods">
           <a class="ct-method" href="https://wa.me/5493544434403?text=Hola%20Reac%20Studio,%20quiero%20un%20diagn%C3%B3stico%20gratis" target="_blank" rel="noopener">
             <span class="ct-mico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.3L4 21l1.2-3.6A8.4 8.4 0 1 1 21 11.5z"></path><path d="M8.5 9.5c0 4 2 6 6 6"></path></svg></span>
-            <span class="ct-mtext"><span class="ct-mlabel">Respuesta rápida</span><span class="ct-mval">WhatsApp directo</span></span>
+            <span class="ct-mtext"><span class="ct-mlabel">Canal directo</span><span class="ct-mval">WhatsApp</span></span>
           </a>
           <a class="ct-method" href="mailto:ledesma.rme@gmail.com">
             <span class="ct-mico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"></rect><path d="m4 7 8 5.5L20 7"></path></svg></span>
@@ -1102,48 +1127,49 @@
           </a>
           <div class="ct-method" style="cursor:default;">
             <span class="ct-mico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.2 1.9"></path></svg></span>
-            <span class="ct-mtext"><span class="ct-mlabel">Tiempo de respuesta</span><span class="ct-mval">Menos de 24 hs</span></span>
+            <span class="ct-mtext"><span class="ct-mlabel">Modalidad</span><span class="ct-mval">Atención remota</span></span>
           </div>
         </div>
       </aside>
       <!-- COLUMNA FORM -->
       <div style="position:relative; z-index:2;">
-        <form id="ct-form" action="mailto:ledesma.rme@gmail.com" method="post" enctype="text/plain" class="ct-form">
+        <form id="ct-form" method="post" class="ct-form">
+          <input type="hidden" name="form_type" value="contacto">
+          <input type="hidden" name="_subject" value="Nueva consulta desde Reac Studio">
+          <div class="form-honeypot" aria-hidden="true"><label for="ct-company-site">No completar este campo</label><input id="ct-company-site" type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
           <div class="ct-grid">
             <div class="ct-row">
               <label class="ct-label" for="ct-nombre">Tu nombre</label>
               <div class="ct-wrap">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c0-3.3 3.1-5.5 7-5.5s7 2.2 7 5.5"></path></svg>
-                <input id="ct-nombre" class="ct-field" type="text" name="nombre" required="" autocomplete="name" placeholder="Juan Pérez">
+                <input id="ct-nombre" class="ct-field" type="text" name="nombre" required="" maxlength="120" autocomplete="name" placeholder="Juan Pérez">
               </div>
             </div>
             <div class="ct-row">
               <label class="ct-label" for="ct-email">Email</label>
               <div class="ct-wrap">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"></rect><path d="m4 7 8 5.5L20 7"></path></svg>
-                <input id="ct-email" class="ct-field" type="email" name="email" required="" autocomplete="email" placeholder="vos@ejemplo.com">
+                <input id="ct-email" class="ct-field" type="email" name="email" required="" maxlength="254" autocomplete="email" placeholder="vos@ejemplo.com">
               </div>
             </div>
           </div>
           <div class="ct-row">
-            <label class="ct-label" for="ct-asunto">Asunto</label>
+            <label class="ct-label" for="ct-empresa">Empresa o negocio</label>
             <div class="ct-wrap">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7"></path></svg>
-              <input id="ct-asunto" class="ct-field" type="text" name="asunto" placeholder="Consulta por web / sistema / e-commerce…">
+              <input id="ct-empresa" class="ct-field" type="text" name="empresa" maxlength="160" autocomplete="organization" placeholder="Nombre de tu empresa o proyecto">
             </div>
           </div>
           <div class="ct-row">
             <label class="ct-label" for="ct-mensaje">Mensaje</label>
             <div class="ct-wrap ct-area">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.3L4 21l1.2-3.6A8.4 8.4 0 1 1 21 11.5z"></path></svg>
-              <textarea id="ct-mensaje" class="ct-field" name="mensaje" required="" placeholder="Contanos tu proyecto, plazos y qué querés lograr…"></textarea>
+              <textarea id="ct-mensaje" class="ct-field" name="mensaje" required="" maxlength="3000" placeholder="Contanos tu proyecto, plazos y qué querés lograr…"></textarea>
             </div>
           </div>
-          <button type="submit" class="ct-send">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:18px; height:18px;"><path d="M22 2 11 13"></path><path d="M22 2 15 22l-4-9-9-4 20-7z"></path></svg>
-            Enviar mensaje
-          </button>
-          <p class="ct-note">Tu mensaje se abre en tu cliente de correo, listo para enviar a ledesma.rme@gmail.com.</p>
+          <button type="submit" data-submit-button data-idle-text="Enviar consulta" class="ct-send">Enviar consulta</button>
+          <p class="form-status form-status--idle" data-form-status role="status" aria-live="polite"></p>
+          <p class="ct-note">Enviaremos la consulta de forma segura cuando el servicio de formularios quede configurado.</p>
         </form>
       </div>
     </div>
@@ -1185,12 +1211,8 @@
             <h2 style="font-size:clamp(58px,11vw,168px); font-weight:800; line-height:.78; letter-spacing:-.045em; margin:0; background:linear-gradient(120deg,#6E74FF 0%,#2E37FF 45%,#7C3AED 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent;">Reac Studio<span style="-webkit-text-fill-color:#FA3601; color:#FA3601;">.</span></h2>
             <div style="text-align:right; min-width:200px;">
               <p style="font-size:13px; color:#868CA6; margin:0 0 8px;">© 2026 Reac Studio. Todos los derechos reservados.</p>
-              <p style="margin:0 0 14px;"><a class="imp-flink" href="#" style="font-size:13px; color:#868CA6; text-decoration:underline; text-underline-offset:2px;">Política de privacidad</a></p>
-              <div style="display:flex; gap:10px; justify-content:flex-end;">
-                <span class="imp-soc" style="width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,.06); display:flex; align-items:center; justify-content:center; color:#C4C8D8;"><svg viewBox="0 0 24 24" fill="none" style="width:17px; height:17px;"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" stroke-width="1.8"></rect><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"></circle><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor"></circle></svg></span>
-                <span class="imp-soc" style="width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,.06); display:flex; align-items:center; justify-content:center; color:#C4C8D8;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:17px; height:17px;"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"></path></svg></span>
-                <span class="imp-soc" style="width:40px; height:40px; border-radius:50%; background:rgba(255,255,255,.06); display:flex; align-items:center; justify-content:center; color:#C4C8D8;"><svg viewBox="0 0 24 24" fill="currentColor" style="width:17px; height:17px;"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.18-1.14l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 0 1-1.26-4.39c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.23 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43-.14-.01-.31-.01-.47-.01a.9.9 0 0 0-.65.31c-.22.25-.85.83-.85 2.02 0 1.19.87 2.35.99 2.51.12.17 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"></path></svg></span>
-              </div>
+              <p style="margin:0 0 14px;"><a class="imp-flink" href="/politica-de-privacidad.html" style="font-size:13px; color:#868CA6; text-decoration:underline; text-underline-offset:2px;">Política de privacidad</a></p>
+              <a class="imp-flink" href="https://wa.me/5493544434403" target="_blank" rel="noopener" aria-label="Contactar a Reac Studio por WhatsApp" style="font-size:13px; color:#AEB4FF;">Contactar por WhatsApp</a>
             </div>
           </div>
         </div>
@@ -1208,19 +1230,7 @@ class Component extends DCLogic {
       methodTop: 99999,
       methodH: 600,
       openIndex: 0,
-      leads: 0,
-      statsInView: false,
-      dashInView: false,
       showNav: false,
-      tipsOn: false,
-      hoverBar: null,
-      metricView: 'bars',
-      metricPeriodIdx: 2,
-      periodOpen: false,
-      gPct: 0,
-      gaugeProg: 0,
-      gSales: 0,
-      gLeads: 0,
       tg: { wsp: true, leads: false, crm: true, report: false },
       goals: { camp: 72, leadsg: 48 },
       budget: 55,
@@ -1229,32 +1239,14 @@ class Component extends DCLogic {
     };
     this.methodRef = React.createRef();
     this.statsRef = React.createRef();
-    this.gaugeRef = React.createRef();
-    this.gaugeInnerRef = React.createRef();
-    this.gaugeGlowRef = React.createRef();
+    this.projRef = React.createRef();
     this.dashRef = React.createRef();
     this.p1Ref = React.createRef();
     this.p2Ref = React.createRef();
     this.pTitleRef = React.createRef();
     this.p4Ref = React.createRef();
-    this.campNumRef = React.createRef();
-    this.leadsNumRef = React.createRef();
     this.CAMP_MAX = 10;
     this.LEADS_MAX = 1000;
-  }
-
-  popNum(ref){
-    // run AFTER the setState re-render commits, otherwise the runtime
-    // re-render clobbers the imperative transform mid-animation
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      const el = ref && ref.current;
-      if (!el) return;
-      el.style.transition = 'none';
-      el.style.transform = 'scale(1.45)';
-      void el.offsetWidth; // force reflow
-      el.style.transition = 'transform .45s cubic-bezier(.22,1,.36,1)';
-      el.style.transform = 'scale(1)';
-    }));
   }
 
   getScroller(){
@@ -1272,10 +1264,57 @@ class Component extends DCLogic {
   applyParallax(){
     if (this.reduceMotion) return;
     const pp = this._pp || 0;
+    if (this._lastAppliedPp === pp) return;
+    this._lastAppliedPp = pp;
     if (this.p1Ref.current) this.p1Ref.current.style.transform = 'translate(-50%, ' + (70 * pp) + '%)';
     if (this.p2Ref.current) this.p2Ref.current.style.transform = 'translate(-50%, ' + (55 * pp) + '%)';
     if (this.pTitleRef.current) this.pTitleRef.current.style.transform = 'translate(-50%, calc(-50% + ' + (40 * pp) + '%))';
     if (this.p4Ref.current) this.p4Ref.current.style.transform = 'translate(-50%, ' + (10 * pp) + '%)';
+  }
+
+  scheduleScroll(){
+    if (this._scrollRaf) return;
+    const raf = window.requestAnimationFrame || ((cb) => window.setTimeout(cb, 16));
+    this._scrollRaf = raf(() => {
+      this._scrollRaf = 0;
+      this.updateScrollFrame();
+    });
+  }
+
+  measureScrollLayout(currentScrollY){
+    const el = this.methodRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    this._methodTop = r.top + currentScrollY;
+    this._methodH = r.height;
+    this._needsScrollMeasure = false;
+  }
+
+  updateScrollFrame(){
+    const currentScroller = this.scroller || window;
+    const currentScrollY = currentScroller === window ? (window.pageYOffset || document.documentElement.scrollTop || 0) : currentScroller.scrollTop;
+    const currentVh = currentScroller === window ? window.innerHeight : currentScroller.clientHeight;
+    if (this._needsScrollMeasure) this.measureScrollLayout(currentScrollY);
+
+    if (!this.reduceMotion){
+      const pp = Math.max(0, Math.min(1, currentScrollY / Math.max(1, currentVh)));
+      if (Math.abs(pp - (this._pp || 0)) > 0.001) {
+        this._pp = pp;
+        this.applyParallax();
+      }
+    }
+
+    const nextState = {};
+    if (Math.abs(currentScrollY - (this.state.scrollY || 0)) > 2) nextState.scrollY = currentScrollY;
+    if (this.state.vh !== currentVh) nextState.vh = currentVh;
+    if (this._methodTop != null && this.state.methodTop !== this._methodTop) nextState.methodTop = this._methodTop;
+    if (this._methodH != null && this.state.methodH !== this._methodH) nextState.methodH = this._methodH;
+    const sv2 = this.statsRef.current;
+    if (sv2) {
+      const nextShowNav = sv2.getBoundingClientRect().top <= 64;
+      if (this.state.showNav !== nextShowNav) nextState.showNav = nextShowNav;
+    }
+    if (Object.keys(nextState).length) this.setState(nextState);
   }
 
   componentDidUpdate(){
@@ -1286,54 +1325,13 @@ class Component extends DCLogic {
 
   componentDidMount(){
     this.reduceMotion = (typeof window !== 'undefined' && window.matchMedia) ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
-    this.onScroll = () => {
-      // Parallax Osmo: capas a distinta velocidad (respeta prefers-reduced-motion).
-      // Lee el scroll del contenedor real (window o ancestro scrolleable del runtime).
-      if (!this.reduceMotion){
-        const sc = this.scroller || window;
-        const sy = (sc === window) ? (window.pageYOffset || document.documentElement.scrollTop || 0) : sc.scrollTop;
-        const vh = (sc === window) ? window.innerHeight : sc.clientHeight;
-        this._pp = Math.max(0, Math.min(1, sy / Math.max(1, vh)));
-        this.applyParallax();
-      }
-
-      const currentScroller = this.scroller || window;
-      const currentScrollY = currentScroller === window ? (window.pageYOffset || document.documentElement.scrollTop || 0) : currentScroller.scrollTop;
-      const currentVh = currentScroller === window ? window.innerHeight : currentScroller.clientHeight;
-      const st = { scrollY: currentScrollY, vh: currentVh };
-      // Navbar: aparece al entrar al módulo "El problema que resolvemos" y queda visible hacia abajo.
-      const sv2 = this.statsRef.current;
-      if (sv2) st.showNav = sv2.getBoundingClientRect().top <= 64;
-      const el = this.methodRef.current;
-      if (el){
-        const r = el.getBoundingClientRect();
-        st.methodTop = r.top + currentScrollY;
-        st.methodH = r.height;
-      }
-      this.setState(st);
-
-      const vh = currentVh;
-      const sv = this.statsRef.current;
-      if (sv && !this.state.statsInView){
-        const r = sv.getBoundingClientRect();
-        if (r.top < vh * 0.75 && r.bottom > 0){
-          this.setState({ statsInView: true });
-          this.animateStats();
-        }
-      }
-      const dv = this.dashRef.current;
-      if (dv && !this.state.dashInView){
-        const r = dv.getBoundingClientRect();
-        if (r.top < vh * 0.75 && r.bottom > 0){
-          this.setState({ dashInView: true });
-          setTimeout(() => this.setState({ tipsOn: true }), 1100);
-        }
-      }
-    };
+    this._needsScrollMeasure = true;
+    this.onScroll = () => this.scheduleScroll();
     this.scroller = this.getScroller();
     this.scroller.addEventListener('scroll', this.onScroll, { passive: true });
     if (this.scroller !== window) window.addEventListener('scroll', this.onScroll, { passive: true });
-    window.addEventListener('resize', this.onScroll);
+    this.onResize = () => { this._needsScrollMeasure = true; this.scheduleScroll(); };
+    window.addEventListener('resize', this.onResize);
     this.onScroll();
     // Re-detecta el scroller cuando ya cargó el layout/imágenes y re-aplica.
     setTimeout(() => {
@@ -1343,6 +1341,7 @@ class Component extends DCLogic {
         if (prev && prev.addEventListener) prev.removeEventListener('scroll', this.onScroll);
         this.scroller.addEventListener('scroll', this.onScroll, { passive: true });
       }
+      this._needsScrollMeasure = true;
       this.onScroll();
     }, 120);
 
@@ -1368,18 +1367,22 @@ class Component extends DCLogic {
       setTimeout(() => { document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-in')); }, 60);
     }
 
-    // count leads 0 -> 142 on mount (timer-based; rAF unavailable in preview)
-    const start = Date.now();
-    const dur = 1600;
-    this.leadTimer = setInterval(() => {
-      const t = Math.min(1, (Date.now() - start) / dur);
-      const e = 1 - Math.pow(1 - t, 3);
-      this.setState({ leads: Math.round(142 * e) });
-      if (t >= 1){ clearInterval(this.leadTimer); this.leadTimer = null; }
-    }, 32);
-
     this.initTresJuntas();
     this.initHeroSpot();
+    this.projHover = false;
+    this.projFocus = false;
+    this.projInView = !('IntersectionObserver' in window);
+    if ('IntersectionObserver' in window && this.projRef.current) {
+      this.projObs = new IntersectionObserver((entries) => {
+        this.projInView = !!(entries[0] && entries[0].isIntersecting);
+        if (this.projInView && !this._projInitialTracked) {
+          this._projInitialTracked = true;
+          this.emitProjectView(this.state.projIndex);
+        }
+      }, { threshold: 0.3 });
+      this.projObs.observe(this.projRef.current);
+    }
+    this.startProjAutoplay();
   }
 
   initHeroSpot(){
@@ -1434,77 +1437,6 @@ class Component extends DCLogic {
       }, sec);
     };
     this._tjTimer = setTimeout(() => run(0), 200);
-  }
-
-  makeDrag(key){
-    return (e) => {
-      e.preventDefault();
-      const el = e.currentTarget;
-      const apply = (ev) => {
-        const r = el.getBoundingClientRect();
-        let p = (ev.clientX - r.left) / r.width;
-        p = Math.max(0, Math.min(1, p));
-        const pct = Math.round(p * 100);
-        if (key === 'budget') this.setState({ budget: pct });
-        else {
-          this.setState(s => ({ goals: Object.assign({}, s.goals, { [key]: pct }) }));
-          // pop the number when its integer value changes
-          if (key === 'camp' || key === 'leadsg') {
-            const max = key === 'camp' ? this.CAMP_MAX : this.LEADS_MAX;
-            const ref = key === 'camp' ? this.campNumRef : this.leadsNumRef;
-            const nv = Math.round(p * max);
-            if (nv !== this['_lastVal_' + key]) {
-              this['_lastVal_' + key] = nv;
-              this.popNum(ref);
-            }
-          }
-        }
-      };
-      apply(e);
-      const move = (ev) => apply(ev);
-      const up = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); };
-      window.addEventListener('pointermove', move);
-      window.addEventListener('pointerup', up);
-    };
-  }
-
-  animateStats(){
-    if (this._statsRan) return;
-    this._statsRan = true;
-    if (this.reduceMotion){ this.setState({ gaugeProg: 1, gPct: 98, gSales: 4.2, gLeads: 1240 }); return; }
-    const start = Date.now() + 280;
-    const dur = 3200;
-    if (this.statsTimer) clearInterval(this.statsTimer);
-    this.statsTimer = setInterval(() => {
-      const now = Date.now();
-      if (now < start) return;
-      const t = Math.min(1, (now - start) / dur);
-      // easeInOutCubic — arranca y termina suave, lento al final
-      const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      this.setState({ gaugeProg: e, gPct: Math.round(98 * e), gSales: 4.2 * e, gLeads: Math.round(1240 * e) });
-      if (t >= 1){ clearInterval(this.statsTimer); this.statsTimer = null; }
-    }, 16);
-  }
-
-  gaugeMove(e){
-    if (this.reduceMotion) return;
-    const card = this.gaugeRef.current, inner = this.gaugeInnerRef.current, glow = this.gaugeGlowRef.current;
-    if (!card || !inner) return;
-    const r = card.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    inner.style.transform = 'rotateY(' + (px * 16).toFixed(2) + 'deg) rotateX(' + (-py * 16).toFixed(2) + 'deg) scale(1.04)';
-    if (glow){
-      glow.style.opacity = '1';
-      glow.style.left = (e.clientX - r.left) + 'px';
-      glow.style.top = (e.clientY - r.top) + 'px';
-    }
-  }
-
-  gaugeLeave(){
-    const inner = this.gaugeInnerRef.current, glow = this.gaugeGlowRef.current;
-    if (inner) inner.style.transform = 'rotateY(0deg) rotateX(0deg) scale(1)';
-    if (glow) glow.style.opacity = '0';
   }
 
   projData(){
@@ -1620,17 +1552,55 @@ class Component extends DCLogic {
     ];
   }
 
-  nextProj(){ const n = this.projData().length; this.setState(s => ({ projIndex: (s.projIndex + 1) % n })); }
-  prevProj(){ const n = this.projData().length; this.setState(s => ({ projIndex: (s.projIndex - 1 + n) % n })); }
-  goProj(i){ this.setState({ projIndex: i }); }
+  startProjAutoplay(){
+    if (this.projTimer) clearInterval(this.projTimer);
+    if (this.reduceMotion) return;
+    this.projTimer = setInterval(() => {
+      if (!this.projHover && !this.projFocus && this.projInView && !document.hidden) this.nextProj(false);
+    }, 5000);
+  }
+  emitProjectView(index){
+    const project = this.projData()[index];
+    if (!project || typeof document === 'undefined') return;
+    document.dispatchEvent(new CustomEvent('reac:project-view', { detail: { project_name: project.name, project_type: project.kind } }));
+  }
+  nextProj(manual){
+    const n = this.projData().length;
+    const next = (this.state.projIndex + 1) % n;
+    this.setState({ projIndex: next });
+    this.emitProjectView(next);
+    if (manual) this.startProjAutoplay();
+  }
+  prevProj(){
+    const n = this.projData().length;
+    const next = (this.state.projIndex - 1 + n) % n;
+    this.setState({ projIndex: next });
+    this.emitProjectView(next);
+    this.startProjAutoplay();
+  }
+  goProj(i){ this.setState({ projIndex: i }); this.emitProjectView(i); this.startProjAutoplay(); }
+  pauseProj(reason){
+    if (reason === 'hover') this.projHover = true;
+    if (reason === 'focus') this.projFocus = true;
+  }
+  resumeProj(reason){
+    if (reason === 'hover') this.projHover = false;
+    if (reason === 'focus') this.projFocus = false;
+    this.startProjAutoplay();
+  }
+  projectKeyDown(e){
+    if (e.key === 'ArrowLeft') { e.preventDefault(); this.prevProj(); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); this.nextProj(true); }
+  }
 
   componentWillUnmount(){
     if (this.scroller && this.scroller.removeEventListener) this.scroller.removeEventListener('scroll', this.onScroll);
     window.removeEventListener('scroll', this.onScroll);
-    window.removeEventListener('resize', this.onScroll);
+    if (this.onResize) window.removeEventListener('resize', this.onResize);
+    if (this._scrollRaf && window.cancelAnimationFrame) window.cancelAnimationFrame(this._scrollRaf);
     if (this.revObs) this.revObs.disconnect();
-    if (this.leadTimer) clearInterval(this.leadTimer);
-    if (this.statsTimer) clearInterval(this.statsTimer);
+    if (this.projObs) this.projObs.disconnect();
+    if (this.projTimer) clearInterval(this.projTimer);
     if (this._tjTimer) clearTimeout(this._tjTimer);
     if (this._tjCtx) this._tjCtx.revert();
     if (window.ScrollTrigger) window.ScrollTrigger.getAll().forEach((t) => t.kill());
@@ -1682,8 +1652,9 @@ class Component extends DCLogic {
         num: s.num,
         title: s.title,
         body: s.body,
+        stepClass: on ? 'is-lit' : '',
         numCol: on ? '#FF7A4D' : 'rgba(255,255,255,.25)',
-        glow: on ? '0 0 26px rgba(250,54,1,.6)' : 'none',
+        glow: 'none',
         titleCol: on ? '#FDFCFE' : 'rgba(255,255,255,.45)',
         bodyCol: on ? 'rgba(255,255,255,.84)' : 'rgba(255,255,255,.32)'
       };
@@ -1692,7 +1663,7 @@ class Component extends DCLogic {
     const faqData = [
       { q: '¿Cómo empezamos a trabajar juntos?', a: 'Arrancamos con una llamada de diagnóstico sin costo. Revisamos tu presencia digital, tus canales de venta y tus procesos, y te mostramos qué conviene mejorar primero. Si tiene sentido avanzar, armamos una propuesta a medida.' },
       { q: '¿Puedo contratar un solo servicio o tiene que ser todo?', a: 'Podés empezar por un módulo específico (marketing, web o automatización) o armar una solución integral. Recomendamos por dónde conviene empezar según tu objetivo y tu presupuesto, sin obligarte a contratar de más.' },
-      { q: '¿Cuánto cuesta y cómo se cobra?', a: 'Cada servicio se cobra distinto. Marketing Digital es una gestión mensual desde US$150/mes (la inversión en anuncios de Meta/Google la ponés vos, aparte). Desarrollo Web (desde US$200) y Automatizaciones con IA (desde US$250) son pago único por proyecto. El mantenimiento de web y automatizaciones es un servicio mensual opcional y no está incluido por defecto. El precio final depende del alcance, que definimos juntos en el diagnóstico.' },
+      { q: '¿Cuánto cuesta y cómo se cobra?', a: 'Cada servicio se cobra distinto. Marketing Digital es una gestión mensual desde USD 150/mes (la inversión en anuncios de Meta/Google la ponés vos, aparte). Desarrollo Web (desde USD 200) y Automatizaciones con IA (desde USD 250) son pago único por proyecto. El mantenimiento de web y automatizaciones es un servicio mensual opcional y no está incluido por defecto. El precio final depende del alcance, que definimos juntos en el diagnóstico.' },
       { q: '¿En cuánto tiempo se ven resultados?', a: 'Depende del servicio: una web puede estar lista en pocas semanas, mientras que las campañas necesitan un período de aprendizaje y optimización. No prometemos resultados mágicos; sí medimos todo para mejorar de forma continua.' },
       { q: '¿Trabajan con negocios de cualquier rubro y ubicación?', a: 'Sí. Trabajamos de forma remota con negocios de distintos rubros en Argentina y la región. Lo importante es que tengas un objetivo comercial claro y ganas de ordenar tu sistema digital.' },
       { q: '¿Cómo miden los resultados?', a: 'Dejamos analíticas y seguimiento configurados (eventos, conversiones, leads) para tomar decisiones por datos y no por intuición. Te compartimos qué funciona y qué ajustamos en cada etapa.' }
@@ -1705,111 +1676,14 @@ class Component extends DCLogic {
         rows: open ? '1fr' : '0fr',
         rot: open ? '135deg' : '0deg',
         shadow: open ? '0 18px 44px -22px rgba(46,55,255,.5)' : '0 1px 2px rgba(20,20,60,.04)',
+        expanded: open ? 'true' : 'false',
+        panelId: 'faq-answer-' + i,
+        triggerId: 'faq-question-' + i,
         onToggle: () => this.setState((st) => ({ openIndex: st.openIndex === i ? -1 : i }))
       };
     });
 
-    const tBase = [
-      { quote: '"En tres meses pasamos de no tener consultas a no dar abasto. Las campañas y el chatbot de IA hacen el trabajo pesado por nosotros."', name: 'Martín Rivas', role: 'Estudio jurídico · Córdoba', initials: 'MR', grad: 'linear-gradient(135deg,#1F27EB,#7C3AED)' },
-      { quote: '"La web nueva nos cambió la cara de la marca y, lo mejor, ahora sabemos exactamente de dónde vienen los clientes. Todo medido."', name: 'Lucía Fernández', role: 'Tienda de deco · Rosario', initials: 'LF', grad: 'linear-gradient(135deg,#2E37FF,#1F27EB)' },
-      { quote: '"Automatizaron el seguimiento de leads y el CRM. Dejamos de perder oportunidades por no contestar a tiempo. Un antes y un después."', name: 'Diego Gómez', role: 'Inmobiliaria · Buenos Aires', initials: 'DG', grad: 'linear-gradient(135deg,#7C3AED,#6E74FF)' },
-      { quote: '"Ahora entiendo mis números. El dashboard me muestra qué campaña trae clientes y cuál no. Tomamos decisiones con datos, no a ciegas."', name: 'Sofía Castro', role: 'Centro estético · Mendoza', initials: 'SC', grad: 'linear-gradient(135deg,#1F27EB,#2E37FF)' },
-      { quote: '"Profesionales y al grano. Nada de humo: propusieron, ejecutaron y midieron. El retorno de la inversión se vio rapidísimo."', name: 'Pablo Suárez', role: 'Gimnasio · La Plata', initials: 'PS', grad: 'linear-gradient(135deg,#6E74FF,#7C3AED)' }
-    ];
-    const testimonials = tBase.concat(tBase);
-
     const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-
-    // ── Métrica interactiva "Tus resultados" (período + vista barras/curva) ──
-    const mSeries = [
-      { v: 142, date: '01 may' }, { v: 168, date: '03 may' }, { v: 155, date: '05 may' },
-      { v: 196, date: '07 may' }, { v: 210, date: '09 may' }, { v: 188, date: '11 may' },
-      { v: 248, date: '13 may' }, { v: 232, date: '15 may' }, { v: 276, date: '17 may' },
-      { v: 312, date: '19 may' }, { v: 298, date: '21 may' }, { v: 354, date: '23 may' },
-      { v: 410, date: '25 may' }, { v: 468, date: '27 may' }, { v: 520, date: '29 may' }
-    ];
-    const mPeriods = [
-      { label: 'Últimos 7 días', points: 4 },
-      { label: 'Últimos 15 días', points: 7 },
-      { label: 'Últimos 30 días' }
-    ];
-    const mIdx = this.state.metricPeriodIdx;
-    const mOpt = mPeriods[mIdx] || mPeriods[mPeriods.length - 1];
-    const mVis = (mOpt.points && mOpt.points < mSeries.length) ? mSeries.slice(-mOpt.points) : mSeries;
-    const mVals = mVis.map((p) => p.v);
-    const mN = mVals.length;
-    const mLo = Math.min.apply(null, mVals);
-    const mHi = Math.max.apply(null, mVals);
-    const mSpan = (mHi - mLo) || 1;
-    const mSum = mVals.reduce((a, b) => a + b, 0);
-    const mFirst = mVals[0];
-    const mLast = mVals[mN - 1];
-    const mPrev = (mVals[mN - 2] != null) ? mVals[mN - 2] : mFirst;
-    const mNet = mLast - mFirst;
-    const mStep = mLast - mPrev;
-    const mPct = mFirst ? (mNet / mFirst * 100) : 0;
-    const mAvg = Math.round(mSum / mN);
-    const mTrend = (Math.abs(mPct) < 0.5) ? 'flat' : (mNet >= 0 ? 'up' : 'down');
-    const mTrendCol = (mTrend === 'up') ? '#34D399' : (mTrend === 'down') ? '#FB7185' : '#9AA0FF';
-    const mTrendArrow = (mTrend === 'up') ? '▲' : (mTrend === 'down') ? '▼' : '–';
-
-    // Geometría compartida: topPct = posición vertical del punto (desde arriba).
-    const PAD_T = 10, PAD_B = 12, HPAD = 7;
-    const topPct = (v) => PAD_T + (1 - (v - mLo) / mSpan) * (100 - PAD_T - PAD_B);
-    const xPct = (i) => (mN > 1) ? (HPAD + (i / (mN - 1)) * (100 - 2 * HPAD)) : 50;
-
-    const mHv = this.state.hoverBar;
-    const mPeakIdx = mVals.indexOf(mHi);
-    const isBars = this.state.metricView === 'bars';
-    const barW = Math.max(14, Math.min(42, Math.round(560 / mN)));
-
-    const metricBars = mVis.map((p, i) => {
-      const tp = topPct(p.v);
-      const active = (mHv === i);
-      return {
-        x: xPct(i) + '%',
-        top: tp.toFixed(2) + '%',
-        barScale: this.state.dashInView ? 1 : 0,
-        barW: barW + 'px',
-        barOpacity: isBars ? ((mHv === null || active) ? 1 : 0.38) : 0,
-        dotDisplay: isBars ? 'none' : 'block',
-        dotScale: active ? 1.5 : 1,
-        dotBg: active ? '#FDFCFE' : '#7C3AED',
-        v: fmt(p.v),
-        date: p.date,
-        tip: active ? 1 : ((mHv === null && this.state.tipsOn && i === mPeakIdx) ? 1 : 0),
-        barSh: active ? '0 0 30px rgba(124,58,237,.75)' : '0 0 16px rgba(46,55,255,.4)',
-        onEnter: () => this.setState({ hoverBar: i }),
-        onLeave: () => this.setState({ hoverBar: null })
-      };
-    });
-
-    // Path SVG de la curva + área de relleno.
-    const mPts = mVis.map((p, i) => [xPct(i), topPct(p.v)]);
-    const mLinePath = mPts.reduce((d, pt, i) => d + (i ? ' L' : 'M') + pt[0].toFixed(2) + ' ' + pt[1].toFixed(2), '');
-    const mAreaPath = mLinePath + ' L' + xPct(mN - 1).toFixed(2) + ' 100 L' + xPct(0).toFixed(2) + ' 100 Z';
-
-    // Etiquetas del eje X (máx ~6, espaciadas uniformemente).
-    const lblEvery = Math.max(1, Math.ceil(mN / 6));
-    const mAxisLabels = mVis
-      .map((p, i) => ({ t: p.date, i: i }))
-      .filter((o) => (o.i % lblEvery === 0) || (o.i === mN - 1))
-      .map((o) => ({ t: o.t }));
-
-    const cyclePeriod = () => this.setState((s) => ({ metricPeriodIdx: (s.metricPeriodIdx + 1) % mPeriods.length, hoverBar: null }));
-    const periodOpen = this.state.periodOpen;
-    const togglePeriod = () => this.setState((s) => ({ periodOpen: !s.periodOpen }));
-    const closePeriod = () => this.setState({ periodOpen: false });
-    const periodItems = mPeriods.map((p, i) => ({
-      label: p.label,
-      weight: i === mIdx ? '700' : '500',
-      col: i === mIdx ? '#FDFCFE' : '#C4C8D8',
-      bg: i === mIdx ? 'rgba(110,116,255,.14)' : 'transparent',
-      checkOpacity: i === mIdx ? '1' : '0',
-      onPick: () => this.setState({ metricPeriodIdx: i, periodOpen: false, hoverBar: null })
-    }));
-    const setBars = () => this.setState({ metricView: 'bars', hoverBar: null });
-    const setCurve = () => this.setState({ metricView: 'curve', hoverBar: null });
 
     const onGrad = 'linear-gradient(135deg,#1F27EB,#7C3AED)';
     const offTrack = '#15182B';
@@ -1825,14 +1699,15 @@ class Component extends DCLogic {
       ariaHidden: i === pIdx ? 'false' : 'true',
       tabIndex: i === pIdx ? '0' : '-1'
     }));
-
-    // Gauge dot: posición sobre el arco según el progreso de scroll
-    const gp = this.state.statsInView ? (this.state.gaugeProg || 0) : 0;
-    const gFrac = 0.98 * gp;
-    const gAng = Math.PI * (1 - gFrac);
-    const dotX = 120 + 98 * Math.cos(gAng);
-    const dotY = 122 - 98 * Math.sin(gAng);
-    const dotOpacity = gp > 0.02 ? 1 : 0;
+    const projTrackX = 'translateX(' + (-pIdx * 100) + '%)';
+    const projCounter = pad2(pIdx + 1) + ' / ' + pad2(nProj);
+    const projDots = projAll.map((p, i) => ({
+      w: i === pIdx ? '30px' : '9px',
+      bg: i === pIdx ? 'linear-gradient(135deg,#1F27EB,#7C3AED)' : 'rgba(255,255,255,.18)',
+      label: 'Ver proyecto ' + pad2(i + 1) + ': ' + p.name,
+      current: i === pIdx ? 'true' : 'false',
+      go: () => this.goProj(i)
+    }));
 
     return {
       projects: projects,
@@ -1840,9 +1715,16 @@ class Component extends DCLogic {
       projCounter: projCounter,
       projDots: projDots,
       projPrev: () => this.prevProj(),
-      projNext: () => this.nextProj(),
+      projNext: () => this.nextProj(true),
+      projHoverEnter: () => this.pauseProj('hover'),
+      projHoverLeave: () => this.resumeProj('hover'),
+      projFocusIn: () => this.pauseProj('focus'),
+      projFocusOut: () => this.resumeProj('focus'),
+      projKeyDown: (e) => this.projectKeyDown(e),
       probShowSin: this.state.probView === 'sin',
       probShowCon: this.state.probView === 'con',
+      probSinSelected: this.state.probView === 'sin' ? 'true' : 'false',
+      probConSelected: this.state.probView === 'con' ? 'true' : 'false',
       setProbSin: () => this.setState({ probView: 'sin' }),
       setProbCon: () => this.setState({ probView: 'con' }),
       probSinPillBg: this.state.probView === 'sin' ? 'rgba(250,54,1,.14)' : 'transparent',
@@ -1855,6 +1737,10 @@ class Component extends DCLogic {
       toggleLeads: () => this.setState(s => ({ tg: Object.assign({}, s.tg, { leads: !s.tg.leads }) })),
       toggleCrm: () => this.setState(s => ({ tg: Object.assign({}, s.tg, { crm: !s.tg.crm }) })),
       toggleReport: () => this.setState(s => ({ tg: Object.assign({}, s.tg, { report: !s.tg.report }) })),
+      wspPressed: this.state.tg.wsp ? 'true' : 'false',
+      leadsPressed: this.state.tg.leads ? 'true' : 'false',
+      crmPressed: this.state.tg.crm ? 'true' : 'false',
+      reportPressed: this.state.tg.report ? 'true' : 'false',
       wspTrack: this.state.tg.wsp ? onGrad : offTrack,
       leadsTrack: this.state.tg.leads ? onGrad : offTrack,
       crmTrack: this.state.tg.crm ? onGrad : offTrack,
@@ -1863,76 +1749,31 @@ class Component extends DCLogic {
       leadsKnob: this.state.tg.leads ? '23px' : '3px',
       crmKnob: this.state.tg.crm ? '23px' : '3px',
       reportKnob: this.state.tg.report ? '23px' : '3px',
-      dragCamp: this.makeDrag('camp'),
-      dragLeadsG: this.makeDrag('leadsg'),
-      dragBudget: this.makeDrag('budget'),
-      campW: this.state.goals.camp + '%',
-      leadsGW: this.state.goals.leadsg + '%',
-      campNumRef: this.campNumRef,
-      leadsNumRef: this.leadsNumRef,
       campMax: this.CAMP_MAX,
       leadsGMax: this.LEADS_MAX,
       campVal: Math.round(this.state.goals.camp / 100 * this.CAMP_MAX),
       leadsGVal: Math.round(this.state.goals.leadsg / 100 * this.LEADS_MAX),
-      budgetW: this.state.budget + '%',
-      budgetText: 'US$' + fmt(budgetAmt),
-      testimonials,
+      campRange: this.state.goals.camp,
+      leadsRange: this.state.goals.leadsg,
+      budgetRange: this.state.budget,
+      changeCamp: (e) => this.setState({ goals: Object.assign({}, this.state.goals, { camp: Number(e.target.value) }) }),
+      changeLeads: (e) => this.setState({ goals: Object.assign({}, this.state.goals, { leadsg: Number(e.target.value) }) }),
+      changeBudget: (e) => this.setState({ budget: Number(e.target.value) }),
+      budgetText: 'USD ' + fmt(budgetAmt),
       motionAttr: (this.props.motion === 'Reducido') ? 'off' : 'on',
       navTransform: this.state.showNav ? 'translateY(0)' : 'translateY(-130%)',
       navOpacity: this.state.showNav ? 1 : 0,
       navPE: this.state.showNav ? 'auto' : 'none',
       showMetric: this.props.showMetric !== false,
       titleNodes: this.buildTitle(),
-      leadsText: '+' + this.state.leads + '%',
       methodRef: this.methodRef,
       statsRef: this.statsRef,
-      gaugeRef: this.gaugeRef,
-      gaugeInnerRef: this.gaugeInnerRef,
-      gaugeGlowRef: this.gaugeGlowRef,
-      gaugeMove: (e) => this.gaugeMove(e),
-      gaugeLeave: () => this.gaugeLeave(),
+      projRef: this.projRef,
       dashRef: this.dashRef,
       p1Ref: this.p1Ref,
       p2Ref: this.p2Ref,
       pTitleRef: this.pTitleRef,
       p4Ref: this.p4Ref,
-      gaugeOffset: this.state.statsInView ? (100 - 98 * (this.state.gaugeProg || 0)) : 100,
-      pctText: Math.round(98 * (this.state.gaugeProg || 0)) + '%',
-      dotX: dotX,
-      dotY: dotY,
-      dotOpacity: dotOpacity,
-      salesText: '$' + this.state.gSales.toFixed(1) + 'M',
-      leadsCountText: fmt(this.state.gLeads),
-      metricBars,
-      metricTotal: fmt(mSum),
-      metricDelta: (mStep >= 0 ? '+' : '−') + fmt(Math.abs(mStep)),
-      metricPct: Math.abs(mPct).toFixed(1) + '%',
-      metricTrendCol: mTrendCol,
-      metricTrendArrow: mTrendArrow,
-      metricPeriodLabel: mOpt.label,
-      togglePeriod,
-      closePeriod,
-      periodItems,
-      periodMenuDisplay: periodOpen ? 'flex' : 'none',
-      periodOverlayDisplay: periodOpen ? 'block' : 'none',
-      periodCaretRot: periodOpen ? '180deg' : '0deg',
-      periodPillBg: periodOpen ? 'rgba(110,116,255,.12)' : 'rgba(255,255,255,.05)',
-      periodPillBorder: periodOpen ? 'rgba(110,116,255,.5)' : 'rgba(255,255,255,.1)',
-      metricPeak: fmt(mHi),
-      metricLow: fmt(mLo),
-      metricAvg: fmt(mAvg),
-      metricLinePath: mLinePath,
-      metricAreaPath: mAreaPath,
-      metricAxisLabels: mAxisLabels,
-      curveOpacity: isBars ? 0 : 1,
-      curveTransform: this.state.dashInView ? 'translateY(0)' : 'translateY(10px)',
-      viewBarsBg: isBars ? 'rgba(255,255,255,.14)' : 'transparent',
-      viewCurveBg: isBars ? 'transparent' : 'rgba(255,255,255,.14)',
-      viewBarsCol: isBars ? '#FDFCFE' : '#868CA6',
-      viewCurveCol: isBars ? '#868CA6' : '#FDFCFE',
-      cyclePeriod,
-      setBars,
-      setCurve,
       steps,
       faqs
     };
@@ -1965,6 +1806,7 @@ class Component extends DCLogic {
     unlock();
     pl.classList.add('is-gone');
     if(pl.parentNode) pl.parentNode.removeChild(pl);
+    document.dispatchEvent(new Event('reac:preloader-finished'));
   }
 
   function finish(){
@@ -1997,35 +1839,5 @@ class Component extends DCLogic {
 })();
 </script>
 
-<!-- ===== Formulario de contacto → abre el cliente de correo con los datos cargados ===== -->
-<script>
-(function(){
-  var EMAIL = 'ledesma.rme@gmail.com';
-  function val(form, sel){ var el = form.querySelector(sel); return el ? (el.value || '').trim() : ''; }
-  function init(){
-    var form = document.getElementById('ct-form');
-    if(!form || form.dataset.bound) return;
-    form.dataset.bound = '1';
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      var nombre = val(form, '#ct-nombre');
-      var email = val(form, '#ct-email');
-      var asunto = val(form, '#ct-asunto');
-      var mensaje = val(form, '#ct-mensaje');
-      var subject = asunto ? ('Consulta web — ' + asunto) : 'Consulta desde la web';
-      var body = 'Nombre: ' + nombre + '\n'
-               + 'Email: ' + email + '\n\n'
-               + mensaje;
-      var url = 'mailto:' + EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-      window.location.href = url;
-    });
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
-  // El runtime de DC puede montar el form más tarde: reintento corto.
-  setTimeout(init, 500);
-  setTimeout(init, 1500);
-})();
-</script>
 </body>
 </html>
