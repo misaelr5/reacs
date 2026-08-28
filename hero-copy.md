@@ -14,7 +14,7 @@
 > Ver servicios
 
 **Microcopy (debajo de los botones)**
-> Sin compromiso · Tiempo de respuesta a confirmar
+> Sin compromiso · Te respondemos en el día
 
 ---
 
