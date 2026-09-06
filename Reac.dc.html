@@ -470,7 +470,7 @@
 <div data-motion="{{ motionAttr }}" style="font-family:Satoshi, 'Segoe UI', system-ui, -apple-system, sans-serif; background:#070712; color:#FDFCFE; position:relative;">
 
   <!-- ===== NAVBAR (se despliega tras el 2º módulo) ===== -->
-  <nav style="position:fixed; top:0; left:0; right:0; z-index:120; transform:{{ navTransform }}; opacity:{{ navOpacity }}; pointer-events:{{ navPE }}; transition:transform .5s cubic-bezier(.22,1,.36,1), opacity .4s ease;">
+  <nav class="site-nav" aria-label="Navegación principal" style="position:fixed; top:0; left:0; right:0; z-index:120; transform:{{ navTransform }}; opacity:{{ navOpacity }}; pointer-events:{{ navPE }}; transition:transform .5s cubic-bezier(.22,1,.36,1), opacity .4s ease;">
     <div style="max-width:1180px; margin:0 auto; padding:14px 18px 0;">
       <div style="display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:18px; padding:10px 12px 10px 14px; border-radius:18px; background:linear-gradient(180deg, rgba(20,22,42,.82), rgba(10,11,22,.78)); backdrop-filter:blur(22px) saturate(140%); -webkit-backdrop-filter:blur(22px) saturate(140%); border:1px solid rgba(255,255,255,.09); box-shadow:0 20px 55px -26px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.06);">
         <a href="#top" style="justify-self:start; display:inline-flex; align-items:center; text-decoration:none; white-space:nowrap;">
@@ -482,7 +482,18 @@
           <a class="imp-navlink" href="#proyectos">Proyectos</a>
           <a class="imp-navlink" href="#recursos">Recursos</a>
         </div>
-        <a class="imp-cta no-shiny" href="#contacto" style="justify-self:end; display:inline-flex; align-items:center; gap:8px; padding:11px 20px; border-radius:12px; background:linear-gradient(135deg,#FA3601,#F0430A); color:#FDFCFE; font-weight:600; font-size:14.5px; box-shadow:0 12px 26px -10px rgba(250,54,1,.65); white-space:nowrap; text-decoration:none;">Diagnóstico gratis <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+        <a class="imp-cta no-shiny" href="#contacto" style="justify-self:end; display:inline-flex; align-items:center; gap:8px; padding:11px 20px; border-radius:12px; background:linear-gradient(135deg,#FA3601,#F0430A); color:#FDFCFE; font-weight:600; font-size:14.5px; box-shadow:0 12px 26px -10px rgba(250,54,1,.65); white-space:nowrap; text-decoration:none;"><span class="nav-cta-full">Diagnóstico gratis</span><span class="nav-cta-short">Contacto</span> <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+        <details class="mobile-nav">
+          <summary aria-label="Menú de navegación"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></summary>
+          <div class="mobile-nav-panel">
+            <a href="#top">Inicio</a>
+            <a href="#servicios">Qué ofrecemos</a>
+            <a href="#proceso">Cómo trabajamos</a>
+            <a href="#proyectos">Proyectos</a>
+            <a href="#recursos">Recursos</a>
+            <a href="#contacto">Contacto</a>
+          </div>
+        </details>
       </div>
     </div>
   </nav>
@@ -969,15 +980,15 @@
         </div>
 
         <!-- controles -->
-        <div style="display:flex; align-items:center; justify-content:center; gap:16px; margin-top:46px;">
+        <div class="proj-controls" style="display:flex; align-items:center; justify-content:center; gap:16px; margin-top:46px;">
           <button type="button" onClick="{{ projPrev }}" aria-label="Proyecto anterior" class="proj-arrow proj-mini-arrow" style="width:46px; height:46px; border-radius:50%; background:rgba(14,16,32,.82); border:1px solid rgba(255,255,255,.14); color:#FDFCFE;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></button>
-          <div style="display:flex; align-items:center; gap:9px;">
+          <div class="proj-dots" style="display:flex; align-items:center; gap:9px;">
             <sc-for list="{{ projDots }}" as="d" hint-placeholder-count="6">
               <button type="button" onClick="{{ d.go }}" class="proj-dot" aria-label="{{ d.label }}" aria-current="{{ d.current }}" style="width:{{ d.w }}; background:{{ d.bg }};"></button>
             </sc-for>
           </div>
           <button type="button" onClick="{{ projNext }}" aria-label="Proyecto siguiente" class="proj-arrow proj-mini-arrow" style="width:46px; height:46px; border-radius:50%; background:rgba(14,16,32,.82); border:1px solid rgba(255,255,255,.14); color:#FDFCFE;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></button>
-          <div style="margin-left:10px; font-size:14px; font-weight:700; font-variant-numeric:tabular-nums; color:#C4C8D8; letter-spacing:.06em;">{{ projCounter }}</div>
+          <div class="proj-counter" style="margin-left:10px; font-size:14px; font-weight:700; font-variant-numeric:tabular-nums; color:#C4C8D8; letter-spacing:.06em;">{{ projCounter }}</div>
         </div>
       </div>
     </div>
@@ -1434,7 +1445,7 @@ class Component extends DCLogic {
         img: 'uploads/imagen-54a347e5.webp',
         imgW: 1536,
         imgH: 1024,
-        summary: 'Sitio para un centro integral de servicios de Villa Dolores, Córdoba.',
+        summary: 'Sitio para un centro integral de servicios de Córdoba.',
         challenge: 'Necesitaban una web profesional que el propio equipo pudiera actualizar sin depender de un programador.',
         solution: 'Creamos un sitio autogestionable con servicios, sucursales, mapas, FAQ, formularios y acceso a WhatsApp.',
         scope: 'WordPress, diseño web y capacitación de gestión.'
@@ -1553,7 +1564,7 @@ class Component extends DCLogic {
 
   startProjAutoplay(){
     if (this.projTimer) clearInterval(this.projTimer);
-    if (this.reduceMotion) return;
+    if (this.reduceMotion || window.matchMedia('(max-width: 980px), (hover: none), (pointer: coarse)').matches) return;
     this.projTimer = setInterval(() => {
       if (!this.projHover && !this.projFocus && this.projInView && !document.hidden) this.nextProj(false);
     }, 5000);

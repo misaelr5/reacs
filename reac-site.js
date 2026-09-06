@@ -192,18 +192,54 @@
     if (confirmed) track('generate_lead');
   }
 
+  function bindMobileNavigation() {
+    // Delegation also covers the navigation mounted later by the DC runtime.
+    document.addEventListener('click', function (event) {
+      var menu = document.querySelector('.mobile-nav[open]');
+      if (!menu || !event.target.closest) return;
+      if (!menu.contains(event.target) || event.target.closest('.mobile-nav-panel a')) {
+        menu.open = false;
+      }
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key !== 'Escape') return;
+      var menu = document.querySelector('.mobile-nav[open]');
+      if (!menu) return;
+      menu.open = false;
+      menu.querySelector('summary').focus();
+    });
+    window.matchMedia('(max-width: 980px)').addEventListener('change', function () {
+      var menu = document.querySelector('.mobile-nav[open]');
+      if (menu) menu.open = false;
+    });
+  }
+
+  function bindMobileContactVisibility() {
+    var contact = document.getElementById('contacto');
+    if (!contact || contact.dataset.mobileObserved || !('IntersectionObserver' in window)) return;
+    contact.dataset.mobileObserved = 'true';
+    var observer = new IntersectionObserver(function (entries) {
+      document.documentElement.classList.toggle('reac-contact-visible', entries[0].isIntersecting);
+    });
+    observer.observe(contact);
+  }
+
   function init() {
     mountConsentAfterPreloader();
     bindContactForm();
     bindNewsletterForm();
     bindLinkTracking();
     trackConfirmedLead();
+    bindMobileNavigation();
+    bindMobileContactVisibility();
     // El runtime DC monta parte del contenido luego de DOMContentLoaded.
     // Estos reintentos idempotentes garantizan que los formularios queden enlazados.
     window.setTimeout(bindContactForm, 500);
     window.setTimeout(bindNewsletterForm, 500);
+    window.setTimeout(bindMobileContactVisibility, 500);
     window.setTimeout(bindContactForm, 1500);
     window.setTimeout(bindNewsletterForm, 1500);
+    window.setTimeout(bindMobileContactVisibility, 1500);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
