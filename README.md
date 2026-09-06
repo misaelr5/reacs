@@ -1,64 +1,93 @@
-# Reac Studio
+# Reac Studio — Digital Studio Website
 
-Sitio web estático de Reac Studio para presentar servicios de marketing digital, desarrollo web, automatizaciones y recursos de diagnóstico.
+Official website for **Reac Studio**, a digital studio focused on web development, digital marketing and business automation.
+
+The project was built as a production-facing business website with an emphasis on performance, responsive design, accessibility, conversion and visual storytelling.
+
+## Live website
+
+[reacs-studio.vercel.app](https://reacs-studio.vercel.app/)
+
+## Project goals
+
+The website is designed to communicate one central value proposition:
+
+> One team for the complete digital ecosystem of a business.
+
+It presents Reac Studio's services, projects, team and contact flows while keeping the experience lightweight and visually distinctive.
+
+## Main features
+
+- Responsive desktop and mobile layouts
+- Custom visual storytelling and parallax sections
+- Accessible navigation and keyboard support
+- `prefers-reduced-motion` support
+- Conversion-oriented contact flows
+- Analytics integration prepared for production
+- Consent-aware GA4 loading
+- SEO metadata and indexing support
+- Performance-focused scroll rendering
+- Vercel deployment configuration
 
 ## Stack
 
-- HTML estático.
-- Runtime declarativo incluido en `support.js`.
-- CSS y JavaScript propios, sin `package.json` ni build de Node.
-- Vercel como hosting.
-- GA4 cargado sólo en producción y después del consentimiento del visitante.
-- Formspree preparado para contacto y newsletter.
+- **HTML5**
+- **CSS3**
+- **JavaScript**
+- **Python** utility scripts
+- **Vercel**
+- **Google Analytics 4** integration
+- **Formspree** integration prepared for forms
 
-## Archivos principales
+The website intentionally avoids a heavy frontend framework and runs as a static production site.
 
-- `Reac.dc.html`: fuente editable con el runtime declarativo.
-- `index.html`: salida publicada que sirve el sitio.
-- `reac-site.css`: estilos compartidos, responsive, accesibilidad y performance.
-- `reac-site.js`: consentimiento, analytics, formularios y eventos de conversión.
-- `support.js`: runtime del sitio.
-- `scripts/fix-parallax.py`: inyección idempotente del ajuste de viewport del parallax.
-- `vercel.json`: build, rewrite de `/gracias` y headers básicos.
+## Architecture
 
-Cuando una modificación afecta el markup visible, actualizar ambos HTML principales y verificar que no queden divergencias accidentales.
+```text
+index.html
+├── reac-site.css
+├── reac-site.js
+├── support.js
+├── assets/
+├── scripts/
+│   └── fix-parallax.py
+└── vercel.json
+```
 
-## Desarrollo local
+`reac-site.js` handles interaction, analytics consent, form behavior and conversion events.
 
-Desde la raíz del repositorio:
+The parallax system uses `requestAnimationFrame` scheduling and avoids unnecessary layout calculations during scrolling.
 
-```powershell
+## Local development
+
+From the repository root:
+
+```bash
 python -m http.server 4173
 ```
 
-Abrir [http://localhost:4173/](http://localhost:4173/).
+Then open:
 
-El sitio funciona como archivos estáticos; no se requiere instalar dependencias para visualizarlo.
+```text
+http://localhost:4173/
+```
 
-## Validaciones
+No Node.js build step is required to preview the website locally.
 
-```powershell
+## Validation
+
+```bash
 node --check reac-site.js
 python -m py_compile scripts/fix-parallax.py
 python scripts/fix-parallax.py
 git diff --check
 ```
 
-Para una revisión visual, probar al menos 390 px y 1440 px de ancho, teclado, `prefers-reduced-motion`, formularios y el desplazamiento completo hasta el footer.
+The layout should also be manually tested across mobile and desktop viewports, keyboard navigation and reduced-motion preferences.
 
-## Parallax y performance
+## Deployment
 
-El parallax usa un único ciclo `requestAnimationFrame` por frame de scroll y evita renders redundantes cuando el estado visual no cambió. Las mediciones de layout se hacen sólo cuando cambia el viewport o se detecta el contenedor scrolleable.
-
-Se conserva el tratamiento visual aprobado —capas, filtros, opacidades y secuencia de desplazamiento— tanto en desktop como en mobile. La reducción de costo viene del scheduling y de evitar mediciones y renders innecesarios, sin esconder capas ni alterar la estética. También respeta `prefers-reduced-motion`.
-
-## Configuración pendiente
-
-Antes de producción hay que reemplazar `FORM_ENDPOINT` en `reac-site.js` por el endpoint real de Formspree y probar la recepción de mensajes. También deben completarse los datos legales de la política de privacidad y configurar el DNS del dominio oficial.
-
-## Deploy en Vercel
-
-El proyecto usa:
+Deployment is configured for Vercel.
 
 ```json
 {
@@ -67,8 +96,14 @@ El proyecto usa:
 }
 ```
 
-El build no debe borrar ni regenerar assets sin verificar sus referencias. `/gracias` se resuelve mediante el rewrite de `vercel.json`.
+## About Reac Studio
 
-## Estado
+Reac Studio works across three main areas:
 
-La rama de trabajo contiene las mejoras de SEO, responsive, accesibilidad, conversión, analytics, carrusel de proyectos, equipo y performance del parallax. Los bloqueadores externos —Formspree, DNS, datos legales y deploy final— deben resolverse antes de considerar el sitio listo para producción.
+- Web Development
+- Digital Marketing
+- Business Automation & AI
+
+---
+
+**Developed by:** [Misael Ledesma](https://github.com/misaelr5)
