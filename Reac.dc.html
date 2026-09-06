@@ -978,7 +978,7 @@
                       <div class="proj-fact"><span>Alcance documentado</span><p>{{ p.scope }}</p></div>
                       <div class="proj-fact proj-fact-status"><span>Tipo</span><p>{{ p.kind }}</p></div>
                     </div>
-                    <div class="proj-case-footer"><a class="proj-cta" data-cta="project_contact" tabindex="{{ p.tabIndex }}" href="#contacto">Consultar este proyecto <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div>
+                    <div class="proj-case-footer"><a class="proj-cta" data-cta="{{ p.ctaEvent }}" tabindex="{{ p.tabIndex }}" href="{{ p.href }}" target="{{ p.linkTarget }}" rel="{{ p.linkRel }}">{{ p.ctaLabel }} <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div>
                   </div>
                 </article>
               </div>
@@ -1458,6 +1458,19 @@ class Component extends DCLogic {
         scope: 'WordPress, diseño web y capacitación de gestión.'
       },
       {
+        name: 'Portfolio de Misael Ledesma',
+        tag: 'Desarrollo web full-stack',
+        kind: 'Proyecto personal',
+        img: 'uploads/portfolio-misael-ledesma.png',
+        imgW: 1672,
+        imgH: 941,
+        url: 'https://misaelr5.vercel.app/',
+        summary: 'Portfolio personal de Misael Ledesma, desarrollador web full-stack.',
+        challenge: 'Presentar el perfil profesional y reunir proyectos y vías de contacto en un solo sitio.',
+        solution: 'Un portfolio con presentación personal, proyectos y enlaces de contacto.',
+        scope: 'Diseño y desarrollo de un sitio web personal.'
+      },
+      {
         name: 'Calculadora de Divisas',
         tag: 'Herramienta web para casas de cambio',
         kind: 'Proyecto comercial',
@@ -1698,6 +1711,11 @@ class Component extends DCLogic {
     const nProj = projAll.length;
     const pad2 = (x) => (x < 10 ? '0' + x : '' + x);
     const projects = projAll.map((p, i) => Object.assign({}, p, {
+      href: p.url || '#contacto',
+      linkTarget: p.url ? '_blank' : '_self',
+      linkRel: p.url ? 'noopener noreferrer' : '',
+      ctaLabel: p.url ? 'Ver sitio web' : 'Consultar este proyecto',
+      ctaEvent: p.url ? 'project_visit' : 'project_contact',
       hasImage: !!p.img,
       showPlaceholder: !p.img,
       ariaHidden: i === pIdx ? 'false' : 'true',
