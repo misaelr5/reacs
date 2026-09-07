@@ -14,6 +14,8 @@
 
 /* Mobile navigation uses native disclosure and keeps the desktop bar intact. */
 .mobile-nav,.nav-cta-short{display:none}
+.site-brand{justify-self:start;display:inline-flex;align-items:center;width:42px;height:42px;text-decoration:none;white-space:nowrap}
+.site-brand-mark{display:block;width:42px;height:42px;object-fit:contain}
 
 @media(max-width:980px){
   .site-nav{transform:none!important;opacity:1!important;pointer-events:auto!important}
@@ -21,6 +23,8 @@
   .site-nav>div>div{position:relative;grid-template-columns:minmax(0,1fr) auto auto!important;gap:8px!important;padding:8px 10px!important}
   .site-nav .imp-nav-links{display:none!important}
   .site-nav>div>div>a{min-height:44px}
+  .site-nav .site-brand{width:40px;height:40px}
+  .site-nav .site-brand-mark{width:40px;height:40px}
   .site-nav .imp-cta{padding:10px 14px!important;font-size:13px!important}
   .mobile-nav{display:block}
   .mobile-nav summary{display:flex;align-items:center;justify-content:center;width:44px;height:44px;list-style:none;border:1px solid #353b63;border-radius:11px;background:rgba(255,255,255,.05);color:#FDFCFE;cursor:pointer}
@@ -126,7 +130,8 @@
   .site-nav .nav-cta-full{display:none}
   .site-nav .nav-cta-short{display:inline}
   .site-nav .imp-cta{padding:10px 12px!important}
-  .site-nav>div>div>a>span{font-size:16px!important}
+  .site-nav .site-brand{width:38px;height:38px}
+  .site-nav .site-brand-mark{width:38px;height:38px}
   .site-nav .imp-cta svg{display:none}
   [data-screen-label="Bento"] .ib-bento{grid-template-columns:minmax(0,1fr)!important}
   [data-screen-label="Bento"] .ib-bento-card{grid-column:1/-1!important;min-height:190px;padding:22px!important}
