@@ -67,4 +67,6 @@ npm run indexnow -- /desarrollo-web /google-ads
 
 Ese comando solo muestra el payload. Después de publicar el archivo de propiedad, agregar `--submit` para enviarlo. No se envía automáticamente durante el build.
 
-Ver [informe y checklist](docs/production-readiness.md) e [investigación inicial](docs/seo-research.md). Esta versión aún no fue verificada en producción.
+Ver [informe y checklist](docs/production-readiness.md) e [investigación inicial](docs/seo-research.md). Producción publicada y verificada el 7 de septiembre de 2026, con el código de `9cb40c8`: Vercel READY, home y servicios HTTP 200, sin plantillas pendientes, redirección 308 y 404 correctos. Contacto responde un error controlado hasta configurar proveedores; la recepción real sigue pendiente.
+
+Despliegue manual al proyecto existente: `npx --yes vercel@59.11.2 deploy --prod --yes --scope misaellovespias-projects`. El push a la rama de trabajo no debe considerarse una publicación automática confirmada.

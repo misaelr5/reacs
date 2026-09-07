@@ -1,12 +1,12 @@
 ﻿# Reac Studio — informe de implementación
 
-7 de septiembre de 2026. Alcance: repositorio y pruebas locales. No certifica el despliegue público.
+7 de septiembre de 2026. Alcance: repositorio, pruebas locales y verificación HTTP del despliegue público.
 
 ## 1. Resumen ejecutivo
 
 Se implementó HTML completo antes de ejecutar JavaScript, conservando diseño, parallax, símbolo oficial, proyectos y navegación. Se agregaron seis landings y páginas institucionales, configuración central de dominio, contacto protegido y medición con consentimiento.
 
-La versión local pasó las validaciones descritas abajo. Faltan credenciales reales, datos legales, cuentas de medición y verificación del despliegue para operar la captación. No se enviaron correos reales ni se publicó esta versión mediante esta intervención. Los cambios concurrentes de símbolo y navegación se conservaron.
+La versión pasó las validaciones descritas abajo y se publicó en producción con el código de `9cb40c8`. Vercel confirmó READY en `dpl_BEMKcRocSXy1zN6Ax4XLLvCUZR1B` y asignó https://reacs-studio.vercel.app. Se verificaron home y servicios HTTP 200, cero plantillas pendientes, canonical correcto, sitemap, CSP, redirección 308 y 404. Se corrigió una importación TypeScript que fallaba al empaquetar la función mediante `rewriteRelativeImportExtensions`; tipos y 18 tests volvieron a pasar. API responde 405 ante GET y 503 controlado mientras faltan proveedores. Faltan credenciales reales, datos legales y cuentas de medición para operar la captación. No se enviaron correos reales. Los cambios concurrentes de símbolo y navegación se conservaron.
 
 ## 2. P0 corregidos y arquitectura
 
@@ -113,7 +113,7 @@ Dependencias de desarrollo: parse5 (MIT), TypeScript, tipos Node y axe/Playwrigh
 
 Reportes locales en `artifacts/`: browser, analytics, performance, build-config, security-scan, dependency-audit y capturas. Están ignorados por Git y excluidos de publicación.
 
-PROBADO: comportamiento local descrito. NO PROBADO: entrega real, despliegue efectivo, indexación, cuentas, Ads y métricas de campo. SUPUESTO: conservar alias actual hasta contar con dominio propio listo.
+PROBADO: comportamiento local descrito, despliegue READY y comprobaciones HTTP de producción indicadas arriba. NO PROBADO: entrega real, indexación, cuentas, Ads y métricas de campo. SUPUESTO: conservar alias actual hasta contar con dominio propio listo.
 
 ## 11. Checklist manual para Misael
 

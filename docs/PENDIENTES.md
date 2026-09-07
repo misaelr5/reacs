@@ -1,6 +1,6 @@
 # Pendientes para activar Reac Studio
 
-Estado al 7 de septiembre de 2026: implementación y pruebas locales listas. Resend y Upstash se posponen por decisión de Misael. No hay credenciales de esos servicios configuradas; el formulario no confirma envíos ficticios. WhatsApp y email siguen como vías alternativas. Newsletter permanece deshabilitado.
+Estado al 7 de septiembre de 2026: implementación publicada en https://reacs-studio.vercel.app y despliegue READY verificado con el código de `9cb40c8`. Resend y Upstash se posponen por decisión de Misael. No hay credenciales de esos servicios configuradas; el formulario responde un error controlado y no confirma envíos ficticios. WhatsApp y email siguen como vías alternativas. Newsletter permanece deshabilitado.
 
 ## Próxima sesión: contacto y privacidad
 
@@ -13,7 +13,7 @@ Estado al 7 de septiembre de 2026: implementación y pruebas locales listas. Res
 
 ## Después: publicación y medición
 
-- [ ] Verificar estado READY del despliegue correspondiente al commit, home nueva, páginas de servicios, 404, CSP y API.
+- [x] Verificar estado READY, home nueva sin plantillas, páginas de servicios, 404, redirección 308, CSP y API. Despliegue `dpl_BEMKcRocSXy1zN6Ax4XLLvCUZR1B`; GET de API devuelve 405 y POST sin configuración devuelve 503 controlado. Repetir después de futuros cambios de código o variables.
 - [ ] Verificar Search Console y Bing, completar tokens públicos de `.env.example`, reconstruir y enviar `/sitemap.xml`.
 - [ ] Validar GA4 y consentimiento en la cuenta real; configurar `contact_form_submit` como evento clave. WhatsApp/email son clics, no ventas.
 - [ ] Revisar atribución UTMs/GCLID y consentimiento antes de activar campañas Ads.
