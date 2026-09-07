@@ -85,8 +85,14 @@
           return;
         }
         // One key event, only after server/provider acceptance; no form fields.
-        track('contact_form_submit', { form_id: 'contacto' });
-        formState(form, 'success', 'Consulta enviada correctamente.'); form.reset(); location.assign('/gracias');
+        formState(form, 'success', 'Consulta enviada correctamente.'); form.reset();
+        const redirect = () => location.assign('/gracias');
+        if (production && getConsent() === 'granted') {
+          let navigated = false;
+          const finish = () => { if (!navigated) { navigated = true; redirect(); } };
+          track('contact_form_submit', { form_id: 'contacto', event_callback: finish, event_timeout: 800 });
+          setTimeout(finish, 900);
+        } else redirect();
       } catch { formState(form, 'error', 'No pudimos confirmar el envío. Intentá más tarde o escribinos por WhatsApp.'); }
       finally { sending = false; }
     });

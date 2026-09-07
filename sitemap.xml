@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://reacstudio.com/</loc></url>
-  <url><loc>https://reacstudio.com/recursos/auditoria-sitio-web.html</loc></url>
-  <url><loc>https://reacstudio.com/recursos/auditoria-meta-ads.html</loc></url>
-  <url><loc>https://reacstudio.com/recursos/auditoria-google-ads.html</loc></url>
-  <url><loc>https://reacstudio.com/recursos/auditoria-negocio-digital.html</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/desarrollo-web</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/marketing-digital</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/google-ads</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/meta-ads</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/automatizacion-ia</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/sistemas-crm</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/servicios</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/nosotros</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/proyectos</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/contacto</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/recursos</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/recursos/auditoria-sitio-web.html</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/recursos/auditoria-meta-ads.html</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/recursos/auditoria-google-ads.html</loc></url>
+  <url><loc>https://reacs-studio.vercel.app/recursos/auditoria-negocio-digital.html</loc></url>
 </urlset>

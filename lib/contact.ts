@@ -62,6 +62,17 @@ function readOrigin(env: ContactEnvironment): string {
   }
 }
 
+function isLocalDevelopment(request: Request, env: ContactEnvironment): boolean {
+  return env.NODE_ENV !== 'production' && env.VERCEL !== '1'
+    && ['localhost', '127.0.0.1', '[::1]'].includes(new URL(request.url).hostname);
+}
+
+function matchesOrigin(request: Request, env: ContactEnvironment, productionOrigin: string): boolean {
+  const origin = request.headers.get('origin');
+  if (isLocalDevelopment(request, env)) return origin === new URL(request.url).origin;
+  return origin === productionOrigin;
+}
+
 function readConfig(env: ContactEnvironment, origin: string): Config {
   const redisToken = env.UPSTASH_REDIS_REST_TOKEN || '';
   const rateSecret = env.CONTACT_RATE_LIMIT_SECRET || '';
@@ -89,7 +100,7 @@ function clientAddress(request: Request, env: ContactEnvironment): string {
   if (env.VERCEL === '1') {
     const address = request.headers.get('x-vercel-forwarded-for')?.trim() || '';
     if (isIP(address)) return address;
-  } else if (env.NODE_ENV !== 'production' && ['localhost', '127.0.0.1', '[::1]'].includes(new URL(request.url).hostname)) {
+  } else if (isLocalDevelopment(request, env)) {
     return '127.0.0.1';
   }
   throw new ContactError(503, 'service_unavailable');
@@ -200,7 +211,7 @@ export async function handleContact(request: Request, env: ContactEnvironment, f
   try {
     if (request.method !== 'POST') throw new ContactError(405, 'method_not_allowed');
     const origin = readOrigin(env);
-    if (request.headers.get('origin') !== origin) throw new ContactError(403, 'forbidden_origin');
+    if (!matchesOrigin(request, env, origin)) throw new ContactError(403, 'forbidden_origin');
     const contentType = request.headers.get('content-type')?.split(';')[0]?.trim().toLowerCase() || '';
     if (!['application/json', 'application/x-www-form-urlencoded'].includes(contentType)) throw new ContactError(415, 'invalid_content_type');
     const config = readConfig(env, origin);
@@ -216,13 +227,23 @@ export async function handleContact(request: Request, env: ContactEnvironment, f
       // Fixed destination and subject prevent relaying and header injection.
       // User input is plain text; it is never rendered as HTML or interpreted.
       // https://resend.com/docs/api-reference/emails/send-email
+      const body = JSON.stringify({
+        from: config.from, to: [config.to], reply_to: contact.email,
+        subject: 'Nueva consulta desde Reac Studio',
+        text: ['Nombre: ' + contact.nombre, 'Email: ' + contact.email, 'Empresa: ' + (contact.empresa || 'No indicada'), '', 'Mensaje:', contact.mensaje, '', 'La persona aceptó la política de privacidad al enviar la consulta.'].join('\n'),
+      });
+      // Repeated normalized payloads share a Resend idempotency key within one
+      // fixed 10-minute UTC bucket, including after an ambiguous timeout.
+      // HMAC keeps personal data out of headers. This is bounded deduplication,
+      // not exactly-once delivery: retries across a bucket boundary get a new
+      // key. Resend retains each key for 24h; it does not extend our bucket.
+      // https://resend.com/docs/dashboard/emails/idempotency-keys
+      const window = Math.floor(Date.now() / (WINDOW_SECONDS * 1000));
+      const idempotencyKey = 'reac-contact-v1-' + createHmac('sha256', config.rateSecret)
+        .update(config.origin + '\0' + window + '\0' + body).digest('hex');
       const delivered = await fetchJson('https://api.resend.com/emails', {
-        method: 'POST', headers: { Authorization: 'Bearer ' + config.apiKey, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          from: config.from, to: [config.to], reply_to: contact.email,
-          subject: 'Nueva consulta desde Reac Studio',
-          text: ['Nombre: ' + contact.nombre, 'Email: ' + contact.email, 'Empresa: ' + (contact.empresa || 'No indicada'), '', 'Mensaje:', contact.mensaje, '', 'La persona aceptó la política de privacidad al enviar la consulta.'].join('\n'),
-        }),
+        method: 'POST', headers: { Authorization: 'Bearer ' + config.apiKey, 'Content-Type': 'application/json', 'Idempotency-Key': idempotencyKey },
+        body,
       }, fetchImpl) as { id?: unknown };
       if (typeof delivered?.id !== 'string' || !delivered.id.trim()) throw new Error('delivery_not_confirmed');
     } catch { throw new ContactError(502, 'delivery_failed'); }

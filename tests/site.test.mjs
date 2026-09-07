@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync, existsSync} from 'node:fs';
+import {auditHtml} from '../scripts/audit-html.mjs';
+import {articles} from '../content/editorial.mjs';
+import {site} from '../site.config.mjs';
+test('Public HTML contains complete content, correct canonicals, valid links and schema',()=>{const result=auditHtml();assert.deepEqual(result.errors,[]);assert.equal(result.indexable,16+articles.filter(article=>article.published).length);});
+test('IndexNow ownership file matches the configured public key',()=>{const key=process.env.INDEXNOW_KEY||site.indexNowKey;assert.equal(readFileSync('dist/'+key+'.txt','utf8').trim(),key);});
+test('Search bot access and training policy are independent',()=>{const robots=readFileSync('dist/robots.txt','utf8');assert.match(robots,/User-agent: OAI-SearchBot\nAllow: \/\nDisallow: \/api\//);assert.match(robots,/User-agent: \*\nAllow: \//);assert.doesNotMatch(robots,/Disallow: \/\s*$/m);});
+test('Production source excludes compiler, secrets and server implementation',()=>{for(const path of ['support.js','.env.local','api/contact.ts','lib/contact.ts','site.config.mjs','package.json','README.md'])assert.equal(existsSync('dist/'+path),false,path);const config=readFileSync('dist/site-config.js','utf8');assert.doesNotMatch(config,/RESEND|TOKEN|SECRET|UPSTASH/);});
+test('Six service pages map to distinct intents and retain commercial contact routes',()=>{for(const slug of ['desarrollo-web','marketing-digital','google-ads','meta-ads','automatizacion-ia','sistemas-crm']){const html=readFileSync('dist/'+slug+'.html','utf8');assert.match(html,new RegExp('data-service="'+slug+'"'));assert.match(html,/href="\/contacto"/);assert.doesNotMatch(html,/reviewRating|aggregateRating/);}});

@@ -6,7 +6,8 @@ export const site = {
   email: 'ledesma.rme@gmail.com',
   whatsapp: '5493544434403',
   analyticsId: 'G-8VJDB377CE',
-  logo: '/logo.svg',
+  logo: '/uploads/reac-symbol.svg',
+  indexNowKey: "45483afbcd991fa6735a61e3a0996204", // Public ownership proof, not a secret.
   socialProfiles: [], // PENDING: URLs of confirmed official profiles only.
   legal: { responsible: '', address: '', effectiveDate: '' },
   verification: {

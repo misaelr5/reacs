@@ -123,6 +123,33 @@ test('does not trust arbitrary forwarded headers outside Vercel', async () => {
   assert.equal(stub.calls.length, 0);
 });
 
+test('permits only same-origin loopback development and keeps production configuration', async () => {
+  const localEnv = { ...env, VERCEL: undefined, NODE_ENV: 'development' };
+  const localRequest = (origin: string, url = 'http://127.0.0.1:4174/api/contact') => new Request(url, {
+    method: 'POST', headers: { origin, 'content-type': 'application/json', accept: 'application/json' }, body: JSON.stringify(valid),
+  });
+  for (const origin of ['http://127.0.0.1:4174', 'http://localhost:4174', 'http://[::1]:4174']) {
+    const stub = provider();
+    const url = origin + '/api/contact';
+    assert.equal((await handleContact(localRequest(origin, url), { SITE_URL: env.SITE_URL, NODE_ENV: 'development' }, stub.mock)).status, 503);
+    assert.equal(stub.calls.length, 0, 'missing credentials must remain fail-closed locally');
+    assert.equal((await handleContact(localRequest(origin, url), localEnv, stub.mock)).status, 200);
+  }
+  for (const origin of ['https://attacker.test', env.SITE_URL!, 'http://127.0.0.1:4175', 'http://localhost:4174', 'null', '']) {
+    const stub = provider();
+    assert.equal((await handleContact(localRequest(origin), localEnv, stub.mock)).status, 403, origin);
+    assert.equal(stub.calls.length, 0);
+  }
+  for (const overrides of [{ NODE_ENV: 'production' }, { VERCEL: '1' }, { NODE_ENV: 'production', VERCEL: '1' }]) {
+    const stub = provider();
+    assert.equal((await handleContact(localRequest('http://127.0.0.1:4174'), { ...localEnv, ...overrides }, stub.mock)).status, 403);
+    assert.equal(stub.calls.length, 0, 'a production runtime must not use the loopback exception');
+  }
+  const remote = provider();
+  assert.equal((await handleContact(localRequest('http://192.168.1.5:4174', 'http://192.168.1.5:4174/api/contact'), localEnv, remote.mock)).status, 403);
+  assert.equal(remote.calls.length, 0);
+});
+
 test('rejects malformed, duplicate, oversized and invalid submissions without sending email', async () => {
   const cases: Request[] = [
     request('{invalid'), request('null'), request('[]'), request({ ...valid, nombre: [] }),
@@ -185,7 +212,7 @@ test('fails closed on Redis outages and malformed counters', async () => {
 });
 
 test('provider errors, timeouts and missing acceptance IDs never report success', async () => {
-  for (const options of [{ mailStatus: 500 }, { throwAt: 'mail' as const }, { timeoutAt: 'mail' as const }, { mailBody: {} }, { mailBody: { id: '' } }]) {
+  for (const options of [{ mailStatus: 500 }, { mailStatus: 409 }, { throwAt: 'mail' as const }, { timeoutAt: 'mail' as const }, { mailBody: {} }, { mailBody: { id: '' } }]) {
     const stub = provider(options);
     const result = await handleContact(request(), env, stub.mock);
     assert.equal(result.status, 502);
@@ -195,6 +222,30 @@ test('provider errors, timeouts and missing acceptance IDs never report success'
     assert.equal(htmlResult.headers.get('location'), null);
     assert.ok(!(await htmlResult.text()).includes('private'));
   }
+});
+
+test('retries reuse a private idempotency key for the same normalized payload within ten minutes', async context => {
+  const clock = context.mock.method(Date, 'now', () => 650_000);
+  const firstAttempt = provider({ timeoutAt: 'mail' });
+  assert.equal((await handleContact(request(), env, firstAttempt.mock)).status, 502);
+  const key = (firstAttempt.mails()[0]!.init.headers as Record<string, string>)['Idempotency-Key'];
+  assert.match(key!, /^reac-contact-v1-[a-f0-9]{64}$/);
+  assert.ok(!key!.includes(valid.email));
+
+  clock.mock.mockImplementation(() => 700_000);
+  const retried = provider();
+  assert.equal((await handleContact(request({ ...valid, nombre: '  ' + valid.nombre + '  ' }), env, retried.mock)).status, 200);
+  assert.equal((retried.mails()[0]!.init.headers as Record<string, string>)['Idempotency-Key'], key);
+  assert.deepEqual(retried.mails()[0]!.body, firstAttempt.mails()[0]!.body);
+
+  const changed = provider();
+  assert.equal((await handleContact(request({ ...valid, mensaje: valid.mensaje + ' También necesito un CRM.' }), env, changed.mock)).status, 200);
+  assert.notEqual((changed.mails()[0]!.init.headers as Record<string, string>)['Idempotency-Key'], key);
+
+  clock.mock.mockImplementation(() => 1_200_000);
+  const later = provider();
+  assert.equal((await handleContact(request(), env, later.mock)).status, 200);
+  assert.notEqual((later.mails()[0]!.init.headers as Record<string, string>)['Idempotency-Key'], key, 'a later fixed bucket permits a new submission');
 });
 
 test('newsletter does not masquerade as a contact or a registered subscription', async () => {

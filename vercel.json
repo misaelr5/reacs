@@ -1,18 +1,209 @@
 {
-  "buildCommand": "python scripts/fix-parallax.py",
-  "outputDirectory": ".",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": null,
+  "installCommand": "npm ci --ignore-scripts",
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/Reac.dc.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/servicios.html",
+      "destination": "/servicios",
+      "permanent": true
+    },
+    {
+      "source": "/desarrollo-web.html",
+      "destination": "/desarrollo-web",
+      "permanent": true
+    },
+    {
+      "source": "/marketing-digital.html",
+      "destination": "/marketing-digital",
+      "permanent": true
+    },
+    {
+      "source": "/google-ads.html",
+      "destination": "/google-ads",
+      "permanent": true
+    },
+    {
+      "source": "/meta-ads.html",
+      "destination": "/meta-ads",
+      "permanent": true
+    },
+    {
+      "source": "/automatizacion-ia.html",
+      "destination": "/automatizacion-ia",
+      "permanent": true
+    },
+    {
+      "source": "/sistemas-crm.html",
+      "destination": "/sistemas-crm",
+      "permanent": true
+    },
+    {
+      "source": "/proyectos.html",
+      "destination": "/proyectos",
+      "permanent": true
+    },
+    {
+      "source": "/nosotros.html",
+      "destination": "/nosotros",
+      "permanent": true
+    },
+    {
+      "source": "/contacto.html",
+      "destination": "/contacto",
+      "permanent": true
+    },
+    {
+      "source": "/recursos.html",
+      "destination": "/recursos",
+      "permanent": true
+    },
+    {
+      "source": "/gracias.html",
+      "destination": "/gracias",
+      "permanent": true
+    },
+    {
+      "source": "/politica-de-privacidad.html",
+      "destination": "/politica-de-privacidad",
+      "permanent": true
+    }
+  ],
   "rewrites": [
-    { "source": "/gracias", "destination": "/gracias.html" }
+    {
+      "source": "/servicios",
+      "destination": "/servicios.html"
+    },
+    {
+      "source": "/desarrollo-web",
+      "destination": "/desarrollo-web.html"
+    },
+    {
+      "source": "/marketing-digital",
+      "destination": "/marketing-digital.html"
+    },
+    {
+      "source": "/google-ads",
+      "destination": "/google-ads.html"
+    },
+    {
+      "source": "/meta-ads",
+      "destination": "/meta-ads.html"
+    },
+    {
+      "source": "/automatizacion-ia",
+      "destination": "/automatizacion-ia.html"
+    },
+    {
+      "source": "/sistemas-crm",
+      "destination": "/sistemas-crm.html"
+    },
+    {
+      "source": "/proyectos",
+      "destination": "/proyectos.html"
+    },
+    {
+      "source": "/nosotros",
+      "destination": "/nosotros.html"
+    },
+    {
+      "source": "/contacto",
+      "destination": "/contacto.html"
+    },
+    {
+      "source": "/recursos",
+      "destination": "/recursos.html"
+    },
+    {
+      "source": "/gracias",
+      "destination": "/gracias.html"
+    },
+    {
+      "source": "/politica-de-privacidad",
+      "destination": "/politica-de-privacidad.html"
+    },
+    {
+      "source": "/recursos/:slug([a-z0-9-]+)",
+      "destination": "/recursos/:slug.html"
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://api.fontshare.com https://fonts.googleapis.com; style-src-elem 'self' https://api.fontshare.com https://fonts.googleapis.com; style-src-attr 'unsafe-inline'; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com; font-src 'self' https://cdn.fontshare.com https://fonts.gstatic.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    },
+    {
+      "source": "/styles/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/uploads/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/contact.ts": {
+      "maxDuration": 15
+    }
+  }
 }

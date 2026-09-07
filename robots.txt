@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
+Disallow: /api/
 
-Sitemap: https://reacstudio.com/sitemap.xml
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /api/
+
+# Search access is independent of model-training permission.
+Sitemap: https://reacs-studio.vercel.app/sitemap.xml
