@@ -1,247 +1,128 @@
 (function () {
   'use strict';
-
-  var CONFIG = {
-    analyticsId: 'G-8VJDB377CE',
-    formEndpoint: 'FORM_ENDPOINT',
-    productionHosts: ['reacstudio.com', 'www.reacstudio.com', 'reacs-studio.vercel.app']
-  };
-  var CONSENT_KEY = 'reac_analytics_consent';
-  var SUBMISSION_KEY = 'reac_contact_form_submitted';
-  var analyticsReady = false;
-
-  window.REAC_CONFIG = CONFIG;
-
-  function isProduction() {
-    return CONFIG.productionHosts.indexOf(window.location.hostname) !== -1;
-  }
-
-  function getConsent() {
-    try { return window.localStorage.getItem(CONSENT_KEY); } catch (error) { return null; }
-  }
-
+  const config = window.REAC_CONFIG || {};
+  const consentKey = 'reac_analytics_consent';
+  let analyticsReady = false;
+  const production = location.origin === config.siteUrl;
+  const getConsent = () => { try { return localStorage.getItem(consentKey); } catch { return null; } };
   function loadAnalytics() {
-    if (analyticsReady || !isProduction() || getConsent() !== 'granted') return;
+    if (analyticsReady || !production || getConsent() !== 'granted' || !/^G-[A-Z0-9]+$/.test(config.analyticsId || '')) return;
     analyticsReady = true;
+    window['ga-disable-' + config.analyticsId] = false;
     window.dataLayer = window.dataLayer || [];
     window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+    window.gtag('consent', 'default', { analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
     window.gtag('js', new Date());
-    window.gtag('config', CONFIG.analyticsId, { anonymize_ip: true });
-    var script = document.createElement('script');
+    let referrer = '';
+    try { const url = new URL(document.referrer); referrer = url.origin + url.pathname; } catch { /* no referrer */ }
+    window.gtag('config', config.analyticsId, { page_location: location.origin + location.pathname, page_referrer: referrer, allow_google_signals: false, allow_ad_personalization_signals: false });
+    const script = document.createElement('script');
     script.async = true;
-    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(CONFIG.analyticsId);
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(config.analyticsId);
     document.head.appendChild(script);
   }
-
   function track(name, params) {
-    if (!isProduction() || getConsent() !== 'granted') return;
+    if (!production || getConsent() !== 'granted') return;
     loadAnalytics();
     if (typeof window.gtag === 'function') window.gtag('event', name, params || {});
   }
-
-  window.ReacAnalytics = { track: track, load: loadAnalytics };
-
-  function saveConsent(value) {
-    try { window.localStorage.setItem(CONSENT_KEY, value); } catch (error) {}
-    var banner = document.getElementById('reac-consent');
-    if (banner) banner.remove();
-    if (value === 'granted') loadAnalytics();
-  }
-
-  function mountConsent() {
-    if (getConsent()) {
-      if (getConsent() === 'granted') loadAnalytics();
-      return;
+  window.ReacAnalytics = { track, load: loadAnalytics };
+  function disableAnalytics() {
+    window['ga-disable-' + config.analyticsId] = true;
+    if (window.gtag) window.gtag('consent', 'update', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+    const domains = [location.hostname, '.' + location.hostname];
+    const parts = location.hostname.split('.');
+    if (parts.length > 2) domains.push('.' + parts.slice(-2).join('.'));
+    for (const cookie of document.cookie.split(';')) {
+      const name = cookie.split('=')[0].trim();
+      if (!/^_ga(?:_|$)/.test(name)) continue;
+      document.cookie = name + '=; Max-Age=0; path=/; SameSite=Lax';
+      for (const domain of domains) document.cookie = name + '=; Max-Age=0; path=/; domain=' + domain + '; SameSite=Lax';
     }
-    var banner = document.createElement('section');
-    banner.id = 'reac-consent';
-    banner.className = 'reac-consent';
+  }
+  function mountConsent(force = false) {
+    if (!force && getConsent()) { if (getConsent() === 'granted') loadAnalytics(); return; }
+    document.getElementById('reac-consent')?.remove();
+    const banner = document.createElement('section');
+    banner.id = 'reac-consent'; banner.className = 'reac-consent';
     banner.setAttribute('aria-label', 'Preferencias de privacidad');
-    banner.innerHTML = '<div class="reac-consent__copy"><strong>Tu privacidad, sin vueltas.</strong><span>Usamos Analytics solo si lo aceptás. Nos ayuda a entender qué funciona; no es necesario para navegar.</span><a href="/politica-de-privacidad.html">Ver política de privacidad</a></div><div class="reac-consent__actions"><button type="button" data-consent="denied">Rechazar Analytics</button><button type="button" data-consent="granted">Aceptar Analytics</button></div>';
+    banner.innerHTML = '<div class="reac-consent__copy"><strong>Tu privacidad, sin vueltas.</strong><span>Usamos Analytics solo si lo aceptás. Nos ayuda a entender qué funciona; no es necesario para navegar.</span><a href="/politica-de-privacidad">Ver política de privacidad</a></div><div class="reac-consent__actions"><button type="button" data-consent="denied">Rechazar Analytics</button><button type="button" data-consent="granted">Aceptar Analytics</button></div>';
     document.body.appendChild(banner);
-    banner.addEventListener('click', function (event) {
-      var button = event.target.closest('[data-consent]');
-      if (button) saveConsent(button.getAttribute('data-consent'));
+    if (force) banner.querySelector('button').focus();
+    banner.addEventListener('click', event => {
+      const button = event.target.closest('[data-consent]'); if (!button) return;
+      const value = button.dataset.consent;
+      try { localStorage.setItem(consentKey, value); } catch { /* Without stored consent, no analytics. */ }
+      if (value === 'denied') disableAnalytics();
+      else if (analyticsReady) { window['ga-disable-' + config.analyticsId] = false; window.gtag('consent', 'update', { analytics_storage: 'granted' }); }
+      else loadAnalytics();
+      banner.remove();
+      if (force) document.querySelector('[data-privacy-settings]')?.focus();
     });
   }
-
-  function mountConsentAfterPreloader() {
-    if (!document.getElementById('reac-preloader')) {
-      mountConsent();
-      return;
-    }
-    var mounted = false;
-    function show() {
-      if (mounted) return;
-      mounted = true;
-      mountConsent();
-    }
-    document.addEventListener('reac:preloader-finished', show, { once: true });
-    window.setTimeout(show, 7000);
+  function formState(form, state, message) {
+    const button = form.querySelector('[data-submit-button]');
+    const status = form.querySelector('[data-form-status]');
+    form.dataset.state = state; form.setAttribute('aria-busy', String(state === 'sending'));
+    if (button) { button.disabled = state === 'sending'; button.textContent = state === 'sending' ? 'Enviando…' : button.dataset.idleText || 'Enviar consulta'; }
+    if (status) { status.textContent = message; status.className = 'form-status form-status--' + state; }
   }
-
-  function setFormState(form, state, message) {
-    var button = form.querySelector('[data-submit-button]');
-    var status = form.querySelector('[data-form-status]');
-    form.setAttribute('data-state', state);
-    if (button) {
-      button.disabled = state === 'sending';
-      var idleText = button.getAttribute('data-idle-text') || 'Enviar';
-      button.textContent = state === 'sending' ? 'Enviando…' : idleText;
-    }
-    if (status) {
-      status.textContent = message || '';
-      status.className = 'form-status form-status--' + state;
-    }
-  }
-
-  function endpointIsConfigured() {
-    return /^https:\/\/formspree\.io\/f\/[a-zA-Z0-9]+$/.test(CONFIG.formEndpoint);
-  }
-
-  function bindContactForm() {
-    var form = document.getElementById('ct-form');
-    if (!form || form.dataset.reacBound === 'true') return;
-    form.dataset.reacBound = 'true';
-    var sending = false;
-    form.addEventListener('submit', async function (event) {
-      event.preventDefault();
-      if (sending || !form.reportValidity()) return;
-      track('contact_form_attempt');
-      if (!endpointIsConfigured()) {
-        setFormState(form, 'error', 'El formulario todavía necesita configurar su endpoint de Formspree. Podés contactarnos por WhatsApp.');
-        track('contact_form_error', { reason: 'endpoint_not_configured' });
-        return;
-      }
-      sending = true;
-      setFormState(form, 'sending', 'Enviando tu consulta…');
+  function bindForm() {
+    const form = document.getElementById('ct-form'); if (!form) return;
+    let sending = false;
+    form.addEventListener('focusin', () => track('contact_form_start', { form_id: 'contacto' }), { once: true });
+    form.addEventListener('submit', async event => {
+      event.preventDefault(); if (sending || !form.reportValidity()) return;
+      sending = true; formState(form, 'sending', 'Enviando tu consulta…');
       try {
-        var response = await window.fetch(CONFIG.formEndpoint, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { Accept: 'application/json' }
+        const response = await fetch('/api/contact', {
+          method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))), signal: AbortSignal.timeout(15000), credentials: 'same-origin'
         });
-        if (!response.ok) throw new Error('form_provider_error');
-        try { window.sessionStorage.setItem(SUBMISSION_KEY, 'true'); } catch (error) {}
-        track('contact_form_success');
-        setFormState(form, 'success', 'Consulta enviada correctamente.');
-        window.location.assign('/gracias');
-      } catch (error) {
-        sending = false;
-        setFormState(form, 'error', 'No pudimos enviar la consulta. Intentá nuevamente o escribinos por WhatsApp.');
-        track('contact_form_error', { reason: 'request_failed' });
-      }
+        const result = await response.json();
+        if (!response.ok || result.ok !== true) {
+          formState(form, 'error', response.status === 429 ? 'Recibimos varios intentos. Esperá unos minutos antes de volver a enviar.' : 'No pudimos enviar la consulta. Intentá más tarde o escribinos por WhatsApp o email.');
+          return;
+        }
+        // One key event, only after server/provider acceptance; no form fields.
+        track('contact_form_submit', { form_id: 'contacto' });
+        formState(form, 'success', 'Consulta enviada correctamente.'); form.reset(); location.assign('/gracias');
+      } catch { formState(form, 'error', 'No pudimos confirmar el envío. Intentá más tarde o escribinos por WhatsApp.'); }
+      finally { sending = false; }
     });
   }
-
-  function bindNewsletterForm() {
-    var form = document.querySelector('[data-newsletter-form]');
-    if (!form || form.dataset.reacBound === 'true') return;
-    form.dataset.reacBound = 'true';
-    var sending = false;
-    form.addEventListener('submit', async function (event) {
-      event.preventDefault();
-      if (sending || !form.reportValidity()) return;
-      if (!endpointIsConfigured()) {
-        setFormState(form, 'error', 'La suscripción todavía no está configurada.');
-        return;
-      }
-      sending = true;
-      setFormState(form, 'sending', 'Enviando…');
-      try {
-        var response = await window.fetch(CONFIG.formEndpoint, {
-          method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' }
-        });
-        if (!response.ok) throw new Error('form_provider_error');
-        form.reset();
-        sending = false;
-        setFormState(form, 'success', 'Suscripción registrada.');
-      } catch (error) {
-        sending = false;
-        setFormState(form, 'error', 'No pudimos registrar la suscripción. Intentá nuevamente.');
-      }
+  function bindLinks() {
+    document.addEventListener('click', event => {
+      if (event.target.closest('[data-privacy-settings]')) { mountConsent(true); return; }
+      const link = event.target.closest('a'); if (!link) return;
+      const href = link.getAttribute('href') || '';
+      if (href.startsWith('https://wa.me/')) track('whatsapp_click', { placement: link.dataset.placement || document.body.dataset.page || 'home' });
+      if (href.startsWith('mailto:')) track('email_click');
+      if (link.dataset.service) track('service_cta_click', { service: link.dataset.service });
+      else if (['#contacto', '/#contacto', '/contacto'].includes(href) || link.dataset.cta === 'diagnostic') track('diagnostic_cta_click', { placement: document.body.dataset.page || 'home' });
+      const menu = document.querySelector('.mobile-nav[open]');
+      if (menu && (!menu.contains(link) || link.closest('.mobile-nav-panel'))) menu.open = false;
     });
+    document.addEventListener('reac:project-view', event => track('project_view', { project_index: event.detail?.project_index }));
+    document.addEventListener('keydown', event => {
+      const menu = document.querySelector('.mobile-nav[open]');
+      if (event.key === 'Escape' && menu) { menu.open = false; menu.querySelector('summary').focus(); }
+    });
+    document.addEventListener('click', event => {
+      const menu = document.querySelector('.mobile-nav[open]'); if (menu && !menu.contains(event.target)) menu.open = false;
+    });
+    matchMedia('(max-width: 980px)').addEventListener('change', () => {
+      const menu = document.querySelector('.mobile-nav[open]'); if (menu) menu.open = false;
+    });
+    addEventListener('storage', event => { if (event.key === consentKey && getConsent() !== 'granted') disableAnalytics(); });
   }
-
-  function bindLinkTracking() {
-    document.addEventListener('click', function (event) {
-      var link = event.target.closest ? event.target.closest('a') : null;
-      if (!link) return;
-      var href = link.getAttribute('href') || '';
-      if (href.indexOf('https://wa.me/') === 0) track('whatsapp_click', { link_url: href });
-      else if (href.indexOf('mailto:') === 0) track('email_click');
-      else if (href.indexOf('tel:') === 0) track('phone_click');
-      if (link.matches('[data-cta], a[href="#contacto"], a[href="/#contacto"]')) {
-        track('cta_click', {
-          cta_name: link.getAttribute('data-cta') || (link.textContent || 'contacto').trim().slice(0, 80)
-        });
-      }
-    });
-    document.addEventListener('reac:project-view', function (event) {
-      track('project_view', event.detail || {});
-    });
-  }
-
-  function trackConfirmedLead() {
-    if (document.body.getAttribute('data-page') !== 'thanks') return;
-    var confirmed = false;
-    try {
-      confirmed = window.sessionStorage.getItem(SUBMISSION_KEY) === 'true';
-      if (confirmed) window.sessionStorage.removeItem(SUBMISSION_KEY);
-    } catch (error) {}
-    if (confirmed) track('generate_lead');
-  }
-
-  function bindMobileNavigation() {
-    // Delegation also covers the navigation mounted later by the DC runtime.
-    document.addEventListener('click', function (event) {
-      var menu = document.querySelector('.mobile-nav[open]');
-      if (!menu || !event.target.closest) return;
-      if (!menu.contains(event.target) || event.target.closest('.mobile-nav-panel a')) {
-        menu.open = false;
-      }
-    });
-    document.addEventListener('keydown', function (event) {
-      if (event.key !== 'Escape') return;
-      var menu = document.querySelector('.mobile-nav[open]');
-      if (!menu) return;
-      menu.open = false;
-      menu.querySelector('summary').focus();
-    });
-    window.matchMedia('(max-width: 980px)').addEventListener('change', function () {
-      var menu = document.querySelector('.mobile-nav[open]');
-      if (menu) menu.open = false;
-    });
-  }
-
-  function bindMobileContactVisibility() {
-    var contact = document.getElementById('contacto');
-    if (!contact || contact.dataset.mobileObserved || !('IntersectionObserver' in window)) return;
-    contact.dataset.mobileObserved = 'true';
-    var observer = new IntersectionObserver(function (entries) {
-      document.documentElement.classList.toggle('reac-contact-visible', entries[0].isIntersecting);
-    });
-    observer.observe(contact);
-  }
-
   function init() {
-    mountConsentAfterPreloader();
-    bindContactForm();
-    bindNewsletterForm();
-    bindLinkTracking();
-    trackConfirmedLead();
-    bindMobileNavigation();
-    bindMobileContactVisibility();
-    // El runtime DC monta parte del contenido luego de DOMContentLoaded.
-    // Estos reintentos idempotentes garantizan que los formularios queden enlazados.
-    window.setTimeout(bindContactForm, 500);
-    window.setTimeout(bindNewsletterForm, 500);
-    window.setTimeout(bindMobileContactVisibility, 500);
-    window.setTimeout(bindContactForm, 1500);
-    window.setTimeout(bindNewsletterForm, 1500);
-    window.setTimeout(bindMobileContactVisibility, 1500);
+    mountConsent(); bindForm(); bindLinks();
+    const contact = document.getElementById('contacto');
+    if (contact && 'IntersectionObserver' in window) new IntersectionObserver(entries => {
+      document.documentElement.classList.toggle('reac-contact-visible', entries[0].isIntersecting);
+    }).observe(contact);
   }
-
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
