@@ -44,13 +44,13 @@
     @keyframes floatBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(8px);}}
     /* Easing maestro: expo-out, desaceleración larga y sedosa (sin blur, con profundidad 3D) */
     @keyframes heroInRight{0%{opacity:0; transform:perspective(1400px) translateX(96px) translateY(26px) rotateY(-11deg) scale(.9);}100%{opacity:1; transform:perspective(1400px) translateX(0) translateY(0) rotateY(0deg) scale(1);}}
-    @keyframes heroReveal{0%{opacity:0; clip-path:inset(0 0 100% 0); transform:translateY(22px);}100%{opacity:1; clip-path:inset(0 0 0 0); transform:translateY(0);}}
+    @keyframes heroReveal{0%{opacity:0; clip-path:inset(0 0 100% 0); transform:translateY(22px); filter:blur(6px);}100%{opacity:1; clip-path:inset(0 0 0 0); transform:translateY(0); filter:blur(0);}}
     @keyframes heroPop{0%{opacity:0; transform:translateY(40px) scale(.8);}55%{opacity:1; transform:translateY(-8px) scale(1.055);}100%{opacity:1; transform:translateY(0) scale(1);}}
     .hero-anim{opacity:0;}
     @keyframes heroChar{0%{opacity:0; transform:perspective(700px) translateY(1.05em) rotateX(-55deg) scale(.92);}55%{opacity:1;}100%{opacity:1; transform:perspective(700px) translateY(0) rotateX(0deg) scale(1);}}
     .hero-char{display:inline-block; opacity:0; transform-origin:50% 100%; animation:heroChar 1.15s cubic-bezier(.16,1,.3,1) forwards; will-change:transform,opacity;}
     .hero-t1{animation:none;}
-    .hero-sub{animation:heroReveal 1.6s cubic-bezier(.16,1,.3,1) 1.3s forwards; will-change:transform,opacity;}
+    .hero-sub{animation:heroReveal 1.85s cubic-bezier(.16,1,.3,1) 1.3s forwards; will-change:transform,opacity,filter;}
     .hero-btn1{animation:heroPop 1.15s cubic-bezier(.34,1.5,.5,1) 1.85s forwards; will-change:transform,opacity;}
     .hero-btn2{animation:heroPop 1.15s cubic-bezier(.34,1.5,.5,1) 2.02s forwards; will-change:transform,opacity;}
     .hero-card{animation:heroInRight 1.75s cubic-bezier(.16,1,.3,1) .75s forwards; will-change:transform,opacity;}
@@ -277,4 +277,3 @@
     .prob-chip-ico{flex:none; width:34px; height:34px; border-radius:10px; background:rgba(46,55,255,.10); border:1px solid rgba(110,116,255,.22); color:#8E94FF; display:flex; align-items:center; justify-content:center;}
     .prob-chip-ico svg{width:16px; height:16px;}
     @media(max-width:860px){.prob-cards{grid-template-columns:1fr;}.prob-card{min-height:0;}.prob-chips{grid-template-columns:1fr !important;}.prob-body{min-height:0;}}
-  
