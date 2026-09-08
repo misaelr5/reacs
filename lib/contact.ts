@@ -54,7 +54,7 @@ function validEmail(value: string): boolean {
 
 function readOrigin(env: ContactEnvironment): string {
   try {
-    const url = new URL(env.SITE_URL || 'https://reacs-studio.vercel.app');
+    const url = new URL(env.SITE_URL || 'https://reacstudio.com');
     if (url.protocol !== 'https:' || url.username || url.password || url.pathname !== '/' || url.search || url.hash) throw new Error();
     return url.origin;
   } catch {

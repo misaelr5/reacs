@@ -21,13 +21,26 @@ const json = value => JSON.stringify(value).replace(/</g, '\\u003c');
 const strip = value => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const resources = ['sitio-web', 'meta-ads', 'google-ads', 'negocio-digital'];
 const resourceNames = ['sitio web', 'Meta Ads', 'Google Ads', 'negocio digital'];
+const resourceSeo = {
+  'sitio-web': { title: 'Auditoría de sitio web: checklist gratuita | Reac Studio', description: 'Checklist gratuita de Reac Studio para detectar problemas de conversión, contacto, velocidad y confianza en tu sitio web antes de hacer cambios.' },
+  'meta-ads': { title: 'Auditoría de Meta Ads: checklist gratuita | Reac Studio', description: 'Checklist gratuita para revisar campañas de Meta Ads, públicos, anuncios, medición y presupuesto antes de aumentar la inversión.' },
+  'google-ads': { title: 'Auditoría de Google Ads: checklist gratuita | Reac Studio', description: 'Checklist gratuita de Reac Studio para revisar campañas de Google Ads, palabras clave, anuncios, conversiones y presupuesto antes de invertir.' },
+  'negocio-digital': { title: 'Auditoría de negocio digital: checklist | Reac Studio', description: 'Checklist gratuita para revisar marketing, web, procesos, medición y captación de clientes en tu negocio digital antes de priorizar cambios.' }
+};
 const generated = [];
 const orgId = url('/#organization');
 const websiteId = url('/#website');
+const servedAreas = [
+  { '@type': 'Place', name: 'Villa Dolores' },
+  { '@type': 'AdministrativeArea', name: 'Traslasierra' },
+  { '@type': 'AdministrativeArea', name: 'Córdoba' },
+  { '@type': 'Country', name: 'Argentina' },
+  { '@type': 'Place', name: 'Latinoamérica' }
+];
 const organization = {
-  '@type': 'Organization', '@id': orgId, name: site.name, url: url('/'),
+  '@type': ['Organization', 'ProfessionalService'], '@id': orgId, name: site.name, url: url('/'),
   logo: url(site.logo), description: site.description, email: site.email,
-  areaServed: [{ '@type': 'Country', name: 'Argentina' }, { '@type': 'Place', name: 'Latinoamérica' }],
+  areaServed: servedAreas,
   knowsAbout: services.map(service => service.name),
   ...(site.socialProfiles.length ? { sameAs: site.socialProfiles } : {})
 };
@@ -58,7 +71,7 @@ function prepare(html, meta) {
   setAttr(find(doc, n => n.tagName === 'html'), 'lang', 'es-AR');
   for (const n of all(head, n => n.tagName === 'title' || n.tagName === 'meta' && ['description','robots','author','theme-color','twitter:card','twitter:title','twitter:description','twitter:image','twitter:image:alt','google-site-verification','msvalidate.01'].includes(attr(n,'name')) || n.tagName === 'meta' && (attr(n,'property') || '').startsWith('og:') || n.tagName === 'link' && ['canonical','icon'].includes(attr(n,'rel')) || n.tagName === 'script' && attr(n,'type') === 'application/ld+json')) remove(n);
   const robots = meta.noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large';
-  append(head, `<title>${e(meta.title)}</title><meta name="description" content="${e(meta.description)}"><meta name="robots" content="${robots}"><meta name="theme-color" content="#070712"><link rel="canonical" href="${e(url(meta.path))}"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta property="og:type" content="${meta.article ? 'article' : 'website'}"><meta property="og:locale" content="es_AR"><meta property="og:site_name" content="Reac Studio"><meta property="og:title" content="${e(meta.title)}"><meta property="og:description" content="${e(meta.description)}"><meta property="og:url" content="${e(url(meta.path))}"><meta property="og:image" content="${e(url('/og-image.png'))}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Reac Studio: web, marketing y automatización"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${e(meta.title)}"><meta name="twitter:description" content="${e(meta.description)}"><meta name="twitter:image" content="${e(url('/og-image.png'))}">`);
+  append(head, `<title>${e(meta.title)}</title><meta name="description" content="${e(meta.description)}"><meta name="author" content="Reac Studio"><meta name="robots" content="${robots}"><meta name="theme-color" content="#070712"><link rel="canonical" href="${e(url(meta.path))}"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta property="og:type" content="${meta.article ? 'article' : 'website'}"><meta property="og:locale" content="es_AR"><meta property="og:site_name" content="Reac Studio"><meta property="og:title" content="${e(meta.title)}"><meta property="og:description" content="${e(meta.description)}"><meta property="og:url" content="${e(url(meta.path))}"><meta property="og:image" content="${e(url('/og-image.png'))}"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Reac Studio: web, marketing y automatización"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${e(meta.title)}"><meta name="twitter:description" content="${e(meta.description)}"><meta name="twitter:image" content="${e(url('/og-image.png'))}"><meta name="twitter:image:alt" content="Reac Studio: web, marketing y automatización">`);
   if (site.verification.google) append(head, `<meta name="google-site-verification" content="${e(site.verification.google)}">`);
   if (site.verification.bing) append(head, `<meta name="msvalidate.01" content="${e(site.verification.bing)}">`);
   append(head, `<script type="application/ld+json">${json(schema(meta, doc))}</script>`);
@@ -105,7 +118,7 @@ const cards = selected => `<div class="page-grid">${selected.map(s=>`<article cl
 function page(meta, content) {
   return prepare(`<!doctype html><html lang="es-AR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/reac-site.css"><link rel="stylesheet" href="/reac-home.css"><link rel="stylesheet" href="/reac-pages.css"><link rel="preconnect" href="https://api.fontshare.com"><link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&amp;display=swap" rel="stylesheet"><script defer src="/site-config.js"></script><script defer src="/reac-site.js"></script></head><body class="content-page" data-page="${e(meta.path.slice(1))}"><a class="skip-link" href="#main-content">Saltar al contenido</a>${nav}<main id="main-content" class="page-shell"><nav class="breadcrumbs" aria-label="Ruta de navegación"><a href="/">Inicio</a><span aria-hidden="true">/</span>${meta.parent ? `<a href="${meta.parent.path}">${meta.parent.name}</a><span aria-hidden="true">/</span>` : ''}<span aria-current="page">${e(meta.label)}</span></nav>${content}</main>${footer}</body></html>`,meta);
 }
-const mainMeta = {path:'/',title:'Reac Studio | Desarrollo web, marketing e IA',description:site.description};
+const mainMeta = {path:'/',title:'Reac Studio | Web, marketing e IA en Córdoba',description:site.description};
 const homepage = prepare(serialize(home),mainMeta);
 // Source/output pairing is deterministic. The build owns metadata in both files.
 writeFileSync(resolve(root,'Reac.dc.html'),homepage); writeFileSync(resolve(root,'index.html'),homepage);
@@ -146,7 +159,7 @@ page({path:'/recursos',title:'Recursos para revisar tu negocio digital | Reac St
 for(const [i,resource] of resources.entries()) {
   const path='/recursos/auditoria-'+resource+'.html';
   const source=readFileSync(resolve(root,'.'+path),'utf8');
-  const doc=parse(source); const h1=find(doc,n=>n.tagName==='h1');
+  const doc=parse(source);
   let main=find(doc,n=>n.tagName==='main');
   if(!main){
     const body=find(doc,n=>n.tagName==='body');
@@ -157,11 +170,12 @@ for(const [i,resource] of resources.entries()) {
   if(main&&!attr(main,'id'))setAttr(main,'id','main-content');
   const body=find(doc,n=>n.tagName==='body');
   append(body,`<nav class="resource-web-links" aria-label="Más recursos"><a href="/recursos">Todos los recursos</a><a href="/recursos/auditoria-${resource}.pdf" download>Descargar PDF</a><a href="/contacto">Consultar a Reac Studio</a></nav>`);
-  prepare(serialize(doc),{path,file:path,title:'Auditoría de '+resourceNames[i]+' | Reac Studio',description:'Checklist gratuita de Reac Studio: '+textContent(h1).replace(/\s+/g,' ').trim(),label:'Auditoría de '+resourceNames[i],parent:{name:'Recursos',path:'/recursos'}});
+  prepare(serialize(doc),{path,file:path,title:resourceSeo[resource].title,description:resourceSeo[resource].description,label:'Auditoría de '+resourceNames[i],parent:{name:'Recursos',path:'/recursos'}});
 }
 for(const [file,path,title] of [['404.html','/404','Página no encontrada | Reac Studio'],['gracias.html','/gracias','Gracias por tu consulta | Reac Studio'],['politica-de-privacidad.html','/politica-de-privacidad','Política de privacidad | Reac Studio']]) prepare(readFileSync(resolve(root,file),'utf8'),{path,file:'/'+file,title,description:title.split('|')[0].trim()+'. Información de Reac Studio.',label:title.split('|')[0].trim(),noindex:true});
 
 for(const file of ['reac-site.css','reac-home.css','reac-pages.css','reac-site.js','reac-ui.js','og-image.png'])copyFileSync(resolve(root,file),resolve(output,file));
+copyFileSync(resolve(root,'llms.txt'),resolve(output,'llms.txt'));
 copyFileSync(resolve(root,'uploads/reac-symbol.svg'),resolve(output,'favicon.svg'));
 const publicMarkup=generated.map(page=>readFileSync(resolve(output,'.'+page.file),'utf8')).join('\n')+['reac-site.css','reac-home.css','reac-pages.css'].map(file=>readFileSync(resolve(root,file),'utf8')).join('\n');
 const referencedAssets=new Set([...publicMarkup.matchAll(/\/uploads\/([a-zA-Z0-9._-]+\.(?:webp|png|jpe?g|svg|avif|woff2))/gi)].map(match=>match[1]));

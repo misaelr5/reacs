@@ -2,10 +2,10 @@
 export const services = [
   {
     slug: 'desarrollo-web', name: 'Desarrollo web',
-    title: 'Desarrollo web para empresas | Reac Studio',
-    description: 'Sitios institucionales, landing pages y webs autogestionables para empresas. Diseño, desarrollo e integraciones con Reac Studio, de forma remota.',
-    h1: 'Desarrollo web para empresas que necesitan generar consultas',
-    intro: 'En Reac Studio diseñamos y desarrollamos sitios web para explicar tu oferta, facilitar el contacto y conectar la web con tus procesos comerciales. Trabajamos de forma remota con negocios de Argentina y LATAM.',
+    title: 'Desarrollo web en Córdoba para empresas | Reac Studio',
+    description: 'Desarrollo web en Córdoba para empresas: sitios institucionales, landing pages y webs a medida. Trabajamos desde Villa Dolores para Argentina y Latinoamérica.',
+    h1: 'Desarrollo web para empresas y negocios',
+    intro: 'En Reac Studio diseñamos y desarrollamos sitios web para empresas y negocios desde Villa Dolores, Córdoba. Explicamos tu oferta, facilitamos el contacto y conectamos la web con tus procesos comerciales para trabajar de forma remota con Argentina y Latinoamérica.',
     fit: 'Conviene empezar por una web cuando tu negocio depende de redes sociales, cuando cuesta entender qué vendés o cuando recibís visitas que no encuentran cómo consultar. Antes de elegir tecnología, definimos qué necesita hacer la persona que llega al sitio y quién va a mantener el contenido.',
     deliverables: [
       ['Estructura y mensaje', 'Ordenamos servicios, páginas, contenidos y llamadas a la acción según el objetivo comercial. La navegación tiene que ayudar a encontrar una respuesta y un siguiente paso claro.'],
@@ -25,10 +25,10 @@ export const services = [
   },
   {
     slug: 'marketing-digital', name: 'Marketing digital',
-    title: 'Marketing digital para empresas | Reac Studio',
-    description: 'Estrategia, canales, campañas y medición para ordenar el marketing de tu negocio. Reac Studio trabaja con empresas de Argentina y LATAM de forma remota.',
-    h1: 'Marketing digital para conectar tu oferta con clientes',
-    intro: 'Reac Studio ayuda a negocios a ordenar su estrategia digital: qué ofrecer, a quién, por qué canales y cómo medir las consultas que llegan. Conectamos marketing, web y seguimiento comercial en un mismo plan de trabajo.',
+    title: 'Agencia de marketing digital en Córdoba | Reac Studio',
+    description: 'Agencia de marketing digital en Córdoba para empresas: estrategia, campañas y medición. Reac Studio trabaja desde Villa Dolores con Argentina y Latinoamérica.',
+    h1: 'Marketing digital para empresas y negocios',
+    intro: 'Reac Studio ayuda a empresas y negocios de Villa Dolores, Córdoba, a ordenar su estrategia digital: qué ofrecer, a quién, por qué canales y cómo medir las consultas que llegan. Conectamos marketing, web y seguimiento comercial en un mismo plan de trabajo remoto.',
     fit: 'Tiene sentido revisar la estrategia cuando publicás sin un objetivo, usás varios canales sin coordinación o no sabés cuáles generan oportunidades. El primer paso es entender tu oferta, tus márgenes, tu capacidad de atención y cómo decide comprar tu cliente.',
     deliverables: [
       ['Diagnóstico y prioridades', 'Revisamos la presencia digital, los mensajes, los puntos de contacto y los datos disponibles. Priorizamos acciones según su relación con el objetivo y los recursos del negocio.'],
@@ -94,10 +94,10 @@ export const services = [
   },
   {
     slug: 'automatizacion-ia', name: 'Automatización con IA',
-    title: 'Automatización con IA para empresas | Reac Studio',
-    description: 'Automatización de procesos, asistentes e integraciones para negocios. Reac Studio evalúa dónde la IA aporta valor y cómo mantener control sobre los datos.',
-    h1: 'Automatización con IA para reducir tareas repetitivas',
-    intro: 'En Reac Studio analizamos procesos del negocio y conectamos herramientas para reducir trabajo manual. Usamos inteligencia artificial cuando aporta valor, con límites claros, revisión humana y un recorrido definido para los errores.',
+    title: 'Automatización con IA en Córdoba | Reac Studio',
+    description: 'Automatización con IA para empresas y negocios de Córdoba: procesos, asistentes e integraciones con control sobre los datos. Trabajo remoto desde Villa Dolores.',
+    h1: 'Automatización con IA para empresas',
+    intro: 'En Reac Studio analizamos procesos de empresas y negocios de Villa Dolores, Córdoba, y conectamos herramientas para reducir trabajo manual. Usamos inteligencia artificial cuando aporta valor, con límites claros, revisión humana y un recorrido definido para los errores.',
     fit: 'Conviene automatizar una tarea cuando se repite, tiene entradas reconocibles y podés describir qué significa hacerla bien. Si el proceso cambia todos los días o todavía nadie es responsable del resultado, primero hay que ordenarlo. Una regla simple puede resolver mejor el problema que un modelo de IA.',
     deliverables: [
       ['Mapa del proceso', 'Identificamos disparadores, datos, herramientas, responsables y excepciones. Elegimos una primera tarea acotada para comprobar si la automatización ahorra trabajo sin trasladar el problema a otra persona.'],

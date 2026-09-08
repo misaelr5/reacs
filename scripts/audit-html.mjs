@@ -27,7 +27,7 @@ export function auditHtml() {
       if(attr(node,'type')==='application/ld+json'){
         let graph;try{graph=JSON.parse(textContent(node));}catch{errors.push(page.path+': invalid JSON-LD');continue;}
         assert(graph['@context']==='https://schema.org'&&Array.isArray(graph['@graph']),page.path+': schema graph missing');
-        assert(!/aggregateRating|reviewRating|ProfessionalService/.test(JSON.stringify(graph)),page.path+': unsupported schema');
+        assert(!/aggregateRating|reviewRating/.test(JSON.stringify(graph)),page.path+': unsupported review schema');
         for(const item of graph['@graph'])if(item['@type']==='FAQPage'){
           const body=normalized(textContent(find(doc,n=>n.tagName==='body')));
           for(const question of item.mainEntity){assert(body.includes(normalized(question.name))&&body.includes(normalized(question.acceptedAnswer.text)),page.path+': FAQ schema differs from visible content');}

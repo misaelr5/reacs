@@ -1,13 +1,13 @@
 # Pendientes para activar Reac Studio
 
-Estado al 7 de septiembre de 2026: implementación publicada en https://reacs-studio.vercel.app y despliegue READY verificado con el código de `9cb40c8`. Resend y Upstash se posponen por decisión de Misael. No hay credenciales de esos servicios configuradas; el formulario responde un error controlado y no confirma envíos ficticios. WhatsApp y email siguen como vías alternativas. Newsletter permanece deshabilitado.
+Estado al 7 de septiembre de 2026: implementación publicada en https://reacstudio.com y despliegue READY verificado. El host técnico anterior `reacs-studio.vercel.app` redirige permanentemente al dominio canónico. Resend y Upstash se posponen por decisión de Misael. No hay credenciales de esos servicios configuradas; el formulario responde un error controlado y no confirma envíos ficticios. WhatsApp y email siguen como vías alternativas. Newsletter permanece deshabilitado.
 
 ## Próxima sesión: contacto y privacidad
 
 - [ ] Crear cuenta Resend y verificar un remitente permitido. Si requiere dominio propio, confirmar primero su propiedad y DNS; no usar un remitente inventado.
 - [ ] Crear Redis en Upstash y obtener URL/token REST.
 - [ ] En Vercel, configurar `RESEND_API_KEY`, `CONTACT_FROM`, `CONTACT_TO`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` y `CONTACT_RATE_LIMIT_SECRET` (aleatorio, mínimo 32 caracteres). Guardar claves únicamente en variables privadas.
-- [ ] Mantener `SITE_URL=https://reacs-studio.vercel.app` hasta tener dominio definitivo. Para probar formularios en otro origen desplegado, configurar el origen de ese entorno de forma coherente.
+- [x] Usar `SITE_URL=https://reacstudio.com` como origen canónico. Para probar formularios en otro origen desplegado, configurar el origen de ese entorno de forma coherente.
 - [ ] Completar y revisar los datos legales y la política de retención en privacidad.
 - [ ] Reconstruir/desplegar tras configurar variables y comprobar una consulta controlada: recepción real, error seguro y ausencia de conversiones duplicadas.
 

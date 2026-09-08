@@ -2,7 +2,7 @@
 export const site = {
   url: process.env.SITE_URL || 'https://reacstudio.com',
   name: 'Reac Studio',
-  description: 'Desarrollo web, marketing digital y automatización con IA. Un solo equipo para conectar el ecosistema digital de negocios en Argentina y LATAM.',
+  description: 'Agencia digital de Córdoba para empresas de Villa Dolores: desarrollo web, marketing digital y automatización con IA en Argentina y Latinoamérica.',
   email: 'ledesma.rme@gmail.com',
   whatsapp: '5493544434403',
   analyticsId: 'G-8VJDB377CE',

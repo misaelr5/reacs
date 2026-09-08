@@ -1,6 +1,6 @@
 ﻿# Reac Studio
 
-Sitio comercial estático con HTML completo y función de contacto en Vercel. Dominio configurado: https://reacs-studio.vercel.app.
+Sitio comercial estático con HTML completo y función de contacto en Vercel. Dominio canónico de producción: https://reacstudio.com. El host `reacs-studio.vercel.app` queda como alias técnico anterior y redirige al dominio oficial.
 
 **Para retomar la activación:** [pendientes en orden de ejecución](docs/PENDIENTES.md). Las cuentas Resend/Upstash quedan para la próxima sesión.
 
