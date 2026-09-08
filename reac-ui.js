@@ -42,12 +42,17 @@
 
   function setupParallax() {
     const nav = query('.site-nav');
+    const hero = query('#top');
     const stats = query('[data-ref="statsRef"]');
     const layers = ['p1Ref', 'p2Ref', 'pTitleRef', 'p4Ref'].map(name => query('[data-ref="' + name + '"]'));
     if (!layers.some(Boolean)) return;
     let frame = 0;
     let height = innerHeight;
-    let navThreshold = stats ? stats.getBoundingClientRect().top + scrollY - 64 : 0;
+    const getNavThreshold = () => {
+      if (hero) return hero.getBoundingClientRect().bottom + scrollY - Math.min(72, Math.max(40, height * 0.08));
+      return stats ? stats.getBoundingClientRect().top + scrollY - 64 : 0;
+    };
+    let navThreshold = getNavThreshold();
     function update() {
       frame = 0;
       const progress = reduced.matches ? 0 : Math.max(0, Math.min(1, scrollY / Math.max(1, height)));
@@ -66,7 +71,7 @@
     addEventListener('scroll', schedule, { passive: true });
     addEventListener('resize', () => {
       height = innerHeight;
-      navThreshold = stats ? stats.getBoundingClientRect().top + scrollY - 64 : 0;
+      navThreshold = getNavThreshold();
       schedule();
     });
     nav?.addEventListener('focusin', schedule);

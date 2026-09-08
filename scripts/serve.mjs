@@ -21,7 +21,7 @@ createServer(async (req,res) => {
       const result=await handleContact(request,process.env);
       result.headers.forEach((v,k)=>res.setHeader(k,v));res.statusCode=result.status;res.end(Buffer.from(await result.arrayBuffer()));return;
     }
-    const redirect=config.redirects.find(item=>item.source===pathname);
+    const redirect=config.redirects.find(item=>item.source===pathname && (!item.has?.length || item.has.every(condition=>condition.type!=='host' || condition.value===url.hostname)));
     if(redirect){res.writeHead(308,{Location:redirect.destination+url.search});res.end();return;}
     if(req.method!=='GET'&&req.method!=='HEAD'){res.writeHead(405,{Allow:'GET, HEAD'});res.end();return;}
     const rewrite=config.rewrites.find(item=>item.source===pathname);

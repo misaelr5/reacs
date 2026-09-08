@@ -42,7 +42,7 @@ export function auditHtml() {
     if(!href||/^(mailto:|tel:|data:)/.test(href))continue;
     let target;try{target=new URL(href,manifest.siteUrl+path);}catch{errors.push(path+': malformed URL');continue;}
     if(target.origin!==manifest.siteUrl)continue;
-    const redirected=config.redirects.find(r=>r.source===target.pathname)?.destination;
+    const redirected=config.redirects.find(r=>r.source===target.pathname && (!r.has?.length || r.has.every(condition=>condition.type!=='host' || condition.value===target.hostname)))?.destination;
     const destPath=redirected || target.pathname;
     const mapped=byPath.get(destPath);
     const file=mapped?.file||destPath;
