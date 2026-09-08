@@ -11,7 +11,7 @@ export function auditHtml() {
   for(const page of manifest.pages){
     const html=readFileSync('dist'+page.file,'utf8');const doc=parse(html);documents.set(page.path,doc);
     assert(!html.includes('{{')&&!/<(?:sc-|x-dc|helmet)/i.test(html),page.path+': templates remain');
-    assert(!html.includes('reacstudio.com'),page.path+': old canonical domain');
+    assert(!html.includes('reacs-studio.vercel.app'),page.path+': old canonical domain');
     assert(all(doc,n=>n.tagName==='h1').length===1,page.path+': H1 count');
     assert(all(doc,n=>n.tagName==='main').length===1,page.path+': main landmark count');
     assert(all(doc,n=>n.tagName==='title').length===1,page.path+': title count');

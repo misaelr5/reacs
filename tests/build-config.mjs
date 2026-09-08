@@ -9,11 +9,11 @@ try{
   for(const page of manifest.pages){const html=readFileSync('dist'+page.file,'utf8');assert.ok(html.includes('href="https://reac-config-test.example'+page.path+'"'));assert.ok(!html.includes('https://reacs-studio.vercel.app'));}
   assert.ok(readFileSync('dist/sitemap.xml','utf8').includes('https://reac-config-test.example/desarrollo-web'));
   assert.ok(readFileSync('dist/robots.txt','utf8').includes('https://reac-config-test.example/sitemap.xml'));
-  run({SITE_URL:process.env.SITE_URL||'https://reacs-studio.vercel.app'});
+  run({SITE_URL:process.env.SITE_URL||'https://reacstudio.com'});
   const first=readFileSync('dist/index.html','utf8');
-  run({SITE_URL:process.env.SITE_URL||'https://reacs-studio.vercel.app'});
+  run({SITE_URL:process.env.SITE_URL||'https://reacstudio.com'});
   assert.equal(first,readFileSync('dist/index.html','utf8'));
   report={passed:true,checks:['Alternate HTTPS origin propagated to all 19 pages, JSON-LD, sitemap and robots','Repeated build is byte-identical for the home','Actual configured origin restored'],externalRequests:0};
   console.log(JSON.stringify(report));
-}finally{run({SITE_URL:process.env.SITE_URL||'https://reacs-studio.vercel.app'});}
+}finally{run({SITE_URL:process.env.SITE_URL||'https://reacstudio.com'});}
 writeFileSync('artifacts/build-config-report.json',JSON.stringify(report,null,2));

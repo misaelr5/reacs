@@ -6,6 +6,17 @@
   "installCommand": "npm ci --ignore-scripts",
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "reacs-studio.vercel.app"
+        }
+      ],
+      "destination": "https://reacstudio.com/:path*",
+      "permanent": true
+    },
+    {
       "source": "/index.html",
       "destination": "/",
       "permanent": true

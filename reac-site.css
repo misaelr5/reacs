@@ -17,7 +17,12 @@
 .site-brand{justify-self:start;display:inline-flex;align-items:center;width:42px;height:42px;text-decoration:none;white-space:nowrap}
 .site-brand-mark{display:block;width:42px;height:42px;object-fit:contain}
 
-@media(max-width:980px){
+  /* The home parallax deliberately reveals the desktop navbar after the hero.
+     Keep it out of the first paint so it never flashes before JS applies the
+     scroll state. Mobile keeps the navbar visible through the media rule below. */
+  @media(min-width:981px){body[data-page="home"] .site-nav{transform:translateY(-130%);opacity:0;pointer-events:none}}
+
+  @media(max-width:980px){
   .site-nav{transform:none!important;opacity:1!important;pointer-events:auto!important}
   .site-nav>div{padding:calc(10px + env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) 0 max(12px,env(safe-area-inset-left))!important}
   .site-nav>div>div{position:relative;grid-template-columns:minmax(0,1fr) auto auto!important;gap:8px!important;padding:8px 10px!important}

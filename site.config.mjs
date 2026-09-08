@@ -1,6 +1,6 @@
 // Public business facts. Secrets belong only in server environment variables.
 export const site = {
-  url: process.env.SITE_URL || 'https://reacs-studio.vercel.app',
+  url: process.env.SITE_URL || 'https://reacstudio.com',
   name: 'Reac Studio',
   description: 'Desarrollo web, marketing digital y automatización con IA. Un solo equipo para conectar el ecosistema digital de negocios en Argentina y LATAM.',
   email: 'ledesma.rme@gmail.com',
