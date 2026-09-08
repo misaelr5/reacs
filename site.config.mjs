@@ -8,7 +8,11 @@ export const site = {
   analyticsId: 'G-8VJDB377CE',
   logo: '/uploads/reac-symbol.svg',
   indexNowKey: "45483afbcd991fa6735a61e3a0996204", // Public ownership proof, not a secret.
-  socialProfiles: [], // PENDING: URLs of confirmed official profiles only.
+  socialProfiles: [
+    'https://www.instagram.com/reacstudio/',
+    'https://www.tiktok.com/@reac.studio',
+    'https://www.facebook.com/profile.php?id=reacstudio'
+  ],
   legal: { responsible: '', address: '', effectiveDate: '' },
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION || '',
