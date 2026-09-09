@@ -29,13 +29,15 @@ try{
   });
   await page.goto(origin+'/contacto?email=private@example.test');
   assert.equal(gtagRequests,0);assert.equal(events.length,0);
+  assert.equal(await page.locator('[data-privacy-settings]').count(),0);
   await page.locator('[data-consent=denied]').click();
   await page.locator('#ct-nombre').fill('Persona de prueba');assert.equal(events.filter(args=>args[0]==='event').length,0);
-  await page.locator('[data-privacy-settings]').click();await page.locator('[data-consent=granted]').click();
-  await page.waitForFunction(()=>document.querySelector('script[src*="googletagmanager"]'));
+  await page.goto(origin+'/politica-de-privacidad');await page.locator('[data-privacy-settings]').click();await page.locator('[data-consent=granted]').click();
+  assert.equal(await page.locator('script[src*="googletagmanager"]').count(),1);
   await page.waitForTimeout(100);assert.equal(gtagRequests,1);
-  const configEvent=events.find(args=>args[0]==='config');assert.equal(configEvent[2].page_location,origin+'/contacto');assert.equal(configEvent[2].allow_google_signals,false);
-  await page.locator('#ct-email').fill('person@example.test');await page.locator('#ct-mensaje').fill('Consulta de prueba, no enviar a proveedores.');await page.locator('[name=privacy_consent]').check();
+  const configEvent=events.find(args=>args[0]==='config');assert.equal(configEvent[2].page_location,origin+'/politica-de-privacidad');assert.equal(configEvent[2].allow_google_signals,false);
+  await page.goto(origin+'/contacto');
+  await page.locator('#ct-nombre').fill('Persona de prueba');await page.locator('#ct-email').fill('person@example.test');await page.locator('#ct-mensaje').fill('Consulta de prueba, no enviar a proveedores.');await page.locator('[name=privacy_consent]').check();
   await page.locator('[data-submit-button]').click();await page.waitForFunction(()=>document.getElementById('ct-form').dataset.state==='error');
   assert.equal(events.filter(args=>args[1]==='contact_form_submit').length,0);
   formStatus=200;await page.locator('[data-submit-button]').click();await page.waitForURL(origin+'/gracias');
@@ -46,7 +48,7 @@ try{
   const serviceLink=page.locator('[data-service=google-ads][href="/contacto"]').first();await serviceLink.click();await page.waitForURL(origin+'/contacto');
   assert.ok(events.some(args=>args[1]==='service_cta_click'));
   const beforeRevoke=events.filter(args=>args[0]==='event').length;
-  await page.locator('[data-privacy-settings]').click();await page.locator('[data-consent=denied]').click();
+  await page.goto(origin+'/politica-de-privacidad');await page.locator('[data-privacy-settings]').click();await page.locator('[data-consent=denied]').click();
   await page.evaluate(()=>window.ReacAnalytics.track('diagnostic_cta_click'));
   assert.equal(events.filter(args=>args[0]==='event').length,beforeRevoke);
   assert.equal(await page.evaluate(()=>window['ga-disable-G-8VJDB377CE']),true);

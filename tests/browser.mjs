@@ -41,7 +41,7 @@ try{
   await page.goto(base+'/');await page.setViewportSize({width:390,height:844});
   await page.locator('.mobile-nav summary').click();assert.equal(await page.locator('.mobile-nav').getAttribute('open'),'');
   await page.keyboard.press('Escape');assert.equal(await page.locator('.mobile-nav').getAttribute('open'),null);
-  await page.locator('.mobile-nav summary').click();await page.setViewportSize({width:1440,height:900});assert.equal(await page.locator('.mobile-nav').getAttribute('open'),null);
+  await page.locator('.mobile-nav summary').click();await page.setViewportSize({width:1440,height:900});await page.waitForFunction(()=>document.querySelector('.mobile-nav')?.getAttribute('open')===null);
   await page.setViewportSize({width:390,height:844});
   await page.locator('[data-action="setProbCon"]').click();assert.equal(await page.locator('[data-prob-panel="sin"]').isVisible(),false);assert.equal(await page.locator('[data-prob-panel="con"]').isVisible(),true);
   const toggle=page.locator('.sim-toggle').first();const before=await toggle.getAttribute('aria-pressed');await toggle.click();assert.notEqual(await toggle.getAttribute('aria-pressed'),before);
