@@ -1,0 +1,32 @@
+# Pendientes para activar Reac Studio
+
+Estado al 7 de septiembre de 2026: implementación publicada en https://reacstudio.com y despliegue READY verificado. El host técnico anterior `reacs-studio.vercel.app` redirige permanentemente al dominio canónico. Resend y Upstash se posponen por decisión de Misael. No hay credenciales de esos servicios configuradas; el formulario responde un error controlado y no confirma envíos ficticios. WhatsApp y email siguen como vías alternativas. Newsletter permanece deshabilitado.
+
+## Próxima sesión: contacto y privacidad
+
+- [ ] Crear cuenta Resend y verificar un remitente permitido. Si requiere dominio propio, confirmar primero su propiedad y DNS; no usar un remitente inventado.
+- [ ] Crear Redis en Upstash y obtener URL/token REST.
+- [ ] En Vercel, configurar `RESEND_API_KEY`, `CONTACT_FROM`, `CONTACT_TO`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` y `CONTACT_RATE_LIMIT_SECRET` (aleatorio, mínimo 32 caracteres). Guardar claves únicamente en variables privadas.
+- [x] Usar `SITE_URL=https://reacstudio.com` como origen canónico. Para probar formularios en otro origen desplegado, configurar el origen de ese entorno de forma coherente.
+- [ ] Completar y revisar los datos legales y la política de retención en privacidad.
+- [ ] Reconstruir/desplegar tras configurar variables y comprobar una consulta controlada: recepción real, error seguro y ausencia de conversiones duplicadas.
+
+## Después: publicación y medición
+
+- [x] Verificar estado READY, home nueva sin plantillas, páginas de servicios, 404, redirección 308, CSP y API. Despliegue `dpl_BEMKcRocSXy1zN6Ax4XLLvCUZR1B`; GET de API devuelve 405 y POST sin configuración devuelve 503 controlado. Repetir después de futuros cambios de código o variables.
+- [ ] Verificar Search Console y Bing, completar tokens públicos de `.env.example`, reconstruir y enviar `/sitemap.xml`.
+- [ ] Validar GA4 y consentimiento en la cuenta real; configurar `contact_form_submit` como evento clave. WhatsApp/email son clics, no ventas.
+- [ ] Revisar atribución UTMs/GCLID y consentimiento antes de activar campañas Ads.
+- [ ] Comprobar archivo público IndexNow y ejecutar dry run antes de enviar URLs modificadas.
+- [ ] Confirmar perfiles sociales oficiales y completar `socialProfiles`.
+- [ ] Preparar dominio propio y redirects cuando corresponda. Business Profile solo si el negocio cumple sus requisitos reales.
+
+## Cómo retomar
+
+Pedir: «Retomemos docs/PENDIENTES.md: configuremos contacto y validemos una consulta real». No pegar secretos en el chat.
+
+Desarrollo: `npm ci --ignore-scripts`, `npm run build`, `npm run dev`; abrir http://127.0.0.1:4174.
+
+Validación de código: `npm run lint`, `npm run typecheck`, `npm test`. El README explica las pruebas adicionales y el informe registra resultados y límites.
+
+Referencia: [informe completo](production-readiness.md), [guía técnica](../README.md), [variables necesarias](../.env.example).

@@ -1,109 +1,72 @@
-# Reac Studio — Digital Studio Website
+﻿# Reac Studio
 
-Official website for **Reac Studio**, a digital studio focused on web development, digital marketing and business automation.
+Sitio comercial estático con HTML completo y función de contacto en Vercel. Dominio canónico de producción: https://reacstudio.com. El host `reacs-studio.vercel.app` queda como alias técnico anterior y redirige al dominio oficial.
 
-The project was built as a production-facing business website with an emphasis on performance, responsive design, accessibility, conversion and visual storytelling.
+**Para retomar la activación:** [pendientes en orden de ejecución](docs/PENDIENTES.md). Las cuentas Resend/Upstash quedan para la próxima sesión.
 
-## Live website
+## Desarrollo
 
-[reacs-studio.vercel.app](https://reacs-studio.vercel.app/)
+Requiere Node.js 24 y npm:
 
-## Project goals
-
-The website is designed to communicate one central value proposition:
-
-> One team for the complete digital ecosystem of a business.
-
-It presents Reac Studio's services, projects, team and contact flows while keeping the experience lightweight and visually distinctive.
-
-## Main features
-
-- Responsive desktop and mobile layouts
-- Custom visual storytelling and parallax sections
-- Accessible navigation and keyboard support
-- `prefers-reduced-motion` support
-- Conversion-oriented contact flows
-- Analytics integration prepared for production
-- Consent-aware GA4 loading
-- SEO metadata and indexing support
-- Performance-focused scroll rendering
-- Vercel deployment configuration
-
-## Stack
-
-- **HTML5**
-- **CSS3**
-- **JavaScript**
-- **Python** utility scripts
-- **Vercel**
-- **Google Analytics 4** integration
-- **Formspree** integration prepared for forms
-
-The website intentionally avoids a heavy frontend framework and runs as a static production site.
-
-## Architecture
-
-```text
-index.html
-├── reac-site.css
-├── reac-site.js
-├── support.js
-├── assets/
-├── scripts/
-│   └── fix-parallax.py
-└── vercel.json
+```powershell
+npm ci --ignore-scripts
+npm run build
+npm run dev
 ```
 
-`reac-site.js` handles interaction, analytics consent, form behavior and conversion events.
+Abrir http://127.0.0.1:4174. El servidor está limitado a esta computadora. Reconstruir después de editar contenido y reiniciar el servidor después de cambiar configuración o backend; no hay hot reload.
 
-The parallax system uses `requestAnimationFrame` scheduling and avoids unnecessary layout calculations during scrolling.
+## Arquitectura
 
-## Local development
+- `Reac.dc.html`: fuente de la home; el build sincroniza `index.html`.
+- `content/services.mjs`: seis páginas de servicios.
+- `content/editorial.mjs`: publicaciones revisadas; borradores excluidos.
+- `site.config.mjs`: dominio, identidad, contactos, medición y clave pública IndexNow.
+- `reac-home.css`, `reac-pages.css`, `reac-site.css`: presentación.
+- `reac-ui.js`: interacciones; `reac-site.js`: consentimiento, medición y contacto.
+- `scripts/build.mjs`: genera `dist/`, metadata, schema, sitemap y robots con una lista de archivos permitidos.
+- `lib/contact.ts`, `api/contact.ts`: validación, antispam y entrega del lado servidor.
+- `vercel.json`: build, rutas y encabezados.
 
-From the repository root:
+`support.js` y el script Python antiguo son históricos y no intervienen en la publicación. No ejecutar Python para construir esta versión. Los cuatro recursos HTML/PDF conservan sus URLs; los PDF no se regeneraron.
 
-```bash
-python -m http.server 4173
-```
+## Configuración
 
-Then open:
+Copiar `.env.example` a `.env.local` para desarrollo y configurar las variables también en Vercel. Nunca incluir secretos en HTML o Git.
 
-```text
-http://localhost:4173/
-```
+Contacto requiere `RESEND_API_KEY`, `CONTACT_FROM` (remitente verificado), `CONTACT_TO`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` y `CONTACT_RATE_LIMIT_SECRET` (secreto aleatorio de al menos 32 caracteres). Sin configuración devuelve un error seguro. Newsletter permanece deshabilitado.
 
-No Node.js build step is required to preview the website locally.
+`SITE_URL` es un origen HTTPS sin ruta. Se usa en canonical, schema, sitemap, robots y validación de origen del backend. `npm run build` no carga `.env.local`: para cambiar el origen localmente definir `$env:SITE_URL` en PowerShell y quitarlo al finalizar. Vercel usa sus variables de entorno.
 
-## Validation
+Los tokens Google/Bing y la clave de propiedad IndexNow son públicos. Los datos legales y perfiles pendientes deben completarse con información real.
 
-```bash
-node --check reac-site.js
-python -m py_compile scripts/fix-parallax.py
-python scripts/fix-parallax.py
+## Validación
+
+```powershell
+npm run build
+npm run lint
+npm run typecheck
+npm test
+npm run test:browser
+node tests/performance.mjs
+node tests/build-config.mjs
+node scripts/security-scan.mjs
+npm audit
 git diff --check
 ```
 
-The layout should also be manually tested across mobile and desktop viewports, keyboard navigation and reduced-motion preferences.
+Navegador y performance requieren servidor en 4174 y Chrome instalado. Playwright viene con la herramienta de accesibilidad. `lint` es comprobación sintáctica y estructural propia, no ESLint. TypeScript comprueba backend y pruebas TS. Las pruebas de entrega y analytics usan proveedores simulados, sin mensajes reales.
 
-## Deployment
+## Publicación
 
-Deployment is configured for Vercel.
+Vercel instala con `npm ci --ignore-scripts`, construye con `npm run build`, publica `dist/` y despliega `api/contact.ts`. Verificar READY, HTTP, rutas, CSP y recepción real después de publicar. Completar privacidad antes de activar captación.
 
-```json
-{
-  "buildCommand": "python scripts/fix-parallax.py",
-  "outputDirectory": "."
-}
+```powershell
+npm run indexnow -- /desarrollo-web /google-ads
 ```
 
-## About Reac Studio
+Ese comando solo muestra el payload. Después de publicar el archivo de propiedad, agregar `--submit` para enviarlo. No se envía automáticamente durante el build.
 
-Reac Studio works across three main areas:
+Ver [informe y checklist](docs/production-readiness.md) e [investigación inicial](docs/seo-research.md). Producción publicada y verificada el 7 de septiembre de 2026, con el código de `9cb40c8`: Vercel READY, home y servicios HTTP 200, sin plantillas pendientes, redirección 308 y 404 correctos. Contacto responde un error controlado hasta configurar proveedores; la recepción real sigue pendiente.
 
-- Web Development
-- Digital Marketing
-- Business Automation & AI
-
----
-
-**Developed by:** [Misael Ledesma](https://github.com/misaelr5)
+Despliegue manual al proyecto existente: `npx --yes vercel@59.11.2 deploy --prod --yes --scope misaellovespias-projects`. El push a la rama de trabajo no debe considerarse una publicación automática confirmada.

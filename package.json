@@ -1,0 +1,22 @@
+{
+  "name": "reac-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": "24.x" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node --env-file-if-exists=.env.local scripts/serve.mjs",
+    "lint": "node scripts/check.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.ts tests/*.test.mjs",
+    "test:browser": "node tests/browser.mjs && node tests/analytics.browser.mjs",
+    "indexnow": "node --env-file-if-exists=.env.local scripts/indexnow.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@types/node": "24.13.3",
+    "parse5": "8.0.1",
+    "typescript": "5.9.3"
+  }
+}
