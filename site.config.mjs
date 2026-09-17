@@ -4,7 +4,7 @@ export const site = {
   name: 'Reac Studio',
   description: 'Agencia digital de Córdoba para empresas de Villa Dolores: desarrollo web, marketing digital y automatización con IA en Argentina y Latinoamérica.',
   email: 'ledesma.rme@gmail.com',
-  whatsapp: '5493544434403',
+  whatsapp: '5493544657866',
   analyticsId: 'G-8VJDB377CE',
   logo: '/uploads/reac-symbol.svg',
   indexNowKey: "45483afbcd991fa6735a61e3a0996204", // Public ownership proof, not a secret.

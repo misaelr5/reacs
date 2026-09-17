@@ -3,7 +3,7 @@ import { isIP } from 'node:net';
 
 export type ContactEnvironment = Record<string, string | undefined>;
 type Fetch = typeof globalThis.fetch;
-type Contact = { nombre: string; email: string; empresa: string; mensaje: string };
+type Contact = { nombre: string; canal: string; canalEsEmail: boolean; empresa: string; interes: string; mensaje: string };
 type Config = { origin: string; redis: string; redisToken: string; rateSecret: string; apiKey: string; from: string; to: string };
 
 const BODY_LIMIT = 12 * 1024;
@@ -12,7 +12,9 @@ const RATE_LIMIT = 5;
 const NO_CONTROL = /[\u0000-\u001f\u007f-\u009f]/u;
 const UNSAFE_MESSAGE_CONTROL = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f]/u;
 const EMAIL = /^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9](?:[A-Z0-9-]*[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]*[A-Z0-9])?)+$/i;
-const FIELDS = new Set(['form_type', 'nombre', 'email', 'empresa', 'mensaje', 'privacy_consent', '_gotcha']);
+const FIELDS = new Set(['form_type', 'nombre', 'contacto', 'empresa', 'interes', 'mensaje', 'privacy_consent', '_gotcha']);
+const WHATSAPP = /^\+?[0-9][0-9 .()\-]{6,23}$/;
+const INTERESTS = new Set(['web_nueva', 'mejorar_web', 'mas_consultas', 'automatizar', 'sistema', 'no_seguro']);
 
 // One atomic Redis operation: separate INCR/EXPIRE calls can leave a permanent
 // counter after a partial failure. REST transport adds no client dependency.
@@ -38,7 +40,7 @@ const MESSAGES: Record<string, string> = {
   forbidden_origin: 'No pudimos verificar el origen de la consulta. Volvé al formulario del sitio.',
   invalid_content_type: 'El formato de la consulta no es válido.',
   payload_too_large: 'La consulta supera el tamaño permitido.',
-  invalid_submission: 'Revisá tu nombre, email, mensaje y aceptación de la política de privacidad.',
+  invalid_submission: 'Revisá tu nombre, canal de contacto, mensaje y aceptación de la política de privacidad.',
   spam_rejected: 'No pudimos procesar esta consulta. Revisá los campos e intentá nuevamente.',
   rate_limited: 'Recibimos varios intentos. Esperá unos minutos antes de volver a enviar.',
   service_unavailable: 'El formulario no está disponible en este momento. Podés usar los canales de contacto del sitio.',
@@ -170,17 +172,20 @@ function validate(data: Record<string, unknown>): Contact {
   if (data.form_type !== 'contacto') throw new ContactError(400, 'invalid_submission');
   if (data._gotcha !== undefined && (typeof data._gotcha !== 'string' || data._gotcha.trim())) throw new ContactError(400, 'spam_rejected');
   if (data.privacy_consent !== true && data.privacy_consent !== 'on' && data.privacy_consent !== 'true') throw new ContactError(400, 'invalid_submission');
-  for (const field of ['nombre', 'email', 'mensaje']) if (typeof data[field] !== 'string') throw new ContactError(400, 'invalid_submission');
+  for (const field of ['nombre', 'contacto', 'interes', 'mensaje']) if (typeof data[field] !== 'string') throw new ContactError(400, 'invalid_submission');
   if (data.empresa !== undefined && typeof data.empresa !== 'string') throw new ContactError(400, 'invalid_submission');
   const contact = {
     nombre: (data.nombre as string).normalize('NFC').trim(),
-    email: (data.email as string).trim(),
+    canal: (data.contacto as string).normalize('NFC').trim(),
+    canalEsEmail: false,
     empresa: ((data.empresa as string | undefined) || '').normalize('NFC').trim(),
+    interes: (data.interes as string).trim(),
     mensaje: (data.mensaje as string).normalize('NFC').trim(),
   };
+  contact.canalEsEmail = validEmail(contact.canal);
   if (contact.nombre.length < 2 || contact.nombre.length > 120 || NO_CONTROL.test(contact.nombre)
-      || !validEmail(contact.email) || NO_CONTROL.test(contact.email)
-      || contact.empresa.length > 160 || NO_CONTROL.test(contact.empresa)
+      || contact.canal.length < 7 || contact.canal.length > 254 || NO_CONTROL.test(contact.canal) || (!contact.canalEsEmail && !WHATSAPP.test(contact.canal))
+      || contact.empresa.length > 160 || NO_CONTROL.test(contact.empresa) || !INTERESTS.has(contact.interes)
       || contact.mensaje.length < 10 || contact.mensaje.length > 3000 || UNSAFE_MESSAGE_CONTROL.test(contact.mensaje)) {
     throw new ContactError(400, 'invalid_submission');
   }
@@ -228,9 +233,9 @@ export async function handleContact(request: Request, env: ContactEnvironment, f
       // User input is plain text; it is never rendered as HTML or interpreted.
       // https://resend.com/docs/api-reference/emails/send-email
       const body = JSON.stringify({
-        from: config.from, to: [config.to], reply_to: contact.email,
+        from: config.from, to: [config.to], ...(contact.canalEsEmail ? { reply_to: contact.canal } : {}),
         subject: 'Nueva consulta desde Reac Studio',
-        text: ['Nombre: ' + contact.nombre, 'Email: ' + contact.email, 'Empresa: ' + (contact.empresa || 'No indicada'), '', 'Mensaje:', contact.mensaje, '', 'La persona aceptó la política de privacidad al enviar la consulta.'].join('\n'),
+        text: ['Nombre: ' + contact.nombre, 'Canal de contacto: ' + contact.canal, 'Interes: ' + contact.interes, 'Empresa: ' + (contact.empresa || 'No indicada'), '', 'Mensaje:', contact.mensaje, '', 'La persona aceptó la política de privacidad al enviar la consulta.'].join('\n'),
       });
       // Repeated normalized payloads share a Resend idempotency key within one
       // fixed 10-minute UTC bucket, including after an ambiguous timeout.

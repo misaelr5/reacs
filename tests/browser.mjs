@@ -25,7 +25,7 @@ try{
     const response=await page.goto(base+(entry.path==='/404'?'/missing-page-for-audit':entry.path));
     assert.equal(response.status(),entry.path==='/404'?404:200,entry.path);
     await page.waitForLoadState('networkidle');
-    for(const width of [320,390,768,1440]){
+    for(const width of [320,375,390,430,768,1024,1440]){
       await page.setViewportSize({width,height:900});
       const dims=await page.evaluate(()=>({viewport:innerWidth,scroll:document.documentElement.scrollWidth}));
       report.responsive.push({path:entry.path,...dims});assert.ok(dims.scroll<=dims.viewport,entry.path+' overflows at '+width);
@@ -38,7 +38,16 @@ try{
     runningAxe=false;
     report.accessibility.push({path:entry.path,violations:axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary,html:n.html}))}))});
   }
-  await page.goto(base+'/');await page.setViewportSize({width:390,height:844});
+  await page.goto(base+'/');await page.setViewportSize({width:1440,height:900});
+  const quickAction=page.locator('.whatsapp-quick-action');assert.equal(await quickAction.isVisible(),true);assert.match(await quickAction.getAttribute('href'),/https:\/\/wa\.me\/5493544657866/);
+  await page.setViewportSize({width:390,height:844});assert.equal(await quickAction.isVisible(),false);assert.equal(await page.locator('.mobile-sticky-cta').isVisible(),true);
+  for(const width of [375,390,430]){
+    await page.setViewportSize({width,height:844});
+    for(const selector of ['#hero-sec','#servicios','#diagnostico','#proyectos','#contacto']){
+      await page.locator(selector).evaluate(node=>window.scrollTo({top:Math.max(0,node.getBoundingClientRect().top+scrollY-78),behavior:'instant'}));
+      await page.waitForFunction(()=>getComputedStyle(document.querySelector('.mobile-sticky-cta')).visibility==='hidden');
+    }
+  }
   await page.locator('.mobile-nav summary').click();assert.equal(await page.locator('.mobile-nav').getAttribute('open'),'');
   await page.keyboard.press('Escape');assert.equal(await page.locator('.mobile-nav').getAttribute('open'),null);
   await page.locator('.mobile-nav summary').click();await page.setViewportSize({width:1440,height:900});await page.waitForFunction(()=>document.querySelector('.mobile-nav')?.getAttribute('open')===null);
@@ -49,13 +58,13 @@ try{
   await page.locator('.proj-controls [data-action="projNext"]').click();assert.match(await page.locator('.proj-counter').textContent(),/02 \/ 10/);assert.equal(await page.locator('.proj-slide[inert]').count(),9);
   await page.locator('.proj-dot').nth(3).click();assert.match(await page.locator('.proj-counter').textContent(),/04 \/ 10/);
   const summary=page.locator('.imp-faq summary').first();await summary.click();assert.equal(await page.locator('.imp-faq').first().getAttribute('open'),'');
-  await page.goto(base+'/contacto');await page.locator('#ct-nombre').fill('Prueba local');await page.locator('#ct-email').fill('audit@example.test');await page.locator('#ct-mensaje').fill('Verificación local sin envío a proveedores.');await page.locator('[name=privacy_consent]').check();
+  await page.goto(base+'/contacto');await page.locator('#ct-interes').selectOption('web_nueva');await page.locator('#ct-nombre').fill('Prueba local');await page.locator('#ct-contacto').fill('audit@example.test');await page.locator('#ct-mensaje').fill('Verificación local sin envío a proveedores.');await page.locator('[name=privacy_consent]').check();
   await page.locator('[data-submit-button]').click();await page.waitForFunction(()=>document.getElementById('ct-form')?.dataset.state==='error');assert.ok(page.url().endsWith('/contacto'));assert.equal(await page.locator('[data-submit-button]').isEnabled(),true);
-  report.interactions.push('Mobile navigation/Escape/resize','Comparison panels','Simulator toggle/range','Carousel controls and inert slides','Native FAQ disclosure','Safe unavailable contact response');
+  report.interactions.push('Desktop WhatsApp quick action and mobile sticky CTA','Mobile navigation/Escape/resize','Comparison panels','Simulator toggle/range','Carousel controls and inert slides','Native FAQ disclosure','Safe unavailable contact response');
   await page.goto(base+'/desarrollo-web');await page.screenshot({path:'artifacts/service-mobile.png',fullPage:true});
   await page.goto(base+'/');await page.screenshot({path:'artifacts/home-mobile.png'});
   const noJS=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});const staticPage=await noJS.newPage();await staticPage.goto(base+'/');
-  assert.match(await staticPage.locator('h1').textContent(),/Web, marketing e IA/);assert.equal(await staticPage.locator('.proj-slide').count(),10);assert.equal(await staticPage.locator('.proj-slide').last().isVisible(),true);await staticPage.locator('.imp-faq summary').first().click();assert.equal(await staticPage.locator('.imp-faq').first().getAttribute('open'),'');
+  assert.match(await staticPage.locator('h1').textContent(),/Convertimos tu presencia digital/);assert.equal(await staticPage.locator('.proj-slide').count(),10);assert.equal(await staticPage.locator('.proj-slide').last().isVisible(),true);await staticPage.locator('.imp-faq summary').first().click();assert.equal(await staticPage.locator('.imp-faq').first().getAttribute('open'),'');
   report.interactions.push('JavaScript disabled: real heading, all projects and native FAQ');await noJS.close();
   for(const path of ['/index.html','/Reac.dc.html','/google-ads.html','/politica-de-privacidad.html']){const response=await fetch(base+path,{redirect:'manual'});assert.equal(response.status,308);}
   for(const path of ['/README.md','/package.json','/site.config.mjs','/support.js','/.env','/api/source.ts']){const response=await fetch(base+path);assert.equal(response.status,404,path);}

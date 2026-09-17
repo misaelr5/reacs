@@ -89,6 +89,10 @@ function prepare(html, meta) {
   }
   for(const n of all(doc,n=>n.tagName==='a')) {
     const href=attr(n,'href') || '';
+    if(href.startsWith('https://wa.me/')) {
+      const query=href.indexOf('?');
+      setAttr(n,'href',`https://wa.me/${site.whatsapp}${query===-1?'':href.slice(query)}`);
+    }
     if(href==='/politica-de-privacidad.html')setAttr(n,'href','/politica-de-privacidad');
     if(href==='/#recursos')setAttr(n,'href','/recursos');
     if(attr(n,'target')==='_blank')setAttr(n,'rel','noopener noreferrer');

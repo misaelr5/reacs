@@ -11,8 +11,8 @@ const env: ContactEnvironment = {
   RESEND_API_KEY: 'mock-resend-token', CONTACT_FROM: 'Reac Test <sender@example.test>', CONTACT_TO: 'recipient@example.test',
 };
 const valid = {
-  form_type: 'contacto', nombre: 'Persona de prueba', email: 'person@example.test',
-  empresa: 'Empresa de prueba', mensaje: 'Quiero consultar por una página web.', privacy_consent: true, _gotcha: '',
+  form_type: 'contacto', nombre: 'Persona de prueba', contacto: 'person@example.test',
+  empresa: 'Empresa de prueba', interes: 'web_nueva', mensaje: 'Quiero consultar por una página web.', privacy_consent: true, _gotcha: '',
 };
 function request(data: unknown = valid, headers: Record<string, string> = {}): Request {
   return new Request(env.SITE_URL + '/api/contact', {
@@ -60,7 +60,7 @@ test('accepts valid contact only after the provider accepts delivery', async () 
   const mail = stub.mails()[0]!.body as Record<string, unknown>;
   assert.equal(mail.from, env.CONTACT_FROM);
   assert.deepEqual(mail.to, [env.CONTACT_TO]);
-  assert.equal(mail.reply_to, valid.email);
+  assert.equal(mail.reply_to, valid.contacto);
   assert.equal(mail.html, undefined);
   assert.equal(mail.attachments, undefined);
 });
@@ -153,15 +153,15 @@ test('permits only same-origin loopback development and keeps production configu
 test('rejects malformed, duplicate, oversized and invalid submissions without sending email', async () => {
   const cases: Request[] = [
     request('{invalid'), request('null'), request('[]'), request({ ...valid, nombre: [] }),
-    request({ ...valid, email: 'wrong-address' }), request({ ...valid, mensaje: 'corto' }),
-    request({ ...valid, email: 'person..name@example.test' }), request({ ...valid, email: '.person@example.test' }),
-    request({ ...valid, email: 'person@' + 'a'.repeat(64) + '.test' }),
+    request({ ...valid, contacto: 'wrong-address' }), request({ ...valid, mensaje: 'corto' }),
+    request({ ...valid, contacto: 'person..name@example.test' }), request({ ...valid, contacto: '.person@example.test' }),
+    request({ ...valid, contacto: 'person@' + 'a'.repeat(64) + '.test' }),
     request({ ...valid, mensaje: 'a'.repeat(3001) }), request({ ...valid, nombre: 'a'.repeat(121) }),
-    request({ ...valid, empresa: 'a'.repeat(161) }), request({ ...valid, privacy_consent: false }),
+    request({ ...valid, empresa: 'a'.repeat(161) }), request({ ...valid, interes: 'otro' }), request({ ...valid, privacy_consent: false }),
     request({ ...valid, privacy_consent: 'false' }), request({ ...valid, _gotcha: 'bot' }),
     request({ ...valid, form_type: 'unknown' }), request({ ...valid, to: 'attacker@example.test' }),
     request({ ...valid, mensaje: 'https://a.test '.repeat(5) }),
-    request({ ...valid, email: 'person@example.test\r\nBcc: attacker@example.test' }),
+    request({ ...valid, contacto: 'person@example.test\r\nBcc: attacker@example.test' }),
     request({ ...valid, mensaje: 'El mensaje\u0000 contiene un control' }),
     request({ ...valid, mensaje: 'El mensaje\u0085 contiene un control' }),
     request('email=a%40example.test&email=b%40example.test', { 'content-type': 'application/x-www-form-urlencoded' }),
@@ -188,6 +188,14 @@ test('untrusted code is sent as plain text and never changes recipients or heade
   assert.equal(mail.html, undefined);
   assert.equal(mail.headers, undefined);
   assert.deepEqual(mail.to, [env.CONTACT_TO]);
+});
+
+test('accepts a WhatsApp number without setting an email reply-to header', async () => {
+  const stub = provider();
+  assert.equal((await handleContact(request({ ...valid, contacto: '+54 9 3544 657866' }), env, stub.mock)).status, 200);
+  const mail = stub.mails()[0]!.body as Record<string, unknown>;
+  assert.equal(mail.reply_to, undefined);
+  assert.match(String(mail.text), /Canal de contacto: \+54 9 3544 657866/);
 });
 
 test('distributed rate results cap concurrent accepted attempts at five', async () => {
@@ -230,7 +238,7 @@ test('retries reuse a private idempotency key for the same normalized payload wi
   assert.equal((await handleContact(request(), env, firstAttempt.mock)).status, 502);
   const key = (firstAttempt.mails()[0]!.init.headers as Record<string, string>)['Idempotency-Key'];
   assert.match(key!, /^reac-contact-v1-[a-f0-9]{64}$/);
-  assert.ok(!key!.includes(valid.email));
+  assert.ok(!key!.includes(valid.contacto));
 
   clock.mock.mockImplementation(() => 700_000);
   const retried = provider();
@@ -250,7 +258,7 @@ test('retries reuse a private idempotency key for the same normalized payload wi
 
 test('newsletter does not masquerade as a contact or a registered subscription', async () => {
   const stub = provider();
-  const result = await handleContact(request({ form_type: 'newsletter', email: valid.email }), env, stub.mock);
+  const result = await handleContact(request({ form_type: 'newsletter', contacto: valid.contacto }), env, stub.mock);
   assert.equal(result.status, 503);
   assert.equal((await result.json()).code, 'newsletter_unavailable');
   assert.equal(stub.mails().length, 0);

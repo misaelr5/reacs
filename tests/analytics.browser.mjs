@@ -37,7 +37,7 @@ try{
   await page.waitForTimeout(100);assert.equal(gtagRequests,1);
   const configEvent=events.find(args=>args[0]==='config');assert.equal(configEvent[2].page_location,origin+'/politica-de-privacidad');assert.equal(configEvent[2].allow_google_signals,false);
   await page.goto(origin+'/contacto');
-  await page.locator('#ct-nombre').fill('Persona de prueba');await page.locator('#ct-email').fill('person@example.test');await page.locator('#ct-mensaje').fill('Consulta de prueba, no enviar a proveedores.');await page.locator('[name=privacy_consent]').check();
+  await page.locator('#ct-interes').selectOption('web_nueva');await page.locator('#ct-nombre').fill('Persona de prueba');await page.locator('#ct-contacto').fill('person@example.test');await page.locator('#ct-mensaje').fill('Consulta de prueba, no enviar a proveedores.');await page.locator('[name=privacy_consent]').check();
   await page.locator('[data-submit-button]').click();await page.waitForFunction(()=>document.getElementById('ct-form').dataset.state==='error');
   assert.equal(events.filter(args=>args[1]==='contact_form_submit').length,0);
   formStatus=200;await page.locator('[data-submit-button]').click();await page.waitForURL(origin+'/gracias');
