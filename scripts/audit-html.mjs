@@ -8,6 +8,16 @@ export function auditHtml() {
   const errors=[]; const documents=new Map();
   const assert=(condition,message)=>{if(!condition)errors.push(message);};
   const normalized=text=>text.replace(/\s+/g,' ').trim();
+  const requiredIcons = [
+    ['icon', '/icon.png'],
+    ['shortcut icon', '/favicon.ico'],
+    ['apple-touch-icon', '/apple-touch-icon.png']
+  ];
+  const iconPng = readFileSync('dist/icon.png');
+  assert(iconPng.subarray(1, 4).toString('ascii') === 'PNG', 'icon.png is not a PNG');
+  assert(iconPng.readUInt32BE(16) === 512 && iconPng.readUInt32BE(20) === 512, 'icon.png must be 512x512');
+  assert(readFileSync('dist/apple-touch-icon.png').equals(iconPng), 'apple-touch-icon.png must match icon.png');
+  assert(readFileSync('dist/favicon.ico').subarray(0, 4).equals(Buffer.from([0, 0, 1, 0])), 'favicon.ico is not an ICO');
   for(const page of manifest.pages){
     const html=readFileSync('dist'+page.file,'utf8');const doc=parse(html);documents.set(page.path,doc);
     assert(!html.includes('{{')&&!/<(?:sc-|x-dc|helmet)/i.test(html),page.path+': templates remain');
@@ -17,6 +27,7 @@ export function auditHtml() {
     assert(all(doc,n=>n.tagName==='title').length===1,page.path+': title count');
     assert(all(doc,n=>n.tagName==='link'&&attr(n,'rel')==='canonical').length===1,page.path+': canonical count');
     assert(attr(find(doc,n=>n.tagName==='link'&&attr(n,'rel')==='canonical'),'href')===manifest.siteUrl+page.path,page.path+': wrong canonical');
+    for(const [rel, href] of requiredIcons)assert(Boolean(find(doc,n=>n.tagName==='link'&&attr(n,'rel')===rel&&attr(n,'href')===href)),page.path+': missing '+rel+' favicon link');
     assert(Boolean(attr(find(doc,n=>n.tagName==='meta'&&attr(n,'name')==='description'),'content')),page.path+': missing description');
     const ids=all(doc,n=>attr(n,'id')).map(n=>attr(n,'id'));
     assert(new Set(ids).size===ids.length,page.path+': duplicate ids');

@@ -7,7 +7,7 @@ import { handleContact } from '../lib/contact.ts';
 const config = JSON.parse(readFileSync(new URL('../vercel.json',import.meta.url),'utf8'));
 const root = resolve('dist');
 const port = Number(process.env.PORT || 4174);
-const mime = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.webp':'image/webp','.png':'image/png','.xml':'application/xml; charset=utf-8','.txt':'text/plain; charset=utf-8','.pdf':'application/pdf','.woff2':'font/woff2'};
+const mime = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.ico':'image/x-icon','.svg':'image/svg+xml','.webp':'image/webp','.png':'image/png','.xml':'application/xml; charset=utf-8','.txt':'text/plain; charset=utf-8','.pdf':'application/pdf','.woff2':'font/woff2'};
 createServer(async (req,res) => {
   try {
     const url = new URL(req.url, 'http://127.0.0.1:' + port);
