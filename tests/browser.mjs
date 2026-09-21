@@ -43,7 +43,7 @@ try{
   await page.setViewportSize({width:390,height:844});assert.equal(await quickAction.isVisible(),false);assert.equal(await page.locator('.mobile-sticky-cta').isVisible(),true);
   for(const width of [375,390,430]){
     await page.setViewportSize({width,height:844});
-    for(const selector of ['#hero-sec','#servicios','#diagnostico','#proyectos','#contacto']){
+    for(const selector of ['#hero-sec','#servicios','#proyectos','#contacto']){
       await page.locator(selector).evaluate(node=>window.scrollTo({top:Math.max(0,node.getBoundingClientRect().top+scrollY-78),behavior:'instant'}));
       await page.waitForFunction(()=>getComputedStyle(document.querySelector('.mobile-sticky-cta')).visibility==='hidden');
     }

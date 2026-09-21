@@ -125,7 +125,7 @@
   function bindMobileStickyCta() {
     const sticky = document.querySelector('.mobile-sticky-cta');
     if (!sticky || !('IntersectionObserver' in window)) return;
-    const protectedSections = ['#hero-sec', '#servicios', '#diagnostico', '#proyectos', '#contacto']
+    const protectedSections = ['#hero-sec', '#servicios', '#proyectos', '#contacto']
       .map(selector => document.querySelector(selector))
       .filter(Boolean);
     const visibleSections = new Set();
