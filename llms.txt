@@ -1,6 +1,6 @@
 # Reac Studio
 
-> Reac Studio es una agencia digital argentina especializada en desarrollo web, marketing digital y automatización con inteligencia artificial. Trabaja de forma remota desde Villa Dolores, Córdoba, con empresas y negocios de Argentina y Latinoamérica.
+> Reac Studio: desarrollo web, landing pages, marketing digital y automatización para empresas, PyMEs y profesionales. Desde Córdoba para Argentina y Latinoamérica.
 
 ## Sitio oficial
 
@@ -11,24 +11,25 @@
 - Contacto: https://reacstudio.com/contacto
 - Recursos: https://reacstudio.com/recursos
 
-## Servicios principales
+## Servicios
 
 - Desarrollo web: https://reacstudio.com/desarrollo-web
+- Landing pages: https://reacstudio.com/landing-pages
 - Marketing digital: https://reacstudio.com/marketing-digital
-- Automatización con IA: https://reacstudio.com/automatizacion-ia
 - Google Ads: https://reacstudio.com/google-ads
 - Meta Ads: https://reacstudio.com/meta-ads
+- Automatización con IA: https://reacstudio.com/automatizacion-ia
 - Sistemas, CRM e integraciones: https://reacstudio.com/sistemas-crm
 
-## Entidad
+## Identidad
 
-- Nombre: Reac Studio
-- Área principal: Villa Dolores, Córdoba, Argentina
-- Cobertura: trabajo remoto con empresas y negocios de Argentina y Latinoamérica
-- Especialidades: desarrollo web, marketing digital y automatización con inteligencia artificial
+- Nombre principal: Reac Studio
+- Variantes: ReacStudio, REAC Studio, reacstudio.com
+- Trabajo remoto desde Córdoba, Argentina, para empresas, negocios y profesionales de Argentina y Latinoamérica.
 
 ## Perfiles oficiales
 
-- Instagram: https://www.instagram.com/reacstudio/
-- TikTok: https://www.tiktok.com/@reac.studio
-- Facebook: https://www.facebook.com/profile.php?id=reacstudio
+- https://www.instagram.com/reacstudio/
+- https://www.tiktok.com/@reac.studio
+
+Este directorio es un complemento experimental. No reemplaza el contenido HTML, robots.txt ni sitemap.xml.

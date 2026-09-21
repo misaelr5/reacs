@@ -13,7 +13,8 @@ try{
   const first=readFileSync('dist/index.html','utf8');
   run({SITE_URL:process.env.SITE_URL||'https://reacstudio.com'});
   assert.equal(first,readFileSync('dist/index.html','utf8'));
-  report={passed:true,checks:['Alternate HTTPS origin propagated to all 19 pages, JSON-LD, sitemap and robots','Repeated build is byte-identical for the home','Actual configured origin restored'],externalRequests:0};
+  assert.ok(readFileSync('dist/llms.txt','utf8').includes((process.env.SITE_URL||'https://reacstudio.com')+'/landing-pages'));
+  report={passed:true,checks:[`Alternate HTTPS origin propagated to all ${manifest.pages.length} pages, JSON-LD, sitemap and robots`,'Repeated build is byte-identical for the home','Actual configured origin restored'],externalRequests:0};
   console.log(JSON.stringify(report));
 }finally{run({SITE_URL:process.env.SITE_URL||'https://reacstudio.com'});}
 writeFileSync('artifacts/build-config-report.json',JSON.stringify(report,null,2));

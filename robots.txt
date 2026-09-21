@@ -1,10 +1,20 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /internal
+Disallow: /preview
+Disallow: /staging
 
 User-agent: OAI-SearchBot
 Allow: /
 Disallow: /api/
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /internal
+Disallow: /preview
+Disallow: /staging
 
 # Search access is independent of model-training permission.
 Sitemap: https://reacstudio.com/sitemap.xml

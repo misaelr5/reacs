@@ -3,8 +3,40 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": null,
+  "trailingSlash": false,
   "installCommand": "npm ci --ignore-scripts",
   "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.reacstudio.com" }],
+      "destination": "https://reacstudio.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/landing-pages.html",
+      "destination": "/landing-pages",
+      "permanent": true
+    },
+    {
+      "source": "/recursos/auditoria-sitio-web",
+      "destination": "/recursos/auditoria-sitio-web.html",
+      "permanent": true
+    },
+    {
+      "source": "/recursos/auditoria-meta-ads",
+      "destination": "/recursos/auditoria-meta-ads.html",
+      "permanent": true
+    },
+    {
+      "source": "/recursos/auditoria-google-ads",
+      "destination": "/recursos/auditoria-google-ads.html",
+      "permanent": true
+    },
+    {
+      "source": "/recursos/auditoria-negocio-digital",
+      "destination": "/recursos/auditoria-negocio-digital.html",
+      "permanent": true
+    },
     {
       "source": "/",
       "has": [
@@ -104,6 +136,10 @@
     }
   ],
   "rewrites": [
+    {
+      "source": "/landing-pages",
+      "destination": "/landing-pages.html"
+    },
     {
       "source": "/servicios",
       "destination": "/servicios.html"

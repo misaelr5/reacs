@@ -19,7 +19,7 @@ Abrir http://127.0.0.1:4174. El servidor está limitado a esta computadora. Reco
 ## Arquitectura
 
 - `Reac.dc.html`: fuente de la home; el build sincroniza `index.html`.
-- `content/services.mjs`: seis páginas de servicios.
+- `content/services.mjs`: siete páginas de servicios, incluida `/landing-pages`.
 - `content/editorial.mjs`: publicaciones revisadas; borradores excluidos.
 - `site.config.mjs`: dominio, identidad, contactos, medición y clave pública IndexNow.
 - `reac-home.css`, `reac-pages.css`, `reac-site.css`: presentación.
@@ -50,6 +50,7 @@ npm test
 npm run test:browser
 node tests/performance.mjs
 node tests/build-config.mjs
+node tests/seo-http.mjs
 node scripts/security-scan.mjs
 npm audit
 git diff --check
@@ -66,6 +67,14 @@ npm run indexnow -- /desarrollo-web /google-ads
 ```
 
 Ese comando solo muestra el payload. Después de publicar el archivo de propiedad, agregar `--submit` para enviarlo. No se envía automáticamente durante el build.
+
+Solo acepta rutas canónicas indexables del build, sin parámetros ni fragmentos. Para una página pública eliminada usar `npm run indexnow -- --deleted=/ruta-eliminada`; al enviar comprueba que responda 404/410. Las URLs activas deben responder 200. La aceptación de IndexNow no confirma indexación.
+
+## SEO e identidad de marca
+
+La configuración central define `Reac Studio` y sus variantes `ReacStudio`, `REAC Studio` y `reacstudio.com`. El build conecta Organization, WebSite, WebPage y Service mediante IDs estables; genera metadata, sitemap, robots y el directorio experimental `llms.txt`. No hay Next.js, base de datos ni autenticación de usuarios en este sitio.
+
+Consultar [auditoría](docs/seo/SEO-AUDIT.md), [implementación y validación](docs/seo/SEO-IMPLEMENTATION.md), [acciones externas](docs/seo/SEARCH-CONSOLE-CHECKLIST.md) y [roadmap editorial](docs/seo/CONTENT-ROADMAP.md). La validación HTTP requiere el servidor local activo. Los cambios de dominio/certificado y la indexación se verifican aparte de las pruebas del repositorio.
 
 Ver [informe y checklist](docs/production-readiness.md) e [investigación inicial](docs/seo-research.md). Producción publicada y verificada el 7 de septiembre de 2026, con el código de `9cb40c8`: Vercel READY, home y servicios HTTP 200, sin plantillas pendientes, redirección 308 y 404 correctos. Contacto responde un error controlado hasta configurar proveedores; la recepción real sigue pendiente.
 

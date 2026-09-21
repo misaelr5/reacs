@@ -13,6 +13,10 @@ createServer(async (req,res) => {
     const url = new URL(req.url, 'http://127.0.0.1:' + port);
     for(const {source,headers} of config.headers)if(source==='/(.*)')for(const header of headers)res.setHeader(header.key,header.value.replace('; upgrade-insecure-requests',''));
     const pathname=decodeURIComponent(url.pathname);
+    if(pathname.startsWith('//') || pathname.includes('\\')) {res.statusCode=400;res.end('Ruta no válida.');return;}
+    if(config.trailingSlash===false && pathname!=='/' && pathname.endsWith('/')) {
+      res.writeHead(308,{Location:pathname.replace(/\/+$/,'')+url.search});res.end();return;
+    }
     if(pathname.startsWith('/api/')) {
       if(pathname!=='/api/contact') {res.writeHead(404);res.end();return;}
       const headers=new Headers();for(const [key,value] of Object.entries(req.headers))if(value)headers.set(key,Array.isArray(value)?value.join(','):value);

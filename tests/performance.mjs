@@ -26,7 +26,7 @@ try{
     results.push({path,...metrics});await context.close();
   }
   const page=await browser.newPage({viewport:{width:320,height:800}});await page.goto('http://127.0.0.1:4174/recursos/auditoria-sitio-web.html');await page.emulateMedia({media:'print'});
-  const print=await page.locator('.page').first().evaluate(n=>({width:n.getBoundingClientRect().width,minHeight:getComputedStyle(n).minHeight}));assert.ok(Math.abs(print.width-210*96/25.4)<1,'A4 width preserved');assert.equal(await page.locator('.resource-web-links').isVisible(),false);
+const print=await page.locator('.page').first().evaluate(n=>({width:n.getBoundingClientRect().width,minHeight:getComputedStyle(n).minHeight}));assert.ok(Math.abs(print.width-210*96/25.4)<1,'A4 width preserved');for(const links of await page.locator('.resource-web-links').all())assert.equal(await links.isVisible(),false);
   const report={method:'Single cold-cache Chrome lab sample per page; 390x844, 4x CPU slowdown, 1.6 Mbps down/0.75 Mbps up, 150ms latency; local server. Not field Core Web Vitals or p75 INP.',results,print,ownHomeJavaScriptBytes:['reac-ui.js','reac-site.js','site-config.js'].reduce((sum,file)=>sum+statSync('dist/'+file).size,0)};
   writeFileSync('artifacts/performance-report.json',JSON.stringify(report,null,2));
   console.log(JSON.stringify({results:results.map(r=>({path:r.path,LCP_ms:Math.round(r.lcp),FCP_ms:Math.round(r.fcp),TTFB_ms:Math.round(r.ttfb),CLS:r.cls,maxObservedInteraction_ms:Math.max(0,...r.interactions)})),ownJSBytes:report.ownHomeJavaScriptBytes,print}));

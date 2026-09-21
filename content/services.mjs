@@ -2,10 +2,10 @@
 export const services = [
   {
     slug: 'desarrollo-web', name: 'Desarrollo web',
-    title: 'Desarrollo web en Córdoba para empresas | Reac Studio',
-    description: 'Desarrollo web en Córdoba para empresas: sitios institucionales, landing pages y webs a medida. Trabajamos desde Villa Dolores para Argentina y Latinoamérica.',
-    h1: 'Desarrollo web para empresas y negocios',
-    intro: 'En Reac Studio diseñamos y desarrollamos sitios web para empresas y negocios desde Villa Dolores, Córdoba. Explicamos tu oferta, facilitamos el contacto y conectamos la web con tus procesos comerciales para trabajar de forma remota con Argentina y Latinoamérica.',
+    title: 'Desarrollo web para empresas y profesionales | Reac Studio',
+    description: 'Sitios web para presentar servicios, facilitar consultas y gestionar contenido. Reac Studio conecta diseño, desarrollo e integraciones según tu negocio.',
+    h1: 'Desarrollo web para empresas, negocios y profesionales',
+    intro: 'En Reac Studio diseñamos y desarrollamos sitios web para empresas, negocios y profesionales. Explicamos tu oferta, facilitamos el contacto y conectamos la web con tus procesos comerciales. Trabajamos desde Villa Dolores, Córdoba, de forma remota con Argentina y Latinoamérica.',
     fit: 'Conviene empezar por una web cuando tu negocio depende de redes sociales, cuando cuesta entender qué vendés o cuando recibís visitas que no encuentran cómo consultar. Antes de elegir tecnología, definimos qué necesita hacer la persona que llega al sitio y quién va a mantener el contenido.',
     deliverables: [
       ['Estructura y mensaje', 'Ordenamos servicios, páginas, contenidos y llamadas a la acción según el objetivo comercial. La navegación tiene que ayudar a encontrar una respuesta y un siguiente paso claro.'],
@@ -16,19 +16,45 @@ export const services = [
     process: ['Relevamos objetivo, público, contenido disponible y herramientas actuales.', 'Acordamos alcance, estructura, diseño y responsabilidades sobre textos e imágenes.', 'Desarrollamos, probamos en móvil y verificamos los recorridos de contacto.', 'Coordinamos publicación, accesos y mantenimiento según lo contratado.'],
     evidence: 'En el proyecto Más Servicios, el alcance documentado incluye un sitio WordPress autogestionable, servicios, sucursales, mapas, FAQ, formularios, WhatsApp y capacitación. Podés revisar su ficha y otros trabajos comerciales, personales y académicos.',
     evidenceLink: '/proyectos#mas-servicios',
+    evidenceLabel: 'Ver el proyecto web autogestionable de Más Servicios',
     faqs: [
       ['¿Cuánto cuesta desarrollar una web?', 'El precio depende de las páginas, el contenido, la gestión interna y las integraciones. La home publica una referencia de desarrollo web desde USD 200; el presupuesto final requiere definir el alcance. Dominio, hosting, mantenimiento y servicios externos deben quedar detallados en la propuesta.'],
       ['¿Puedo actualizar la web por mi cuenta?', 'Sí, cuando el proyecto incluye un gestor de contenidos. Si solo necesitás cambios ocasionales, una solución estática puede simplificar el mantenimiento. Lo decidimos según quién va a editar y con qué frecuencia.'],
       ['¿La web queda preparada para Google Ads?', 'Podemos preparar una landing específica, sus llamadas a la acción y los eventos de medición. La publicación de campañas y la inversión publicitaria se acuerdan por separado.']
     ],
-    related: ['google-ads', 'sistemas-crm']
+    related: ['landing-pages', 'google-ads', 'sistemas-crm']
+  },
+  {
+    slug: 'landing-pages', name: 'Landing pages',
+    title: 'Diseño de landing pages para campañas | Reac Studio',
+    description: 'Landing pages para presentar una oferta y facilitar consultas desde campañas. Reac Studio conecta mensaje, diseño móvil, formularios y medición.',
+    h1: 'Landing pages para una oferta y un siguiente paso claro',
+    intro: 'Reac Studio diseña y desarrolla landing pages para empresas, negocios y profesionales que necesitan presentar un servicio o una campaña concreta. Organizamos la información para que quien llega entienda la propuesta, evalúe si le sirve y encuentre cómo consultar.',
+    fit: 'Una landing tiene sentido cuando una campaña, un enlace en redes o una acción comercial lleva a una oferta específica. Por ejemplo, un profesional que quiere recibir consultas por un servicio necesita explicar para quién es, qué incluye y cómo empezar. Si tenés varios servicios que requieren información propia, puede convenir un sitio con distintas páginas.',
+    deliverables: [
+      ['Oferta y contenido', 'Definimos el público, el mensaje de entrada y las preguntas que necesita resolver antes de consultar. Ordenamos alcance, proceso y evidencia disponible; los testimonios, resultados y fotografías deben ser reales y contar con autorización de uso.'],
+      ['Diseño móvil y contacto', 'Desarrollamos una página responsive con jerarquía clara, imágenes optimizadas y llamadas a la acción visibles. Según el alcance, el contacto puede resolverse con WhatsApp, un formulario o una herramienta que ya uses. Verificamos los enlaces y los estados de envío.'],
+      ['Conexión con la campaña', 'Revisamos que el anuncio o enlace de origen y la página hablen de la misma oferta. Acordamos qué medir y comprobamos los eventos de contacto: un clic en WhatsApp no confirma un mensaje ni una venta. La gestión de anuncios se define por separado.']
+    ],
+    decision: 'Antes de diseñar necesitamos una oferta concreta, el público, el origen de las visitas y quién responderá las consultas. También hay que acordar quién aporta textos e imágenes, dónde se alojará la página y quién podrá actualizarla. Si tu web actual ya resuelve ese recorrido, podemos evaluar adaptar una página existente en lugar de crear otra.',
+    process: ['Revisamos la oferta, la campaña o canal de origen y el recorrido de consulta.', 'Acordamos contenido, estructura, contacto y criterios de medición.', 'Diseñamos y desarrollamos la página, con revisión en móvil y pruebas del formulario o enlace de contacto.', 'Coordinamos publicación y accesos; revisamos consultas y ajustes cuando exista información suficiente.'],
+    evidence: 'El portfolio incluye Landing para Profesional, identificado como proyecto académico. La ficha muestra una página orientada a presentar servicios profesionales y facilitar el contacto. Sus tecnologías y alcance final están pendientes de confirmar; no se publican resultados de campañas ni métricas de conversión.',
+    evidenceLink: '/proyectos#landing-para-profesional',
+    evidenceLabel: 'Ver Landing para Profesional, proyecto académico',
+    faqs: [
+      ['¿En qué se diferencia una landing de una web institucional?', 'La landing desarrolla una oferta y una acción principal. Una web institucional permite explorar varios servicios, conocer el equipo y revisar proyectos en páginas distintas. Pueden convivir: una campaña puede tener una landing dentro del mismo sitio.'],
+      ['¿Necesito contratar Google Ads o Meta Ads?', 'No. La página también puede recibir visitas desde redes, email o enlaces compartidos. Diseñamos el recorrido según el canal; contratar una landing no incluye automáticamente gestión de campañas ni inversión publicitaria.'],
+      ['¿Cuánto cuesta y qué incluye?', 'El presupuesto depende del contenido, las integraciones y el contacto que necesites. La propuesta debe separar desarrollo, dominio, hosting, herramientas externas y mantenimiento. Antes de cotizar revisamos si una página existente puede cubrir el objetivo.'],
+      ['¿Una landing garantiza más consultas?', 'No. La respuesta depende también de la oferta, la relevancia de las visitas y la atención posterior. Definimos qué observar y revisamos los datos disponibles antes de atribuir un cambio a la página.']
+    ],
+    related: ['desarrollo-web', 'google-ads', 'meta-ads']
   },
   {
     slug: 'marketing-digital', name: 'Marketing digital',
-    title: 'Agencia de marketing digital en Córdoba | Reac Studio',
-    description: 'Agencia de marketing digital en Córdoba para empresas: estrategia, campañas y medición. Reac Studio trabaja desde Villa Dolores con Argentina y Latinoamérica.',
+    title: 'Marketing digital para empresas y negocios | Reac Studio',
+    description: 'Estrategia, campañas y medición para ordenar tu captación de consultas. Reac Studio conecta marketing digital, web y seguimiento comercial.',
     h1: 'Marketing digital para empresas y negocios',
-    intro: 'Reac Studio ayuda a empresas y negocios de Villa Dolores, Córdoba, a ordenar su estrategia digital: qué ofrecer, a quién, por qué canales y cómo medir las consultas que llegan. Conectamos marketing, web y seguimiento comercial en un mismo plan de trabajo remoto.',
+    intro: 'Reac Studio ayuda a empresas, negocios y profesionales a ordenar su estrategia digital: qué ofrecer, a quién, por qué canales y cómo medir las consultas que llegan. Desde Villa Dolores, Córdoba, conectamos marketing, web y seguimiento comercial en un mismo plan de trabajo remoto.',
     fit: 'Tiene sentido revisar la estrategia cuando publicás sin un objetivo, usás varios canales sin coordinación o no sabés cuáles generan oportunidades. El primer paso es entender tu oferta, tus márgenes, tu capacidad de atención y cómo decide comprar tu cliente.',
     deliverables: [
       ['Diagnóstico y prioridades', 'Revisamos la presencia digital, los mensajes, los puntos de contacto y los datos disponibles. Priorizamos acciones según su relación con el objetivo y los recursos del negocio.'],
@@ -39,6 +65,7 @@ export const services = [
     process: ['Revisamos negocio, oferta, público y situación actual.', 'Definimos prioridades, canales y criterios de medición.', 'Ejecutamos las acciones acordadas y coordinamos el contacto con tu equipo.', 'Revisamos resultados y ajustamos mensajes, inversión y recorridos.'],
     evidence: 'Tomás Ortiz trabaja en Marketing & Growth; Misael Ledesma, en Desarrollo Web & Tecnología. Esta combinación permite coordinar la comunicación con la web y las integraciones. Conocé los roles y la información del equipo publicada en Reac.',
     evidenceLink: '/nosotros',
+    evidenceLabel: 'Conocer al equipo de marketing y desarrollo de Reac Studio',
     faqs: [
       ['¿Cuánto cuesta contratar marketing digital?', 'La home publica una referencia de gestión desde USD 150 por mes. El alcance y la cantidad de canales se definen en una propuesta. La inversión en anuncios de Google o Meta se paga aparte.'],
       ['¿Tengo que contratar todos los servicios?', 'No. Podés empezar por una necesidad concreta. Si detectamos que otra parte del recorrido está limitando el resultado, lo explicamos y priorizamos con vos.'],
@@ -62,12 +89,13 @@ export const services = [
     process: ['Revisamos cuenta, oferta, búsquedas y página de destino.', 'Acordamos estructura, presupuesto y eventos válidos.', 'Configuramos o ajustamos anuncios y verificamos el recorrido de contacto.', 'Analizamos términos, calidad de consultas y oportunidades de mejora.'],
     evidence: 'Podés empezar con la checklist de auditoría de Google Ads disponible en Reac. Reúne preguntas para revisar objetivos, estructura, palabras clave y medición antes de cambiar la inversión.',
     evidenceLink: '/recursos/auditoria-google-ads.html',
+    evidenceLabel: 'Leer la checklist de auditoría de Google Ads',
     faqs: [
       ['¿La inversión en Google está incluida?', 'No. La inversión publicitaria es independiente de la gestión. El presupuesto y el alcance del trabajo se detallan en la propuesta.'],
       ['¿Necesito una landing nueva?', 'Depende de la página actual. Revisamos si responde a la búsqueda, carga bien en móvil y permite consultar sin fricciones. Si cumple esos requisitos, podemos aprovecharla.'],
       ['¿Un clic en WhatsApp equivale a un cliente?', 'No. Indica intención de contacto, pero no confirma un mensaje, una oportunidad calificada o una venta. Conviene medir cada paso por separado y contrastarlo con el seguimiento comercial.']
     ],
-    related: ['desarrollo-web', 'marketing-digital']
+    related: ['landing-pages', 'marketing-digital', 'desarrollo-web']
   },
   {
     slug: 'meta-ads', name: 'Meta Ads',
@@ -85,19 +113,20 @@ export const services = [
     process: ['Revisamos oferta, cuentas, materiales y atención de consultas.', 'Definimos mensajes, destino y criterios para evaluar oportunidades.', 'Preparamos las campañas y verificamos enlaces y formularios.', 'Revisamos variantes, frecuencia y calidad del seguimiento.'],
     evidence: 'La checklist de auditoría de Meta Ads de Reac permite revisar campañas de Facebook e Instagram con preguntas sobre objetivos, anuncios y resultados. Es un recurso de diagnóstico, no una promesa de rendimiento.',
     evidenceLink: '/recursos/auditoria-meta-ads.html',
+    evidenceLabel: 'Leer la checklist de auditoría de Meta Ads',
     faqs: [
       ['¿Pueden enviar consultas a WhatsApp?', 'Podemos evaluar ese recorrido si tu equipo puede responder y registrar el seguimiento. La configuración depende de las cuentas y activos disponibles.'],
       ['¿Tengo que producir videos o imágenes?', 'Necesitamos materiales que expliquen tu oferta de manera auténtica. La producción y adaptación de piezas deben acordarse dentro del alcance; no se asumen incluidas automáticamente.'],
       ['¿La gestión incluye el presupuesto de anuncios?', 'No. La gestión y la inversión en Meta se cotizan como conceptos separados. También se define el alcance de piezas, medición y página de destino.']
     ],
-    related: ['marketing-digital', 'google-ads']
+    related: ['marketing-digital', 'google-ads', 'landing-pages']
   },
   {
     slug: 'automatizacion-ia', name: 'Automatización con IA',
-    title: 'Automatización con IA en Córdoba | Reac Studio',
-    description: 'Automatización con IA para empresas y negocios de Córdoba: procesos, asistentes e integraciones con control sobre los datos. Trabajo remoto desde Villa Dolores.',
+    title: 'Automatización con IA para empresas | Reac Studio',
+    description: 'Automatizá tareas repetitivas con integraciones, reglas e IA cuando aporta valor. Reac Studio define permisos, revisión humana y mantenimiento del proceso.',
     h1: 'Automatización con IA para empresas',
-    intro: 'En Reac Studio analizamos procesos de empresas y negocios de Villa Dolores, Córdoba, y conectamos herramientas para reducir trabajo manual. Usamos inteligencia artificial cuando aporta valor, con límites claros, revisión humana y un recorrido definido para los errores.',
+    intro: 'En Reac Studio analizamos procesos de empresas y negocios y conectamos herramientas para reducir trabajo manual. Usamos inteligencia artificial cuando aporta valor, con límites claros, revisión humana y un recorrido definido para los errores. Trabajamos de forma remota desde Villa Dolores, Córdoba.',
     fit: 'Conviene automatizar una tarea cuando se repite, tiene entradas reconocibles y podés describir qué significa hacerla bien. Si el proceso cambia todos los días o todavía nadie es responsable del resultado, primero hay que ordenarlo. Una regla simple puede resolver mejor el problema que un modelo de IA.',
     deliverables: [
       ['Mapa del proceso', 'Identificamos disparadores, datos, herramientas, responsables y excepciones. Elegimos una primera tarea acotada para comprobar si la automatización ahorra trabajo sin trasladar el problema a otra persona.'],
@@ -108,6 +137,7 @@ export const services = [
     process: ['Elegimos una tarea y describimos su funcionamiento actual.', 'Definimos datos permitidos, reglas, límites y participación humana.', 'Construimos un flujo acotado y probamos también errores y excepciones.', 'Acordamos la puesta en marcha, medición y mantenimiento.'],
     evidence: 'En proyectos podés revisar ejemplos documentados de sistemas e integraciones y distinguir su carácter comercial, personal o académico. Esa evidencia permite conversar sobre alcance; no equivale a una métrica de ahorro validada para tu negocio.',
     evidenceLink: '/proyectos',
+    evidenceLabel: 'Revisar proyectos de sistemas e integraciones',
     faqs: [
       ['¿Qué tareas de una PyME conviene automatizar?', 'El registro de consultas, avisos internos, clasificación inicial y preparación de reportes son candidatos cuando existen datos y reglas claras. Empezamos por una tarea frecuente, de bajo riesgo y fácil de comprobar.'],
       ['¿Pueden crear un asistente para mi negocio?', 'Podemos evaluar un asistente con fuentes de información acotadas y derivación a una persona. Primero definimos qué puede responder, qué debe evitar y cómo revisar su calidad.'],
@@ -131,6 +161,7 @@ export const services = [
     process: ['Relevamos el proceso y las herramientas que ya usás.', 'Comparamos reutilizar, integrar o desarrollar, junto con sus costos.', 'Implementamos el alcance acordado y probamos permisos y flujos de trabajo.', 'Preparamos migración, capacitación y continuidad operativa según el proyecto.'],
     evidence: 'El portfolio incluye un CRM Comercial identificado como proyecto académico y un Panel Administrativo Modular identificado como proyecto comercial. Las fichas describen el desafío, la solución y el alcance documentado, sin atribuir métricas de negocio no verificadas.',
     evidenceLink: '/proyectos#crm-comercial',
+    evidenceLabel: 'Ver el CRM Comercial y su alcance académico',
     faqs: [
       ['¿Qué es un CRM?', 'Es una herramienta para organizar relaciones comerciales: datos de clientes, consultas, responsables y próximos pasos. Su utilidad depende de que el equipo lo use con un proceso claro.'],
       ['¿Necesito un CRM personalizado?', 'No necesariamente. Primero revisamos opciones existentes. El desarrollo a medida se justifica cuando aporta una capacidad necesaria que no puede cubrirse de forma razonable con configuración o integraciones.'],
