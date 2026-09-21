@@ -7,6 +7,12 @@
   "installCommand": "npm ci --ignore-scripts",
   "redirects": [
     {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.reacstudio.com" }],
+      "destination": "https://reacstudio.com/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "www.reacstudio.com" }],
       "destination": "https://reacstudio.com/:path*",
