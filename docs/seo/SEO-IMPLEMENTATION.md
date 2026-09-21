@@ -1,6 +1,14 @@
 # Implementación SEO e identidad de Reac Studio
 
-Fecha: 20 de septiembre de 2026. Estado: cambios locales; no se realizó commit, push, deploy ni envío a IndexNow como parte de esta implementación. La validación pública inicial corresponde al 19/09; el sitio publicado aún debe recibir y verificar estos cambios.
+Fecha: 20 de septiembre de 2026 (Uruguay). Estado: publicado y verificado en producción. Implementación `cbf337c` y corrección de redirección de portada www `f2bfbd8`, ambas en `origin/main`. No se realizaron envíos a IndexNow ni cambios en cuentas de Google/Bing.
+
+## Publicación verificada
+
+- Producción: https://reacstudio.com/. Despliegue Vercel `dpl_CfxsYLSf6i8WqPu9nGJvnoy4xmi1`, estado READY; [registro del despliegue](https://vercel.com/misaellovespias-projects/reacs-studio/CfxsYLSf6i8WqPu9nGJvnoy4xmi1).
+- Las 17 páginas indexables respondieron 200, con canonical propio y aliases de marca; robots y sitemap publicados coinciden con el build validado.
+- Se conectó y verificó `www.reacstudio.com` en el proyecto existente. TLS válido y 308 hacia el dominio principal tanto en portada como en páginas internas, conservando parámetros. No fue necesario modificar DNS. La portada requiere una regla explícita adicional al wildcard.
+- HTTP termina en HTTPS canónico; alias histórico, variantes de landing y recurso redirigen correctamente. URL inexistente y fuentes privadas devuelven 404; GET de contacto devuelve 405, sin enviar formularios.
+- Chrome live: home y landing en 390 y 1440 px, sin overflow horizontal ni errores de página. Evidencia generada: `artifacts/seo-production-report.json`, `artifacts/seo-live-browser-report.json` y `artifacts/seo-live-landing.png` (ignorados por Git).
 
 ## Objetivo y decisión de arquitectura
 
@@ -92,6 +100,6 @@ Las variaciones entre muestras no prueban causalidad ni mejora garantizada. Qued
 
 ## Cierre y límites
 
-Un crawler del build nuevo puede determinar nombre principal, variantes, dominio, servicios y relaciones sin ejecutar JavaScript; lo comprueban el grafo y el crawl. No se afirma que Google ya haya elegido ese nombre o indexado los cambios. Falta publicar y verificar la versión live, corregir TLS de www, completar verificaciones de cuentas y datos legales, y probar recepción real del contacto.
+Un crawler del sitio publicado puede determinar nombre principal, variantes, dominio, servicios y relaciones sin ejecutar JavaScript; lo comprueban el grafo y el crawl. No se afirma que Google ya haya elegido ese nombre o indexado los cambios. Publicación y TLS de www verificados. Falta completar verificaciones de cuentas y datos legales, y probar recepción real del contacto.
 
 Conceptos transferibles: HTML generado es suficiente para SEO sin migrar de framework; los IDs de schema conectan entidades en vez de duplicar empresas; rastreable, indexable e indexado son estados distintos.

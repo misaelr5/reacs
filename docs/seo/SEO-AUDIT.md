@@ -1,6 +1,6 @@
 # Auditoría SEO de Reac Studio
 
-Inspección pública: 19 de septiembre de 2026, 07:13–07:20 UTC. Implementación y validación local: 20 de septiembre de 2026. Base Git: `ba616a7`, rama `main`, árbol inicialmente limpio. Este documento distingue evidencia del sitio publicado y cambios locales; no certifica una publicación posterior.
+Inspección pública inicial: 19 de septiembre de 2026, 07:13–07:20 UTC. Implementación y validación local: 20 de septiembre de 2026. Base Git: `ba616a7`, rama `main`, árbol inicialmente limpio. La tabla conserva el estado de la auditoría inicial salvo E02; los cambios se publicaron posteriormente el 20/09 (Uruguay), con READY y verificación live de las 17 páginas. Evidencia y límites actualizados en `SEO-IMPLEMENTATION.md`.
 
 ## Arquitectura y alcance
 
@@ -17,7 +17,7 @@ Inspección pública: 19 de septiembre de 2026, 07:13–07:20 UTC. Implementaci�
 | ID / prioridad | Problema / severidad | Evidencia inicial | Solución | Estado |
 | --- | --- | --- | --- | --- |
 | E01 / P0 | Aliases de marca ausentes / HIGH | WebSite y Organization del HTML público tenían `name: Reac Studio`, sin `alternateName`. | Configurar variantes y reutilizarlas en ambos nodos; identidad visible en home/nosotros. | IMPLEMENTADO Y PROBADO LOCALMENTE |
-| E02 / P0 | HTTPS de www inválido / HIGH | Node: `ERR_TLS_CERT_ALTNAME_INVALID`; certificado observado sólo cubría `reacstudio.com`. Curl: `SEC_E_WRONG_PRINCIPAL`. HTTP www redirigía al HTTPS defectuoso. | Regla permanente www → dominio principal preparada. Conectar/verificar dominio y certificado en Vercel. | CÓDIGO LISTO; CERTIFICADO EXTERNO PENDIENTE |
+| E02 / P0 | HTTPS de www inválido / HIGH | Node: `ERR_TLS_CERT_ALTNAME_INVALID`; certificado observado sólo cubría `reacstudio.com`. Curl: `SEC_E_WRONG_PRINCIPAL`. HTTP www redirigía al HTTPS defectuoso. | Dominio conectado/verificado en Vercel; TLS válido y reglas permanentes para portada e internas hacia dominio principal. | RESUELTO Y VERIFICADO EN PRODUCCIÓN 20/09 |
 | E03 / P0 | Tipo local no sustentado / MEDIUM | `Organization` también tenía `ProfessionalService`, subtipo de LocalBusiness, sin datos de negocio local suficientes. | Organization único y Service por servicio, IDs estables. | IMPLEMENTADO Y PROBADO LOCALMENTE |
 | E04 / P0 | Enlace Facebook no identifica a Reac / MEDIUM | `facebook.com/profile.php?id=reacstudio` termina en `facebook.com/` y título Facebook. | Retirar enlace de HTML, sameAs y llms; no inferir una URL alternativa. | IMPLEMENTADO; URL OFICIAL PENDIENTE |
 | E05 / P1 | Variantes con barra final devuelven 404 / MEDIUM | `/desarrollo-web/` y `/recursos/auditoria-sitio-web/` fallaban. | `trailingSlash:false`; preview local refleja normalización 308. | PROBADO LOCALMENTE; VERIFICAR VERCEL AL PUBLICAR |
@@ -61,4 +61,4 @@ La fuente ya identifica a Misael Ledesma y Tomás Ortiz y sus roles; se conserva
 
 ## Límites de la auditoría
 
-No hay acceso acreditado a Search Console, Bing Webmaster Tools ni datos CrUX. No se comprobó ranking, selección de canonical por Google, volumen de consultas, citas en asistentes ni resultados comerciales. Las verificaciones locales de schemas comprueban sintaxis, nodos, enlaces y coherencia con HTML; la validación externa de URLs publicadas queda en la checklist. El problema del certificado necesita actuación fuera del repositorio.
+No hay acceso acreditado a Search Console, Bing Webmaster Tools ni datos CrUX. No se comprobó ranking, selección de canonical por Google, volumen de consultas, citas en asistentes ni resultados comerciales. Las verificaciones locales de schemas comprueban sintaxis, nodos, enlaces y coherencia con HTML; la validación con herramientas oficiales queda en la checklist. El certificado se corrigió y verificó durante la publicación posterior.

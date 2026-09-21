@@ -4,10 +4,10 @@ Ejecutar sobre la versión publicada. Las casillas abiertas no implican que se h
 
 ## Dominio y publicación
 
-- [ ] Publicar la versión validada y comprobar el estado READY del despliegue de Vercel.
-- [ ] En Vercel, conectar `www.reacstudio.com` al proyecto correcto, comprobar DNS y emitir/verificar un certificado que cubra ese host. El 19/09/2026 falló TLS porque el certificado sólo cubría `reacstudio.com`.
-- [ ] Comprobar `http://reacstudio.com`, `http://www.reacstudio.com`, `https://www.reacstudio.com` y el alias histórico: deben terminar en `https://reacstudio.com/`, preservando ruta/parámetros cuando corresponda. Revisar cadenas y ausencia de versiones indexables alternativas.
-- [ ] Verificar en producción `/landing-pages`, las siete rutas de servicios, `/robots.txt`, `/sitemap.xml`, variantes con slash y una URL inexistente. Confirmar 200/308/404 reales y ausencia de X-Robots-Tag noindex en páginas comerciales.
+- [x] Publicar la versión validada y comprobar el estado READY del despliegue de Vercel. Completado el 20/09/2026; detalle en `SEO-IMPLEMENTATION.md`.
+- [x] Conectar y verificar `www.reacstudio.com` en Vercel. TLS corregido y verificado el 20/09/2026, sin cambios de DNS.
+- [x] Comprobar HTTP, www HTTPS y alias histórico: terminan en `https://reacstudio.com/`, preservando ruta/parámetros cuando corresponde. Portada www e internas devuelven 308 al dominio principal.
+- [x] Verificar en producción las 17 páginas indexables, incluidos los siete servicios, robots, sitemap, variantes con slash y URL inexistente. Estados 200/308/404 correctos y sin X-Robots-Tag noindex en páginas comerciales.
 - [ ] Si existen previews públicos, comprobar su protección y política de indexación en Vercel sin exponerlos como contenido de producción.
 
 ## Google Search Console
