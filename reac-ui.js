@@ -8,11 +8,40 @@
 
   function init() {
     root.classList.add('js');
+    setupHeroTitle();
     setupHomeNav();
     setupReveal();
     setupComparison();
     setupSimulator();
     setupProjects();
+  }
+
+  function setupHeroTitle() {
+    const title = query('.hero-t1');
+    if (!title || reduced.matches || title.dataset.animated) return;
+    const text = title.textContent;
+    const fragment = document.createDocumentFragment();
+    let index = 0;
+    for (const token of text.split(/(\s+)/)) {
+      if (/^\s+$/.test(token)) {
+        fragment.append(document.createTextNode(token));
+        continue;
+      }
+      const word = document.createElement('span');
+      word.className = 'hero-word';
+      word.setAttribute('aria-hidden', 'true');
+      for (const letter of Array.from(token)) {
+        const character = document.createElement('span');
+        character.className = 'hero-char';
+        character.textContent = letter;
+        character.style.setProperty('--char-delay', (80 + index++ * 22) + 'ms');
+        word.append(character);
+      }
+      fragment.append(word);
+    }
+    title.setAttribute('aria-label', text);
+    title.dataset.animated = 'true';
+    title.replaceChildren(fragment);
   }
 
   function setupHomeNav() {
