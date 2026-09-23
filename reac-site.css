@@ -106,14 +106,6 @@
   html.reac-contact-visible .mobile-sticky-cta,html:has(.reac-consent) .mobile-sticky-cta,html:has(.ct-field:focus) .mobile-sticky-cta,html.reac-contact-visible .whatsapp-quick-action,html:has(.reac-consent) .whatsapp-quick-action{visibility:hidden;pointer-events:none}
   [data-screen-label="Footer"]{position:relative!important}
   [data-screen-label="Footer"]>div{padding:44px 20px calc(100px + env(safe-area-inset-bottom))!important}
-  .imp-foot-cols{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:24px 16px!important}
-  .imp-foot-cols>div{min-width:0;gap:4px!important}
-  .imp-foot-cols>div:last-child{grid-column:1/-1}
-  .imp-foot-cols a{display:flex;align-items:center;min-height:44px;overflow-wrap:anywhere}
-  .imp-foot-bottom{align-items:flex-start!important;gap:24px!important}
-  .imp-foot-bottom h2{font-size:clamp(44px,11.8vw,80px)!important;line-height:1!important}
-  .imp-foot-bottom>div{min-width:0!important;text-align:left!important}
-  .imp-foot-bottom a{display:inline-flex;align-items:center;min-height:44px}
 
   .reac-consent{box-sizing:border-box;bottom:calc(12px + env(safe-area-inset-bottom));max-height:calc(100svh - 24px - env(safe-area-inset-bottom));overflow-y:auto}
   .reac-consent .reac-consent__actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}

@@ -722,57 +722,60 @@
 
   </main>
   <!-- ===== STICKY FOOTER (reveal) ===== -->
-  <section data-screen-label="Footer" style="position:sticky; bottom:0; z-index:0; height:auto; overflow:hidden;">
-        <div style="position:relative; height:auto; display:flex; flex-direction:column; justify-content:flex-end; gap:clamp(28px,4vh,52px); overflow:hidden; background:linear-gradient(135deg,#0d0b1a 0%, #161029 50%, #070712 100%); padding:clamp(40px,6vh,72px) 6vw clamp(28px,4vh,52px);">
-          <div style="position:absolute; right:-40px; top:-40px; width:420px; height:420px; border-radius:50%; background:rgba(124,58,237,.14); filter:blur(90px); animation:softPulse 8s ease-in-out infinite;"></div>
-          <div style="position:absolute; left:-40px; bottom:-40px; width:400px; height:400px; border-radius:50%; background:rgba(46,55,255,.12); filter:blur(90px); animation:softPulse 10s ease-in-out infinite 1s;"></div>
-          <a class="home-footer-brand home-footer-brand--corner" href="#hero-sec" aria-label="Reac Studio, volver al inicio"><img src="/uploads/reac-symbol.svg" alt="" width="168" height="168" decoding="async"></a>
-
-          <div class="imp-foot-cols" style="position:relative; z-index:2; display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(20px,4vw,80px); max-width:1000px;">
-            <div style="display:flex; flex-direction:column; gap:12px;">
-              <div style="font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#9AA0FF; border-bottom:1px solid rgba(110,116,255,.22); padding-bottom:8px; margin-bottom:4px;">Servicios</div>
-              <a class="imp-flink" href="/marketing-digital" style="font-size:14px; color:#868CA6;">Marketing Digital</a>
-              <a class="imp-flink" href="/desarrollo-web" style="font-size:14px; color:#868CA6;">Desarrollo Web</a>
-              <a class="imp-flink" href="/automatizacion-ia" style="font-size:14px; color:#868CA6;">Automatización con IA</a>
-              <a class="imp-flink" href="/landing-pages" style="font-size:14px; color:#868CA6;">Landing pages</a>
-            <a class="imp-flink" href="/google-ads">Google Ads</a><a class="imp-flink" href="/meta-ads">Meta Ads</a><a class="imp-flink" href="/sistemas-crm">Sistemas y CRM</a><a class="imp-flink" href="/nosotros">Nuestro equipo</a></div>
-            <div style="display:flex; flex-direction:column; gap:12px;">
-              <div style="font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#9AA0FF; border-bottom:1px solid rgba(110,116,255,.22); padding-bottom:8px; margin-bottom:4px;">Navegación</div>
-              <a class="imp-flink" href="#hero-sec" style="font-size:14px; color:#868CA6;">Inicio</a>
-              <a class="imp-flink" href="#servicios" style="font-size:14px; color:#868CA6;">Qué ofrecemos</a>
-              <a class="imp-flink" href="#proceso" style="font-size:14px; color:#868CA6;">Cómo trabajamos</a>
-              <a class="imp-flink" href="#proyectos" style="font-size:14px; color:#868CA6;">Proyectos</a>
-              <a class="imp-flink" href="#recursos" style="font-size:14px; color:#868CA6;">Recursos</a>
-              <a class="imp-flink" href="#contacto" style="font-size:14px; color:#868CA6;">Contacto</a>
-            </div>
-            <div style="display:flex; flex-direction:column; gap:12px;">
-              <div style="font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#9AA0FF; border-bottom:1px solid rgba(110,116,255,.22); padding-bottom:8px; margin-bottom:4px;">Contacto</div>
-              <a class="imp-flink" data-placement="footer_contact" href="https://wa.me/5493544657866" target="_blank" rel="noopener noreferrer" style="font-size:14px; color:#868CA6;">WhatsApp</a>
-              <a class="imp-flink" href="mailto:ledesma.rme@gmail.com" style="font-size:14px; color:#868CA6;">ledesma.rme@gmail.com</a>
-              <a class="imp-flink" data-cta="diagnostic" data-placement="footer" href="#contacto" style="font-size:14px; color:#868CA6;">Solicitar diagnóstico</a>
-              <div class="social-links imp-social-links" aria-label="Redes sociales de Reac Studio">
+  <footer class="home-footer" data-screen-label="Footer" style="position:sticky; bottom:0; z-index:0; height:auto; overflow:hidden;">
+    <div class="home-footer-shell">
+      <div class="home-footer-glow home-footer-glow--violet" aria-hidden="true"></div>
+      <div class="home-footer-glow home-footer-glow--blue" aria-hidden="true"></div>
+      <div class="home-footer-main">
+        <div class="imp-foot-cols">
+          <div class="home-footer-column">
+            <h2 class="home-footer-heading">Servicios</h2>
+            <a class="imp-flink" href="/marketing-digital">Marketing Digital</a>
+            <a class="imp-flink" href="/desarrollo-web">Desarrollo Web</a>
+            <a class="imp-flink" href="/automatizacion-ia">Automatización con IA</a>
+            <a class="imp-flink" href="/landing-pages">Landing pages</a>
+            <a class="imp-flink" href="/google-ads">Google Ads</a>
+            <a class="imp-flink" href="/meta-ads">Meta Ads</a>
+            <a class="imp-flink" href="/sistemas-crm">Sistemas y CRM</a>
+          </div>
+          <div class="home-footer-column">
+            <h2 class="home-footer-heading">Explorá Reac</h2>
+            <a class="imp-flink" href="#hero-sec">Inicio</a>
+            <a class="imp-flink" href="#servicios">Qué ofrecemos</a>
+            <a class="imp-flink" href="#proceso">Cómo trabajamos</a>
+            <a class="imp-flink" href="#proyectos">Proyectos</a>
+            <a class="imp-flink" href="/nosotros">Nuestro equipo</a>
+            <a class="imp-flink" href="#recursos">Recursos</a>
+            <a class="imp-flink" href="#contacto">Contacto</a>
+          </div>
+          <div class="home-footer-column">
+            <h2 class="home-footer-heading">Conversemos</h2>
+            <a class="imp-flink" data-placement="footer_contact" href="https://wa.me/5493544657866" target="_blank" rel="noopener noreferrer">WhatsApp <span aria-hidden="true">↗</span></a>
+            <a class="imp-flink" href="mailto:ledesma.rme@gmail.com">ledesma.rme@gmail.com</a>
+            <a class="imp-flink home-footer-diagnostic" data-cta="diagnostic" data-placement="footer" href="#contacto">Solicitar diagnóstico <span aria-hidden="true">↗</span></a>
+            <div class="social-links imp-social-links" aria-label="Redes sociales de Reac Studio">
                 <a class="social-link" href="https://www.instagram.com/reacstudio/" target="_blank" rel="noopener noreferrer" aria-label="Instagram de Reac Studio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9a5.5 5.5 0 0 1-5.5 5.5h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9Zm9.75 1.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"></path></svg></a>
                 <a class="social-link" href="https://www.tiktok.com/@reac.studio" target="_blank" rel="noopener noreferrer" aria-label="TikTok de Reac Studio"><svg viewBox="0 0 448 512" aria-hidden="true"><path d="M448 209.9a210.1 210.1 0 0 1-122.5-39.3v178.6a162.5 162.5 0 1 1-140.1-160.9v89.8a74.8 74.8 0 1 0 52.8 71.1V0h87.2A210.1 210.1 0 0 0 448 134.8v75.1Z"></path></svg></a>
 
               </div>
-            </div>
-          </div>
-
-          <div class="imp-foot-bottom" style="position:relative; z-index:2; display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap;">
-            <div style="text-align:right; min-width:200px;">
-              <p style="font-size:13px; color:#868CA6; margin:0 0 8px;">© 2026 Reac Studio. Todos los derechos reservados.</p>
-              <p style="margin:0 0 14px;"><a class="imp-flink" href="/politica-de-privacidad" style="font-size:13px; color:#868CA6; text-decoration:underline; text-underline-offset:2px;">Política de privacidad</a></p>
-              <a class="imp-flink" data-placement="footer_bottom" href="https://wa.me/5493544657866" target="_blank" rel="noopener noreferrer" aria-label="Hablar con Reac Studio por WhatsApp" style="font-size:13px; color:#AEB4FF;">Hablar por WhatsApp</a>
-            </div>
           </div>
         </div>
-  </section>
+        <a class="home-footer-brand" href="#hero-sec" aria-label="Reac Studio, volver al inicio"><img src="/uploads/reac-symbol.svg" alt="" width="132" height="132" decoding="async"></a>
+      </div>
+      <div class="imp-foot-bottom">
+        <p>© 2026 Reac Studio. Todos los derechos reservados.</p>
+        <a class="imp-flink" href="/politica-de-privacidad">Política de privacidad</a>
+      </div>
+    </div>
+  </footer>
 
 </div>
 
 
 
 <!-- ===== Preloader · control de progreso y salida (independiente del runtime) ===== -->
+
+
 
 
 
