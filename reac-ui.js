@@ -22,17 +22,11 @@
     let frame = 0;
     const sync = () => {
       frame = 0;
-      if (reduced.matches) {
-        nav.classList.remove('nav-hidden');
-        return;
-      }
-      const revealAt = Math.max(96, nav.offsetHeight + 20);
-      nav.classList.toggle('nav-hidden', hero.getBoundingClientRect().bottom > revealAt);
+      nav.classList.toggle('nav-hidden', hero.getBoundingClientRect().bottom > 0);
     };
     const schedule = () => { if (!frame) frame = requestAnimationFrame(sync); };
     addEventListener('scroll', schedule, { passive: true });
     addEventListener('resize', schedule);
-    reduced.addEventListener('change', schedule);
     sync();
   }
 

@@ -39,8 +39,12 @@ try{
     report.accessibility.push({path:entry.path,violations:axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary,html:n.html}))}))});
   }
   await page.goto(base+'/');await page.setViewportSize({width:1440,height:900});
+  const homeNav=page.locator('.site-nav');assert.equal(await homeNav.isVisible(),false);
+  await page.locator('#hero-sec').evaluate(node=>window.scrollTo({top:node.offsetTop+node.offsetHeight+1,behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('.site-nav')).visibility==='visible');
+  await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('.site-nav')).visibility==='hidden');
   const quickAction=page.locator('.whatsapp-quick-action');assert.equal(await quickAction.isVisible(),true);assert.match(await quickAction.getAttribute('href'),/https:\/\/wa\.me\/5493544657866/);
-  await page.setViewportSize({width:390,height:844});assert.equal(await quickAction.isVisible(),false);assert.equal(await page.locator('.mobile-sticky-cta').isVisible(),false);
+  await page.setViewportSize({width:390,height:844});assert.equal(await homeNav.isVisible(),false);assert.equal(await quickAction.isVisible(),false);assert.equal(await page.locator('.mobile-sticky-cta').isVisible(),false);
+  await page.locator('#hero-sec').evaluate(node=>window.scrollTo({top:node.offsetTop+node.offsetHeight+1,behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('.site-nav')).visibility==='visible');
   await page.locator('#proceso').evaluate(node=>window.scrollTo({top:node.getBoundingClientRect().top+scrollY,behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('.mobile-sticky-cta')).visibility==='visible');
   for(const width of [375,390,430]){
     await page.setViewportSize({width,height:844});
@@ -62,7 +66,7 @@ try{
   await page.goto(base+'/contacto');await page.locator('#ct-interes').selectOption('web_nueva');await page.locator('#ct-nombre').fill('Prueba local');await page.locator('#ct-contacto').fill('audit@example.test');await page.locator('#ct-mensaje').fill('Verificación local sin envío a proveedores.');await page.locator('[name=privacy_consent]').check();
   await page.locator('[data-submit-button]').click();await page.waitForFunction(()=>document.getElementById('ct-form')?.dataset.state==='error');assert.ok(page.url().endsWith('/contacto'));assert.equal(await page.locator('[data-submit-button]').isEnabled(),true);
   report.interactions.push('Desktop WhatsApp quick action and mobile sticky CTA','Mobile navigation/Escape/resize','Comparison panels','Simulator toggle/range','Carousel controls and inert slides','Native FAQ disclosure','Safe unavailable contact response');
-  await page.goto(base+'/desarrollo-web');await page.screenshot({path:'artifacts/service-mobile.png',fullPage:true});
+  await page.goto(base+'/desarrollo-web');assert.equal(await page.locator('.site-nav').isVisible(),true);await page.screenshot({path:'artifacts/service-mobile.png',fullPage:true});
   await page.goto(base+'/');await page.screenshot({path:'artifacts/home-mobile.png'});
   const noJS=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});const staticPage=await noJS.newPage();await staticPage.goto(base+'/');
   assert.match(await staticPage.locator('h1').textContent(),/Tu negocio, conectado de punta a punta/);assert.equal(await staticPage.locator('.proj-slide').count(),3);assert.equal(await staticPage.locator('.proj-slide').last().isVisible(),true);await staticPage.locator('.imp-faq summary').first().click();assert.equal(await staticPage.locator('.imp-faq').first().getAttribute('open'),'');
