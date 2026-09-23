@@ -15,8 +15,10 @@ Estado al 7 de septiembre de 2026: implementación publicada en https://reacstud
 
 - [x] Verificar estado READY, home nueva sin plantillas, páginas de servicios, 404, redirección 308, CSP y API. Despliegue `dpl_BEMKcRocSXy1zN6Ax4XLLvCUZR1B`; GET de API devuelve 405 y POST sin configuración devuelve 503 controlado. Repetir después de futuros cambios de código o variables.
 - [ ] Verificar Search Console y Bing, completar tokens públicos de `.env.example`, reconstruir y enviar `/sitemap.xml`.
-- [ ] Validar GA4 y consentimiento en la cuenta real; configurar `contact_form_submit` como evento clave. WhatsApp/email son clics, no ventas.
-- [ ] Revisar atribución UTMs/GCLID y consentimiento antes de activar campañas Ads.
+- [ ] Validar GA4 y consentimiento en la cuenta real; configurar `contact_form_success` como evento clave. `contact_form_submit` es el intento y WhatsApp/email son clics, no ventas.
+- [ ] Revisar en producción la persistencia de UTMs, GCLID y FBCLID; elegir GA4 o etiqueta directa para Google Ads sin duplicar la conversión.
+- [ ] Verificar dominio y dataset de Meta, cargar el Pixel sólo con consentimiento y mapear `contact_form_success` a Lead cuando exista un ID real.
+- [ ] Configurar `PUBLIC_CONTACT_EMAIL` únicamente cuando exista un buzón corporativo verificado.
 - [ ] Comprobar archivo público IndexNow y ejecutar dry run antes de enviar URLs modificadas.
 - [ ] Confirmar perfiles sociales oficiales y completar `socialProfiles`.
 - [ ] Preparar dominio propio y redirects cuando corresponda. Business Profile solo si el negocio cumple sus requisitos reales.

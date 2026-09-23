@@ -13,6 +13,7 @@ const env: ContactEnvironment = {
 const valid = {
   form_type: 'contacto', nombre: 'Persona de prueba', contacto: 'person@example.test',
   empresa: 'Empresa de prueba', interes: 'web_nueva', mensaje: 'Quiero consultar por una página web.', privacy_consent: true, _gotcha: '',
+  utm_source: 'google', utm_campaign: 'search_web', landing_page: '/desarrollo-web', referrer: 'https://www.google.com/',
 };
 function request(data: unknown = valid, headers: Record<string, string> = {}): Request {
   return new Request(env.SITE_URL + '/api/contact', {
@@ -63,6 +64,8 @@ test('accepts valid contact only after the provider accepts delivery', async () 
   assert.equal(mail.reply_to, valid.contacto);
   assert.equal(mail.html, undefined);
   assert.equal(mail.attachments, undefined);
+  assert.match(String(mail.text), /utm_source: google/);
+  assert.match(String(mail.text), /landing_page: \/desarrollo-web/);
 });
 
 test('supports a regular HTML form and redirects only after acceptance', async () => {
@@ -158,6 +161,7 @@ test('rejects malformed, duplicate, oversized and invalid submissions without se
     request({ ...valid, contacto: 'person@' + 'a'.repeat(64) + '.test' }),
     request({ ...valid, mensaje: 'a'.repeat(3001) }), request({ ...valid, nombre: 'a'.repeat(121) }),
     request({ ...valid, empresa: 'a'.repeat(161) }), request({ ...valid, interes: 'otro' }), request({ ...valid, privacy_consent: false }),
+    request({ ...valid, utm_campaign: 'a'.repeat(501) }), request({ ...valid, gclid: ['not-a-string'] }),
     request({ ...valid, privacy_consent: 'false' }), request({ ...valid, _gotcha: 'bot' }),
     request({ ...valid, form_type: 'unknown' }), request({ ...valid, to: 'attacker@example.test' }),
     request({ ...valid, mensaje: 'https://a.test '.repeat(5) }),

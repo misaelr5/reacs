@@ -3,7 +3,7 @@ import { isIP } from 'node:net';
 
 export type ContactEnvironment = Record<string, string | undefined>;
 type Fetch = typeof globalThis.fetch;
-type Contact = { nombre: string; canal: string; canalEsEmail: boolean; empresa: string; interes: string; mensaje: string };
+type Contact = { nombre: string; canal: string; canalEsEmail: boolean; empresa: string; interes: string; mensaje: string; attribution: Record<string, string> };
 type Config = { origin: string; redis: string; redisToken: string; rateSecret: string; apiKey: string; from: string; to: string };
 
 const BODY_LIMIT = 12 * 1024;
@@ -12,7 +12,8 @@ const RATE_LIMIT = 5;
 const NO_CONTROL = /[\u0000-\u001f\u007f-\u009f]/u;
 const UNSAFE_MESSAGE_CONTROL = /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f]/u;
 const EMAIL = /^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9](?:[A-Z0-9-]*[A-Z0-9])?(?:\.[A-Z0-9](?:[A-Z0-9-]*[A-Z0-9])?)+$/i;
-const FIELDS = new Set(['form_type', 'nombre', 'contacto', 'empresa', 'interes', 'mensaje', 'privacy_consent', '_gotcha']);
+const ATTRIBUTION_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid', 'landing_page', 'referrer'] as const;
+const FIELDS = new Set(['form_type', 'nombre', 'contacto', 'empresa', 'interes', 'mensaje', 'privacy_consent', '_gotcha', ...ATTRIBUTION_FIELDS]);
 const WHATSAPP = /^\+?[0-9][0-9 .()\-]{6,23}$/;
 const INTERESTS = new Set(['web_nueva', 'mejorar_web', 'mas_consultas', 'automatizar', 'sistema', 'no_seguro']);
 
@@ -174,6 +175,13 @@ function validate(data: Record<string, unknown>): Contact {
   if (data.privacy_consent !== true && data.privacy_consent !== 'on' && data.privacy_consent !== 'true') throw new ContactError(400, 'invalid_submission');
   for (const field of ['nombre', 'contacto', 'interes', 'mensaje']) if (typeof data[field] !== 'string') throw new ContactError(400, 'invalid_submission');
   if (data.empresa !== undefined && typeof data.empresa !== 'string') throw new ContactError(400, 'invalid_submission');
+  for (const field of ATTRIBUTION_FIELDS) if (data[field] !== undefined && typeof data[field] !== 'string') throw new ContactError(400, 'invalid_submission');
+  const attribution: Record<string, string> = {};
+  for (const field of ATTRIBUTION_FIELDS) {
+    const value = ((data[field] as string | undefined) || '').normalize('NFC').trim();
+    if (value) attribution[field] = value;
+  }
+  if (Object.values(attribution).some(value => value.length > 500 || NO_CONTROL.test(value))) throw new ContactError(400, 'invalid_submission');
   const contact = {
     nombre: (data.nombre as string).normalize('NFC').trim(),
     canal: (data.contacto as string).normalize('NFC').trim(),
@@ -181,6 +189,7 @@ function validate(data: Record<string, unknown>): Contact {
     empresa: ((data.empresa as string | undefined) || '').normalize('NFC').trim(),
     interes: (data.interes as string).trim(),
     mensaje: (data.mensaje as string).normalize('NFC').trim(),
+    attribution,
   };
   contact.canalEsEmail = validEmail(contact.canal);
   if (contact.nombre.length < 2 || contact.nombre.length > 120 || NO_CONTROL.test(contact.nombre)
@@ -235,7 +244,7 @@ export async function handleContact(request: Request, env: ContactEnvironment, f
       const body = JSON.stringify({
         from: config.from, to: [config.to], ...(contact.canalEsEmail ? { reply_to: contact.canal } : {}),
         subject: 'Nueva consulta desde Reac Studio',
-        text: ['Nombre: ' + contact.nombre, 'Canal de contacto: ' + contact.canal, 'Interes: ' + contact.interes, 'Empresa: ' + (contact.empresa || 'No indicada'), '', 'Mensaje:', contact.mensaje, '', 'La persona aceptó la política de privacidad al enviar la consulta.'].join('\n'),
+        text: ['Nombre: ' + contact.nombre, 'Canal de contacto: ' + contact.canal, 'Interes: ' + contact.interes, 'Empresa: ' + (contact.empresa || 'No indicada'), '', 'Mensaje:', contact.mensaje, ...(Object.keys(contact.attribution).length ? ['', 'Atribución de la consulta:', ...Object.entries(contact.attribution).map(([key, value]) => key + ': ' + value)] : []), '', 'La persona aceptó la política de privacidad al enviar la consulta.'].join('\n'),
       });
       // Repeated normalized payloads share a Resend idempotency key within one
       // fixed 10-minute UTC bucket, including after an ambiguous timeout.

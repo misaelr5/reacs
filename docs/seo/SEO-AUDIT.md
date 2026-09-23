@@ -56,7 +56,7 @@ La fuente ya identifica a Misael Ledesma y Tomás Ortiz y sus roles; se conserva
 - [Google: Organization](https://developers.google.com/search/docs/appearance/structured-data/organization) y [Schema.org ProfessionalService](https://schema.org/ProfessionalService): datos reales, identidad única y elección de tipo justificada.
 - [Google: optimización para IA generativa](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide): SEO y contenido útil; llms.txt no aporta un beneficio de ranking demostrado ni sustituye HTML.
 - [OpenAI: crawlers](https://developers.openai.com/api/docs/bots): OAI-SearchBot y GPTBot tienen finalidades independientes. Se conservó la política previa de entrenamiento.
-- [Google: actualizaciones](https://developers.google.com/search/updates): FAQ rich results retirados en 2026; FAQPage se conserva sólo como semántica fiel a preguntas visibles, sin promesas de presentación enriquecida.
+- [Google: actualizaciones](https://developers.google.com/search/updates): FAQ rich results retirados en 2026; se conserva el contenido visible y se retiró `FAQPage` para evitar markup sin beneficio vigente.
 - [Sitemaps](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap) e [IndexNow](https://www.indexnow.org/documentation): URLs canónicas y cambios reales; no inventar lastmod ni enviar todo en cada build.
 
 ## Límites de la auditoría

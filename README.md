@@ -36,7 +36,7 @@ Copiar `.env.example` a `.env.local` para desarrollo y configurar las variables 
 
 Contacto requiere `RESEND_API_KEY`, `CONTACT_FROM` (remitente verificado), `CONTACT_TO`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` y `CONTACT_RATE_LIMIT_SECRET` (secreto aleatorio de al menos 32 caracteres). Sin configuración devuelve un error seguro. Newsletter permanece deshabilitado.
 
-`SITE_URL` es un origen HTTPS sin ruta. Se usa en canonical, schema, sitemap, robots y validación de origen del backend. `npm run build` no carga `.env.local`: para cambiar el origen localmente definir `$env:SITE_URL` en PowerShell y quitarlo al finalizar. Vercel usa sus variables de entorno.
+`SITE_URL` es un origen HTTPS sin ruta. Se usa en canonical, schema, sitemap, robots y validación de origen del backend. `PUBLIC_CONTACT_EMAIL` sustituye el contacto público sólo cuando existe un buzón real y verificado; si está vacío se conserva el correo actual. `npm run build` no carga `.env.local`: para cambiar valores localmente, definirlos en PowerShell y quitarlos al finalizar. Vercel usa sus variables de entorno.
 
 Los tokens Google/Bing y la clave de propiedad IndexNow son públicos. Los datos legales y perfiles pendientes deben completarse con información real.
 

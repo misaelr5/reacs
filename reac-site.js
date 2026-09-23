@@ -2,9 +2,44 @@
   'use strict';
   const config = window.REAC_CONFIG || {};
   const consentKey = 'reac_analytics_consent';
+  const attributionKey = 'reac_campaign_attribution';
+  const attributionFields = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'];
   let analyticsReady = false;
   const production = location.origin === config.siteUrl;
   const getConsent = () => { try { return localStorage.getItem(consentKey); } catch { return null; } };
+  const cleanValue = (value, limit = 300) => String(value || '').replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, limit);
+  function captureAttribution() {
+    let attribution = {};
+    try { attribution = JSON.parse(sessionStorage.getItem(attributionKey) || '{}') || {}; } catch { attribution = {}; }
+    const params = new URLSearchParams(location.search);
+    for (const field of attributionFields) {
+      const value = cleanValue(params.get(field));
+      if (value) attribution[field] = value;
+    }
+    if (!attribution.landing_page) attribution.landing_page = location.pathname;
+    if (!attribution.referrer && document.referrer) {
+      try { const referrer = new URL(document.referrer); attribution.referrer = cleanValue(referrer.origin + referrer.pathname, 500); } catch { /* invalid referrer */ }
+    }
+    try { sessionStorage.setItem(attributionKey, JSON.stringify(attribution)); } catch { /* attribution remains available on this page */ }
+    for (const [name, value] of Object.entries(attribution)) {
+      const field = document.querySelector(`#ct-form input[name="${name}"]`);
+      if (field) field.value = value;
+    }
+    return attribution;
+  }
+  const campaignContext = () => {
+    const attribution = captureAttribution();
+    return { ...(attribution.utm_source ? { utm_source: attribution.utm_source } : {}), ...(attribution.utm_campaign ? { utm_campaign: attribution.utm_campaign } : {}) };
+  };
+  const linkContext = link => {
+    const section = link.closest('section');
+    return {
+      page: document.body.dataset.page || location.pathname,
+      section: section?.id || section?.dataset.screenLabel || 'global',
+      ...(link.dataset.service ? { service: link.dataset.service } : {}),
+      ...campaignContext()
+    };
+  };
   function loadAnalytics() {
     if (analyticsReady || !production || getConsent() !== 'granted' || !/^G-[A-Z0-9]+$/.test(config.analyticsId || '')) return;
     analyticsReady = true;
@@ -24,7 +59,11 @@
   function track(name, params) {
     if (!production || getConsent() !== 'granted') return;
     loadAnalytics();
-    if (typeof window.gtag === 'function') window.gtag('event', name, params || {});
+    const properties = params || {};
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: name, ...properties });
+    if (typeof window.gtag === 'function') window.gtag('event', name, properties);
+    document.dispatchEvent(new CustomEvent('reac:analytics', { detail: { event: name, properties } }));
   }
   window.ReacAnalytics = { track, load: loadAnalytics };
   function disableAnalytics() {
@@ -70,10 +109,12 @@
   function bindForm() {
     const form = document.getElementById('ct-form'); if (!form) return;
     let sending = false;
-    form.addEventListener('focusin', () => track('contact_form_start', { form_id: 'contacto' }), { once: true });
+    form.addEventListener('focusin', () => track('contact_form_start', { form_id: 'contacto', page: document.body.dataset.page || location.pathname, ...campaignContext() }), { once: true });
     form.addEventListener('submit', async event => {
       event.preventDefault(); if (sending || !form.reportValidity()) return;
-      sending = true; formState(form, 'sending', 'Enviando tu consulta…');
+      sending = true; captureAttribution();
+      track('contact_form_submit', { form_id: 'contacto', page: document.body.dataset.page || location.pathname, ...campaignContext() });
+      formState(form, 'sending', 'Enviando tu consulta…');
       try {
         const response = await fetch('/api/contact', {
           method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -90,7 +131,7 @@
         if (production && getConsent() === 'granted') {
           let navigated = false;
           const finish = () => { if (!navigated) { navigated = true; redirect(); } };
-          track('contact_form_submit', { form_id: 'contacto', event_callback: finish, event_timeout: 800 });
+          track('contact_form_success', { form_id: 'contacto', page: document.body.dataset.page || location.pathname, ...campaignContext(), event_callback: finish, event_timeout: 800 });
           setTimeout(finish, 900);
         } else redirect();
       } catch { formState(form, 'error', 'No pudimos confirmar el envío. Intentá más tarde o escribinos por WhatsApp.'); }
@@ -102,14 +143,15 @@
       if (event.target.closest('[data-privacy-settings]')) { mountConsent(true); return; }
       const link = event.target.closest('a'); if (!link) return;
       const href = link.getAttribute('href') || '';
-      if (href.startsWith('https://wa.me/')) track('whatsapp_click', { placement: link.dataset.placement || document.body.dataset.page || 'home' });
-      if (href.startsWith('mailto:')) track('email_click');
-      if (link.dataset.service) track('service_cta_click', { service: link.dataset.service });
-      else if (['#contacto', '/#contacto', '/contacto'].includes(href) || link.dataset.cta === 'diagnostic') track('diagnostic_cta_click', { placement: document.body.dataset.page || 'home' });
+      const context = linkContext(link);
+      if (href.startsWith('https://wa.me/')) track('whatsapp_click', { ...context, placement: link.dataset.placement || context.section });
+      if (href.startsWith('mailto:')) track('email_click', context);
+      if (link.dataset.cta) track('cta_click', { ...context, cta: link.dataset.cta });
+      if (link.dataset.cta === 'diagnostic') track('diagnostic_click', context);
       const menu = document.querySelector('.mobile-nav[open]');
       if (menu && (!menu.contains(link) || link.closest('.mobile-nav-panel'))) menu.open = false;
     });
-    document.addEventListener('reac:project-view', event => track('project_view', { project_index: event.detail?.project_index }));
+    document.addEventListener('reac:project-view', event => track('project_view', { project_index: event.detail?.project_index, page: document.body.dataset.page || location.pathname, ...campaignContext() }));
     document.addEventListener('keydown', event => {
       const menu = document.querySelector('.mobile-nav[open]');
       if (event.key === 'Escape' && menu) { menu.open = false; menu.querySelector('summary').focus(); }
@@ -140,7 +182,9 @@
     protectedSections.forEach(section => observer.observe(section));
   }
   function init() {
-    mountConsent(); bindForm(); bindLinks(); bindMobileStickyCta();
+    captureAttribution(); mountConsent(); bindForm(); bindLinks(); bindMobileStickyCta();
+    const service = document.body.dataset.page;
+    if (['desarrollo-web','marketing-digital','google-ads','meta-ads','automatizacion-ia','sistemas-crm','landing-pages'].includes(service)) track('service_view', { service, page: location.pathname, ...campaignContext() });
     const contact = document.getElementById('contacto');
     if (contact && 'IntersectionObserver' in window) new IntersectionObserver(entries => {
       document.documentElement.classList.toggle('reac-contact-visible', entries[0].isIntersecting);

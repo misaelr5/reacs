@@ -8,11 +8,32 @@
 
   function init() {
     root.classList.add('js');
+    setupHomeNav();
     setupReveal();
-    setupParallax();
     setupComparison();
     setupSimulator();
     setupProjects();
+  }
+
+  function setupHomeNav() {
+    const nav = query('.site-nav');
+    const hero = query('#hero-sec');
+    if (!nav || !hero) return;
+    let frame = 0;
+    const sync = () => {
+      frame = 0;
+      if (reduced.matches) {
+        nav.classList.remove('nav-hidden');
+        return;
+      }
+      const revealAt = Math.max(96, nav.offsetHeight + 20);
+      nav.classList.toggle('nav-hidden', hero.getBoundingClientRect().bottom > revealAt);
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(sync); };
+    addEventListener('scroll', schedule, { passive: true });
+    addEventListener('resize', schedule);
+    reduced.addEventListener('change', schedule);
+    sync();
   }
 
   function setupReveal() {
@@ -38,46 +59,6 @@
     reduced.addEventListener('change', () => {
       if (reduced.matches) all('.reveal-ready').forEach(element => element.classList.add('is-in'));
     });
-  }
-
-  function setupParallax() {
-    const nav = query('.site-nav');
-    const hero = query('#top');
-    const stats = query('[data-ref="statsRef"]');
-    const layers = ['p1Ref', 'p2Ref', 'pTitleRef', 'p4Ref'].map(name => query('[data-ref="' + name + '"]'));
-    if (!layers.some(Boolean)) return;
-    let frame = 0;
-    let height = innerHeight;
-    const getNavThreshold = () => {
-      if (hero) return hero.getBoundingClientRect().bottom + scrollY - Math.min(72, Math.max(40, height * 0.08));
-      return stats ? stats.getBoundingClientRect().top + scrollY - 64 : 0;
-    };
-    let navThreshold = getNavThreshold();
-    function update() {
-      frame = 0;
-      const progress = reduced.matches ? 0 : Math.max(0, Math.min(1, scrollY / Math.max(1, height)));
-      layers.forEach((layer, i) => {
-        if (!layer) return;
-        layer.style.transform = i === 2
-          ? 'translate(-50%, calc(-50% + ' + 40 * progress + '%))'
-          : 'translate(-50%, ' + [70, 55, 0, 10][i] * progress + '%)';
-      });
-      if (nav) {
-        const visible = scrollY >= navThreshold || nav.contains(document.activeElement);
-        nav.classList.toggle('nav-hidden', !visible);
-      }
-    }
-    function schedule() { if (!frame) frame = requestAnimationFrame(update); }
-    addEventListener('scroll', schedule, { passive: true });
-    addEventListener('resize', () => {
-      height = innerHeight;
-      navThreshold = getNavThreshold();
-      schedule();
-    });
-    nav?.addEventListener('focusin', schedule);
-    nav?.addEventListener('focusout', schedule);
-    reduced.addEventListener('change', schedule);
-    schedule();
   }
 
   function setupComparison() {
@@ -135,7 +116,7 @@
     let timer;
     const pause = document.createElement('button');
     pause.type = 'button';
-    pause.className = 'project-pause';
+    pause.className = 'project-pause proj-directory-cta';
     pause.textContent = 'Pausar carrusel';
     pause.setAttribute('aria-pressed', 'false');
     region.appendChild(pause);

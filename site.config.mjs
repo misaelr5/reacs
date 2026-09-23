@@ -5,7 +5,9 @@ export const site = {
   alternateNames: ['ReacStudio', 'REAC Studio', 'reacstudio.com'],
   title: 'Reac Studio | Desarrollo Web, Marketing y Automatización',
   description: 'Reac Studio: desarrollo web, landing pages, marketing digital y automatización para empresas, PyMEs y profesionales. Desde Córdoba para Argentina y Latinoamérica.',
-  email: 'ledesma.rme@gmail.com',
+  // Keep the verified Gmail fallback until a corporate mailbox exists. Override
+  // PUBLIC_CONTACT_EMAIL at build time only after the new address can receive mail.
+  email: process.env.PUBLIC_CONTACT_EMAIL || 'ledesma.rme@gmail.com',
   whatsapp: '5493544657866',
   analyticsId: 'G-8VJDB377CE',
   logo: '/uploads/reac-symbol.svg',
@@ -28,3 +30,4 @@ if (parsed.protocol !== 'https:' || parsed.username || parsed.password || parsed
   throw new Error('SITE_URL must be an HTTPS origin without path, credentials, query or hash.');
 }
 site.url = parsed.origin;
+if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(site.email)) throw new Error('PUBLIC_CONTACT_EMAIL must be a valid email address.');
