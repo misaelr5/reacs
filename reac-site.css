@@ -103,7 +103,7 @@
   .ct-panel textarea.ct-field{min-height:150px}
 
   .mobile-sticky-cta{left:auto!important;right:max(14px,env(safe-area-inset-right))!important}
-  html.reac-contact-visible .mobile-sticky-cta,html:has(.reac-consent) .mobile-sticky-cta,html:has(.ct-field:focus) .mobile-sticky-cta,html.reac-contact-visible .whatsapp-quick-action,html:has(.reac-consent) .whatsapp-quick-action{visibility:hidden;pointer-events:none}
+  html:has(.reac-consent) .mobile-sticky-cta,html:has(.ct-field:focus) .mobile-sticky-cta,html:has(.reac-consent) .whatsapp-quick-action{visibility:hidden;pointer-events:none}
   [data-screen-label="Footer"]{position:relative!important}
   [data-screen-label="Footer"]>div{padding:44px 20px calc(100px + env(safe-area-inset-bottom))!important}
 
@@ -191,4 +191,4 @@ html.js .hero-copy>.social-links .social-link{opacity:0;animation:heroPop 1.15s 
 .page .golden b,.page>.eyebrow,.page .card .k i{color:#b9bdff}
 .page .band.red .score{background:#b72834}.page .band.green .score{background:#137347}
 .resource-web-links a{color:#b9bdff;text-underline-offset:4px}
-.hero-btn1,.ct-send,.mobile-sticky-cta,.site-nav .imp-cta,.proj-cta{background:linear-gradient(135deg,#c73511,#b52c0a)!important;color:#fff!important}
+.hero-btn1,.ct-send,.site-nav .imp-cta,.proj-cta{background:linear-gradient(135deg,#c73511,#b52c0a)!important;color:#fff!important}

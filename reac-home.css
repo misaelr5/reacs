@@ -155,7 +155,7 @@
     .whatsapp-quick-action{position:fixed;right:24px;bottom:24px;z-index:110;display:inline-flex;align-items:center;gap:9px;min-height:50px;padding:12px 17px;border-radius:999px;background:#137d48;color:#fff;text-decoration:none;font-size:15px;font-weight:800;box-shadow:0 16px 38px -14px rgba(0,0,0,.85),0 10px 28px -14px rgba(19,125,72,.9);transition:transform .2s ease,box-shadow .2s ease,background .2s ease;}
     .whatsapp-quick-action svg{width:21px;height:21px;flex:none;}
     .whatsapp-quick-action:hover{background:#0f6a3d;transform:translateY(-3px);box-shadow:0 20px 42px -14px rgba(0,0,0,.88),0 14px 32px -14px rgba(19,125,72,.9);}
-    .whatsapp-quick-action:focus-visible{outline:3px solid #FDFCFE;outline-offset:3px;}
+    .mobile-sticky-cta:focus-visible,.whatsapp-quick-action:focus-visible{outline:3px solid #FDFCFE;outline-offset:3px;}
     .diagnostic-entry{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr) auto;gap:28px;align-items:center;margin-top:26px;padding:28px 30px;border:1px solid rgba(110,116,255,.3);border-radius:24px;background:linear-gradient(110deg,rgba(31,39,235,.14),rgba(14,16,32,.96) 58%);box-shadow:0 24px 56px -40px rgba(46,55,255,.75);}
     .diagnostic-entry-eyebrow{font-size:12px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:#9AA0FF;}
     .diagnostic-entry h3{margin:9px 0 8px;font-size:clamp(23px,2.4vw,30px);letter-spacing:-.025em;line-height:1.12;}
@@ -170,7 +170,6 @@
       .mobile-sticky-cta{position:fixed;left:auto;right:max(14px,env(safe-area-inset-right));bottom:calc(14px + env(safe-area-inset-bottom));z-index:110;display:flex;align-items:center;justify-content:center;width:52px;height:52px;min-height:52px;padding:0;border-radius:50%;background:#137d48;color:#FDFCFE;text-decoration:none;box-shadow:0 14px 34px -10px rgba(0,0,0,.8),0 10px 28px -12px rgba(19,125,72,.8);}
       .mobile-sticky-cta svg{width:24px;height:24px;flex:none;}
       .mobile-sticky-cta__label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
-      html.reac-mobile-cta-suppressed .mobile-sticky-cta{visibility:hidden;pointer-events:none;}
       .whatsapp-quick-action{display:none;}
       body{padding-bottom:calc(82px + env(safe-area-inset-bottom));}
       .diagnostic-entry{grid-template-columns:1fr;gap:20px;padding:24px;}

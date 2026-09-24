@@ -164,31 +164,10 @@
     });
     addEventListener('storage', event => { if (event.key === consentKey && getConsent() !== 'granted') disableAnalytics(); });
   }
-  function bindMobileStickyCta() {
-    const sticky = document.querySelector('.mobile-sticky-cta');
-    if (!sticky || !('IntersectionObserver' in window)) return;
-    const protectedSections = ['#hero-sec', '#servicios', '#proyectos', '#contacto']
-      .map(selector => document.querySelector(selector))
-      .filter(Boolean);
-    const visibleSections = new Set();
-    const sync = () => document.documentElement.classList.toggle('reac-mobile-cta-suppressed', visibleSections.size > 0);
-    const observer = new IntersectionObserver(entries => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) visibleSections.add(entry.target);
-        else visibleSections.delete(entry.target);
-      }
-      sync();
-    }, { threshold: 0.1 });
-    protectedSections.forEach(section => observer.observe(section));
-  }
   function init() {
-    captureAttribution(); mountConsent(); bindForm(); bindLinks(); bindMobileStickyCta();
+    captureAttribution(); mountConsent(); bindForm(); bindLinks();
     const service = document.body.dataset.page;
     if (['desarrollo-web','marketing-digital','google-ads','meta-ads','automatizacion-ia','sistemas-crm','landing-pages'].includes(service)) track('service_view', { service, page: location.pathname, ...campaignContext() });
-    const contact = document.getElementById('contacto');
-    if (contact && 'IntersectionObserver' in window) new IntersectionObserver(entries => {
-      document.documentElement.classList.toggle('reac-contact-visible', entries[0].isIntersecting);
-    }).observe(contact);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();

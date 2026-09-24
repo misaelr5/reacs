@@ -43,16 +43,39 @@ try{
   await page.locator('#hero-sec').evaluate(node=>window.scrollTo({top:node.offsetTop+node.offsetHeight+1,behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('.site-nav')).visibility==='visible');
   await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('.site-nav')).visibility==='hidden');
   const quickAction=page.locator('.whatsapp-quick-action');assert.equal(await quickAction.isVisible(),true);assert.match(await quickAction.getAttribute('href'),/https:\/\/wa\.me\/5493544657866/);
-  await page.setViewportSize({width:390,height:844});assert.equal(await homeNav.isVisible(),false);assert.equal(await quickAction.isVisible(),false);assert.equal(await page.locator('.mobile-sticky-cta').isVisible(),false);
+  await page.setViewportSize({width:390,height:844});assert.equal(await homeNav.isVisible(),false);assert.equal(await quickAction.isVisible(),false);assert.equal(await page.locator('.mobile-sticky-cta').isVisible(),true);
   await page.locator('#hero-sec').evaluate(node=>window.scrollTo({top:node.offsetTop+node.offsetHeight+1,behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('.site-nav')).visibility==='visible');
   await page.locator('#proceso').evaluate(node=>window.scrollTo({top:node.getBoundingClientRect().top+scrollY,behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('.mobile-sticky-cta')).visibility==='visible');
-  for(const width of [375,390,430]){
+  for(const width of [320,375,390,430]){
     await page.setViewportSize({width,height:844});
-    for(const selector of ['#hero-sec','#servicios','#proyectos','#contacto']){
+    for(const selector of ['#hero-sec','#servicios','#proceso','#proyectos','#contacto','.home-footer']){
       await page.locator(selector).evaluate(node=>window.scrollTo({top:Math.max(0,node.getBoundingClientRect().top+scrollY-78),behavior:'instant'}));
-      await page.waitForFunction(()=>getComputedStyle(document.querySelector('.mobile-sticky-cta')).visibility==='hidden');
+      await page.waitForFunction(()=>{
+        const button=document.querySelector('.mobile-sticky-cta');
+        const rect=button.getBoundingClientRect();
+        return button.contains(document.elementFromPoint(rect.x+rect.width/2,rect.y+rect.height/2));
+      });
+      const state=await page.locator('.mobile-sticky-cta').evaluate(button=>{
+        const rect=button.getBoundingClientRect(),style=getComputedStyle(button);
+        return {inside:rect.x>=0&&rect.right<=innerWidth&&rect.bottom<=innerHeight,size:Math.min(rect.width,rect.height),background:style.backgroundColor,image:style.backgroundImage};
+      });
+      assert.equal(state.inside,true,selector+' WhatsApp outside viewport at '+width);
+      assert.ok(state.size>=48);assert.equal(state.background,'rgb(19, 125, 72)');assert.equal(state.image,'none');
     }
   }
+  await page.locator('#ct-nombre').focus();assert.equal(await page.locator('.mobile-sticky-cta').isVisible(),false);
+  await page.locator('#ct-nombre').blur();assert.equal(await page.locator('.mobile-sticky-cta').isVisible(),true);
+  const touchContext=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
+  // Intercept the destination: verify a real tap without contacting WhatsApp or sending a message.
+  await touchContext.route('https://wa.me/**',route=>route.fulfill({status:200,contentType:'text/html',body:'WhatsApp destination intercepted for test'}));
+  const touchPage=await touchContext.newPage();await touchPage.goto(base+'/');
+  assert.equal(await touchPage.locator('.mobile-sticky-cta').isVisible(),false);
+  await touchPage.locator('[data-consent="denied"]').click();
+  assert.equal(await touchPage.locator('.mobile-sticky-cta').isVisible(),true);
+  const popupPromise=touchPage.waitForEvent('popup');await touchPage.locator('.mobile-sticky-cta').tap();
+  const popup=await popupPromise;await popup.waitForLoadState('domcontentloaded');
+  const destination=new URL(popup.url());assert.equal(destination.origin,'https://wa.me');assert.equal(destination.pathname,'/5493544657866');assert.ok(destination.searchParams.get('text'));
+  await touchContext.close();
   await page.locator('.mobile-nav summary').click();assert.equal(await page.locator('.mobile-nav').getAttribute('open'),'');
   await page.keyboard.press('Escape');assert.equal(await page.locator('.mobile-nav').getAttribute('open'),null);
   await page.locator('.mobile-nav summary').click();await page.setViewportSize({width:1440,height:900});await page.waitForFunction(()=>document.querySelector('.mobile-nav')?.getAttribute('open')===null);
