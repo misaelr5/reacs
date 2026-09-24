@@ -14,7 +14,8 @@ export const site = {
   indexNowKey: "45483afbcd991fa6735a61e3a0996204", // Public ownership proof, not a secret.
   socialProfiles: [
     'https://www.instagram.com/reacstudio/',
-    'https://www.tiktok.com/@reac.studio'
+    'https://www.tiktok.com/@reac.studio',
+    'https://www.facebook.com/profile.php?id=61594342015629'
   ],
   legal: { responsible: '', address: '', effectiveDate: '' },
   verification: {
