@@ -11,6 +11,7 @@
     setupHeroTitle();
     setupHomeNav();
     setupReveal();
+    setupBento();
     setupComparison();
     setupSimulator();
     setupProjects();
@@ -105,24 +106,129 @@
     select('sin');
   }
 
+  function setupBento() {
+    const section = query('.bento-showcase');
+    const gsap = window.gsap;
+    if (!section || !gsap || reduced.matches) return;
+    const intro = [...section.querySelectorAll('.bento-intro')];
+    const cards = [...section.querySelectorAll('.ib-bento-card')];
+    const rows = [...section.querySelectorAll('.sim-toggle')];
+    // Build the sequence only after GSAP loads; the HTML stays visible without JS.
+    gsap.set([...intro, ...cards], { opacity: 0 });
+    const sequence = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } })
+      .fromTo(intro, { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: .76, stagger: .11 }, 0)
+      .fromTo(cards, { y: 48, scale: .96, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .85, stagger: .12, clearProps: 'transform,opacity' }, .28)
+      .fromTo(rows, { x: -12, opacity: .4 }, { x: 0, opacity: 1, duration: .48, stagger: .065, clearProps: 'transform,opacity' }, .67);
+    let observer;
+    if ('IntersectionObserver' in window) {
+      observer = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) { sequence.play(); observer.disconnect(); }
+      }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+      observer.observe(section);
+    } else sequence.play();
+    reduced.addEventListener('change', () => {
+      if (!reduced.matches) return;
+      observer?.disconnect();
+      sequence.kill();
+      gsap.killTweensOf([...intro, ...cards, ...rows]);
+      gsap.set([...intro, ...cards, ...rows], { clearProps: 'transform,opacity,visibility' });
+    }, { once: true });
+    const lift = (card, active) => {
+      if (!reduced.matches) gsap.to(card, { y: active ? -7 : 0, scale: active ? 1.018 : 1, duration: active ? .42 : .5, ease: 'power3.out', overwrite: 'auto' });
+    };
+    cards.forEach(card => {
+      if (fine.matches) {
+        card.addEventListener('pointerenter', () => lift(card, true));
+        card.addEventListener('pointerleave', () => lift(card, card.matches(':focus-within')));
+      }
+      card.addEventListener('focusin', event => { if (event.target.matches(':focus-visible')) lift(card, true); });
+      card.addEventListener('focusout', event => {
+        if (!card.contains(event.relatedTarget)) lift(card, fine.matches && card.matches(':hover'));
+      });
+    });
+  }
+
   function setupSimulator() {
-    for (const button of all('.sim-toggle')) button.addEventListener('click', () => {
+    const gsap = window.gsap;
+    const toggles = all('.sim-toggle');
+    for (const button of toggles) button.addEventListener('click', () => {
       const pressed = button.getAttribute('aria-pressed') !== 'true';
       button.setAttribute('aria-pressed', String(pressed));
       const track = button.lastElementChild;
       track.style.background = pressed ? 'linear-gradient(135deg,#1F27EB,#7C3AED)' : '#15182B';
-      track.firstElementChild.style.left = pressed ? '23px' : '3px';
+      const knob = track.firstElementChild;
+      if (gsap && !reduced.matches) {
+        gsap.to(knob, { left: pressed ? 23 : 3, duration: .42, ease: 'back.out(1.7)', overwrite: 'auto' });
+        gsap.fromTo(track, { scale: .88 }, { scale: 1, duration: .5, ease: 'back.out(2)', overwrite: 'auto' });
+        gsap.fromTo(button, { scale: .97 }, { scale: 1, duration: .42, ease: 'power3.out', overwrite: 'auto' });
+      } else knob.style.left = pressed ? '23px' : '3px';
     });
-    for (const input of all('.sim-range')) input.addEventListener('input', () => {
-      const value = Number(input.value);
-      const action = input.dataset.action;
-      let output;
-      if (action === 'changeBudget') {
-        output = input.parentElement.querySelector('[data-budget-output]');
-        if (output) output.textContent = 'USD ' + (Math.round((150 + value / 100 * 2850) / 50) * 50).toLocaleString('es-AR');
-      } else {
-        output = input.previousElementSibling?.lastElementChild?.firstElementChild;
-        if (output) output.textContent = String(Math.round(value / 100 * (action === 'changeCamp' ? 10 : 1000)));
+    const rangeUpdates = [];
+    for (const input of all('.sim-range')) {
+      const control = input.closest('.sim-control');
+      const card = input.closest('.ib-bento-card');
+      const readout = input.dataset.action === 'changeBudget' ? control?.querySelector('[data-budget-output]') : input.previousElementSibling?.lastElementChild;
+      const state = { hover: false, pressed: false };
+      const updateMotion = () => {
+        const engaged = state.pressed || input.matches(':focus-visible');
+        const level = engaged ? 2 : state.hover ? 1 : 0;
+        input.classList.toggle('is-engaged', engaged);
+        control?.classList.toggle('is-engaged', engaged);
+        card?.classList.toggle('is-control-active', !!card.querySelector('.sim-range.is-engaged'));
+        if (!gsap || reduced.matches) {
+          if (gsap) gsap.killTweensOf([input, readout]);
+          for (const name of ['--sim-track-height', '--sim-thumb-size', '--sim-thumb-ring']) input.style.removeProperty(name);
+          if (readout) readout.style.removeProperty('transform');
+          return;
+        }
+        gsap.to(input, {
+          '--sim-track-height': [8, 11, 14][level] + 'px',
+          '--sim-thumb-size': [18, 23, 28][level] + 'px',
+          '--sim-thumb-ring': [4, 6, 9][level] + 'px',
+          duration: .3, ease: 'power3.out', overwrite: 'auto'
+        });
+        if (readout) gsap.to(readout, { scale: [1, 1.025, 1.07][level], duration: .3, ease: 'power3.out', overwrite: 'auto' });
+      };
+      input.addEventListener('pointerenter', () => { state.hover = true; updateMotion(); });
+      input.addEventListener('pointerleave', () => { state.hover = false; updateMotion(); });
+      input.addEventListener('pointerdown', () => { state.pressed = true; updateMotion(); });
+      for (const event of ['pointerup', 'pointercancel', 'lostpointercapture']) input.addEventListener(event, () => { state.pressed = false; updateMotion(); });
+      input.addEventListener('focus', updateMotion);
+      input.addEventListener('blur', updateMotion);
+      rangeUpdates.push(updateMotion);
+      input.addEventListener('input', () => {
+        const value = Number(input.value);
+        input.style.setProperty('--sim-fill', value + '%');
+        const action = input.dataset.action;
+        let output;
+        let target;
+        if (action === 'changeBudget') {
+          output = input.parentElement.querySelector('[data-budget-output]');
+          target = Math.round((150 + value / 100 * 2850) / 50) * 50;
+        } else {
+          output = input.previousElementSibling?.lastElementChild?.firstElementChild;
+          target = Math.round(value / 100 * (action === 'changeCamp' ? 10 : 1000));
+        }
+        if (!output) return;
+        const render = number => { output.textContent = action === 'changeBudget' ? 'USD ' + number.toLocaleString('es-AR') : String(number); };
+        input.setAttribute('aria-valuetext', action === 'changeBudget' ? 'USD ' + target.toLocaleString('es-AR') : action === 'changeCamp' ? target + ' de 10 campañas' : target + ' de 1000 leads');
+        if (!gsap || reduced.matches) { render(target); return; }
+        gsap.killTweensOf(output._simCounter);
+        const counter = { value: Number(output.textContent.replace(/\D/g, '')) };
+        output._simCounter = counter;
+        gsap.to(counter, { value: target, duration: .36, ease: 'power2.out', onUpdate: () => render(Math.round(counter.value)), onComplete: () => render(target) });
+      });
+    }
+    reduced.addEventListener('change', () => {
+      rangeUpdates.forEach(update => update());
+      if (!reduced.matches || !gsap) return;
+      for (const button of toggles) {
+        const track = button.lastElementChild;
+        const knob = track.firstElementChild;
+        gsap.killTweensOf([button, track, knob]);
+        button.style.removeProperty('transform');
+        track.style.removeProperty('transform');
+        knob.style.left = button.getAttribute('aria-pressed') === 'true' ? '23px' : '3px';
       }
     });
   }
