@@ -20,13 +20,25 @@ test('Every page has unique, consistent metadata and a connected identity graph'
     const description = meta(doc, 'description');
     assert.ok(!titles.has(title), 'Duplicate title: ' + path); titles.add(title);
     assert.ok(!descriptions.has(description), 'Duplicate description: ' + path); descriptions.add(description);
-    assert.equal(meta(doc, 'og:title'), title);
-    assert.equal(meta(doc, 'twitter:title'), title);
-    assert.equal(meta(doc, 'og:description'), description);
-    assert.equal(meta(doc, 'twitter:description'), description);
+    const socialTitle=path==='/'?'Reac Studio | Desarrollo Web y Marketing Digital':title;
+    const socialDescription=path==='/'?'Creamos sitios web modernos, rápidos y estrategias digitales que impulsan tu negocio.':description;
+    assert.equal(meta(doc, 'og:title'), socialTitle);
+    assert.equal(meta(doc, 'twitter:title'), socialTitle);
+    assert.equal(meta(doc, 'og:description'), socialDescription);
+    assert.equal(meta(doc, 'twitter:description'), socialDescription);
     assert.equal(meta(doc, 'og:site_name'), site.name);
     assert.equal(meta(doc, 'og:url'), site.url + path);
     assert.equal(meta(doc, 'twitter:card'), 'summary_large_image');
+    if(path==='/'){
+      assert.equal(meta(doc,'og:image'),site.url+'/og-image.png');
+      assert.equal(meta(doc,'twitter:image'),meta(doc,'og:image'));
+      assert.equal(meta(doc,'og:image:width'),'1200');
+      assert.equal(meta(doc,'og:image:height'),'630');
+      const image=readFileSync('dist/og-image.png');
+      assert.equal(image.toString('hex',0,8),'89504e470d0a1a0a');
+      assert.equal(image.readUInt32BE(16),1200);
+      assert.equal(image.readUInt32BE(20),630);
+    }
     const graph = JSON.parse(textContent(one(doc, n => n.tagName === 'script' && attr(n, 'type') === 'application/ld+json')))['@graph'];
     assert.equal(new Set(graph.map(item => item['@id'])).size, graph.length);
     const organization = graph.filter(item => item['@type'] === 'Organization');
