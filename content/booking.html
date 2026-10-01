@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="/reac-booking.css">
+<link rel="stylesheet" href="/reac-motion.css"><script defer src="/gsap.min.js"></script><script defer src="/reac-motion.js"></script><script defer src="/reac-booking.js"></script>
+<header class="page-hero booking-hero"><p class="eyebrow">Una conversación, un próximo paso</p><h1>Agendá una llamada con Reac</h1><p class="page-intro">Elegí con quién querés hablar y encontrá un horario. Contanos un poco sobre tu proyecto; damos el próximo paso juntos.</p></header>
+<section class="booking-layout" aria-label="Agenda de llamadas">
+  <aside class="booking-summary"><img src="/uploads/reac-symbol.svg" width="56" height="56" alt=""><h2>Llamada de diagnóstico</h2><p><span id="booking-duration">Consultando duración…</span><br>Google Meet</p><p id="booking-zone">Horarios de Córdoba, Argentina</p><p id="booking-mode" class="booking-badge" hidden></p><p class="booking-note">Un espacio para entender tu negocio, tus objetivos y dónde podemos aportar.</p><a href="/contacto">¿Necesitás otro horario? Contactanos →</a></aside>
+  <div class="booking-panel">
+    <div id="booking-loading" class="booking-loading" aria-hidden="true" hidden><span></span><span></span><span></span></div><p id="booking-status" role="status" aria-live="polite">Cargando calendario y horarios…</p><button id="booking-retry" type="button" hidden>Reintentar disponibilidad</button>
+    <fieldset id="booking-professionals" class="booking-professionals" hidden><legend>1. ¿Con quién querés hablar?</legend><div id="booking-professional-options" class="booking-professional-options"></div></fieldset>
+    <div id="booking-picker" hidden>
+      <section aria-labelledby="booking-date-heading"><div class="booking-calendar-heading"><h2 id="booking-date-heading">2. Elegí un día</h2><div><button id="booking-prev" type="button" aria-label="Mes anterior">←</button><button id="booking-next" type="button" aria-label="Mes siguiente">→</button></div></div><p id="booking-month" aria-live="polite"></p><div class="booking-week" aria-hidden="true"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></div><div id="booking-days" class="booking-days" role="group" aria-label="Días disponibles"></div></section>
+      <section class="booking-time-section" aria-labelledby="booking-time-heading"><h2 id="booking-time-heading">3. Elegí un horario</h2><p id="booking-date-label">Seleccioná un día para ver sus horarios.</p><div id="booking-times" class="booking-times" role="group" aria-label="Horarios disponibles"></div></section>
+    </div>
+    <form id="booking-form" aria-describedby="booking-error" hidden>
+      <h2>4. Contanos un poco sobre tu proyecto</h2><p id="booking-selected" class="booking-selection"></p>
+      <div class="booking-fields">
+        <label>Nombre <span aria-hidden="true">*</span><input name="name" required maxlength="120" autocomplete="name"></label>
+        <label>Email <span aria-hidden="true">*</span><input name="email" type="email" required maxlength="254" autocomplete="email"></label>
+        <label>Empresa / negocio <span>(opcional)</span><input name="company" maxlength="160" autocomplete="organization"></label>
+        <label>Teléfono <span>(opcional)</span><input name="phone" type="tel" maxlength="40" autocomplete="tel" aria-describedby="booking-phone-help"><small id="booking-phone-help">Opcional. Acepta espacios, guiones y paréntesis.</small></label>
+      </div>
+      <label>Servicio de interés <span aria-hidden="true">*</span><select name="service" required><option value="">Elegí una opción</option></select></label>
+      <label>Mensaje <span>(opcional)</span><textarea name="message" maxlength="1500" rows="3"></textarea></label>
+      <div class="booking-trap" aria-hidden="true"><label>No completar<input name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+      <label class="booking-consent"><input name="consent" type="checkbox" required><span>Acepto que Reac Studio utilice estos datos para coordinar la reunión. <a href="/politica-de-privacidad" target="_blank" rel="noopener">Política de privacidad</a>.</span></label>
+      <section id="booking-review" class="booking-review" aria-labelledby="booking-review-heading"><h3 id="booking-review-heading">5. Tu llamada</h3><dl><div><dt>Profesional</dt><dd id="booking-review-person">—</dd></div><div><dt>Servicio</dt><dd id="booking-review-service">Elegí un servicio</dd></div><div><dt>Fecha y hora</dt><dd id="booking-review-date">—</dd></div><div><dt>Duración y lugar</dt><dd id="booking-review-duration">—</dd></div></dl><p>Revisá estos datos antes de confirmar. Hora de Córdoba, Argentina.</p></section>
+      <p id="booking-error" role="alert"></p><button class="page-cta" id="booking-submit" type="submit">Confirmar llamada →</button>
+    </form>
+    <section id="booking-success" tabindex="-1" hidden aria-labelledby="booking-success-heading"><p class="eyebrow">Tu próximo paso</p><h2 id="booking-success-heading">Llamada agendada</h2><p id="booking-confirm-professional"></p><p id="booking-confirm-date"></p><p id="booking-confirm-duration"></p><p id="booking-confirm-note"></p><a id="booking-meet" class="page-cta" target="_blank" rel="noopener noreferrer" hidden>Abrir Google Meet</a><button id="booking-refresh-meet" type="button" hidden>Consultar enlace Meet</button><a class="booking-back" href="/">Volver al inicio →</a></section>
+    <noscript>Activá JavaScript para consultar horarios y reservar, o <a href="/contacto">contactanos directamente</a>.</noscript>
+  </div>
+</section>

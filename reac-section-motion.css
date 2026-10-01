@@ -1,0 +1,35 @@
+body[data-page="home"] [data-section-motion] {
+  overflow-x: clip;
+}
+
+/* GSAP owns these properties during entry. CSS transitions otherwise chase
+   every animation frame and introduce a visible delay, especially on mobile. */
+body[data-page="home"] [data-section-motion] .reac-motion-pending {
+  transition: none !important;
+}
+
+body[data-page="home"] [data-section-motion] .reac-section-reveal {
+  will-change: auto;
+}
+
+[data-section-motion="process"] [data-ref="methodRef"] .ib-step:not(:last-child)::after {
+  transform: scaleY(var(--reac-process-line, 1));
+  transform-origin: 50% 0;
+}
+
+@media (hover: none), (pointer: coarse) {
+  body[data-page="home"] [data-section-motion] .ib-bento-card {
+    will-change: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-page="home"] [data-section-motion],
+  body[data-page="home"] [data-section-motion] * {
+    scroll-behavior: auto !important;
+  }
+
+  [data-section-motion="process"] [data-ref="methodRef"] .ib-step:not(:last-child)::after {
+    transform: none !important;
+  }
+}

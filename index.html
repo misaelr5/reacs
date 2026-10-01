@@ -48,6 +48,7 @@
 
 
 <!-- ===== Preloader (pantalla de carga) · CSS crítico en <head> para evitar FOUC ===== -->
+<link rel="stylesheet" href="/reac-section-motion.css">
 
 
 
@@ -74,6 +75,7 @@
           <a class="imp-navlink" href="#proceso">Cómo trabajamos</a>
           <a class="imp-navlink" href="/proyectos">Proyectos</a>
           <a class="imp-navlink" href="/recursos">Recursos</a>
+          <a class="imp-navlink" href="/agendar" data-cta="booking" data-placement="header">Agendar llamada</a>
         </div>
         <a class="imp-cta no-shiny" data-cta="diagnostic" data-placement="header" href="#contacto" style="justify-self:end; display:inline-flex; align-items:center; gap:8px; padding:11px 20px; border-radius:12px; background:linear-gradient(135deg,#FA3601,#F0430A); color:#FDFCFE; font-weight:600; font-size:14.5px; box-shadow:0 12px 26px -10px rgba(250,54,1,.65); white-space:nowrap; text-decoration:none;"><span class="nav-cta-full">Solicitar diagnóstico</span><span class="nav-cta-short">Contacto</span> <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
         <details class="mobile-nav">
@@ -85,6 +87,7 @@
             <a href="/proyectos">Proyectos</a>
             <a href="/recursos">Recursos</a>
             <a href="#contacto">Contacto</a>
+            <a href="/agendar" data-cta="booking" data-placement="mobile_nav">Agendar llamada</a>
           </div>
         </details>
       </div>
@@ -159,7 +162,7 @@
   </section>
 
   <!-- ===== ESTADÍSTICAS (velocímetro + odómetro) ===== -->
-  <section data-screen-label="Estadisticas" style="position:relative; overflow:hidden; background:#070712; color:#FDFCFE; padding:120px 6vw;" data-ref="statsRef">
+  <section data-screen-label="Estadisticas" data-section-motion="stats" style="position:relative; overflow:hidden; background:#070712; color:#FDFCFE; padding:120px 6vw;" data-ref="statsRef">
     <div style="position:absolute; top:-12%; left:-6%; width:520px; height:520px; border-radius:50%; background:radial-gradient(circle,rgba(46,55,255,.16),transparent 62%); filter:blur(26px); animation:softPulse 10s ease-in-out infinite;"></div>
     <div style="position:absolute; bottom:-14%; right:-6%; width:560px; height:560px; border-radius:50%; background:radial-gradient(circle,rgba(124,58,237,.14),transparent 62%); filter:blur(28px); animation:softPulse 12s ease-in-out infinite 1s;"></div>
     <div style="position:relative; z-index:2; max-width:1280px; margin:0 auto;">
@@ -227,7 +230,7 @@
   </section>
 
   <!-- ===== PLANES Y SERVICIOS (bento) ===== -->
-  <section id="servicios" data-screen-label="Servicios" style="background:#070712; color:#FDFCFE; padding:120px 6vw;">
+  <section id="servicios" data-screen-label="Servicios" data-section-motion="services" style="background:#070712; color:#FDFCFE; padding:120px 6vw;">
     <div style="max-width:1280px; margin:0 auto;">
       <div class="reveal" style="text-align:center; max-width:680px; margin:0 auto 60px;">
         <div style="font-size:13px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; background:linear-gradient(120deg,#2E37FF,#6E74FF); -webkit-background-clip:text; background-clip:text; color:transparent; margin-bottom:18px;">Qué ofrecemos</div>
@@ -325,7 +328,7 @@
   <nav class="service-directory" aria-label="Explorar servicios"><a href="/desarrollo-web">Desarrollo web</a><a href="/landing-pages">Landing pages</a><a href="/marketing-digital">Marketing digital</a><a href="/google-ads">Google Ads</a><a href="/meta-ads">Meta Ads</a><a href="/automatizacion-ia">Automatización con IA</a><a href="/sistemas-crm">Sistemas y CRM</a></nav></section>
 
   <!-- ===== BENTO (microinteracciones, dark) ===== -->
-  <section class="bento-showcase" data-screen-label="Bento" style="background:#070712; color:#FDFCFE; padding:130px 6vw;">
+  <section class="bento-showcase" data-screen-label="Bento" data-section-motion="bento-existing" style="background:#070712; color:#FDFCFE; padding:130px 6vw;">
     <div style="max-width:1280px; margin:0 auto;">
       <h2 class="bento-intro" style="font-size:clamp(30px,3.6vw,48px); line-height:1.08; font-weight:700; letter-spacing:-.03em; margin:0 0 16px; max-width:680px;">Un sistema armado a la medida de tu negocio.</h2>
       <p class="bento-intro" style="font-size:17px; color:#868CA6; max-width:540px; margin:0 0 52px;">Integramos campañas, web y automatizaciones para reducir tareas manuales, ordenar el seguimiento y medir cada etapa.</p>
@@ -390,7 +393,7 @@
   </section>
 
   <!-- ===== DASHBOARD SHOWCASE (gradient) ===== -->
-  <section id="proceso" data-screen-label="Dashboard" style="position:relative; padding:140px 6vw 160px; overflow:hidden; background:linear-gradient(135deg,#1F27EB 0%, #2A037F 60%, #1710A5 100%);" data-ref="dashRef">
+  <section id="proceso" data-screen-label="Dashboard" data-section-motion="process" style="position:relative; padding:140px 6vw 160px; overflow:hidden; background:linear-gradient(135deg,#1F27EB 0%, #2A037F 60%, #1710A5 100%);" data-ref="dashRef">
     <div style="position:absolute; top:-10%; left:-5%; width:480px; height:480px; border-radius:50%; background:radial-gradient(circle,rgba(46,55,255,.35),transparent 60%); filter:blur(30px); animation:softPulse 10s ease-in-out infinite;"></div>
     <div style="position:absolute; bottom:-10%; right:-5%; width:520px; height:520px; border-radius:50%; background:radial-gradient(circle,rgba(124,58,237,.35),transparent 60%); filter:blur(30px); animation:softPulse 12s ease-in-out infinite 1s;"></div>
     <div class="reveal" style="position:relative; z-index:2; text-align:center; max-width:720px; margin:0 auto;">
@@ -444,7 +447,7 @@
   </section>
 
   <!-- ===== PROYECTOS REALIZADOS (slider) ===== -->
-  <section id="proyectos" data-screen-label="Proyectos" style="position:relative; background:#070712; color:#FDFCFE; padding:120px 6vw; overflow:hidden;" data-ref="projRef">
+  <section id="proyectos" data-screen-label="Proyectos" data-section-motion="projects" style="position:relative; background:#070712; color:#FDFCFE; padding:120px 6vw; overflow:hidden;" data-ref="projRef">
     <div style="position:absolute; top:-6%; left:-4%; width:460px; height:460px; border-radius:50%; background:radial-gradient(circle, rgba(46,55,255,.16), transparent 62%); filter:blur(34px); animation:softPulse 12s ease-in-out infinite;"></div>
     <div style="position:absolute; bottom:-8%; right:-4%; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle, rgba(124,58,237,.16), transparent 62%); filter:blur(34px); animation:softPulse 14s ease-in-out infinite 1s;"></div>
 
@@ -656,7 +659,7 @@
   </section>
 
   <!-- ===== CTA DE CIERRE / CONTACTO ===== -->
-  <section id="contacto" data-screen-label="Contacto" style="position:relative; background:#070712; color:#FDFCFE; padding:40px 6vw 130px; overflow:hidden;">
+  <section id="contacto" data-screen-label="Contacto" data-section-motion="contact" style="position:relative; background:#070712; color:#FDFCFE; padding:40px 6vw 130px; overflow:hidden;">
     <div style="position:absolute; top:6%; right:-4%; width:480px; height:480px; border-radius:50%; background:radial-gradient(circle,rgba(46,55,255,.16),transparent 62%); filter:blur(40px); pointer-events:none;"></div>
     <div style="position:absolute; bottom:2%; left:-6%; width:420px; height:420px; border-radius:50%; background:radial-gradient(circle,rgba(124,58,237,.12),transparent 64%); filter:blur(44px); pointer-events:none;"></div>
     <div class="reveal rv-scale ct-panel" style="position:relative; z-index:2;">
@@ -665,6 +668,7 @@
         <div>
           <div class="ct-eyebrow">Hablemos</div>
           <h2 style="font-size:clamp(30px,3.2vw,46px); line-height:1.05; font-weight:800; letter-spacing:-.03em; margin:18px 0 14px; color:#FDFCFE;">Empecemos por entender qué querés mejorar.</h2>
+          <p class="booking-contact-option">¿Preferís hablar directamente? Agendá una llamada.<br><a href="/agendar" data-cta="booking" data-placement="contact">Agendar llamada →</a></p>
           <p style="font-size:16px; line-height:1.6; color:#868CA6; margin:0;">Contanos qué está pasando hoy. Revisamos el recorrido y te ayudamos a definir una prioridad concreta.</p>
         </div>
         <div class="ct-methods">
@@ -798,6 +802,10 @@
 
 
 
+
+
+
+<script defer="" src="/ScrollTrigger.min.js"></script><script defer="" src="/reac-section-motion.js"></script>
 
 
 </body></html>

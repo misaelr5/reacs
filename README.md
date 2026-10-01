@@ -18,6 +18,8 @@ Abrir http://127.0.0.1:4174. El servidor está limitado a esta computadora. Reco
 
 ## Arquitectura
 
+Agenda local de Google Meet: [modos, credenciales de prueba, arquitectura y validación](docs/google-meet-booking.md). Ruta local `/agendar`, mock por defecto y producción bloqueada en esta fase.
+
 - `Reac.dc.html`: fuente de la home; el build sincroniza `index.html`.
 - `content/services.mjs`: siete páginas de servicios, incluida `/landing-pages`.
 - `content/editorial.mjs`: publicaciones revisadas; borradores excluidos.

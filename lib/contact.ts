@@ -1,5 +1,6 @@
 import { createHmac } from 'node:crypto';
 import { isIP } from 'node:net';
+import { redisCommand } from './redis.ts';
 
 export type ContactEnvironment = Record<string, string | undefined>;
 type Fetch = typeof globalThis.fetch;
@@ -49,7 +50,7 @@ const MESSAGES: Record<string, string> = {
   delivery_failed: 'No pudimos confirmar el envío. Intentá nuevamente más tarde o usá los canales de contacto del sitio.',
 };
 
-function validEmail(value: string): boolean {
+export function validEmail(value: string): boolean {
   const [local = '', domain = ''] = value.split('@');
   return value.length <= 254 && local.length <= 64 && !local.startsWith('.') && !local.endsWith('.')
     && !local.includes('..') && domain.split('.').every(label => label.length <= 63) && EMAIL.test(value);
@@ -119,12 +120,7 @@ async function limitRate(config: Config, address: string, fetchImpl: Fetch): Pro
   const digest = createHmac('sha256', config.rateSecret).update(config.origin + '\0' + address).digest('hex');
   let result: unknown;
   try {
-    const data = await fetchJson(config.redis, {
-      method: 'POST', headers: { Authorization: 'Bearer ' + config.redisToken, 'Content-Type': 'application/json' },
-      body: JSON.stringify(['EVAL', RATE_SCRIPT, '1', 'reac:contact:v1:' + digest, String(WINDOW_SECONDS)]),
-    }, fetchImpl, 3000) as { result?: unknown; error?: unknown };
-    if (data?.error) throw new Error('redis_rejected');
-    result = data?.result;
+    result = await redisCommand({ UPSTASH_REDIS_REST_URL: config.redis, UPSTASH_REDIS_REST_TOKEN: config.redisToken }, ['EVAL', RATE_SCRIPT, '1', 'reac:contact:v1:' + digest, String(WINDOW_SECONDS)], fetchImpl);
   } catch { throw new ContactError(503, 'service_unavailable'); }
   if (!Array.isArray(result) || result.length !== 2 || !Number.isInteger(result[0]) || result[0] < 1 || !Number.isInteger(result[1]) || result[1] < 0 || result[1] > WINDOW_SECONDS) {
     throw new ContactError(503, 'service_unavailable');

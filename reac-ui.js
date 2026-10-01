@@ -68,7 +68,7 @@
         observer.unobserve(entry.target);
       }
     }, { threshold: 0.08 });
-    for (const element of all('.reveal, .tj-head, .tj-sub, .tj-card')) {
+    for (const element of all('.reveal, .tj-head, .tj-sub, .tj-card').filter(element => !element.closest('[data-section-motion]'))) {
       // Only enhance content below the viewport; loading failures leave HTML visible.
       if (element.getBoundingClientRect().top >= innerHeight && fine.matches) {
         element.classList.add('reveal-ready');
@@ -79,7 +79,7 @@
     const steps = new IntersectionObserver(entries => {
       for (const entry of entries) entry.target.classList.toggle('is-lit', entry.isIntersecting);
     }, { rootMargin: '0px 0px -20% 0px' });
-    all('.ib-step').forEach(element => steps.observe(element));
+    all('.ib-step').filter(element => !element.closest('[data-section-motion]')).forEach(element => steps.observe(element));
     reduced.addEventListener('change', () => {
       if (reduced.matches) all('.reveal-ready').forEach(element => element.classList.add('is-in'));
     });
@@ -113,12 +113,15 @@
     const intro = [...section.querySelectorAll('.bento-intro')];
     const cards = [...section.querySelectorAll('.ib-bento-card')];
     const rows = [...section.querySelectorAll('.sim-toggle')];
+    const entryNodes = [...intro, ...cards, ...rows];
+    entryNodes.forEach(node => node.classList.add('reac-motion-pending'));
+    const releaseEntry = () => entryNodes.forEach(node => node.classList.remove('reac-motion-pending'));
     // Build the sequence only after GSAP loads; the HTML stays visible without JS.
     gsap.set([...intro, ...cards], { opacity: 0 });
-    const sequence = gsap.timeline({ paused: true, defaults: { ease: 'power3.out' } })
-      .fromTo(intro, { y: 28, opacity: 0 }, { y: 0, opacity: 1, duration: .76, stagger: .11 }, 0)
-      .fromTo(cards, { y: 48, scale: .96, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .85, stagger: .12, clearProps: 'transform,opacity' }, .28)
-      .fromTo(rows, { x: -12, opacity: .4 }, { x: 0, opacity: 1, duration: .48, stagger: .065, clearProps: 'transform,opacity' }, .67);
+    const sequence = gsap.timeline({ paused: true, defaults: { ease: 'power2.out', lazy: false }, onComplete: releaseEntry })
+      .fromTo(intro, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: .6, stagger: .055, clearProps: 'transform,opacity' }, 0)
+      .fromTo(cards, { y: 32, scale: .97, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: .68, stagger: .06, clearProps: 'transform,opacity' }, .12)
+      .fromTo(rows, { x: -8, opacity: .4 }, { x: 0, opacity: 1, duration: .4, stagger: .035, clearProps: 'transform,opacity' }, .3);
     let observer;
     if ('IntersectionObserver' in window) {
       observer = new IntersectionObserver(entries => {
@@ -130,6 +133,7 @@
       if (!reduced.matches) return;
       observer?.disconnect();
       sequence.kill();
+      releaseEntry();
       gsap.killTweensOf([...intro, ...cards, ...rows]);
       gsap.set([...intro, ...cards, ...rows], { clearProps: 'transform,opacity,visibility' });
     }, { once: true });

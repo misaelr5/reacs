@@ -5,6 +5,9 @@
   "type": "module",
   "engines": { "node": "24.x" },
   "scripts": {
+    "booking:doctor": "node --env-file-if-exists=.env.local scripts/booking-doctor.mjs",
+    "booking:test:cleanup": "node --env-file-if-exists=.env.local scripts/booking-test-cleanup.mjs",
+    "admin:setup": "node scripts/admin-setup.mjs",
     "build": "node scripts/build.mjs",
     "dev": "node --env-file-if-exists=.env.local scripts/serve.mjs",
     "lint": "node scripts/check.mjs",

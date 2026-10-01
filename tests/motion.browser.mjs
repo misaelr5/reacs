@@ -1,0 +1,55 @@
+import assert from 'node:assert/strict';
+import { chromium } from 'playwright-core';
+const base = 'http://127.0.0.1:4174';
+const password = process.env.BOOKING_ADMIN_TEST_PASSWORD;
+if (!password) throw new Error('Set BOOKING_ADMIN_TEST_PASSWORD for this local test.');
+const browser = await chromium.launch({ channel: 'chrome', headless: true });
+const errors = [];
+try {
+  const context = await browser.newContext({ reducedMotion: 'no-preference' });
+  await context.addInitScript(() => {
+    localStorage.setItem('reac_analytics_consent', 'denied');
+    window.transitionCalls = 0;
+    const native = document.startViewTransition.bind(document);
+    document.startViewTransition = (...args) => { window.transitionCalls++; return native(...args); };
+  });
+  const page = await context.newPage();
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto(base + '/admin/login');
+  await page.locator('#admin-password').fill(password);
+  await page.locator('#admin-login-form button').click();
+  await page.waitForURL('**/admin/agenda');
+  await page.locator('#admin-content').waitFor({ state: 'visible' });
+  await page.evaluate(() => { for (const name of ['weekly','settings','exceptions','agenda','weekly']) document.querySelector(`[data-tab=${name}]`).click(); });
+  await page.locator('#panel-weekly').waitFor({ state: 'visible' });
+  assert.equal(await page.locator('[data-tab][aria-pressed=true]').getAttribute('data-tab'), 'weekly');
+  assert.equal(await page.evaluate(() => window.transitionCalls), 5);
+  await page.locator('[data-tab=agenda]').click();
+  await page.locator('#admin-days button').first().click();
+  await page.locator('#admin-dialog').waitFor({ state: 'visible' });
+  await page.keyboard.press('Escape');
+  await page.locator('#admin-dialog').waitFor({ state: 'hidden' });
+  await page.goto(base + '/agendar');
+  await page.locator('[name=professionalId][value=misael]').check(); await page.locator('#booking-picker').waitFor({ state: 'visible' });
+  assert.equal(await page.evaluate(() => Boolean(window.gsap && window.ReacMotion)), true);
+  await page.locator('#booking-days button:enabled').first().click();
+  await page.locator('#booking-times button').first().click();
+  await page.locator('#booking-form').waitFor({ state: 'visible' });
+  await page.evaluate(() => window.ReacMotion.reveal(document.getElementById('booking-form')));
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.waitForFunction(() => !document.getElementById('booking-form').style.transform && !document.getElementById('booking-form').style.opacity);
+  const before = await page.evaluate(() => window.transitionCalls);
+  await page.evaluate(() => window.ReacMotion.change(() => { document.body.dataset.motionTest = 'reduced'; }));
+  assert.equal(await page.evaluate(() => window.transitionCalls), before);
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.evaluate(() => {
+    document.startViewTransition = undefined;
+    window.ReacMotion.change(() => { document.body.dataset.motionTest = 'fallback'; });
+    window.gsap = undefined;
+    window.ReacMotion.reveal(document.getElementById('booking-form'));
+  });
+  assert.equal(await page.locator('body').getAttribute('data-motion-test'), 'fallback');
+  assert.equal(await page.locator('#booking-form').isVisible(), true);
+  assert.deepEqual(errors, []);
+  console.log('Motion: rapid tabs, native dialog/Escape, GSAP, live reduced motion, missing API/GSAP fallback: passed.');
+} finally { await browser.close(); }

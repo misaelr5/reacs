@@ -4,6 +4,8 @@ import { createServer } from 'node:http';
 import { readFileSync, existsSync, statSync } from 'node:fs';
 import { resolve, extname } from 'node:path';
 import { handleContact } from '../lib/contact.ts';
+import { handleBooking } from '../lib/booking.ts';
+import { handleAdmin } from '../lib/agenda-admin.ts';
 const config = JSON.parse(readFileSync(new URL('../vercel.json',import.meta.url),'utf8'));
 const root = resolve('dist');
 const port = Number(process.env.PORT || 4174);
@@ -17,12 +19,12 @@ createServer(async (req,res) => {
     if(config.trailingSlash===false && pathname!=='/' && pathname.endsWith('/')) {
       res.writeHead(308,{Location:pathname.replace(/\/+$/,'')+url.search});res.end();return;
     }
-    if(pathname.startsWith('/api/')) {
-      if(pathname!=='/api/contact') {res.writeHead(404);res.end();return;}
+    if(pathname.startsWith('/api/') || pathname.startsWith('/admin/')) {
+      if(!['/api/contact','/api/booking','/api/admin','/admin/login','/admin/agenda'].includes(pathname)) {res.writeHead(404);res.end();return;}
       const headers=new Headers();for(const [key,value] of Object.entries(req.headers))if(value)headers.set(key,Array.isArray(value)?value.join(','):value);
       // Do not rewrite Origin or invent proxy/IP headers; real origin controls apply.
       const request=new Request(url,{method:req.method,headers,...(!['GET','HEAD'].includes(req.method)?{body:req,duplex:'half'}:{})});
-      const result=await handleContact(request,process.env);
+      const result=await (pathname==='/api/booking'?handleBooking:pathname==='/api/contact'?handleContact:handleAdmin)(request,process.env);
       result.headers.forEach((v,k)=>res.setHeader(k,v));res.statusCode=result.status;res.end(Buffer.from(await result.arrayBuffer()));return;
     }
     const redirect=config.redirects.find(item=>item.source===pathname && (!item.has?.length || item.has.every(condition=>condition.type!=='host' || condition.value===url.hostname)));
