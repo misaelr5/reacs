@@ -83,17 +83,19 @@ try{
   await page.locator('[data-action="setProbCon"]').click();assert.equal(await page.locator('[data-prob-panel="sin"]').isVisible(),false);assert.equal(await page.locator('[data-prob-panel="con"]').isVisible(),true);
   const toggle=page.locator('.sim-toggle').first();const before=await toggle.getAttribute('aria-pressed');await toggle.click();assert.notEqual(await toggle.getAttribute('aria-pressed'),before);
   const budget=page.locator('[data-action="changeBudget"]');await budget.fill('100');await budget.dispatchEvent('input');assert.match(await page.locator('[data-budget-output]').textContent(),/3\.000/);
-  await page.locator('.proj-controls [data-action="projNext"]').click();assert.match(await page.locator('.proj-counter').textContent(),/02 \/ 03/);assert.equal(await page.locator('.proj-slide[inert]').count(),2);
-  await page.locator('.proj-dot').nth(2).click();assert.match(await page.locator('.proj-counter').textContent(),/03 \/ 03/);
+  assert.equal(await page.locator('.case-card').count(),5);
+  await page.locator('.case-copy .case-link').first().click();assert.match(page.url(),/proyectos\/remediacion-malware-wordpress$/);
+  await page.getByRole('link',{name:'Consultar por un trabajo parecido'}).click();assert.ok(page.url().endsWith('/contacto'));
+  await page.goto(base+'/');
   const summary=page.locator('.imp-faq summary').first();await summary.click();assert.equal(await page.locator('.imp-faq').first().getAttribute('open'),'');
   await page.goto(base+'/contacto');await page.locator('#ct-interes').selectOption('web_nueva');await page.locator('#ct-nombre').fill('Prueba local');await page.locator('#ct-contacto').fill('audit@example.test');await page.locator('#ct-mensaje').fill('Verificación local sin envío a proveedores.');await page.locator('[name=privacy_consent]').check();
   await page.locator('[data-submit-button]').click();await page.waitForFunction(()=>document.getElementById('ct-form')?.dataset.state==='error');assert.ok(page.url().endsWith('/contacto'));assert.equal(await page.locator('[data-submit-button]').isEnabled(),true);
-  report.interactions.push('Desktop WhatsApp quick action and mobile sticky CTA','Mobile navigation/Escape/resize','Comparison panels','Simulator toggle/range','Carousel controls and inert slides','Native FAQ disclosure','Safe unavailable contact response');
+  report.interactions.push('Desktop WhatsApp quick action and mobile sticky CTA','Mobile navigation/Escape/resize','Comparison panels','Simulator toggle/range','Case detail and contact navigation','Native FAQ disclosure','Safe unavailable contact response');
   await page.goto(base+'/desarrollo-web');assert.equal(await page.locator('.site-nav').isVisible(),true);await page.screenshot({path:'artifacts/service-mobile.png',fullPage:true});
   await page.goto(base+'/');await page.screenshot({path:'artifacts/home-mobile.png'});
   const noJS=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});const staticPage=await noJS.newPage();await staticPage.goto(base+'/');
-  assert.match(await staticPage.locator('h1').textContent(),/Tu negocio, conectado de punta a punta/);assert.equal(await staticPage.locator('.proj-slide').count(),3);assert.equal(await staticPage.locator('.proj-slide').last().isVisible(),true);await staticPage.locator('.imp-faq summary').first().click();assert.equal(await staticPage.locator('.imp-faq').first().getAttribute('open'),'');
-  report.interactions.push('JavaScript disabled: real heading, three featured commercial projects and native FAQ');await noJS.close();
+  assert.match(await staticPage.locator('h1').textContent(),/Tu negocio, conectado de punta a punta/);assert.equal(await staticPage.locator('.case-card').count(),5);assert.equal(await staticPage.locator('.case-card').last().isVisible(),true);await staticPage.locator('.imp-faq summary').first().click();assert.equal(await staticPage.locator('.imp-faq').first().getAttribute('open'),'');
+  report.interactions.push('JavaScript disabled: real heading, five featured cases and native FAQ');await noJS.close();
   for(const path of ['/index.html','/Reac.dc.html','/google-ads.html','/politica-de-privacidad.html']){const response=await fetch(base+path,{redirect:'manual'});assert.equal(response.status,308);}
   for(const path of ['/README.md','/package.json','/site.config.mjs','/support.js','/.env','/api/source.ts']){const response=await fetch(base+path);assert.equal(response.status,404,path);}
   const headers=await fetch(base+'/');assert.ok(headers.headers.get('content-security-policy').includes("script-src 'self'"));assert.ok(!headers.headers.get('content-security-policy').includes('unsafe-eval'));

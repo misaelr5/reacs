@@ -29,7 +29,7 @@ createServer(async (req,res) => {
     if(redirect){res.writeHead(308,{Location:redirect.destination+url.search});res.end();return;}
     if(req.method!=='GET'&&req.method!=='HEAD'){res.writeHead(405,{Allow:'GET, HEAD'});res.end();return;}
     const rewrite=config.rewrites.find(item=>item.source===pathname);
-    const editorial=/^\/recursos\/([a-z0-9-]+)$/.test(pathname)?pathname+'.html':null;
+    const editorial=/^\/(?:recursos|proyectos)\/([a-z0-9-]+)$/.test(pathname)?pathname+'.html':null;
     let file=resolve(root,'.'+(rewrite?.destination || editorial || (pathname==='/'?'/index.html':pathname)));
     const inside=file.startsWith(root+ (process.platform==='win32'?'\\':'/'));
     if(!inside||!existsSync(file)||!statSync(file).isFile()){res.statusCode=404;file=resolve(root,'404.html');}

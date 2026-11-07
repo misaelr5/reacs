@@ -21,6 +21,7 @@ Abrir http://127.0.0.1:4174. El servidor está limitado a esta computadora. Reco
 - `Reac.dc.html`: fuente de la home; el build sincroniza `index.html`.
 - `content/services.mjs`: siete páginas de servicios, incluida `/landing-pages`.
 - `content/editorial.mjs`: publicaciones revisadas; borradores excluidos.
+- `content/cases.mjs`: cinco casos destacados, compartidos entre home, portfolio y páginas `/proyectos/:slug` mediante `scripts/case-views.mjs`. Home y portfolio tienen un visor manual, con animación nativa y soporte de movimiento reducido; sin JavaScript se muestran todos los casos. El resto del catálogo se conserva en `content/projects.html`.
 - `site.config.mjs`: dominio, identidad, contactos, medición y clave pública IndexNow.
 - `reac-home.css`, `reac-pages.css`, `reac-site.css`: presentación.
 - `reac-ui.js`: interacciones; `reac-site.js`: consentimiento, medición y contacto.
@@ -41,6 +42,10 @@ Contacto requiere `RESEND_API_KEY`, `CONTACT_FROM` (remitente verificado), `CONT
 Los tokens Google/Bing y la clave de propiedad IndexNow son públicos. Los datos legales y perfiles pendientes deben completarse con información real.
 
 ## Validación
+
+Las capturas de Travel Days y Comunidad Cristiana Villa Sarmiento se obtuvieron de sus sitios públicos el 4 de noviembre de 2026 (hora de Argentina/Uruguay), ambos con HTTP 200. Los originales y el registro de captura quedan en `artifacts/`; sólo se publican las versiones WebP de 1440 y 640 px. El caso de WordPress usa una representación editorial, sin identidad del cliente ni archivos del incidente. Los alcances de los casos provienen del responsable del proyecto; no se atribuyen métricas de negocio.
+
+La ilustración de WordPress fue generada con la herramienta integrada imagegen y se publica como `uploads/caso-wordpress-seguridad.webp` y `uploads/caso-wordpress-seguridad-640.webp`. Su prompt y la ubicación del original se registran en `artifacts/wordpress-image-generation.md`. El detalle del caso identifica que es una ilustración conceptual generada con IA.
 
 ```powershell
 npm run build

@@ -14,7 +14,88 @@
     setupBento();
     setupComparison();
     setupSimulator();
-    setupProjects();
+    setupCaseDecks();
+  }
+
+  function setupCaseDecks() {
+    for (const deck of all('[data-case-deck]')) {
+      const cards = [...deck.querySelectorAll('.case-card')];
+      if (cards.length < 2) continue;
+      const controls = deck.querySelector('.case-deck-controls');
+      const picker = deck.querySelector('.case-deck-picker');
+      const choices = [...picker.querySelectorAll('[data-case-go]')];
+      let current = 0;
+      let animations = [];
+      let revision = 0;
+      function settle() {
+        revision++;
+        for (const animation of animations) animation.cancel();
+        animations = [];
+        cards.forEach(card => card.classList.remove('is-leaving'));
+      }
+      function select(index, direction = 1, animate = true) {
+        const next = (index + cards.length) % cards.length;
+        const previous = cards[current];
+        settle();
+        const changed = next !== current;
+        current = next;
+        cards.forEach((card, i) => {
+          const active = i === current;
+          card.classList.toggle('is-active', active);
+          card.inert = !active;
+          card.setAttribute('aria-hidden', String(!active));
+        });
+        choices.forEach((button, i) => button.setAttribute('aria-pressed', String(i === current)));
+        deck.querySelector('[data-case-count]').textContent = `${current + 1} / ${cards.length}`;
+        deck.querySelector('[data-case-name]').textContent = cards[current].querySelector('h2,h3').textContent;
+        // A hash or gesture can hide a focused link. Keep focus in the controls.
+        if (previous.contains(document.activeElement) && changed) deck.querySelector('[data-case-next]').focus({ preventScroll: true });
+        if (!changed || !animate || reduced.matches || !previous.animate) return;
+        const incoming = cards[current];
+        previous.classList.add('is-leaving');
+        const timing = { duration: 540, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'both' };
+        animations = [
+          previous.animate([{ transform: 'translateX(0) scale(1)', opacity: 1 }, { transform: `translateX(${-direction * 32}%) scale(.96)`, opacity: 0 }], timing),
+          incoming.animate([{ transform: `translateX(${direction * 100}%) scale(.98)`, opacity: .55 }, { transform: 'translateX(0) scale(1)', opacity: 1 }], timing)
+        ];
+        const token = revision;
+        Promise.allSettled(animations.map(animation => animation.finished)).then(() => { if (token === revision) settle(); });
+      }
+      deck.querySelector('[data-case-prev]').addEventListener('click', () => select(current - 1, -1));
+      deck.querySelector('[data-case-next]').addEventListener('click', () => select(current + 1));
+      choices.forEach((button, index) => button.addEventListener('click', () => select(index, index >= current ? 1 : -1)));
+      deck.addEventListener('keydown', event => {
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        if (event.key === 'Home') select(0, -1);
+        else if (event.key === 'End') select(cards.length - 1);
+        else select(current + (event.key === 'ArrowRight' ? 1 : -1), event.key === 'ArrowRight' ? 1 : -1);
+      });
+      let touchStart;
+      deck.addEventListener('touchstart', event => {
+        const touch = event.touches.length === 1 ? event.touches[0] : null;
+        touchStart = touch ? { x: touch.clientX, y: touch.clientY } : null;
+      }, { passive: true });
+      deck.addEventListener('touchend', event => {
+        if (!touchStart || !event.changedTouches[0]) return;
+        const dx = event.changedTouches[0].clientX - touchStart.x;
+        const dy = event.changedTouches[0].clientY - touchStart.y;
+        touchStart = null;
+        if (Math.abs(dx) > 65 && Math.abs(dx) > Math.abs(dy) * 1.5) select(current + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+      }, { passive: true });
+      deck.addEventListener('touchcancel', () => { touchStart = null; }, { passive: true });
+      reduced.addEventListener('change', () => { if (reduced.matches) settle(); });
+      function selectHash() {
+        const index = cards.findIndex(card => '#' + card.id === location.hash);
+        if (index !== -1) select(index, 1, false);
+      }
+      deck.dataset.enhanced = 'true';
+      controls.hidden = false;
+      picker.hidden = false;
+      select(0, 1, false);
+      selectHash();
+      addEventListener('hashchange', selectHash);
+    }
   }
 
   function setupHeroTitle() {
@@ -233,67 +314,6 @@
     });
   }
 
-  function setupProjects() {
-    const region = query('#proyectos [role="region"]');
-    const track = region?.querySelector('.proj-track');
-    if (!track) return;
-    const slides = [...track.querySelectorAll('.proj-slide')];
-    const dots = [...region.querySelectorAll('.proj-dot')];
-    let current = 0;
-    let visible = false;
-    let manualPause = false;
-    let timer;
-    const pause = document.createElement('button');
-    pause.type = 'button';
-    pause.className = 'project-pause proj-directory-cta';
-    pause.textContent = 'Pausar carrusel';
-    pause.setAttribute('aria-pressed', 'false');
-    region.appendChild(pause);
-    function update(index, announce = false) {
-      current = (index + slides.length) % slides.length;
-      track.style.transform = 'translateX(' + -current * 100 + '%)';
-      slides.forEach((slide, i) => {
-        slide.setAttribute('aria-hidden', String(i !== current));
-        slide.inert = i !== current;
-      });
-      dots.forEach((dot, i) => {
-        dot.setAttribute('aria-current', String(i === current));
-        dot.style.width = i === current ? '30px' : '9px';
-        dot.style.background = i === current ? 'linear-gradient(135deg,#1F27EB,#7C3AED)' : 'rgba(255,255,255,.18)';
-      });
-      for (const counter of region.querySelectorAll('.proj-counter,.proj-case-index')) counter.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
-      if (announce && visible) document.dispatchEvent(new CustomEvent('reac:project-view', { detail: { project_index: current + 1 } }));
-    }
-    function schedule() {
-      clearInterval(timer);
-      pause.hidden = !fine.matches || reduced.matches;
-      if (!fine.matches || reduced.matches || manualPause) return;
-      timer = setInterval(() => {
-        if (visible && !document.hidden && !region.matches(':hover') && !region.contains(document.activeElement)) update(current + 1, true);
-      }, 5000);
-    }
-    for (const button of region.querySelectorAll('[data-action="projNext"],[data-action="projPrev"]')) button.addEventListener('click', () => {
-      update(current + (button.dataset.action === 'projNext' ? 1 : -1), true); schedule();
-    });
-    dots.forEach((dot, i) => dot.addEventListener('click', () => { update(i, true); schedule(); }));
-    region.addEventListener('keydown', event => {
-      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-        event.preventDefault(); update(current + (event.key === 'ArrowRight' ? 1 : -1), true); schedule();
-      }
-    });
-    pause.addEventListener('click', () => {
-      manualPause = !manualPause;
-      pause.setAttribute('aria-pressed', String(manualPause));
-      pause.textContent = manualPause ? 'Reanudar carrusel' : 'Pausar carrusel';
-      schedule();
-    });
-    if ('IntersectionObserver' in window) new IntersectionObserver(entries => {
-      visible = entries[0].isIntersecting;
-    }, { threshold: 0.15 }).observe(region);
-    reduced.addEventListener('change', schedule);
-    fine.addEventListener('change', schedule);
-    update(0); schedule();
-  }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();

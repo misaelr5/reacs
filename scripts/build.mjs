@@ -5,6 +5,8 @@ import { createHash } from 'node:crypto';
 import { site } from '../site.config.mjs';
 import { services } from '../content/services.mjs';
 import { articles } from '../content/editorial.mjs';
+import { cases } from '../content/cases.mjs';
+import { caseDeck, caseDetail } from './case-views.mjs';
 import { parse, parseFragment, serialize, serializeOuter, attr, setAttr, find, all, hasClass, textContent, remove, append, escape as e } from './html.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -126,26 +128,16 @@ function prepare(html, meta) {
 
 const home = parse(readFileSync(resolve(root,'Reac.dc.html'),'utf8'));
 const projectCatalogFile = resolve(root,'content/projects.html');
-const projectName = slide => textContent(find(slide,n=>n.tagName==='h3')).trim();
+const projectName = slide => textContent(find(slide,n=>n.tagName==='h3'||n.tagName==='h2')).trim();
 function loadProjectSlides() {
   const fragment=parseFragment(readFileSync(projectCatalogFile,'utf8'));
   return all(fragment,n=>hasClass(n,'proj-slide'));
 }
-const featuredNames=['Más Servicios','Calculadora de Divisas','Panel Administrativo Modular'];
-const featuredProjects=loadProjectSlides().filter(slide=>featuredNames.includes(projectName(slide))).sort((a,b)=>featuredNames.indexOf(projectName(a))-featuredNames.indexOf(projectName(b)));
-if(featuredProjects.length!==featuredNames.length)throw new Error('Featured project catalog is incomplete');
-const homeTrack=find(home,n=>hasClass(n,'proj-track'));
-const featuredFragment=parseFragment(featuredProjects.map(serializeOuter).join(''));
-homeTrack.childNodes=featuredFragment.childNodes;for(const child of homeTrack.childNodes)child.parentNode=homeTrack;
-const homeSlides=all(homeTrack,n=>hasClass(n,'proj-slide'));
-for(const [index,slide] of homeSlides.entries()){
-  const counter=find(slide,n=>hasClass(n,'proj-case-index'));
-  counter.childNodes=parseFragment(String(index+1).padStart(2,'0')+' / '+homeSlides.length).childNodes;for(const child of counter.childNodes)child.parentNode=counter;
-}
-const dots=find(home,n=>hasClass(n,'proj-dots'));
-dots.childNodes=parseFragment(homeSlides.map((slide,index)=>`<button type="button" class="proj-dot" aria-label="Ver proyecto ${String(index+1).padStart(2,'0')}: ${e(projectName(slide))}" aria-current="${index===0?'true':'false'}" style="width:${index===0?'30':'9'}px; background:${index===0?'linear-gradient(135deg,#1F27EB,#7C3AED)':'rgba(255,255,255,.18)'};" data-action="d.go" data-project-index="${index}"></button>`).join('')).childNodes;for(const child of dots.childNodes)child.parentNode=dots;
-const homeProjectCounter=find(home,n=>hasClass(n,'proj-counter'));
-homeProjectCounter.childNodes=parseFragment('01 / '+homeSlides.length).childNodes;for(const child of homeProjectCounter.childNodes)child.parentNode=homeProjectCounter;
+const projectSection=find(home,n=>attr(n,'id')==='proyectos');
+setAttr(projectSection,'class','case-section');
+setAttr(projectSection,'style',null);
+projectSection.childNodes=[];
+append(projectSection,`<div class="case-shell"><header class="case-section-heading"><div><p class="case-category">Casos reales</p><h2>El trabajo detrás<br>de cada proyecto.</h2></div><p>De una web institucional a la recuperación de un sitio comprometido. Conocé qué necesitaban y qué hicimos.</p></header>${caseDeck(cases)}<div class="case-directory"><a class="case-link" data-cta="projects" data-placement="home_projects" href="/proyectos">Explorar todo el portfolio <span aria-hidden="true">↗</span></a></div></div>`);
 const nav = serializeOuter(find(home,n=>hasClass(n,'site-nav'))).replace('site-nav nav-hidden','site-nav').replaceAll('href="#hero-sec"','href="/"').replaceAll('href="#contacto"','href="/contacto"').replaceAll('href="#proceso"','href="/#proceso"');
 const socialNode = find(home, n => hasClass(n, 'social-links'));
 const socialLinks = serializeOuter(socialNode).replace('class="social-links"', 'class="social-links page-footer-social"');
@@ -154,7 +146,7 @@ const cta = (service = '') => `<div class="page-actions"><a class="page-cta" ${s
 const faq = pairs => `<section class="page-section"><h2>Preguntas frecuentes</h2>${pairs.map(([q,a])=>`<details class="imp-faq"><summary>${e(q)}</summary><p>${e(a)}</p></details>`).join('')}</section>`;
 const cards = selected => `<div class="page-grid">${selected.map(s=>`<article class="page-card"><h2><a href="/${s.slug}">${e(s.name)}</a></h2><p>${e(s.intro)}</p><a class="text-link" href="/${s.slug}">Explorar ${e(s.name.toLowerCase())} <span aria-hidden="true">→</span></a></article>`).join('')}</div>`;
 function page(meta, content) {
-  return prepare(`<!doctype html><html lang="es-AR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/reac-site.css"><link rel="stylesheet" href="/reac-home.css"><link rel="stylesheet" href="/reac-pages.css"><script defer src="/site-config.js"></script><script defer src="/reac-site.js"></script></head><body class="content-page" data-page="${e(meta.path.slice(1))}"><a class="skip-link" href="#main-content">Saltar al contenido</a>${nav}<main id="main-content" class="page-shell"><nav class="breadcrumbs" aria-label="Ruta de navegación"><a href="/">Inicio</a><span aria-hidden="true">/</span>${meta.parent ? `<a href="${meta.parent.path}">${meta.parent.name}</a><span aria-hidden="true">/</span>` : ''}<span aria-current="page">${e(meta.label)}</span></nav>${content}</main>${footer}</body></html>`,meta);
+  return prepare(`<!doctype html><html lang="es-AR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/reac-site.css"><link rel="stylesheet" href="/reac-home.css"><link rel="stylesheet" href="/reac-pages.css"><script defer src="/site-config.js"></script><script defer src="/reac-site.js"></script><script defer src="/reac-ui.js"></script></head><body class="content-page" data-page="${e(meta.path.slice(1))}"><a class="skip-link" href="#main-content">Saltar al contenido</a>${nav}<main id="main-content" class="page-shell"><nav class="breadcrumbs" aria-label="Ruta de navegación"><a href="/">Inicio</a><span aria-hidden="true">/</span>${meta.parent ? `<a href="${meta.parent.path}">${meta.parent.name}</a><span aria-hidden="true">/</span>` : ''}<span aria-current="page">${e(meta.label)}</span></nav>${content}</main>${footer}</body></html>`,meta);
 }
 const mainMeta = {
   path:'/', title:site.title, description:site.description,
@@ -175,7 +167,7 @@ const team = find(home,n=>hasClass(n,'team-grid'));
 all(team,n=>hasClass(n,'team-card')).forEach((n,i)=>setAttr(n,'id',i?'tomas-ortiz':'misael-ledesma'));
 page({path:'/nosotros',title:'Sobre Reac Studio | Desarrollo, marketing y tecnología',description:'Conocé a Reac Studio: Misael Ledesma en Desarrollo Web & Tecnología y Tomás Ortiz en Marketing & Growth. Un equipo remoto para Argentina y LATAM.',label:'Nosotros',people:true,pageType:'AboutPage'},`<header class="page-hero"><p class="eyebrow">Sobre Reac Studio</p><h1>Reac Studio: desarrollo, marketing y tecnología</h1><p class="page-intro">Reac Studio es una agencia de desarrollo web, marketing digital y automatización para empresas, negocios y profesionales. Trabajamos desde Córdoba, Argentina, de forma remota con Argentina y Latinoamérica.</p><p>También nos encontrás como ReacStudio. Nuestro sitio oficial es <a href="/">reacstudio.com</a>.</p></header><section class="page-section"><h2>Quiénes integran Reac Studio</h2>${serializeOuter(team)}</section><section class="page-section prose"><h2>Cómo nos organizamos</h2><p>Conectamos la estrategia y la comunicación con el desarrollo de la web, los sistemas y las integraciones. Primero entendemos el negocio y acordamos un alcance. Después construimos, medimos y revisamos lo que necesita mejorar.</p><p>Podés conocer los <a href="/servicios">servicios</a> y revisar <a href="/proyectos">proyectos comerciales, personales y académicos</a>. Cada ficha identifica qué información está documentada.</p></section>${cta()}`);
 
-const projects = loadProjectSlides();
+const projects = loadProjectSlides().filter(slide=>!cases.some(project=>project.name===projectName(slide)));
 const projectCards = projects.map(slide=> {
   const card=find(slide,n=>hasClass(n,'proj-case'));
   const name=textContent(find(card,n=>n.tagName==='h3')).trim();
@@ -187,7 +179,9 @@ const projectCards = projects.map(slide=> {
   const relatedService = services.find(service => service.slug === relatedSlug);
   return `<article class="project-entry">${serializeOuter(card)}<p class="project-service">Servicio relacionado: <a href="/${relatedSlug}">${e(relatedService.name)}</a></p></article>`;
 }).join('');
-page({path:'/proyectos',title:'Proyectos web y sistemas | Reac Studio',description:'Conocé proyectos comerciales, personales y académicos de Reac Studio. Desafío, solución y alcance documentado, con capturas de trabajos existentes.',label:'Proyectos'},`<header class="page-hero"><p class="eyebrow">Trabajo documentado</p><h1>Proyectos de desarrollo web, sistemas y tecnología</h1><p class="page-intro">Estas fichas reúnen el problema, la solución y el alcance disponible de cada proyecto. Identificamos los trabajos comerciales, personales y académicos sin atribuir tecnologías o resultados que no estén documentados.</p><nav class="project-index" aria-label="Índice de proyectos">${projects.map(slide=>{const name=textContent(find(slide,n=>n.tagName==='h2'||n.tagName==='h3')).trim();return `<a href="#${strip(name)}">${e(name)}</a>`;}).join('')}</nav></header><div class="project-list">${projectCards}</div>${cta()}`);
+page({path:'/proyectos',title:'Portfolio: sitios web y seguridad | Reac Studio',description:'Casos de diseño y desarrollo web, remediación de malware en WordPress y sistemas. Conocé el problema y el trabajo realizado en cada proyecto.',label:'Proyectos'},`<header class="page-hero"><p class="case-category">Portfolio de Reac Studio</p><h1>Proyectos con una historia que contar.</h1><p class="page-intro">Qué necesitaban, cómo lo abordamos y qué entregamos. Una selección de sitios, sistemas e intervenciones técnicas.</p></header>${caseDeck(cases,'h2')}<section class="page-section"><h2>Más proyectos</h2><p>Otros trabajos comerciales, personales y académicos.</p><nav class="project-index" aria-label="Otros proyectos">${projects.map(slide=>{const name=projectName(slide);return `<a href="#${strip(name)}">${e(name)}</a>`;}).join('')}</nav><div class="project-list">${projectCards}</div></section>${cta()}`);
+for(const project of cases)page({path:'/proyectos/'+project.slug,title:project.name+' | Caso de Reac Studio',description:project.summary,label:project.name,parent:{name:'Proyectos',path:'/proyectos'}},caseDetail(project));
+
 
 const contact = find(home,n=>hasClass(n,'ct-panel'));
 const contactHeading=find(contact,n=>n.tagName==='h2');

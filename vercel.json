@@ -8,13 +8,23 @@
   "redirects": [
     {
       "source": "/",
-      "has": [{ "type": "host", "value": "www.reacstudio.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.reacstudio.com"
+        }
+      ],
       "destination": "https://reacstudio.com/",
       "permanent": true
     },
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.reacstudio.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.reacstudio.com"
+        }
+      ],
       "destination": "https://reacstudio.com/:path*",
       "permanent": true
     },
@@ -142,6 +152,10 @@
     }
   ],
   "rewrites": [
+    {
+      "source": "/proyectos/:slug",
+      "destination": "/proyectos/:slug.html"
+    },
     {
       "source": "/landing-pages",
       "destination": "/landing-pages.html"
