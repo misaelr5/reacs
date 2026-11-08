@@ -1,0 +1,117 @@
+/* Shared visual language for generated content pages. Content stays in the build sources. */
+.content-page {
+  background: var(--p-black);
+  color: var(--p-ink);
+  font-family: var(--p-font);
+}
+
+.content-page .p-nav .p-nav__link,
+.content-page .p-nav .mobile-nav-panel a { color: var(--p-silver-hi); }
+.content-page .p-nav .p-nav__link:hover,
+.content-page .p-nav .mobile-nav-panel a:hover { color: var(--p-ink); }
+.content-page .p-nav .p-nav__cta { color: var(--p-black) !important; }
+.content-page .p-nav .site-brand { display: inline-flex; }
+
+.content-page .page-shell {
+  width: min(var(--p-max), calc(100% - 2 * var(--p-gutter)));
+  padding-block: clamp(132px, 13vw, 184px) var(--p-section);
+}
+.content-page .breadcrumbs {
+  gap: .7rem;
+  margin-bottom: clamp(44px, 6vw, 78px);
+  color: var(--p-silver);
+  font-size: var(--p-fs-small);
+}
+.content-page .breadcrumbs a { color: var(--p-silver-hi) !important; text-underline-offset: 4px; }
+.content-page .breadcrumbs a:hover { color: var(--p-ink) !important; }
+
+.content-page .page-hero { max-width: 1050px; margin-bottom: clamp(64px, 9vw, 112px); }
+.content-page .page-hero .eyebrow {
+  color: var(--p-silver);
+  font-size: var(--p-fs-small);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.content-page .page-hero h1 {
+  max-width: 18ch;
+  margin: 20px 0 28px;
+  color: var(--p-ink);
+  font-size: clamp(2.75rem, 1.55rem + 4.8vw, 6rem);
+  font-weight: 400;
+  line-height: 1.01;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+}
+.content-page .page-intro,
+.content-page .page-hero > p:not([class]) {
+  max-width: 66ch;
+  color: var(--p-silver-hi);
+  font-size: var(--p-fs-lead);
+  line-height: 1.58;
+}
+.content-page .page-actions { gap: 12px; margin-top: 36px; }
+.content-page .page-cta,
+.content-page .page-secondary {
+  border-radius: var(--p-r-sm);
+  box-shadow: none;
+  font-size: .9375rem;
+  line-height: 1.2;
+  transition: background-color .25s var(--p-ease), border-color .25s var(--p-ease);
+}
+.content-page .page-cta { background: var(--p-ink); color: var(--p-black) !important; }
+.content-page .page-cta:hover { background: #fff; }
+.content-page .page-secondary { border-color: var(--p-line-strong); background: var(--p-glass); color: var(--p-ink) !important; }
+.content-page .page-secondary:hover { background: var(--p-glass-hi); }
+
+.content-page .page-section { margin-block: clamp(64px, 8vw, 112px); }
+.content-page .page-section h2,
+.content-page .case-story h2,
+.content-page .case-closing h2 {
+  color: var(--p-ink);
+  font-weight: 500;
+  letter-spacing: var(--p-track-h);
+}
+.content-page .page-section p,
+.content-page .page-card p,
+.content-page .case-story p,
+.content-page .case-story li,
+.content-page .case-closing p { color: var(--p-silver-hi); }
+.content-page .page-grid { gap: 16px; }
+.content-page .page-card,
+.content-page .page-proof {
+  border: 1px solid var(--p-glass-border);
+  border-radius: var(--p-r-md);
+  background: linear-gradient(155deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
+  box-shadow: var(--p-glass-inset);
+}
+.content-page .page-card h2,
+.content-page .page-card h3 { font-weight: 500; }
+.content-page .page-card h2 a { color: var(--p-ink) !important; }
+.content-page .page-card .text-link,
+.content-page .related-links a,
+.content-page .project-index a { color: var(--p-silver-hi) !important; }
+.content-page .page-card .text-link:hover,
+.content-page .related-links a:hover,
+.content-page .project-index a:hover { color: var(--p-ink) !important; }
+.content-page .page-process li { border-color: var(--p-line-strong); color: var(--p-silver-hi); }
+.content-page .page-process li::before { color: var(--p-blue-soft); }
+.content-page .imp-faq { border-color: var(--p-glass-border); background: var(--p-glass); }
+.content-page .case-detail-visual > img { border-color: var(--p-glass-border); border-radius: var(--p-r-md); }
+.content-page .case-tags span { border-color: var(--p-line-strong); color: var(--p-silver-hi); }
+
+.content-page .page-footer {
+  padding-inline: max(var(--p-gutter), calc((100vw - var(--p-max)) / 2 + var(--p-gutter)));
+  border-color: var(--p-line);
+  background: var(--p-black);
+}
+.content-page .page-footer a { color: var(--p-silver-hi) !important; text-decoration: none; }
+.content-page .page-footer a:hover { color: var(--p-ink) !important; }
+.content-page .page-footer p { color: var(--p-silver); }
+
+@media (max-width: 600px) {
+  .content-page .page-shell { width: calc(100% - 2 * var(--p-gutter)); padding-top: 120px; }
+  .content-page .breadcrumbs { margin-bottom: 44px; }
+  .content-page .page-hero h1 { font-size: clamp(2.6rem, 10vw, 4rem); }
+  .content-page .page-footer { padding-inline: var(--p-gutter); }
+}

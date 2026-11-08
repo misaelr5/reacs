@@ -14,6 +14,7 @@ try {
     await page.goto(base + path);
     const deck = page.locator('[data-case-deck]');
     await page.waitForSelector('[data-case-deck][data-enhanced]');
+    await page.waitForFunction(() => document.querySelectorAll('[data-case-deck] .case-card[inert]').length === 4 && [...document.querySelectorAll('[data-case-deck] .case-card')].filter(card => getComputedStyle(card).visibility === 'visible').length === 1);
     assert.equal(await deck.locator('.case-card:visible').count(), 1);
     assert.equal(await deck.locator('.case-card[inert]').count(), 4);
     const before = await deck.boundingBox();

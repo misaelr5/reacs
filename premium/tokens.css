@@ -1,0 +1,90 @@
+/* Reac premium — shared design tokens. Loaded after reac-home.css on the home.
+   Owned by the lead; section files (hero.css, work.css, sections.css) consume these. */
+:root {
+  /* base */
+  --p-black: #000000;
+  --p-ink: #F2F4F8;          /* cold white: headlines, primary text */
+  --p-silver-hi: #C9CED9;    /* metallic highlight, secondary text on dark */
+  --p-silver: #8A90A2;       /* muted text, captions */
+  --p-steel: #3A3F4C;        /* hairlines on hover, chrome shadows */
+  --p-line: rgba(242,244,248,.09);
+  --p-line-strong: rgba(242,244,248,.16);
+
+  /* Reac accents: blue leads, orange is rare and intentional */
+  --p-blue: #2E37FF;
+  --p-blue-soft: #6E74FF;
+  --p-blue-glow: rgba(46,55,255,.38);
+  --p-orange: #FA3601;
+  --p-orange-glow: rgba(250,54,1,.32);
+
+  /* glass panels (image 2 reference) */
+  --p-glass: rgba(255,255,255,.035);
+  --p-glass-hi: rgba(255,255,255,.07);
+  --p-glass-border: rgba(255,255,255,.08);
+  --p-glass-blur: blur(22px) saturate(140%);
+  --p-glass-inset: inset 0 1px 0 rgba(255,255,255,.07), inset 0 0 0 1px rgba(255,255,255,.04);
+
+  /* chrome: reflective surfaces carrying a blue/orange environment reflection */
+  --p-chrome: linear-gradient(155deg, #F4F6FA 0%, #9BA2B4 22%, #2A2E3A 46%, #C9CED9 58%, #6E74FF 74%, #1A1C26 86%, #FA3601 100%);
+  --p-chrome-text: linear-gradient(180deg, #FFFFFF 0%, #DDE1EA 45%, #8A90A2 100%);
+
+  /* type: Satoshi only, contrast comes from scale and weight */
+  --p-font: Satoshi, 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --p-fs-display: clamp(2.75rem, 1.4rem + 5.6vw, 6.25rem);
+  --p-fs-h2: clamp(2rem, 1.3rem + 2.8vw, 3.75rem);
+  --p-fs-h3: clamp(1.375rem, 1.1rem + 1vw, 1.875rem);
+  --p-fs-lead: clamp(1.0625rem, 1rem + .35vw, 1.3125rem);
+  --p-fs-body: 1rem;
+  --p-fs-small: .875rem;
+  --p-track-display: -0.035em;
+  --p-track-h: -0.025em;
+
+  /* layout */
+  --p-max: 1240px;
+  --p-gutter: clamp(16px, 4vw, 40px);
+  --p-section: clamp(96px, 12vw, 176px);
+  --p-r-sm: 10px;    /* chips, buttons */
+  --p-r-md: 18px;    /* inner panels */
+  --p-r-lg: 28px;    /* glass panels, media */
+  --p-ease: cubic-bezier(.22,1,.36,1);
+}
+
+/* page base */
+html { background: var(--p-black); }
+body { background: var(--p-black); color: var(--p-ink); }
+body > div[data-motion] { background: var(--p-black) !important; color: var(--p-ink) !important; }
+::selection { background: var(--p-blue); color: #fff; }
+:focus-visible { outline: 2px solid var(--p-blue-soft); outline-offset: 3px; }
+
+/* shared primitives section files may use */
+.p-wrap { max-width: var(--p-max); margin-inline: auto; padding-inline: var(--p-gutter); }
+.p-section { padding-block: var(--p-section); }
+.p-h2 { font-size: var(--p-fs-h2); line-height: 1.02; letter-spacing: var(--p-track-h); font-weight: 500; color: var(--p-ink); margin: 0; text-wrap: balance; }
+.p-lead { font-size: var(--p-fs-lead); line-height: 1.55; color: var(--p-silver-hi); max-width: 60ch; }
+.p-kicker { font-size: var(--p-fs-small); color: var(--p-silver); letter-spacing: 0; margin: 0 0 1.25rem; }
+
+.p-glass {
+  background: var(--p-glass);
+  border: 1px solid var(--p-glass-border);
+  border-radius: var(--p-r-lg);
+  box-shadow: var(--p-glass-inset), 0 30px 60px -30px rgba(0,0,0,.8);
+  -webkit-backdrop-filter: var(--p-glass-blur);
+  backdrop-filter: var(--p-glass-blur);
+}
+
+.p-btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .8rem 1.25rem; border-radius: var(--p-r-sm);
+  font: 500 .9375rem/1 var(--p-font); text-decoration: none;
+  transition: background-color .3s var(--p-ease), color .3s var(--p-ease), box-shadow .3s var(--p-ease);
+}
+.p-btn--primary { background: var(--p-ink); color: var(--p-black); }
+.p-btn--primary:hover { background: #fff; box-shadow: 0 0 0 4px var(--p-blue-glow); }
+.p-btn--ghost { color: var(--p-ink); border: 1px solid var(--p-line-strong); background: var(--p-glass); }
+.p-btn--ghost:hover { background: var(--p-glass-hi); }
+.p-btn--accent { background: var(--p-orange); color: #fff; }
+.p-btn--accent:hover { box-shadow: 0 10px 30px -8px var(--p-orange-glow); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

@@ -23,7 +23,7 @@ Abrir http://127.0.0.1:4174. El servidor está limitado a esta computadora. Reco
 - `content/editorial.mjs`: publicaciones revisadas; borradores excluidos.
 - `content/cases.mjs`: cinco casos destacados, compartidos entre home, portfolio y páginas `/proyectos/:slug` mediante `scripts/case-views.mjs`. Home y portfolio tienen un visor manual, con animación nativa y soporte de movimiento reducido; sin JavaScript se muestran todos los casos. El resto del catálogo se conserva en `content/projects.html`.
 - `site.config.mjs`: dominio, identidad, contactos, medición y clave pública IndexNow.
-- `reac-home.css`, `reac-pages.css`, `reac-site.css`: presentación.
+- `reac-home.css`, `reac-pages.css`, `reac-site.css`: estilos de base. `premium/` añade el sistema visual de la home y `premium/pages.css` lo extiende a las páginas generadas.
 - `reac-ui.js`: interacciones; `reac-site.js`: consentimiento, medición y contacto.
 - `scripts/build.mjs`: genera `dist/`, metadata, schema, sitemap y robots con una lista de archivos permitidos.
 - `lib/contact.ts`, `api/contact.ts`: validación, antispam y entrega del lado servidor.

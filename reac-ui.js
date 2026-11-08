@@ -89,11 +89,11 @@
         const index = cards.findIndex(card => '#' + card.id === location.hash);
         if (index !== -1) select(index, 1, false);
       }
-      deck.dataset.enhanced = 'true';
       controls.hidden = false;
       picker.hidden = false;
       select(0, 1, false);
       selectHash();
+      deck.dataset.enhanced = 'true';
       addEventListener('hashchange', selectHash);
     }
   }
@@ -168,19 +168,13 @@
 
   function setupComparison() {
     const panels = all('[data-prob-panel]');
-    const buttons = all('.prob-pill');
+    const buttons = all('[data-action="setProbSin"], [data-action="setProbCon"]');
     if (!panels.length) return;
     function select(value) {
-      for (const panel of panels) {
-        panel.hidden = panel.dataset.probPanel !== value;
-        panel.style.setProperty('--prob-enter-x', value === 'sin' ? '-18px' : '18px');
-      }
+      for (const panel of panels) panel.hidden = panel.dataset.probPanel !== value;
       for (const button of buttons) {
         const selected = button.dataset.action === (value === 'sin' ? 'setProbSin' : 'setProbCon');
         button.setAttribute('aria-pressed', String(selected));
-        button.style.background = selected ? value === 'sin' ? 'rgba(250,54,1,.14)' : 'linear-gradient(135deg,#1F27EB,#7C3AED)' : 'transparent';
-        button.style.color = selected ? value === 'sin' ? '#FF7A4D' : '#FDFCFE' : '#A6ABC2';
-        button.style.boxShadow = selected ? 'inset 0 0 0 1px rgba(255,255,255,.3)' : 'none';
       }
     }
     for (const button of buttons) button.addEventListener('click', () => select(button.dataset.action === 'setProbSin' ? 'sin' : 'con'));
