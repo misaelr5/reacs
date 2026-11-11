@@ -23,9 +23,12 @@ function navMark() {
 }
 
 // OGL and the shaders are a separate chunk, fetched only when the loader actually runs.
+// Start fetching it as soon as this module evaluates, in parallel with the rest of the page.
+const fieldModule = root.getAttribute('data-intro') === '' && !reduced.matches ? import('./loader-field.js') : null;
+
 async function field(canvas) {
   try {
-    const { createField } = await import('./loader-field.js');
+    const { createField } = await fieldModule;
     return createField(canvas);
   } catch {
     return null;
@@ -109,4 +112,6 @@ function run() {
   }, { once: true });
 }
 
-run();
+// intro.js inserts this module dynamically, so it can arrive before the deferred GSAP scripts have run.
+if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run, { once: true });
+else run();

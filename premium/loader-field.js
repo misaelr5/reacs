@@ -49,6 +49,11 @@ const fragment = /* glsl */ `
 
 export function createField(canvas) {
   try {
+    // Only on real GPUs: a software-rendered context compiles the shader on the main thread for over a
+    // second and would stall the intro. OGL reuses the context created here.
+    if (navigator.connection?.saveData) return null;
+    const context = canvas.getContext('webgl2', { alpha: true, depth: false, antialias: false, premultipliedAlpha: false, failIfMajorPerformanceCaveat: true });
+    if (!context) return null;
     const dpr = Math.min(devicePixelRatio || 1, 1.5);
     const renderer = new Renderer({ canvas, dpr, alpha: true, premultipliedAlpha: false, antialias: false, depth: false });
     const gl = renderer.gl;

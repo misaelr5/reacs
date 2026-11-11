@@ -80,19 +80,18 @@ function prepare(html, meta) {
   // One final type layer for both the homepage and generated pages.
   for (const link of all(head, n => n.tagName === 'link' && attr(n, 'href') === '/premium/typography.css')) remove(link);
   append(head, '<link rel="stylesheet" href="/premium/typography.css">');
-  // Loading motion on every page: intro.js paints the veil before first paint; the plugins and arrival.js
-  // run right after GSAP, ahead of the render-blocking reac-ui.js. The loader module goes last so it never
-  // joins the render-blocking chain; the veil covers the wait.
+  // Loading motion on every page: intro.js paints the veil and the hero pre-state before first paint.
+  // The plugins, arrival.js and the loader module go last, so none of them joins the render-blocking
+  // chain that ends at reac-ui.js; the veil and the CSS pre-state cover the wait.
   for (const n of all(head, n => ['/premium/intro.js', '/premium/loader.js', '/premium/arrival.js', '/DrawSVGPlugin.min.js', ...loadingPlugins].includes(attr(n, 'src')) || ['/premium/intro.css', '/premium/loader.css'].includes(attr(n, 'href')))) remove(n);
-  const intro = parseFragment('<script src="/premium/intro.js"></script>').childNodes[0];
+  // Deferred but render-blocking: it still runs before the first paint, without stalling the parser.
+  const intro = parseFragment('<script defer blocking="render" src="/premium/intro.js"></script>').childNodes[0];
   intro.parentNode = head; head.childNodes.unshift(intro);
   append(head, '<link rel="stylesheet" href="/premium/intro.css"><link rel="stylesheet" href="/premium/loader.css">');
   if (!find(head, n => n.tagName === 'script' && attr(n, 'src') === '/gsap.min.js')) append(head, '<script defer src="/gsap.min.js"></script>');
-  const gsapScript = find(head, n => n.tagName === 'script' && attr(n, 'src') === '/gsap.min.js');
-  const motion = parseFragment([...loadingPlugins, '/premium/arrival.js'].map(src => `<script defer src="${src}"></script>`).join('')).childNodes;
-  for (const node of motion) node.parentNode = gsapScript.parentNode;
-  gsapScript.parentNode.childNodes.splice(gsapScript.parentNode.childNodes.indexOf(gsapScript) + 1, 0, ...motion);
-  append(head, '<script type="module" src="/premium/loader.js"></script>');
+  // intro.js injects the loader module only on a first visit (data-loader is rewritten to the bundle).
+  setAttr(intro, 'data-loader', '/premium/loader.js');
+  append(head, [...loadingPlugins, '/premium/arrival.js'].map(src => `<script defer fetchpriority="low" src="${src}"></script>`).join(''));
   const robots = meta.noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large';
   const socialTitle = meta.socialTitle || meta.title;
   const socialDescription = meta.socialDescription || meta.description;
@@ -102,7 +101,8 @@ function prepare(html, meta) {
   if (site.verification.bing) append(head, `<meta name="msvalidate.01" content="${e(site.verification.bing)}">`);
   append(head, `<meta name="application-name" content="${e(site.name)}"><meta name="publisher" content="${e(site.name)}">`);
   append(head, `<script type="application/ld+json">${json(schema(meta, doc))}</script>`);
-  if (meta.path === '/') append(head, '<link rel="preload" href="/uploads/satoshi-400.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/uploads/satoshi-700.woff2" as="font" type="font/woff2" crossorigin>');
+  // Satoshi is font-display: optional; without a preload most first loads would render the fallback.
+  append(head, '<link rel="preload" href="/uploads/satoshi-400.woff2" as="font" type="font/woff2" crossorigin><link rel="preload" href="/uploads/satoshi-700.woff2" as="font" type="font/woff2" crossorigin>');
   for (const style of all(doc, n => n.tagName === 'style')) {
     const css = textContent(style);
     const hash = createHash('sha256').update(css).digest('hex').slice(0,12);
@@ -296,7 +296,10 @@ for (const page of generated) {
     if (/@import\b/i.test(content) || relativeUrl) throw new Error('Stylesheet requires URL rewriting: ' + href);
     return content;
   }).join('\n');
-  for (const script of all(doc, n => n.tagName === 'script' && attr(n, 'src')?.startsWith('/'))) setAttr(script, 'src', publishScript(attr(script, 'src')));
+  for (const script of all(doc, n => n.tagName === 'script' && attr(n, 'src')?.startsWith('/'))) {
+    setAttr(script, 'src', publishScript(attr(script, 'src')));
+    if (attr(script, 'data-loader')) setAttr(script, 'data-loader', publishScript(attr(script, 'data-loader')));
+  }
   if (links.length) {
     css = minifyCss(css);
     const href = '/styles/' + createHash('sha256').update(css).digest('hex').slice(0, 12) + '.css';

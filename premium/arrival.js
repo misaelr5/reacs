@@ -1,13 +1,13 @@
 // Reac premium — arrival motion on every page. Content-page heroes assemble once the intro veil opens,
-// and lazy images develop like a progressive scan when they finish loading. It runs before the
-// render-blocking reac-ui.js, so pre-states are set before the first paint; without GSAP or with
-// reduced motion nothing is touched.
+// and lazy images develop like a progressive scan when they finish loading. It loads after the
+// render-blocking reac-ui.js; intro.css holds the hero's pre-state until it takes over. Without GSAP
+// or with reduced motion nothing is animated.
 (() => {
   'use strict';
   const root = document.documentElement;
   const gsap = window.gsap;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  if (!gsap || reduced.matches) return;
+  if (!gsap || reduced.matches) { root.classList.remove('reac-arrive'); return; }
   const { CustomEase, SplitText, ScrambleTextPlugin } = window;
   if (CustomEase) gsap.registerPlugin(CustomEase);
   if (ScrambleTextPlugin) gsap.registerPlugin(ScrambleTextPlugin);
@@ -43,6 +43,8 @@
       gsap.set(title, { perspective: 700 });
       gsap.set(split.words, { opacity: HIDDEN, yPercent: 55, rotationX: -75, transformOrigin: '50% 100%' });
     } else if (title) gsap.set(title, { opacity: HIDDEN });
+    // Inline states are set; hand over from the CSS pre-state (its animation would override them).
+    root.classList.remove('reac-arrive');
     let settled = false;
     const settle = () => {
       if (settled) return;
