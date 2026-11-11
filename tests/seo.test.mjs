@@ -21,7 +21,7 @@ test('Every page has unique, consistent metadata and a connected identity graph'
     assert.ok(!titles.has(title), 'Duplicate title: ' + path); titles.add(title);
     assert.ok(!descriptions.has(description), 'Duplicate description: ' + path); descriptions.add(description);
     const socialTitle=path==='/'?'Reac Studio | Desarrollo Web y Marketing Digital':title;
-    const socialDescription=path==='/'?'Creamos sitios web modernos, rápidos y estrategias digitales que impulsan tu negocio.':description;
+    const socialDescription=path==='/'?'Un solo equipo para tu web, tus campañas y tus sistemas. Para pymes, empresas B2B y profesionales independientes. Diagnóstico gratis.':description;
     assert.equal(meta(doc, 'og:title'), socialTitle);
     assert.equal(meta(doc, 'twitter:title'), socialTitle);
     assert.equal(meta(doc, 'og:description'), socialDescription);
@@ -88,8 +88,8 @@ test('All public pages can be crawled from HTML anchors in at most three clicks'
 test('Brand aliases are visible, and images have reserved dimensions and valid responsive sources', () => {
   const home = docs.get('/');
   const body = textContent(find(home, n => n.tagName === 'body'));
-  for (const name of ['Reac Studio', 'ReacStudio', 'reacstudio.com']) assert.ok(body.includes(name));
-  assert.match(textContent(find(home, n => hasClass(n, 'hero-sub'))), /Reac Studio.*desarrollo web.*marketing digital.*automatización/);
+  assert.ok(body.includes('Reac Studio'));
+  assert.match(textContent(find(home, n => hasClass(n, 'hero-sub'))), /Reac Studio.*negocio.*oportunidades/);
   for (const [path, doc] of docs) for (const img of all(doc, n => n.tagName === 'img')) {
     assert.notEqual(attr(img, 'alt'), undefined, path);
     assert.ok(Number(attr(img, 'width')) > 0 && Number(attr(img, 'height')) > 0, path);

@@ -4,7 +4,7 @@ export const site = {
   name: 'Reac Studio',
   alternateNames: ['ReacStudio', 'REAC Studio', 'reacstudio.com'],
   title: 'Reac Studio | Desarrollo Web, Marketing y Automatización',
-  description: 'Reac Studio: desarrollo web, landing pages, marketing digital y automatización para empresas, PyMEs y profesionales. Desde Córdoba para Argentina y Latinoamérica.',
+  description: 'Reac Studio: desarrollo de software, diseño web, marketing digital, automatizaciones y ciberseguridad. Desde Córdoba para Argentina y Latinoamérica.',
   // Keep the verified Gmail fallback until a corporate mailbox exists. Override
   // PUBLIC_CONTACT_EMAIL at build time only after the new address can receive mail.
   email: process.env.PUBLIC_CONTACT_EMAIL || 'ledesma.rme@gmail.com',
@@ -17,7 +17,7 @@ export const site = {
     'https://www.tiktok.com/@reac.studio',
     'https://www.facebook.com/profile.php?id=61594342015629'
   ],
-  legal: { responsible: '', address: '', effectiveDate: '' },
+  legal: { responsible: 'Misael Román Ledesma', location: 'Córdoba, Argentina', address: '', privacyEmail: 'ledesma.rme@gmail.com', effectiveDate: '2026-11-09' },
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION || '',
     bing: process.env.BING_SITE_VERIFICATION || ''

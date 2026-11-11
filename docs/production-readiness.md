@@ -1,5 +1,19 @@
 ﻿# Reac Studio — informe de implementación
 
+## Revisión del 10 de noviembre de 2026
+
+La arquitectura actual es estática, con contacto directo por WhatsApp y email. El endpoint antiguo devuelve 410 y no entrega mensajes. Resend/Upstash ya no son requisito de publicación; el informe inferior es histórico.
+
+El build publica 27 páginas HTML, 24 indexables. Agrupa el CSS por página conservando su orden y usa nombres basados en el contenido para la caché inmutable de `/styles/`. Los archivos fuente siguen separados y se conserva la preparación de navegación necesaria para View Transitions. La prueba de build comprueba el cambio de origen y la repetibilidad del resultado.
+
+Validación local: lint, TypeScript, 31 tests, 54 comprobaciones HTTP, auditoría de dependencias sin vulnerabilidades y escaneo de patrones conocidos de credenciales sin hallazgos. La suite de navegador incluye responsive/accesibilidad, consentimiento, portfolio, menú/transiciones, hero y secciones inferiores. Informes y capturas quedan en `artifacts/`, excluidos del paquete de despliegue junto con los archivos de entorno.
+
+Rendimiento del build final en servidor local sin compresión: LCP de 3.852 ms en home, 2.248 ms en desarrollo web y 2.392 ms en Google Ads; CLS de 0,036/0/0. Una muestra por ruta, caché fría, 390×844, CPU 4× y red de 1,6 Mbps con 150 ms de latencia. No son Core Web Vitals de usuarios reales. La home requiere seguimiento; `TEST_URL` permite repetir la medición sobre producción después del despliegue.
+
+La autorización de publicación se recibió el 10 de noviembre. El push no acredita el despliegue: verificar READY, dominio canónico, rutas, sitemap, políticas, contacto y coincidencia del HTML/CSS con el build. GA4 real, Search Console/Bing, domicilio legal y plazos de conservación continúan en [PENDIENTES.md](PENDIENTES.md); las pruebas locales no certifican esas tareas.
+
+## Informe histórico
+
 7 de septiembre de 2026. Alcance: repositorio, pruebas locales y verificación HTTP del despliegue público.
 
 ## 1. Resumen ejecutivo

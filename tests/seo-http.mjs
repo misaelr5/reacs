@@ -30,7 +30,7 @@ for (const [path, target] of [
 for (const path of ['/missing-seo-test', '/.env', '/.git/config', '/site.config.mjs', '/admin', '/dashboard', '/internal', '/api/source.ts']) {
   const response = await get(path); assert.equal(response.status, 404, path); checks.push({ path, status: response.status });
 }
-assert.equal((await get('/api/contact')).status, 405);
+assert.equal((await get('/api/contact')).status, 410);
 for (const path of ['/%2fexample.test/', '/%5cexample.test/']) assert.equal((await get(path)).status, 400);
 for (const file of ['robots.txt', 'sitemap.xml']) {
   const response = await get('/' + file); assert.equal(response.status, 200);

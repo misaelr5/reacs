@@ -1,0 +1,83 @@
+/* Reac premium — /proyectos: Fragment-style hero, about + counts, case viewer, and a project browser. */
+body[data-page="proyectos"] { position: relative; overflow-x: clip; }
+body[data-page="proyectos"] .page-shell > :not(.ppj-chrome-clip) { position: relative; z-index: 1; }
+body[data-page="proyectos"] .page-shell { position: static; width: min(var(--p-max), calc(100% - 2 * var(--p-gutter))); max-width: none; padding-top: 104px; }
+.ppj-chrome-clip { position: absolute; z-index: 0; top: 0; left: 0; right: 0; height: min(100vh, 860px); overflow: hidden; pointer-events: none; }
+
+.ppj-hero.page-hero { display: flex; flex-direction: column; justify-content: flex-end; min-height: min(68vh, 640px); margin: 0; padding: 0; border: 0; background: none; text-align: left; }
+.ppj-hero h1 { margin: 0; max-width: 13ch; font-size: var(--p-fs-display); line-height: 1; font-weight: 400; letter-spacing: var(--p-track-display); color: var(--p-ink); }
+.ppj-hero h1 span { color: var(--p-silver); }
+.ppj-hero__foot { display: flex; align-items: center; flex-wrap: wrap; gap: 20px 36px; margin-top: 32px; }
+.ppj-hero .page-intro { margin: 0; max-width: 40ch; font-size: 1rem; line-height: 1.55; color: var(--p-silver-hi); }
+body[data-page="proyectos"] .ppj-hero .p-btn { background: #fff !important; color: #05060A !important; text-decoration: none; }
+
+.ppj-about { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); gap: 24px clamp(24px, 5vw, 80px); margin-top: var(--p-section); }
+.ppj-label { margin: 0; font-size: var(--p-fs-small); color: var(--p-silver); }
+.ppj-about__text { margin: 0; max-width: 30em; font-size: clamp(1.375rem, 1.05rem + 1.3vw, 2.125rem); line-height: 1.22; letter-spacing: -.02em; color: var(--p-ink); }
+.ppj-about__text span { color: var(--p-silver); }
+body[data-page="proyectos"] .case-card { background: none; border: 0; box-shadow: none; }
+body[data-page="proyectos"] .case-preview { display: block; overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: var(--p-r-lg); box-shadow: 0 50px 90px -60px var(--p-blue-glow); }
+body[data-page="proyectos"] .case-preview img { display: block; width: 100%; height: 100%; object-fit: cover; }
+body[data-page="proyectos"] .case-copy .case-category { color: var(--p-silver); font-size: var(--p-fs-small); font-weight: 400; letter-spacing: 0; text-transform: none; }
+body[data-page="proyectos"] .case-headline { color: var(--p-ink); font-weight: 400; }
+body[data-page="proyectos"] .case-summary { color: var(--p-silver-hi); }
+body[data-page="proyectos"] .case-type { display: inline-flex; width: fit-content; align-self: flex-start; padding: 5px 11px; border: 1px solid var(--p-line-strong); border-radius: 999px; background: none; color: var(--p-silver-hi); }
+body[data-page="proyectos"] .case-contact { border: 0; border-radius: 999px; background: #fff; color: #05060A; box-shadow: none; text-decoration: none; }
+body[data-page="proyectos"] .case-contact:hover { background: #E4E7F2; }
+
+body[data-page="proyectos"] .project-entry { padding: 0; border: 0; }
+body[data-page="proyectos"] .project-entry[hidden] { display: none; }
+body[data-page="proyectos"] .project-entry .proj-case { display: block; padding: 0; border: 0; background: none; box-shadow: none; }
+body[data-page="proyectos"] .project-entry .proj-case:hover { transform: none; box-shadow: none; }
+body[data-page="proyectos"] .proj-case-visual { position: relative; min-height: 0; height: auto; aspect-ratio: 16 / 10; overflow: hidden; margin: 0; border: 1px solid rgba(255,255,255,.12); border-radius: var(--p-r-lg); background: #101114; box-shadow: none; }
+body[data-page="proyectos"] .proj-card-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; filter: none; }
+body[data-page="proyectos"] .proj-case-overlay, body[data-page="proyectos"] .proj-case-badge, body[data-page="proyectos"] .proj-case-visual-copy, body[data-page="proyectos"] .proj-eyebrow { display: none; }
+body[data-page="proyectos"] .proj-case-info { padding: 26px 0 0; background: none; }
+body[data-page="proyectos"] .proj-case-heading h3 { margin: 0; font-size: var(--p-fs-h3); font-weight: 500; letter-spacing: -.02em; color: var(--p-ink); }
+body[data-page="proyectos"] .proj-case-summary { margin: 10px 0 0; max-width: 58ch; font-size: 1.0625rem; line-height: 1.5; color: var(--p-silver-hi); }
+body[data-page="proyectos"] .proj-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 28px; margin: 22px 0 0; }
+body[data-page="proyectos"] .proj-fact { padding: 14px 0 16px; border: 0; border-top: 1px solid var(--p-line); background: none; }
+body[data-page="proyectos"] .proj-fact span { display: block; font-size: .8125rem; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--p-silver); }
+body[data-page="proyectos"] .proj-fact p { margin: 6px 0 0; font-size: .9375rem; line-height: 1.5; color: var(--p-ink); }
+body[data-page="proyectos"] .proj-case-footer { margin-top: 18px; padding: 0; border: 0; }
+body[data-page="proyectos"] .proj-cta { display: inline-flex; align-items: center; gap: 8px; padding: 13px 20px; border: 0; border-radius: 999px; background: #fff !important; color: #05060A !important; box-shadow: none !important; font-weight: 500; text-decoration: none; }
+body[data-page="proyectos"] .proj-cta:hover { background: #E4E7F2 !important; transform: none; }
+body[data-page="proyectos"] .proj-cta::before, body[data-page="proyectos"] .proj-cta::after { content: none; }
+body[data-page="proyectos"] .project-service { margin: 18px 0 0; font-size: .875rem; color: var(--p-silver); }
+body[data-page="proyectos"] .project-service a { color: var(--p-ink); }
+body[data-page="proyectos"] .page-actions { justify-content: flex-start; margin-top: var(--p-section); }
+
+
+/* One continuous collection: every project remains in the document and on screen. */
+.ppj-portfolio { margin-top: var(--p-section); }
+.ppj-portfolio__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding-bottom: 28px; border-bottom: 1px solid var(--p-line-strong); }
+.ppj-portfolio__head h2 { margin: 12px 0 0; font-size: var(--p-fs-h2); font-weight: 400; line-height: 1.05; letter-spacing: var(--p-track-h); }
+.ppj-total { display: flex; align-items: baseline; gap: 12px; margin: 0; white-space: nowrap; color: var(--p-silver-hi); }
+.ppj-total span { font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1; letter-spacing: -.05em; font-variant-numeric: tabular-nums; color: var(--p-ink); }
+.ppj-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: clamp(48px, 7vw, 96px) clamp(24px, 4vw, 56px); padding-top: 40px; }
+.ppj-item { min-width: 0; scroll-margin-top: 110px; }
+body[data-page="proyectos"] .ppj-grid .case-card { display: flex; flex-direction: column; align-items: stretch; gap: 0; padding: 0; }
+body[data-page="proyectos"] .case-preview { aspect-ratio: 16 / 10; }
+body[data-page="proyectos"] .case-preview img { object-fit: contain; background: #101114; }
+body[data-page="proyectos"] .case-copy { padding-top: 26px; }
+body[data-page="proyectos"] .case-copy h3 { margin: 0 0 14px; font-size: var(--p-fs-h3); font-weight: 500; line-height: 1.15; letter-spacing: -.02em; color: var(--p-ink); }
+body[data-page="proyectos"] .case-category { margin: 0 0 10px; }
+body[data-page="proyectos"] .case-headline { margin: 0 0 10px; font-size: 1.0625rem; }
+body[data-page="proyectos"] .case-summary { margin: 0 0 18px; line-height: 1.6; }
+body[data-page="proyectos"] .case-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 24px; }
+body[data-page="proyectos"] .case-contact { width: auto; padding: 13px 20px; font-size: .875rem; }
+body[data-page="proyectos"] .case-link { color: var(--p-silver-hi); }
+body[data-page="proyectos"] .case-link:hover { color: var(--p-ink); }
+.ppj-grid a:focus-visible { outline: 2px solid var(--p-blue-soft); outline-offset: 5px; }
+@media (max-width: 900px) {
+  .ppj-hero.page-hero { min-height: 62vh; }
+  .ppj-about { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+  .ppj-grid { grid-template-columns: minmax(0, 1fr); }
+  .ppj-portfolio__head { align-items: flex-start; flex-direction: column; }
+  .ppj-total span { font-size: 2.75rem; }
+}
+@media (max-width: 520px) {
+  body[data-page="proyectos"] .proj-facts { grid-template-columns: minmax(0, 1fr); }
+}

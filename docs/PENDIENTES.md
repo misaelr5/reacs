@@ -1,34 +1,27 @@
-# Pendientes para activar Reac Studio
+# Pendientes de Reac Studio
 
-Estado al 7 de septiembre de 2026: implementación publicada en https://reacstudio.com y despliegue READY verificado. El host técnico anterior `reacs-studio.vercel.app` redirige permanentemente al dominio canónico. Resend y Upstash se posponen por decisión de Misael. No hay credenciales de esos servicios configuradas; el formulario responde un error controlado y no confirma envíos ficticios. WhatsApp y email siguen como vías alternativas. Newsletter permanece deshabilitado.
+## Estado al 9 de noviembre de 2026
 
-## Próxima sesión: contacto y privacidad
+- Contacto elegido por Misael: sólo WhatsApp y email, sin formulario ni cuentas de Resend/Upstash. Los enlaces no envían mensajes automáticamente.
+- API antigua retirada: `/api/contact` responde 410, sin llamar proveedores. El módulo de entrega anterior queda inactivo como referencia.
+- Responsable informado: Misael Román Ledesma, en representación de Reac Studio; sin atribuir una forma societaria.
+- Ubicación informada: Córdoba, Argentina; atención remota, sin dirección comercial abierta al público.
+- Canal confirmado para privacidad: ledesma.rme@gmail.com.
+- Política adaptada al contacto directo, tipografías locales y Analytics opcional. La fecha del documento es la de esta revisión local; no prueba publicación.
 
-- [ ] Crear cuenta Resend y verificar un remitente permitido. Si requiere dominio propio, confirmar primero su propiedad y DNS; no usar un remitente inventado.
-- [ ] Crear Redis en Upstash y obtener URL/token REST.
-- [ ] En Vercel, configurar `RESEND_API_KEY`, `CONTACT_FROM`, `CONTACT_TO`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` y `CONTACT_RATE_LIMIT_SECRET` (aleatorio, mínimo 32 caracteres). Guardar claves únicamente en variables privadas.
-- [x] Usar `SITE_URL=https://reacstudio.com` como origen canónico. Para probar formularios en otro origen desplegado, configurar el origen de ese entorno de forma coherente.
-- [ ] Completar y revisar los datos legales y la política de retención en privacidad.
-- [ ] Reconstruir/desplegar tras configurar variables y comprobar una consulta controlada: recepción real, error seguro y ausencia de conversiones duplicadas.
+## Datos y revisión pendientes
 
-## Después: publicación y medición
+- [ ] Incorporar el domicilio legal completo cuando el responsable lo confirme; no inventar ni publicar una dirección particular sin autorización.
+- [ ] Definir y documentar plazos concretos de conservación y revisión de conversaciones comerciales.
+- [ ] Revisar obligaciones, acuerdos con proveedores y transferencias de datos según el funcionamiento real del negocio. El texto actualizado no certifica cumplimiento legal completo.
 
-- [x] Verificar estado READY, home nueva sin plantillas, páginas de servicios, 404, redirección 308, CSP y API. Despliegue `dpl_BEMKcRocSXy1zN6Ax4XLLvCUZR1B`; GET de API devuelve 405 y POST sin configuración devuelve 503 controlado. Repetir después de futuros cambios de código o variables.
-- [ ] Verificar Search Console y Bing, completar tokens públicos de `.env.example`, reconstruir y enviar `/sitemap.xml`.
-- [ ] Validar GA4 y consentimiento en la cuenta real; configurar `contact_form_success` como evento clave. `contact_form_submit` es el intento y WhatsApp/email son clics, no ventas.
-- [ ] Revisar en producción la persistencia de UTMs, GCLID y FBCLID; elegir GA4 o etiqueta directa para Google Ads sin duplicar la conversión.
-- [ ] Verificar dominio y dataset de Meta, cargar el Pixel sólo con consentimiento y mapear `contact_form_success` a Lead cuando exista un ID real.
-- [ ] Configurar `PUBLIC_CONTACT_EMAIL` únicamente cuando exista un buzón corporativo verificado.
-- [ ] Comprobar archivo público IndexNow y ejecutar dry run antes de enviar URLs modificadas.
-- [ ] Confirmar perfiles sociales oficiales y completar `socialProfiles`.
-- [ ] Preparar dominio propio y redirects cuando corresponda. Business Profile solo si el negocio cumple sus requisitos reales.
+## Medición y publicación
 
-## Cómo retomar
+- [ ] Verificar GA4 en la cuenta real. Medir `whatsapp_click` y `email_click` como clics; no tratarlos como mensajes recibidos ni ventas.
+- [ ] Verificar dominio/cobertura en Search Console y Bing después de publicar un build estable.
+- [ ] Publicar sólo con autorización explícita y verificar rutas, sitemap, políticas y enlaces en producción.
+- [ ] Si se contrata un email corporativo, comprobar recepción antes de reemplazar el Gmail confirmado; el canal de privacidad debe mantenerse según lo acordado.
 
-Pedir: «Retomemos docs/PENDIENTES.md: configuremos contacto y validemos una consulta real». No pegar secretos en el chat.
+## Antecedentes
 
-Desarrollo: `npm ci --ignore-scripts`, `npm run build`, `npm run dev`; abrir http://127.0.0.1:4174.
-
-Validación de código: `npm run lint`, `npm run typecheck`, `npm test`. El README explica las pruebas adicionales y el informe registra resultados y límites.
-
-Referencia: [informe completo](production-readiness.md), [guía técnica](../README.md), [variables necesarias](../.env.example).
+La documentación anterior del 7 de septiembre de 2026 registraba una integración Resend/Upstash pendiente y el despliegue `dpl_BEMKcRocSXy1zN6Ax4XLLvCUZR1B`. Ese registro es histórico y no acredita la publicación del rediseño actual. La preferencia de contacto directo reemplaza el plan de activar aquel formulario.

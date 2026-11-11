@@ -3,12 +3,13 @@
   const config = window.REAC_CONFIG || {};
   const consentKey = 'reac_analytics_consent';
   const attributionKey = 'reac_campaign_attribution';
-  const attributionFields = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid'];
+  const attributionFields = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'utm_id'];
   let analyticsReady = false;
   const production = location.origin === config.siteUrl;
   const getConsent = () => { try { return localStorage.getItem(consentKey); } catch { return null; } };
   const cleanValue = (value, limit = 300) => String(value || '').replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, limit);
   function captureAttribution() {
+    if (!production || getConsent() !== 'granted') return {};
     let attribution = {};
     try { attribution = JSON.parse(sessionStorage.getItem(attributionKey) || '{}') || {}; } catch { attribution = {}; }
     const params = new URLSearchParams(location.search);
@@ -85,57 +86,18 @@
     const banner = document.createElement('section');
     banner.id = 'reac-consent'; banner.className = 'reac-consent';
     banner.setAttribute('aria-label', 'Preferencias de privacidad');
-    banner.innerHTML = '<div class="reac-consent__copy"><strong>Tu privacidad, sin vueltas.</strong><span>Usamos Analytics solo si lo aceptás. Nos ayuda a entender qué funciona; no es necesario para navegar.</span><a href="/politica-de-privacidad">Ver política de privacidad</a></div><div class="reac-consent__actions"><button type="button" data-consent="denied">Rechazar Analytics</button><button type="button" data-consent="granted">Aceptar Analytics</button></div>';
+    banner.innerHTML = '<div class="reac-consent__copy"><strong>Tu privacidad,<br>a tu manera.</strong><span>Podés aceptar Analytics para ayudarnos a mejorar la web, o rechazarlo y seguir navegando.</span></div><div class="reac-consent__actions"><button type="button" data-consent="denied">Rechazar Analytics</button><button type="button" data-consent="granted">Aceptar Analytics</button></div><a class="reac-consent__policy" href="/politica-de-privacidad">Política de privacidad</a>';
     document.body.appendChild(banner);
     if (force) banner.querySelector('button').focus();
     banner.addEventListener('click', event => {
       const button = event.target.closest('[data-consent]'); if (!button) return;
       const value = button.dataset.consent;
       try { localStorage.setItem(consentKey, value); } catch { /* Without stored consent, no analytics. */ }
-      if (value === 'denied') disableAnalytics();
+      if (value === 'denied') { disableAnalytics(); try { sessionStorage.removeItem(attributionKey); } catch { /* storage unavailable */ } }
       else if (analyticsReady) { window['ga-disable-' + config.analyticsId] = false; window.gtag('consent', 'update', { analytics_storage: 'granted' }); }
       else loadAnalytics();
       banner.remove();
       if (force) document.querySelector('[data-privacy-settings]')?.focus();
-    });
-  }
-  function formState(form, state, message) {
-    const button = form.querySelector('[data-submit-button]');
-    const status = form.querySelector('[data-form-status]');
-    form.dataset.state = state; form.setAttribute('aria-busy', String(state === 'sending'));
-    if (button) { button.disabled = state === 'sending'; button.textContent = state === 'sending' ? 'Enviando…' : button.dataset.idleText || 'Enviar consulta'; }
-    if (status) { status.textContent = message; status.className = 'form-status form-status--' + state; }
-  }
-  function bindForm() {
-    const form = document.getElementById('ct-form'); if (!form) return;
-    let sending = false;
-    form.addEventListener('focusin', () => track('contact_form_start', { form_id: 'contacto', page: document.body.dataset.page || location.pathname, ...campaignContext() }), { once: true });
-    form.addEventListener('submit', async event => {
-      event.preventDefault(); if (sending || !form.reportValidity()) return;
-      sending = true; captureAttribution();
-      track('contact_form_submit', { form_id: 'contacto', page: document.body.dataset.page || location.pathname, ...campaignContext() });
-      formState(form, 'sending', 'Enviando tu consulta…');
-      try {
-        const response = await fetch('/api/contact', {
-          method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify(Object.fromEntries(new FormData(form))), signal: AbortSignal.timeout(15000), credentials: 'same-origin'
-        });
-        const result = await response.json();
-        if (!response.ok || result.ok !== true) {
-          formState(form, 'error', response.status === 429 ? 'Recibimos varios intentos. Esperá unos minutos antes de volver a enviar.' : 'No pudimos enviar la consulta. Intentá más tarde o escribinos por WhatsApp o email.');
-          return;
-        }
-        // One key event, only after server/provider acceptance; no form fields.
-        formState(form, 'success', 'Consulta enviada correctamente.'); form.reset();
-        const redirect = () => location.assign('/gracias');
-        if (production && getConsent() === 'granted') {
-          let navigated = false;
-          const finish = () => { if (!navigated) { navigated = true; redirect(); } };
-          track('contact_form_success', { form_id: 'contacto', page: document.body.dataset.page || location.pathname, ...campaignContext(), event_callback: finish, event_timeout: 800 });
-          setTimeout(finish, 900);
-        } else redirect();
-      } catch { formState(form, 'error', 'No pudimos confirmar el envío. Intentá más tarde o escribinos por WhatsApp.'); }
-      finally { sending = false; }
     });
   }
   function bindLinks() {
@@ -148,26 +110,26 @@
       if (href.startsWith('mailto:')) track('email_click', context);
       if (link.dataset.cta) track('cta_click', { ...context, cta: link.dataset.cta });
       if (link.dataset.cta === 'diagnostic') track('diagnostic_click', context);
-      const menu = document.querySelector('.mobile-nav[open]');
+      const menu = document.querySelector('.mobile-nav[open]:not([data-menu-ready])');
       if (menu && (!menu.contains(link) || link.closest('.mobile-nav-panel'))) menu.open = false;
     });
     document.addEventListener('reac:project-view', event => track('project_view', { project_index: event.detail?.project_index, page: document.body.dataset.page || location.pathname, ...campaignContext() }));
     document.addEventListener('keydown', event => {
-      const menu = document.querySelector('.mobile-nav[open]');
+      const menu = document.querySelector('.mobile-nav[open]:not([data-menu-ready])');
       if (event.key === 'Escape' && menu) { menu.open = false; menu.querySelector('summary').focus(); }
     });
     document.addEventListener('click', event => {
-      const menu = document.querySelector('.mobile-nav[open]'); if (menu && !menu.contains(event.target)) menu.open = false;
+      const menu = document.querySelector('.mobile-nav[open]:not([data-menu-ready])'); if (menu && !menu.contains(event.target)) menu.open = false;
     });
     matchMedia('(max-width: 980px)').addEventListener('change', () => {
-      const menu = document.querySelector('.mobile-nav[open]'); if (menu) menu.open = false;
+      const menu = document.querySelector('.mobile-nav[open]:not([data-menu-ready])'); if (menu) menu.open = false;
     });
     addEventListener('storage', event => { if (event.key === consentKey && getConsent() !== 'granted') disableAnalytics(); });
   }
   function init() {
-    captureAttribution(); mountConsent(); bindForm(); bindLinks();
+    captureAttribution(); mountConsent(); bindLinks();
     const service = document.body.dataset.page;
-    if (['desarrollo-web','marketing-digital','google-ads','meta-ads','automatizacion-ia','sistemas-crm','landing-pages'].includes(service)) track('service_view', { service, page: location.pathname, ...campaignContext() });
+    if (['desarrollo-web','marketing-digital','google-ads','meta-ads','automatizacion-ia','sistemas-crm','landing-pages','ciberseguridad'].includes(service)) track('service_view', { service, page: location.pathname, ...campaignContext() });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();

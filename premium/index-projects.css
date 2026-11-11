@@ -1,0 +1,69 @@
+/* Reac premium — home projects: four client cases in a 7/5 then 5/7 zigzag.
+   Each card answers "what did they do?" before the click: headline, summary and the services involved.
+   Same palette as the rest of the home: black surface, hairline, and the blue light of the services fan rising
+   from the bottom. Logos stay monochrome and screenshots come up out of the black, so four brands read as one set. */
+#proyectos.rfx { position: relative; background: var(--p-black); color: var(--p-ink); font-family: var(--p-font); }
+.rfx-head { display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center; margin-bottom: var(--p-head-gap, 56px); }
+.rfx-head .p-h2 span { display: block; color: var(--p-silver); }
+.rfx-all {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px;
+  background: var(--p-glass); border: 1px solid var(--p-line-strong); color: var(--p-ink); font-size: .9375rem; font-weight: 500; text-underline-offset: 4px;
+  transition: background-color .3s var(--p-ease);
+}
+.rfx-all:hover { background: var(--p-glass-hi); }
+
+.rfx-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; }
+.rfx-item { grid-column: span 5; }
+.rfx-item:nth-child(4n + 1), .rfx-item:nth-child(4n) { grid-column: span 7; }
+.rfx-card {
+  position: relative; display: flex; flex-direction: column; height: 100%; box-sizing: border-box;
+  padding: clamp(24px, 2.6vw, 36px) clamp(24px, 2.6vw, 36px) 0; overflow: hidden;
+  border-radius: var(--p-r-lg); background: radial-gradient(110% 55% at 50% 100%, rgba(46,55,255,.14), transparent 70%), var(--p-black);
+  border: 1px solid var(--p-line);
+  color: var(--p-ink); transition: border-color .35s var(--p-ease);
+}
+.rfx-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; }
+.rfx-logo { display: block; width: auto; height: 40px; max-width: 160px; object-fit: contain; object-position: left center;
+  filter: grayscale(1) brightness(1.7) contrast(.9); opacity: .9; transition: filter .35s var(--p-ease), opacity .35s var(--p-ease); }
+.rfx-wordmark { max-width: 16ch; font-size: 1.125rem; line-height: 1.2; font-weight: 700; letter-spacing: -.02em; color: var(--p-silver-hi); }
+.rfx-type { color: var(--p-silver); font-size: .8125rem; line-height: 1.3; text-align: right; }
+
+/* the headline is the one link; its ::after stretches over the whole card */
+.rfx-title { margin: 28px 0 0; max-width: 24ch; font-size: clamp(1.375rem, 1.1rem + .9vw, 1.875rem); font-weight: 500; line-height: 1.15; letter-spacing: -.025em; text-wrap: balance; }
+.rfx-title a { color: inherit; text-decoration: none; }
+.rfx-title a::after { content: ''; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+.rfx-title a:focus-visible { outline: none; }
+.rfx-card:has(.rfx-title a:focus-visible) { outline: 2px solid var(--p-blue-soft); outline-offset: 4px; }
+.rfx-summary { margin: 12px 0 0; max-width: 46ch; color: var(--p-silver-hi); font-size: .9375rem; line-height: 1.6; text-wrap: pretty; }
+.rfx-tags { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 18px 0 0; padding: 0; list-style: none; }
+.rfx-tags li { display: inline-flex; align-items: center; gap: 8px; color: var(--p-silver); font-size: .8125rem; line-height: 1.3; }
+.rfx-tags li::before { content: ''; width: 12px; height: 2px; border-radius: 2px; background: var(--p-blue-soft); box-shadow: 0 0 8px rgba(110,116,255,.8); }
+.rfx-meta { display: inline-flex; align-items: center; gap: 6px; margin-top: 22px; font-size: .875rem; font-weight: 500; color: var(--p-ink); }
+.rfx-meta svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform .3s var(--p-ease); }
+
+/* the screenshot sits low in the card and bleeds off its bottom edge */
+.rfx-media { position: relative; display: block; margin-top: auto; padding-top: 28px; }
+/* wide cards set the row height with a 16:10 shot; narrow cards let theirs fill whatever the row leaves */
+@media (min-width: 901px) {
+  .rfx-item:not(:nth-child(4n + 1)):not(:nth-child(4n)) .rfx-media { flex: 1 1 0; display: flex; flex-direction: column; }
+  .rfx-item:not(:nth-child(4n + 1)):not(:nth-child(4n)) .rfx-media img { flex: 1 1 0; min-height: 220px; height: 0; aspect-ratio: auto; object-position: center; }
+}
+.rfx-media img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top center; border-radius: var(--p-r-md) var(--p-r-md) 0 0; background: var(--p-black); filter: saturate(.8) brightness(.9); -webkit-mask-image: linear-gradient(to bottom, transparent, #000 24%); mask-image: linear-gradient(to bottom, transparent, #000 24%); transition: transform .6s var(--p-ease), filter .6s var(--p-ease); transform-origin: bottom center; }
+.rfx-note { position: absolute; left: 10px; bottom: 10px; padding: 4px 9px; border-radius: 999px; background: rgba(0,0,0,.72); color: var(--p-silver-hi); font-size: .6875rem; }
+
+/* hover/focus: the frame firms up, the screenshot gets its full colour and eases up, the arrow nudges */
+.rfx-card:is(:hover, :focus-within) { border-color: var(--p-line-strong); }
+.rfx-card:is(:hover, :focus-within) .rfx-media img { transform: scale(1.02); filter: none; }
+.rfx-card:is(:hover, :focus-within) .rfx-meta svg { transform: translateX(3px); }
+@media (prefers-reduced-motion: reduce) {
+  .rfx-media img, .rfx-meta svg { transition: none; }
+  .rfx-card:is(:hover, :focus-within) .rfx-media img, .rfx-card:is(:hover, :focus-within) .rfx-meta svg { transform: none; }
+}
+
+@media (max-width: 900px) {
+  .rfx-grid { grid-template-columns: minmax(0, 1fr); max-width: 560px; margin-inline: auto; gap: 14px; }
+  .rfx-item, .rfx-item:nth-child(4n + 1), .rfx-item:nth-child(4n) { grid-column: auto; }
+  .rfx-top { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .rfx-type { text-align: left; }
+  .rfx-title { margin-top: 18px; }
+}

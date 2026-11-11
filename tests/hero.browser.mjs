@@ -15,16 +15,35 @@ try {
   await page.goto(base);
   const words = page.locator('.p-hero__word');
   const initial = await page.locator('.p-hero__word.is-current').textContent();
-  await page.waitForFunction(() => document.querySelector('.p-hero__word.is-current')?.textContent === 'software a medida', null, {timeout:10000});
+  await page.waitForFunction(() => document.querySelector('.p-hero__word.is-current')?.textContent === 'Software a medida', null, {timeout:10000});
   assert.equal(await page.locator('[data-hero-motion]').count(), 0);
   await page.waitForTimeout(1500);
   assert.equal(await words.count(), 6);
-  const starState = await page.locator('.p-hero__stars svg').evaluateAll(nodes => nodes.map(node => {
-    const style = getComputedStyle(node);
-    return {color:style.color, iterations:style.animationIterationCount, delay:parseFloat(style.animationDelay)};
-  }));
-  assert.ok(starState.every(star => star.color === 'rgb(245, 181, 68)' && star.iterations === '1'));
-  assert.ok(starState.every((star, i) => !i || star.delay > starState[i-1].delay));
+  assert.equal(await page.locator('#hero-sec [data-dock]').count(), 0);
+  assert.equal(await page.locator('.home-footer [data-dock] .p-dock__item').count(), 3);
+  assert.equal(await page.locator('.p-hero__avatars').count(), 0);
+  assert.equal(await page.locator('.p-hero__proof-stars').getAttribute('aria-hidden'), 'true');
+  assert.equal(await page.locator('.p-hero__proof').getAttribute('href'), '#testimonios');
+  for (const button of await page.locator('.p-hero__btn').all()) {
+    assert.equal(await button.evaluate(node => getComputedStyle(node).textDecorationLine), 'none');
+  }
+  assert.equal(await words.first().evaluate(node => getComputedStyle(node).textTransform), 'none');
+  const atmosphere = page.locator('#hero-sec [data-hero-atmosphere]');
+  assert.equal(await atmosphere.getAttribute('aria-hidden'), 'true');
+  assert.equal(await atmosphere.evaluate(node => node.style.getPropertyValue('--hero-p')), '0.000');
+  await page.evaluate(() => scrollTo({top:innerHeight / 2,behavior:'instant'}));
+  await page.waitForTimeout(100);
+  assert.ok(Number(await atmosphere.evaluate(node => node.style.getPropertyValue('--hero-p'))) > 0, 'Atmosphere follows scroll');
+  for (let i = 0; i < 4; i++) {
+    await page.evaluate(() => scrollTo({top:document.documentElement.scrollHeight,behavior:'instant'}));
+    await page.waitForTimeout(300);
+  }
+  const icon = page.locator('.p-dock__item').first();
+  await icon.hover();
+  await page.waitForTimeout(250);
+  assert.ok(await icon.evaluate(node => node.getBoundingClientRect().width) > 46, 'Footer dock magnifies');
+  await page.mouse.move(0,0);
+  await page.evaluate(() => scrollTo({top:0,behavior:'instant'}));
 
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.waitForTimeout(200);
@@ -63,10 +82,11 @@ try {
   const staticPage = await noJS.newPage(); await staticPage.goto(base);
   assert.equal(await staticPage.locator('.p-hero__word.is-current').textContent(), initial);
   assert.equal(await staticPage.locator('[data-hero-motion]').count(), 0);
-  assert.equal(await staticPage.locator('.p-hero__stars svg').count(), 5);
+  assert.equal(await staticPage.locator('.p-hero__avatars').count(), 0);
+  assert.equal(await staticPage.locator('.p-hero__proof').getAttribute('href'), '#testimonios');
   await noJS.close();
   assert.deepEqual(errors, []);
-  console.log('Hero passed: two centered lines, rotation, one-shot stars, reduced motion, 8 widths, Axe and no JavaScript.');
+  console.log('Hero passed: two centered lines, sentence-case neon rotation, footer dock, scroll-linked atmosphere, reduced motion, 8 widths, Axe and no JavaScript.');
 } finally {
   await browser.close();
 }

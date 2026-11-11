@@ -121,6 +121,11 @@
       "permanent": true
     },
     {
+      "source": "/ciberseguridad.html",
+      "destination": "/ciberseguridad",
+      "permanent": true
+    },
+    {
       "source": "/proyectos.html",
       "destination": "/proyectos",
       "permanent": true
@@ -187,6 +192,10 @@
     {
       "source": "/sistemas-crm",
       "destination": "/sistemas-crm.html"
+    },
+    {
+      "source": "/ciberseguridad",
+      "destination": "/ciberseguridad.html"
     },
     {
       "source": "/proyectos",

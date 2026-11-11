@@ -1,4 +1,4 @@
-// Reac premium — hero load sequence + chrome parallax, and the servicios switcher.
+// Reac premium — hero chrome entrance + parallax, rotating service words, and the servicios switcher.
 // Runs on DOMContentLoaded so the deferred GSAP bundle (loaded after this file) is available.
 (() => {
   'use strict';
@@ -11,24 +11,19 @@
     const gsap = window.gsap;
     const arc = hero.querySelector('[data-chrome-arc]');
     const slabs = [...hero.querySelectorAll('.p-chrome__slab')];
-    const lines = [...hero.querySelectorAll('[data-hero-line]')];
-    const fades = [...hero.querySelectorAll('[data-hero-in]')];
 
     // No GSAP or reduced motion: drop the CSS pre-state and show the final composition.
     if (!gsap || reduced.matches) { hero.classList.add('is-live'); return; }
 
+    // Title, lead and CTAs are readable from the first render; the entrance belongs to the
+    // decorative chrome only, so a slow script never hides content.
     gsap.set(slabs, { '--fan': 0, '--show': 0 });
     gsap.set(arc, { '--spin': '-26deg' });
-    gsap.set(lines, { yPercent: 108 });
-    gsap.set(fades, { opacity: 0, y: 16 });
     hero.classList.add('is-live');
-
     gsap.timeline({ defaults: { ease: 'expo.out' } })
       .to(arc, { '--spin': '0deg', duration: 2.4, ease: 'power3.out' }, 0)
       .to(slabs, { '--fan': 1, duration: 2, stagger: { each: .06, from: 'start' } }, 0.05)
-      .to(slabs, { '--show': 1, duration: 1.1, ease: 'power2.out', stagger: .06 }, 0.05)
-      .to(lines, { yPercent: 0, duration: 1.25, stagger: .1 }, 0.35)
-      .to(fades, { opacity: 1, y: 0, duration: 1, stagger: .09, ease: 'power3.out', clearProps: 'transform' }, 0.85);
+      .to(slabs, { '--show': 1, duration: 1.1, ease: 'power2.out', stagger: .06 }, 0.05);
 
     // Slow idle drift, paused while the hero is off screen.
     const drift = gsap.to(arc, { '--drift': '3deg', duration: 9, ease: 'sine.inOut', yoyo: true, repeat: -1, paused: true });
@@ -53,64 +48,104 @@
     reduced.addEventListener('change', () => {
       if (!reduced.matches) return;
       drift.kill();
-      gsap.killTweensOf([arc, ...slabs, ...lines, ...fades]);
+      gsap.killTweensOf([arc, ...slabs]);
       gsap.set(slabs, { '--fan': 1, '--show': 1 });
       gsap.set(arc, { '--spin': '0deg', '--drift': '0deg', '--tilt-x': '12deg', '--tilt-y': '-18deg' });
-      gsap.set(lines, { yPercent: 0 });
-      gsap.set(fades, { opacity: 1, y: 0 });
     });
+  }
+
+  // Scroll writes one progress value; the glow, streak and grain read it in CSS.
+  function setupAtmosphere() {
+    const hero = document.querySelector('#hero-sec.p-hero');
+    const atmos = hero?.querySelector('[data-hero-atmosphere]');
+    if (!atmos) return;
+    let frame = 0;
+    const apply = () => {
+      frame = 0;
+      const progress = reduced.matches ? 0 : Math.min(1, Math.max(0, -hero.getBoundingClientRect().top / hero.offsetHeight));
+      atmos.style.setProperty('--hero-p', progress.toFixed(3));
+    };
+    const request = () => { if (!frame) frame = requestAnimationFrame(apply); };
+    addEventListener('scroll', request, { passive: true });
+    addEventListener('resize', request, { passive: true });
+    reduced.addEventListener('change', request);
+    apply();
+  }
+
+  // SplitText once per element; the h1's aria-label keeps the full sentence accessible.
+  const splits = new WeakMap();
+  function splitChars(element) {
+    if (!splits.has(element)) {
+      splits.set(element, window.SplitText.create(element, { type: 'words,chars', aria: 'none', wordsClass: 'p-hero__cword', charsClass: 'p-hero__char' }).chars);
+    }
+    return splits.get(element);
   }
 
   function setupHeroWords() {
     const root = document.querySelector('[data-hero-words]');
     if (!root) return;
+    const gsap = window.gsap;
     const words = [...root.children];
-    const stars = document.querySelector('[data-hero-stars]');
-    let index = 0, timer = 0, visible = true;
-    let animations = [];
-    const fitWord = () => {
+    const animated = () => gsap && window.SplitText && !reduced.matches;
+    let index = 0, visible = true, timer = null, swapping = null;
+
+    const wordWidth = word => {
       const range = document.createRange();
-      range.selectNodeContents(words[index]);
-      root.style.width = Math.ceil(range.getBoundingClientRect().width) + 2 + 'px';
+      range.selectNodeContents(word);
+      return Math.ceil(range.getBoundingClientRect().width) + 2;
+    };
+    const fitWord = () => {
+      if (swapping) return;
+      const line = root.parentElement;
+      const titleSize = parseFloat(getComputedStyle(line.parentElement).fontSize);
+      line.style.fontSize = titleSize + 'px';
+      const style = getComputedStyle(root);
+      const padding = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+      const required = Math.max(...words.map(wordWidth)) + line.firstElementChild.getBoundingClientRect().width + parseFloat(getComputedStyle(line).columnGap) + padding;
+      line.style.fontSize = Math.min(titleSize, titleSize * (line.clientWidth - 4) / required) + 'px';
+      root.style.width = wordWidth(words[index]) + 'px';
     };
     const settle = () => {
-      animations.forEach(animation => animation.cancel());
-      animations = [];
+      if (swapping) swapping.progress(1);
       words.forEach((word, i) => word.classList.toggle('is-current', i === index));
     };
     const schedule = () => {
-      clearTimeout(timer);
-      if (reduced.matches || !visible || document.hidden) return;
-      timer = setTimeout(() => {
-        const previous = words[index];
-        index = (index + 1) % words.length;
-        const next = words[index];
-        next.classList.add('is-current');
-        fitWord();
-        const options = { duration: 750, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'both' };
-        animations = [
-          previous.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(115%)' }], options),
-          next.animate([{ transform: 'translateY(-115%)' }, { transform: 'translateY(0)' }], options)
-        ];
-        Promise.all(animations.map(animation => animation.finished)).then(() => {
-          settle(); schedule();
-        }).catch(() => { /* Motion preferences or leaving the viewport cancel the transition. */ });
-      }, 3200);
+      timer?.kill();
+      timer = null;
+      if (!animated() || !visible || document.hidden) return;
+      timer = gsap.delayedCall(3.2, change);
+    };
+    // The old phrase falls out of its mask while the new one lands from above, letter by letter.
+    const change = () => {
+      const previous = words[index];
+      index = (index + 1) % words.length;
+      const next = words[index];
+      const out = splitChars(previous), incoming = splitChars(next);
+      next.classList.add('is-current');
+      const width = wordWidth(next);
+      gsap.set(incoming, { yPercent: -112, opacity: 0 });
+      swapping = gsap.timeline({
+        onComplete() {
+          swapping = null;
+          previous.classList.remove('is-current');
+          gsap.set([...out, ...incoming], { clearProps: 'transform,opacity' });
+          schedule();
+        }
+      })
+        .to(out, { yPercent: 112, opacity: 0, duration: .42, ease: 'power3.in', stagger: .009 }, 0)
+        .to(root, { width, duration: .9, ease: 'expo.inOut' }, .05)
+        .to(incoming, { yPercent: 0, duration: .8, ease: 'expo.out', stagger: .017 }, .3)
+        .to(incoming, { opacity: 1, duration: .32, ease: 'power1.out', stagger: .017 }, .3);
     };
     const update = () => {
-      clearTimeout(timer); settle(); fitWord();
+      timer?.kill();
+      settle();
+      fitWord();
       schedule();
     };
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; update(); }).observe(root);
-      if (stars) {
-        const observer = new IntersectionObserver(([entry]) => {
-          if (!entry.isIntersecting) return;
-          if (!reduced.matches) stars.classList.add('is-lighting');
-          observer.disconnect();
-        });
-        observer.observe(stars);
-      }
+
     }
     document.addEventListener('visibilitychange', update);
     reduced.addEventListener('change', update);
@@ -149,7 +184,8 @@
     observer.observe(root);
   }
 
-  const init = () => { setupHero(); setupHeroWords(); setupServices(); };
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });
-  else init();
+  const init = () => { setupHero(); setupAtmosphere(); setupHeroWords(); setupServices(); };
+  // Deferred scripts run while readyState is already 'interactive', before gsap.min.js; wait for DOMContentLoaded.
+  if (document.readyState === 'complete') init();
+  else document.addEventListener('DOMContentLoaded', init, { once: true });
 })();

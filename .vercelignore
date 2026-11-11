@@ -1,0 +1,8 @@
+.git
+.env*
+node_modules
+dist
+artifacts
+.agents
+.codex
+uploads/hero-avatars-illustrative.webp

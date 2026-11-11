@@ -1,0 +1,49 @@
+/* Reac premium — services fan: seven lasers rising from one point, each ending on the term that carries most weight.
+   Static on purpose: no entrance drawing and no pointer-led light. */
+#proceso .pjl { position: relative; aspect-ratio: 1200 / 560; margin: 0; padding: 0; border: 0; border-radius: 0; overflow: visible; list-style: none; }
+#proceso .pjl::after { content: ''; pointer-events: none; position: absolute; left: 19%; bottom: -12%; width: 70%; height: 60%; background: radial-gradient(closest-side, rgba(46,55,255,.16), transparent); filter: blur(30px); }
+.pjl-ray { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; pointer-events: none; }
+.pjl-ray line { fill: none; stroke-linecap: round; }
+.pjl-halo { stroke-width: 22; opacity: .22; filter: blur(12px); }
+.pjl-glow { stroke-width: 6; opacity: .55; filter: blur(3px); }
+.pjl-core { stroke-width: 1.6; }
+.pjl-beam--lead .pjl-halo { stroke-width: 34; opacity: .4; }
+.pjl-beam--lead .pjl-glow { stroke-width: 9; opacity: .8; }
+.pjl-beam--lead .pjl-core { stroke-width: 2.6; }
+
+.pjl-label { position: absolute; z-index: 1; left: var(--x); top: var(--y); display: flex; flex-direction: column; align-items: center; width: max-content; max-width: 10.5em; translate: -50% calc(-100% - 10px); color: var(--p-silver-hi); text-align: center; text-decoration: none; transition: color .3s var(--p-ease); }
+.pjl-label strong { font-size: clamp(1rem, .7rem + .55vw, 1.3125rem); font-weight: 500; line-height: 1.2; letter-spacing: -.02em; text-wrap: balance; }
+.pjl-label small { margin-top: 5px; color: var(--p-silver); font-size: .8125rem; line-height: 1.3; }
+.pjl-label svg { display: inline-block; width: .6em; height: .6em; margin-left: .3em; vertical-align: .3em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; opacity: .45; transition: opacity .3s var(--p-ease); }
+.pjl-beam--lead .pjl-label { color: #fff; }
+.pjl-beam--lead .pjl-label small { color: var(--p-silver-hi); }
+.pjl-label:hover, .pjl-label:focus-visible { color: #fff; }
+.pjl-label:hover svg, .pjl-label:focus-visible svg { opacity: 1; }
+.pjl-label:focus-visible { outline: 2px solid var(--p-blue-soft); outline-offset: 6px; border-radius: 4px; }
+
+/* What each front does. The lead's line stays under its label and explains why it shines;
+   the rest open as a caption under their own label on hover or keyboard focus. */
+.pjl-desc { position: absolute; z-index: 2; left: var(--x); top: calc(var(--y) + 14px); width: 17em; margin: 0; padding: 10px 14px; translate: -50% 0; border: 1px solid var(--p-line-strong); border-radius: var(--p-r-sm); background: rgba(0,0,0,.92); color: var(--p-silver-hi); font-size: .875rem; line-height: 1.5; text-align: center; text-wrap: pretty; opacity: 0; pointer-events: none; transition: opacity .25s var(--p-ease); }
+.pjl-beam:hover .pjl-desc, .pjl-beam:focus-within .pjl-desc { opacity: 1; }
+.pjl-beam--lead .pjl-desc { left: auto; right: 0; top: calc(var(--y) + 26%); width: 14em; padding: 0; translate: none; border: 0; background: none; text-align: right; opacity: 1; }
+.pjl:has(.pjl-beam:not(.pjl-beam--lead) :is(:hover, :focus-visible)) .pjl-beam--lead .pjl-desc { opacity: .35; }
+
+/* desktop: the heading sits in the empty corner above the short beams */
+@media (min-width: 1100px) {
+  #main-content #proceso .pj-head { position: relative; z-index: 2; display: block; max-width: 40%; margin-bottom: -150px; }
+  #proceso .pj-intro { margin-top: 18px; }
+}
+
+/* below a laptop the fan gets too tight: the same seven beams lie flat, each with its line of copy */
+@media (max-width: 1099px) {
+  #proceso .pjl { aspect-ratio: auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 26px; }
+  #proceso .pjl::after { display: none; }
+  .pjl-ray { display: none; }
+  .pjl-beam { position: relative; padding-bottom: 16px; }
+  .pjl-beam::after { content: ''; position: absolute; left: 0; bottom: 0; width: max(35%, var(--len)); height: 2px; border-radius: 2px; background: linear-gradient(90deg, rgba(46,55,255,.2), #4F6BFF 60%, #8EA2FF); box-shadow: 0 0 12px rgba(79,107,255,.7), 0 0 30px rgba(46,55,255,.35); }
+  .pjl-beam--lead::after { height: 3px; background: linear-gradient(90deg, rgba(46,55,255,.3), #6E80FF 50%, #F2F4FF); box-shadow: 0 0 16px rgba(142,162,255,.9), 0 0 44px rgba(46,55,255,.55); }
+  .pjl-label { position: static; display: inline-flex; flex-direction: row; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; max-width: none; translate: none; text-align: left; }
+  .pjl-label small { margin: 0; }
+  .pjl-desc, .pjl-beam--lead .pjl-desc { position: static; width: auto; max-width: 60ch; margin-top: 6px; padding: 0; translate: none; border: 0; background: none; color: var(--p-silver); text-align: left; opacity: 1; }
+  .pjl:has(.pjl-beam:not(.pjl-beam--lead) :is(:hover, :focus-visible)) .pjl-beam--lead .pjl-desc { opacity: 1; }
+}

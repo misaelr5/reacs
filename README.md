@@ -1,8 +1,13 @@
 ﻿# Reac Studio
 
-Sitio comercial estático con HTML completo y función de contacto en Vercel. Dominio canónico de producción: https://reacstudio.com. El host `reacs-studio.vercel.app` queda como alias técnico anterior y redirige al dominio oficial.
+Sitio comercial estático con HTML completo y contacto directo por WhatsApp y email. Dominio canónico de producción: https://reacstudio.com. El host `reacs-studio.vercel.app` queda como alias técnico anterior y redirige al dominio oficial.
 
-**Para retomar la activación:** [pendientes en orden de ejecución](docs/PENDIENTES.md). Las cuentas Resend/Upstash quedan para la próxima sesión.
+**Estado del contacto (9 de noviembre de 2026):** por decisión del responsable, no se utiliza formulario ni se requieren Resend/Upstash. [Pendientes de privacidad, medición y publicación](docs/PENDIENTES.md).
+
+## Reglas de diseño
+
+- **Nunca usar texto subrayado** en links, botones ni etiquetas (`text-decoration: underline`). Los links se distinguen por color, peso o un ícono de flecha, nunca por subrayado.
+- La única tipografía del sitio es **Satoshi**. No usar fuentes del sistema como reemplazo visible ni tipografías de fantasía.
 
 ## Desarrollo
 
@@ -19,14 +24,18 @@ Abrir http://127.0.0.1:4174. El servidor está limitado a esta computadora. Reco
 ## Arquitectura
 
 - `Reac.dc.html`: fuente de la home; el build sincroniza `index.html`.
-- `content/services.mjs`: siete páginas de servicios, incluida `/landing-pages`.
+- `content/services.mjs`: ocho páginas de servicios, incluidas `/landing-pages` y `/ciberseguridad`.
 - `content/editorial.mjs`: publicaciones revisadas; borradores excluidos.
-- `content/cases.mjs`: cinco casos destacados, compartidos entre home, portfolio y páginas `/proyectos/:slug` mediante `scripts/case-views.mjs`. Home y portfolio tienen un visor manual, con animación nativa y soporte de movimiento reducido; sin JavaScript se muestran todos los casos. El resto del catálogo se conserva en `content/projects.html`.
+- `content/cases.mjs`: seis casos destacados, compartidos entre home, portfolio y páginas `/proyectos/:slug` mediante `scripts/case-views.mjs`. La home muestra una grilla con mockups permanentes y un breve resumen de cada trabajo. `/proyectos` reúne los casos y el resto del catálogo de `content/projects.html` en una grilla continua, con entradas ascendentes GSAP y un total calculado desde el contenido. Sin JavaScript o con movimiento reducido se muestran todos los proyectos.
 - `site.config.mjs`: dominio, identidad, contactos, medición y clave pública IndexNow.
 - `reac-home.css`, `reac-pages.css`, `reac-site.css`: estilos de base. `premium/` añade el sistema visual de la home y `premium/pages.css` lo extiende a las páginas generadas.
+- `premium/showcase.css` y `premium/process.js`: módulo visual de cuatro servicios en `#proceso`, con escenas GSAP, pausa manual y movimiento reducido. Se preserva el diseño actual; `premium/rhythm.css` pospone el render fuera de pantalla y lo restablece para impresión.
+- `premium/navigation.css` y `reac-ui.js`: cabecera flotante con logo, menú de seis destinos con iconos y CTA. GSAP anima la apertura y el cierre; el desplegable nativo funciona sin JavaScript. View Transitions conecta las páginas compatibles y respeta movimiento reducido. `reac-ui.js` bloquea el primer render para preparar el menú antes de la captura de transición.
 - `reac-ui.js`: interacciones; `reac-site.js`: consentimiento, medición y contacto.
-- `scripts/build.mjs`: genera `dist/`, metadata, schema, sitemap y robots con una lista de archivos permitidos.
-- `lib/contact.ts`, `api/contact.ts`: validación, antispam y entrega del lado servidor.
+- `scripts/build.mjs`: genera `dist/`, metadata, schema, sitemap y robots con una lista de archivos permitidos. Agrupa el CSS publicado por página con nombre basado en su contenido, conservando el orden original; los archivos fuente permanecen separados. Conserva la preparación de la navegación antes de la captura de View Transitions.
+- `api/contact.ts`: responde 410 al formulario retirado; `lib/contact.ts` conserva la entrega anterior como referencia inactiva.
+- `premium/intro.css` y `premium/intro.js`: introducción breve con el símbolo real, una vez por sesión y sin bloquear interacción; se omite con movimiento reducido.
+- `premium/contact.css`: contacto directo compartido entre la home y `/contacto`.
 - `vercel.json`: build, rutas y encabezados.
 
 `support.js` y el script Python antiguo son históricos y no intervienen en la publicación. No ejecutar Python para construir esta versión. Los cuatro recursos HTML/PDF conservan sus URLs; los PDF no se regeneraron.
@@ -35,7 +44,7 @@ Abrir http://127.0.0.1:4174. El servidor está limitado a esta computadora. Reco
 
 Copiar `.env.example` a `.env.local` para desarrollo y configurar las variables también en Vercel. Nunca incluir secretos en HTML o Git.
 
-Contacto requiere `RESEND_API_KEY`, `CONTACT_FROM` (remitente verificado), `CONTACT_TO`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` y `CONTACT_RATE_LIMIT_SECRET` (secreto aleatorio de al menos 32 caracteres). Sin configuración devuelve un error seguro. Newsletter permanece deshabilitado.
+El contacto público funciona con enlaces nativos a WhatsApp y email; no requiere credenciales ni procesa mensajes en el servidor. `/api/contact` devuelve 410 y no llama a proveedores. `lib/contact.ts` y sus pruebas conservan la implementación anterior como referencia inactiva. Newsletter permanece deshabilitado.
 
 `SITE_URL` es un origen HTTPS sin ruta. Se usa en canonical, schema, sitemap, robots y validación de origen del backend. `PUBLIC_CONTACT_EMAIL` sustituye el contacto público sólo cuando existe un buzón real y verificado; si está vacío se conserva el correo actual. `npm run build` no carga `.env.local`: para cambiar valores localmente, definirlos en PowerShell y quitarlos al finalizar. Vercel usa sus variables de entorno.
 
@@ -43,9 +52,9 @@ Los tokens Google/Bing y la clave de propiedad IndexNow son públicos. Los datos
 
 ## Validación
 
-Las capturas de Travel Days y Comunidad Cristiana Villa Sarmiento se obtuvieron de sus sitios públicos el 4 de noviembre de 2026 (hora de Argentina/Uruguay), ambos con HTTP 200. Los originales y el registro de captura quedan en `artifacts/`; sólo se publican las versiones WebP de 1440 y 640 px. El caso de WordPress usa una representación editorial, sin identidad del cliente ni archivos del incidente. Los alcances de los casos provienen del responsable del proyecto; no se atribuyen métricas de negocio.
+Las capturas de Travel Days y Comunidad Cristiana se obtuvieron de sus sitios públicos el 4 de noviembre de 2026 (hora de Argentina/Uruguay), ambos con HTTP 200. Los originales y el registro de captura quedan en `artifacts/`; sólo se publican las versiones WebP de 1440 y 640 px. El caso de WordPress usa una representación editorial, sin identidad del cliente ni archivos del incidente. Los alcances de los casos provienen del responsable del proyecto; no se atribuyen métricas de negocio.
 
-La ilustración de WordPress fue generada con la herramienta integrada imagegen y se publica como `uploads/caso-wordpress-seguridad.webp` y `uploads/caso-wordpress-seguridad-640.webp`. Su prompt y la ubicación del original se registran en `artifacts/wordpress-image-generation.md`. El detalle del caso identifica que es una ilustración conceptual generada con IA.
+Los mockups actuales de seguridad, REAC LEADS, Travel Days y Comunidad Cristiana fueron suministrados por el responsable del proyecto. Se exportan a WebP de 1440 y 640 px con el prefijo `mockup-`. Son presentaciones visuales; los indicadores del mockup de seguridad y los datos de ejemplo del CRM no se usan como resultados del trabajo. REAC LEADS se presenta como una aplicación local de uso interno, con repositorio privado y alcance confirmado por su responsable.
 
 ```powershell
 npm run build
@@ -65,7 +74,7 @@ Navegador y performance requieren servidor en 4174 y Chrome instalado. Playwrigh
 
 ## Publicación
 
-Vercel instala con `npm ci --ignore-scripts`, construye con `npm run build`, publica `dist/` y despliega `api/contact.ts`. Verificar READY, HTTP, rutas, CSP y recepción real después de publicar. Completar privacidad antes de activar captación.
+Vercel instala con `npm ci --ignore-scripts`, construye con `npm run build`, publica `dist/` y despliega el endpoint retirado `api/contact.ts` (410). Después de una publicación autorizada, verificar READY, HTTP, rutas, CSP y enlaces de WhatsApp/email sin enviar mensajes automáticamente. Los datos legales que aún faltan se registran en `docs/PENDIENTES.md`.
 
 ```powershell
 npm run indexnow -- /desarrollo-web /google-ads
@@ -81,6 +90,6 @@ La configuración central define `Reac Studio` y sus variantes `ReacStudio`, `RE
 
 Consultar [auditoría](docs/seo/SEO-AUDIT.md), [implementación y validación](docs/seo/SEO-IMPLEMENTATION.md), [acciones externas](docs/seo/SEARCH-CONSOLE-CHECKLIST.md) y [roadmap editorial](docs/seo/CONTENT-ROADMAP.md). La validación HTTP requiere el servidor local activo. Los cambios de dominio/certificado y la indexación se verifican aparte de las pruebas del repositorio.
 
-Ver [informe y checklist](docs/production-readiness.md) e [investigación inicial](docs/seo-research.md). Producción publicada y verificada el 7 de septiembre de 2026, con el código de `9cb40c8`: Vercel READY, home y servicios HTTP 200, sin plantillas pendientes, redirección 308 y 404 correctos. Contacto responde un error controlado hasta configurar proveedores; la recepción real sigue pendiente.
+Ver [informe y checklist](docs/production-readiness.md) e [investigación inicial](docs/seo-research.md). El informe del 7 de septiembre es histórico: su formulario y proveedores fueron reemplazados por contacto directo. Para la versión actual consultar [pendientes](docs/PENDIENTES.md) y verificar el despliegue y el dominio de forma independiente al push.
 
 Despliegue manual al proyecto existente: `npx --yes vercel@59.11.2 deploy --prod --yes --scope misaellovespias-projects`. El push a la rama de trabajo no debe considerarse una publicación automática confirmada.

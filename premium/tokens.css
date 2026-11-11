@@ -16,6 +16,7 @@
   --p-blue-glow: rgba(46,55,255,.38);
   --p-orange: #FA3601;
   --p-orange-glow: rgba(250,54,1,.32);
+  --p-star-gold: #F5B544;
 
   /* glass panels (image 2 reference) */
   --p-glass: rgba(255,255,255,.035);
@@ -28,8 +29,9 @@
   --p-chrome: linear-gradient(155deg, #F4F6FA 0%, #9BA2B4 22%, #2A2E3A 46%, #C9CED9 58%, #6E74FF 74%, #1A1C26 86%, #FA3601 100%);
   --p-chrome-text: linear-gradient(180deg, #FFFFFF 0%, #DDE1EA 45%, #8A90A2 100%);
 
-  /* type: Satoshi only, contrast comes from scale and weight */
+  /* type: Satoshi for the interface; the hero's italic accent is shared. */
   --p-font: Satoshi, 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --p-font-accent: Georgia, 'Times New Roman', serif;
   --p-fs-display: clamp(2.75rem, 1.4rem + 5.6vw, 6.25rem);
   --p-fs-h2: clamp(2rem, 1.3rem + 2.8vw, 3.75rem);
   --p-fs-h3: clamp(1.375rem, 1.1rem + 1vw, 1.875rem);
@@ -88,3 +90,9 @@ body > div[data-motion] { background: var(--p-black) !important; color: var(--p-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* Design rule (README): no underlined text anywhere; links read by colour, weight or an arrow. */
+a, a *, button, .p-btn { text-decoration: none !important; }
+/* Links inside running text are marked with a soft highlight instead of an underline. */
+:where(p, li, dd) > a:not([class]) { color: #fff; font-weight: 600; background: rgba(110,116,255,.18); padding: 0 .28em; border-radius: 5px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+:where(p, li, dd) > a:not([class]):hover { background: rgba(110,116,255,.32); }

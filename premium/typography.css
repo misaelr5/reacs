@@ -1,0 +1,27 @@
+/* Shared editorial type: the hero defines the family, weight and tracking.
+   Sizes remain local so card titles, page titles and section titles keep their roles. */
+:root {
+  --p-font: Satoshi, 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --p-font-accent: Georgia, 'Times New Roman', serif;
+  --p-heading-weight: 700;
+  --p-heading-tracking: -.035em;
+}
+body { font-family: var(--p-font); }
+button, input, textarea, select { font-family: var(--p-font); }
+body #main-content :is(h1, h2, h3, h4),
+body.content-page main :is(h1, h2, h3, h4) {
+  font-family: var(--p-font);
+  /* Legacy modules use ID selectors and inline weights; this is the single authority. */
+  font-weight: var(--p-heading-weight) !important;
+}
+body #main-content > section h2,
+body.content-page main :is(h1, h2) {
+  letter-spacing: var(--p-heading-tracking);
+  text-wrap: balance;
+}
+body #main-content :is(h1, h2, h3, h4) em,
+body.content-page main :is(h1, h2, h3, h4) em {
+  font-family: var(--p-font-accent);
+  font-style: italic;
+  font-weight: 400;
+}

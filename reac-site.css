@@ -1,6 +1,28 @@
-.reac-consent{position:fixed;right:20px;bottom:20px;left:20px;z-index:1000000;display:flex;align-items:center;justify-content:space-between;gap:24px;width:min(920px,calc(100% - 40px));margin:auto;padding:20px 22px;border:1px solid #353b63;border-radius:18px;background:rgba(10,11,24,.97);box-shadow:0 24px 70px -28px rgba(0,0,0,.9);color:#FDFCFE;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45;backdrop-filter:blur(18px)}
-.reac-consent__copy{display:flex;flex-direction:column;gap:4px;max-width:570px}.reac-consent__copy strong{font-size:16px}.reac-consent__copy span{color:#A6ABC2;font-size:13px}.reac-consent__copy a{align-self:flex-start;color:#9AA0FF;font-size:12px}.reac-consent__actions{display:flex;gap:10px;flex:none}.reac-consent button{min-height:42px;padding:10px 14px;border:1px solid #4a527d;border-radius:10px;background:transparent;color:#FDFCFE;font:700 12px/1 system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer}.reac-consent button[data-consent="granted"]{border-color:transparent;background:linear-gradient(135deg,#1F27EB,#7C3AED)}
-.reac-consent button:focus-visible{outline:2px solid #FA6B42;outline-offset:3px}
+/* Compact privacy notice; both choices share the same visual weight. */
+.reac-consent {
+  position: fixed; z-index: 1000000; left: 24px; bottom: 24px; right: auto;
+  box-sizing: border-box; display: flex; flex-direction: column; align-items: stretch;
+  gap: 22px; width: min(420px, calc(100% - 48px)); margin: 0; padding: 28px;
+  border: 1px solid #d8dae0; border-radius: 20px; background: #f2f4f8;
+  color: #15161a; font-family: Satoshi, 'Segoe UI', sans-serif; line-height: 1.5;
+  box-shadow: 0 16px 64px rgba(0,0,0,.24); isolation: isolate;
+  animation: consent-enter .45s cubic-bezier(.16,1,.3,1) both;
+}
+.reac-consent__copy { display: grid; gap: 14px; }
+.reac-consent__copy strong { font-size: 26px; line-height: 1.08; letter-spacing: -.04em; font-weight: 700; }
+.reac-consent__copy span { color: #50545f; font-size: 14px; line-height: 1.6; }
+.reac-consent__actions { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 10px; }
+.reac-consent button {
+  min-width: 0; min-height: 48px; padding: 12px 10px; border: 1px solid #15161a;
+  border-radius: 9px; background: #15161a; color: #fff;
+  font: 700 12px/1.3 Satoshi, 'Segoe UI', sans-serif; cursor: pointer;
+  transition: background-color .18s, border-color .18s;
+}
+.reac-consent button[data-consent="granted"] { background: #15161a; border-color: #15161a; }
+.reac-consent button:hover { background: #30333b; border-color: #30333b; }
+.reac-consent button:focus-visible, .reac-consent__policy:focus-visible { outline: 2px solid #2e37ff; outline-offset: 4px; }
+.reac-consent__policy { align-self: flex-start; display: inline-flex; align-items: center; min-height: 32px; color: #50545f; font-size: 12px; text-underline-offset: 4px; }
+@keyframes consent-enter { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 .form-status{min-height:22px;margin:10px 0 0;font-size:13px;line-height:1.45}.form-status--idle{color:#868CA6}.form-status--sending{color:#AEB4FF}.form-status--success{color:#82E6AA}.form-status--error{color:#FF9B7A}
 .ct-send:disabled{cursor:wait;opacity:.65}
 .form-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
@@ -41,6 +63,8 @@
 @media(prefers-reduced-motion:reduce){.bento-showcase .ib-bento-card,.bento-showcase .ib-bento-card::before,.bento-showcase .sim-toggle,.bento-showcase .sim-control>div:first-child,.bento-showcase .bento-contact::after{transition:none!important;animation:none!important}.bento-showcase .ib-bento-card:hover{transform:none!important}}
 @media(max-width:760px){.reac-consent{align-items:stretch;flex-direction:column;gap:15px}.reac-consent__actions{display:grid;grid-template-columns:1fr 1fr}.team-grid{grid-template-columns:1fr}.team-card{min-height:0;padding:26px}.team-name{font-size:24px}.proj-image-placeholder{min-height:330px}nav>div{padding-right:12px!important;padding-left:12px!important}nav>div>div{grid-template-columns:auto 1fr!important;gap:10px!important}nav .imp-cta{justify-self:end!important;padding:10px 14px!important;font-size:13px!important}}
 @media(max-width:420px){.reac-consent{right:12px;bottom:12px;left:12px;width:calc(100% - 24px);padding:17px}.reac-consent__actions{grid-template-columns:1fr}.team-card{padding:23px}.team-areas{padding-top:19px}nav>div>div{padding-left:11px!important}nav .imp-cta{padding:10px 12px!important;font-size:12.5px!important}}
+/* Keep the notice compact after the legacy responsive rules above. */
+@media(max-width:760px){.reac-consent{right:auto;left:16px;bottom:calc(16px + env(safe-area-inset-bottom));width:min(420px,calc(100% - 32px));padding:24px;gap:20px}.reac-consent__actions{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
 @media print{.reac-consent{display:none!important}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.reac-consent,.reac-consent *,.team-card,.team-card *,[class*="reveal"],[class*="neon"],[class*="glow"],[class*="float"]{animation:none!important;transition-duration:.01ms!important;transition-delay:0ms!important}.team-card:hover{transform:none!important}}
 
@@ -48,10 +72,6 @@
 .mobile-nav,.nav-cta-short{display:none}
 .site-brand{justify-self:start;display:inline-flex;align-items:center;width:42px;height:42px;text-decoration:none;white-space:nowrap}
 .site-brand-mark{display:block;width:42px;height:42px;object-fit:contain}
-
-  /* The home navbar enters only after the hero has left the viewport. */
-  html.js body[data-page="home"] .site-nav{transform:translate3d(0,-24px,0);opacity:0;visibility:hidden;pointer-events:none;transition:transform 1.05s cubic-bezier(.16,1,.3,1),opacity .9s ease,visibility 0s linear 1.05s!important}
-  html.js body[data-page="home"] .site-nav:not(.nav-hidden){transform:none;opacity:1;visibility:visible;pointer-events:auto;transition-delay:0s!important}
 
   @media(max-width:980px){
   .site-nav>div{padding:calc(10px + env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) 0 max(12px,env(safe-area-inset-left))!important}

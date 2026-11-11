@@ -1,20 +1,55 @@
 import { escape as e } from './html.mjs';
 
-export function caseVisual(project, detail = false) {
+export function caseVisual(project, detail = false, sizes = '') {
   if (!project.image && !project.imageFile) return `<div class="case-security" aria-label="Intervención de seguridad WordPress"><svg aria-hidden="true" width="72" height="80" viewBox="0 0 72 80" fill="none"><path d="M36 5 65 16v22c0 18-14 31-29 37C21 69 7 56 7 38V16L36 5Z" stroke="currentColor" stroke-width="2"/><path d="m23 39 9 9 18-20" stroke="currentColor" stroke-width="3"/></svg><span>WordPress</span><strong>Investigación.<br>Recuperación.<br>Hardening.</strong><small>Intervención de seguridad</small></div>`;
   const src = project.image ? project.image + '.webp' : project.imageFile;
-  const responsive = project.image ? ` srcset="/uploads/${project.image}-640.webp 640w, /uploads/${src} 1440w" sizes="${detail ? '(max-width: 700px) 90vw, 1120px' : '(max-width: 760px) 90vw, 660px'}"` : '';
+  const responsive = project.image ? ` srcset="/uploads/${project.image}-640.webp 640w, /uploads/${src} 1440w" sizes="${sizes || (detail ? '(max-width: 700px) 90vw, 1120px' : '(max-width: 760px) 90vw, 660px')}"` : '';
   return `<img src="/uploads/${e(src)}"${responsive} alt="${e(project.imageAlt || 'Captura del sitio de '+project.name)}" width="${project.width}" height="${project.height}" loading="lazy" decoding="async">`;
 }
 
 export function caseDeck(projects, heading = 'h3') {
-  return `<div class="case-deck" data-case-deck role="region" aria-label="Casos destacados"><div class="case-deck-controls" hidden><div class="case-deck-status" role="status" aria-atomic="true"><span data-case-count>1 / ${projects.length}</span><span data-case-name>${e(projects[0].name)}</span></div><div class="case-deck-arrows"><button type="button" data-case-prev aria-label="Caso anterior"><span aria-hidden="true">←</span><span>Anterior</span></button><button type="button" data-case-next aria-label="Caso siguiente"><span>Siguiente</span><span aria-hidden="true">→</span></button></div></div><div class="case-list">${projects.map(project=>caseCard(project,heading)).join('')}</div><div class="case-deck-picker" aria-label="Elegir un caso" hidden>${projects.map((project,i)=>`<button type="button" data-case-go="${i}" aria-label="Ver caso ${i+1}: ${e(project.name)}" aria-pressed="${i===0}"><span aria-hidden="true">${String(i+1).padStart(2,'0')}</span></button>`).join('')}</div></div>`;
+  return `<div class="case-deck" data-case-deck role="region" aria-label="Casos destacados"><div class="case-deck-controls" hidden><div class="case-deck-status" role="status" aria-atomic="true"><span data-case-count>1 / ${projects.length}</span><span data-case-name>${e(projects[0].name)}</span></div><div class="case-deck-arrows"><button type="button" data-case-prev aria-label="Caso anterior"><span aria-hidden="true">←</span><span>Anterior</span></button><button type="button" data-case-next aria-label="Caso siguiente"><span>Siguiente</span><span aria-hidden="true">→</span></button></div></div><div class="case-list">${projects.map(project=>caseCard(project,heading)).join('')}</div><div class="case-deck-picker" aria-label="Elegir un caso" hidden>${projects.map((project,i)=>`<button type="button" data-case-go="${i}" aria-label="Ver caso ${i+1}: ${e(project.name)}" aria-pressed="${i===0}"><span aria-hidden="true">${heading === 'h3' ? `${caseVisual(project)}<strong>${e(project.name)}</strong><small>${e(project.category)}</small>` : String(i+1).padStart(2,'0')}</span></button>`).join('')}</div></div>`;
 }
 
 export function caseCard(project, heading = 'h3') {
+  if (heading === 'h3') return `<article class="case-card case-card--story" id="${e(project.slug)}"><header class="case-project-heading"><div><p class="case-category">${e(project.category)}</p><h3>${e(project.name)}</h3></div><span class="case-type">${e(project.type)}</span></header><figure class="case-project-media"><a class="case-preview" href="/proyectos/${project.slug}" aria-label="Ver caso: ${e(project.name)}">${caseVisual(project)}</a>${project.imageCaption ? `<figcaption>${e(project.imageCaption)}</figcaption>` : ''}</figure><div class="case-copy"><div class="case-brief"><h4>Qué necesitaban</h4><p>${e(project.need)}</p></div><div class="case-brief"><h4>Qué hicimos</h4><ul>${project.work.map(item=>`<li>${e(item)}</li>`).join('')}</ul></div><div class="case-actions">${project.url ? `<a class="case-contact" href="${e(project.url)}" target="_blank" rel="noopener noreferrer">Visitar sitio <span aria-hidden="true">↗</span></a>` : ''}<a class="case-link" href="/proyectos/${project.slug}" aria-label="Ver caso completo de ${e(project.name)}">Explorar el proyecto <span aria-hidden="true">↗</span></a><a class="case-link" data-cta="project_contact" data-placement="case_${project.slug}" href="/contacto">Quiero algo parecido</a></div></div></article>`;
+
   return `<article class="case-card" id="${e(project.slug)}"><a class="case-preview" href="/proyectos/${project.slug}" aria-label="Ver caso: ${e(project.name)}">${caseVisual(project)}</a><div class="case-copy"><p class="case-category">${e(project.category)}</p><${heading}>${e(project.name)}</${heading}><p class="case-headline">${e(project.headline)}</p><p class="case-summary">${e(project.summary)}</p><span class="case-type">${e(project.type)}</span><div class="case-actions"><a class="case-link" href="/proyectos/${project.slug}" aria-label="Ver caso completo de ${e(project.name)}">Ver caso completo <span aria-hidden="true">↗</span></a><a class="case-contact" data-cta="project_contact" data-placement="case_${project.slug}" href="/contacto">Quiero algo parecido</a></div></div></article>`;
 }
 
 export function caseDetail(project) {
   return `<article class="case-detail"><header class="page-hero"><p class="case-category">${e(project.category)}</p><h1>${e(project.name)}</h1><p class="page-intro">${e(project.headline)}</p><p>${e(project.summary)}</p><div class="case-tags">${project.technologies.map(t=>`<span>${e(t)}</span>`).join('')}</div></header><figure class="case-detail-visual">${caseVisual(project,true)}<figcaption>${project.imageCaption ? e(project.imageCaption) : project.image || project.imageFile ? 'Captura del sitio de '+e(project.name) : 'Representación editorial del servicio; no es una captura del entorno intervenido.'}</figcaption></figure><div class="case-story"><section><h2>El punto de partida</h2><p>${e(project.need)}</p></section><section><h2>Qué hicimos</h2><ul>${project.work.map(item=>`<li>${e(item)}</li>`).join('')}</ul></section><section><h2>Qué entregamos</h2><p>${e(project.delivery)}</p>${project.note?`<p class="case-note">${e(project.note)}</p>`:''}</section></div><section class="case-closing"><h2>¿Tenés un proyecto parecido?</h2><p>Contanos qué necesitás resolver y definimos juntos el alcance.</p><div class="case-actions"><a class="case-contact" data-cta="project_contact" data-placement="case_detail_${project.slug}" href="/contacto">Consultar por un trabajo parecido</a>${project.url?`<a class="case-link" href="${e(project.url)}" target="_blank" rel="noopener noreferrer">Visitar sitio <span aria-hidden="true">↗</span></a>`:''}<a class="case-link" href="/proyectos">Volver al portfolio</a></div></section></article>`;
+}
+
+// Home index: a permanent visual card per case, with one factual line; the full story stays on each case page.
+// The first case leads the grid. Mockup and example-data notes stay visible next to the image;
+// the image itself is decorative inside the link, whose name comes from the heading.
+export function caseIndex(projects) {
+  const arrow = '<svg class="rix-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"></path></svg>';
+  return `<ol class="rix-list">${projects.map((project, i) => {
+    const note = /mockup ilustrativo|datos de ejemplo/i.test(project.imageCaption || '') ? project.imageCaption : '';
+    const sizes = i === 0 ? '(max-width: 900px) 92vw, 720px' : '(max-width: 900px) 92vw, 560px';
+    return `<li class="rix-row${i === 0 ? ' rix-row--lead' : ''}" id="${e(project.slug)}"><a class="rix-link" href="/proyectos/${project.slug}"><span class="rix-media"><span class="rix-thumb">${caseVisual(project, false, sizes).replace(/alt="[^"]*"/, 'alt=""')}</span>${note ? `<span class="rix-note">${e(note)}</span>` : ''}</span><span class="rix-body"><h3 class="rix-name">${e(project.name)}</h3><span class="rix-headline">${e(project.headline)}</span><span class="rix-meta"><span class="rix-cat">${e(project.category)}</span><span class="rix-type">${e(project.type)}</span></span><span class="rix-more">Ver el caso ${arrow}</span></span></a></li>`;
+  }).join('')}</ol>`;
+}
+
+// Home: four featured cases in a 7/5 then 5/7 zigzag. Each card says what was done before the click:
+// the case headline is the link, then the summary and the services involved (the full catalog lives at /proyectos).
+const caseLogos = {
+  'travel-days': ['logo-travel-days-cutout.webp', 660, 257],
+  'crm-reac-studio': null,
+  'remediacion-malware-wordpress': null,
+  'comunidad-cristiana-villa-sarmiento': ['logo-ccvs-letters-cutout.webp', 480, 240],
+};
+export function caseFeatured(projects) {
+  const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg>';
+  return `<ul class="rfx-grid">${projects.filter(project => project.slug in caseLogos).map(project => {
+    const logo = caseLogos[project.slug];
+    const mark = logo
+      ? `<img class="rfx-logo" src="/uploads/${logo[0]}" alt="${e(project.name)}" width="${logo[1]}" height="${logo[2]}" loading="lazy" decoding="async">`
+      : `<span class="rfx-wordmark">${e(project.name)}</span>`;
+    const note = /mockup|datos de ejemplo/i.test(project.imageCaption || '') ? `<span class="rfx-note">${e(project.imageCaption)}</span>` : '';
+    const tags = (project.tags || []).map(tag => `<li>${e(tag)}</li>`).join('');
+    return `<li class="rfx-item" id="${e(project.slug)}"><article class="rfx-card"><div class="rfx-top">${mark}<span class="rfx-type">${e(project.category)}</span></div><h3 class="rfx-title"><a href="/proyectos/${project.slug}">${e(project.headline)}</a></h3><p class="rfx-summary">${e(project.summary)}</p>${tags ? `<ul class="rfx-tags" aria-label="Qué hicimos">${tags}</ul>` : ''}<span class="rfx-meta" aria-hidden="true">Ver caso ${arrow}</span><span class="rfx-media">${caseVisual(project, false, '(max-width: 900px) 92vw, 680px').replace(/alt="[^"]*"/, 'alt=""')}${note}</span></article></li>`;
+  }).join('')}</ul>`;
 }

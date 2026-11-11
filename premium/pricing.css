@@ -1,0 +1,116 @@
+/* Reac premium — pricing: four services in one row, coloured card heads, detail list on black. */
+.rpl-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; align-items: stretch; padding-top: 14px; }
+
+.rpl-card { --i: 0; position: relative; display: flex; flex-direction: column; padding: 5px; border-radius: 24px; background: #101114; border: 1px solid rgba(255,255,255,.09); transition: transform .45s var(--p-ease), border-color .3s var(--p-ease), box-shadow .45s var(--p-ease); }
+.rpl-grid > .rpl-card:nth-child(2) { --i: 1; }
+.rpl-grid > .rpl-card:nth-child(3) { --i: 2; }
+.rpl-grid > .rpl-card:nth-child(4) { --i: 3; }
+.rpl-card--featured { border-color: rgba(255,255,255,.28); }
+.rpl-badge { position: absolute; z-index: 2; top: 0; left: 50%; transform: translate(-50%, -50%); padding: 7px 13px; border-radius: 999px; background: #24262c; border: 1px solid rgba(255,255,255,.18); color: #fff; font-size: .75rem; font-weight: 500; white-space: nowrap; }
+
+.rpl-head { position: relative; isolation: isolate; overflow: hidden; display: flex; flex: none; flex-direction: column; padding: 24px 20px 20px; border-radius: 19px; color: #fff; background: var(--base); box-shadow: inset 0 1px 0 rgba(255,255,255,.14); }
+/* the colour bloom sits in a fixed corner of each card */
+.rpl-head::before { content: ''; position: absolute; z-index: -1; inset: 0; background: radial-gradient(90% 90% at 80% 0%, var(--glow), transparent 70%); transition: opacity .3s var(--p-ease); }
+.rpl-card--web { --base: #101C5C; --glow: #2746B8; }
+.rpl-card--marketing { --base: #1F27EB; --glow: #6E74FF; }
+.rpl-card--auto { --base: #6A1B05; --glow: #C93A08; }
+.rpl-card--steel { --base: #24272F; --glow: #59606F; }
+
+.rpl-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,.14); box-shadow: inset 0 1px 0 rgba(255,255,255,.28); transition: transform .5s var(--p-ease); }
+.rpl-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.rpl-name { margin: 18px 0 0; font-family: var(--p-font); font-size: 1.25rem; line-height: 1.15; font-weight: 500; letter-spacing: -.02em; }
+.rpl-desc { margin: 8px 0 0; min-height: 6.2em; font-size: .875rem; line-height: 1.55; color: rgba(255,255,255,.86); }
+.rpl-price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 5px; margin: 12px 0 0; font-size: .8125rem; color: rgba(255,255,255,.86); }
+.rpl-price strong { color: #fff; font-size: clamp(1.875rem, 2.5vw, 2.375rem); line-height: 1; font-weight: 500; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
+.rpl-billing { margin: 8px 0 0; font-size: .8125rem; color: rgba(255,255,255,.86); }
+:is(#servicios, #recursos) .rpl-btn { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; margin-top: 20px; padding: 0 14px; border-radius: 999px; background: rgba(255,255,255,.16); color: #fff; font-size: .9063rem; font-weight: 500; text-align: center; text-decoration: none; transition: background-color .25s var(--p-ease); }
+:is(#servicios, #recursos) .rpl-btn svg { flex: none; width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .35s var(--p-ease); }
+:is(#servicios, #recursos) .rpl-btn:hover { background: rgba(255,255,255,.26); }
+:is(#servicios, #recursos) .rpl-btn:hover svg { transform: translateX(4px); }
+:is(#servicios, #recursos) .rpl-card--featured .rpl-btn { background: #fff; color: #05060A; }
+:is(#servicios, #recursos) .rpl-card--featured .rpl-btn:hover { background: #E4E7F2; }
+:is(#servicios, #recursos) .rpl-btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+.rpl-list { list-style: none; margin: 0; padding: 22px 16px 24px 18px; display: grid; gap: 13px; }
+.rpl-list li { display: flex; gap: 10px; font-size: .875rem; line-height: 1.4; color: var(--p-ink); }
+.rpl-list li::before { content: '\2713'; flex: none; color: var(--p-silver); }
+
+/* Diagnóstico: the same card laid on its side, head on the left and detail on the right */
+.rpl-diag { flex-direction: row; align-items: stretch; margin-top: 20px; }
+.rpl-diag .rpl-diag__head { flex: 1 1 auto; min-width: 0; flex-direction: row; align-items: center; justify-content: space-between; gap: 32px; padding: 26px 26px; }
+.rpl-diag__question { margin: 0; font-size: .875rem; color: rgba(255,255,255,.86); }
+.rpl-diag .rpl-name { margin-top: 8px; font-size: clamp(1.5rem, 1.2rem + 1vw, 2.125rem); }
+.rpl-diag .rpl-desc { min-height: 0; max-width: 54ch; }
+:is(#servicios, #recursos) .rpl-diag .rpl-btn { flex: none; margin-top: 0; padding: 0 24px; }
+.rpl-diag .rpl-diag__list { flex: 0 0 clamp(250px, 24%, 300px); align-content: center; padding: 20px 26px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .rpl-card:hover { transform: translateY(-8px); border-color: rgba(255,255,255,.36); box-shadow: 0 34px 70px -34px var(--glow); }
+  .rpl-card:hover .rpl-icon { transform: rotate(-8deg) scale(1.08); }
+}
+
+/* entrance: runs once per card (pricing.js); `translate` stays separate from the hover `transform` */
+@media (prefers-reduced-motion: no-preference) {
+  .rpl-card[data-anim] { opacity: 0; translate: 0 34px; transition: opacity .7s var(--p-ease) calc(var(--i) * .1s), translate .9s var(--p-ease) calc(var(--i) * .1s), transform .45s var(--p-ease), border-color .3s var(--p-ease), box-shadow .45s var(--p-ease); }
+  .rpl-card[data-anim] .rpl-list li { opacity: 0; translate: -10px 0; transition: opacity .45s var(--p-ease), translate .55s var(--p-ease); transition-delay: calc(var(--i) * .1s + .28s + var(--j, 0) * .055s); }
+  .rpl-card[data-anim="on"], .rpl-card[data-anim="on"] .rpl-list li { opacity: 1; translate: 0 0; }
+  /* a single light travels along the frame once the card is in place */
+  .rpl-card[data-anim]::after {
+    content: ''; position: absolute; inset: -1px; z-index: 3; pointer-events: none; padding: 1px; border-radius: inherit;
+    background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.7) 48%, var(--glow) 52%, transparent 65%) 0 0 / 300% 100% no-repeat;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    opacity: 0;
+  }
+  .rpl-card[data-anim="on"]::after { animation: rplFrameLight 1.5s var(--p-ease) calc(var(--i) * .1s + .35s) both; }
+}
+@keyframes rplFrameLight {
+  0% { opacity: 0; background-position: 100% 0; }
+  25% { opacity: 1; }
+  100% { opacity: 0; background-position: 0 0; }
+}
+
+@media (max-width: 900px) {
+  .rpl-diag { flex-direction: column; }
+  .rpl-diag .rpl-diag__head { flex-direction: column; align-items: stretch; gap: 20px; padding: 24px 20px 20px; }
+  .rpl-diag .rpl-diag__list { flex: none; padding: 22px 16px 24px 18px; }
+  :is(#servicios, #recursos) .rpl-diag .rpl-btn { padding: 12px 14px; }
+}
+@media (max-width: 1180px) {
+  .rpl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 16px; }
+  .rpl-desc { min-height: 4.7em; }
+}
+@media (max-width: 640px) {
+  .rpl-grid { grid-template-columns: 1fr; max-width: 480px; margin-inline: auto; gap: 18px; }
+  .rpl-desc { min-height: 0; }
+  .rpl-card { --i: 0 !important; }
+  /* phones: the icon moves beside the name and spacing tightens; content stays the same */
+  .rpl-head { padding: 18px 16px 16px; }
+  .rpl-icon { position: absolute; top: 16px; right: 16px; width: 34px; height: 34px; border-radius: 10px; }
+  .rpl-icon svg { width: 18px; height: 18px; }
+  .rpl-name { margin-top: 2px; padding-right: 44px; }
+  .rpl-price { margin-top: 10px; }
+  :is(#servicios, #recursos) .rpl-btn { min-height: 44px; margin-top: 14px; }
+  .rpl-list { padding: 14px 14px 16px 16px; gap: 9px; }
+  .rpl-diag .rpl-diag__head { padding: 18px 16px 16px; gap: 14px; }
+  .rpl-diag .rpl-diag__list { padding: 14px 14px 16px 16px; }
+}
+
+/* v3 — black sheet over a coloured base: the base shows only as the action bar and its glow. */
+#servicios .rpl-grid .rpl-card { padding: 0; overflow: visible; border: 0; border-radius: 26px; background: var(--base); box-shadow: 0 34px 60px -30px var(--glow), 0 0 0 1px rgba(255,255,255,.1); }
+#servicios .rpl-grid .rpl-card--featured { box-shadow: 0 40px 70px -26px var(--glow), 0 0 0 1px rgba(255,255,255,.35); }
+#servicios .rpl-grid .rpl-head { flex: 1; padding: 22px 22px 24px; border-radius: 26px 26px 22px 22px; background: #0A0B0E; color: var(--p-ink); box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 10px 24px -8px rgba(0,0,0,.7); }
+#servicios .rpl-grid .rpl-head::before { background: radial-gradient(70% 55% at 100% 0%, var(--glow), transparent 70%); opacity: .55; }
+.rpl-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 40px; }
+#servicios .rpl-grid .rpl-badge { position: static; transform: none; display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px 5px 5px; border-radius: 99px; background: #fff; border: 0; color: #0A0B0E; font-size: .75rem; font-weight: 700; letter-spacing: .02em; }
+.rpl-badge svg { width: 20px; height: 20px; padding: 4px; border-radius: 50%; background: var(--base); fill: #fff; }
+#servicios .rpl-grid .rpl-desc { min-height: 0; color: var(--p-silver); }
+.rpl-label { margin: 18px 0 0; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.1); font-size: .9375rem; font-weight: 600; color: #fff; }
+#servicios .rpl-grid .rpl-list { padding: 14px 0 6px; gap: 11px; }
+#servicios .rpl-grid .rpl-list li::before { content: ''; width: 20px; height: 20px; border-radius: 50%; background: color-mix(in srgb, var(--glow) 28%, transparent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='m5.5 10 3 3 6-6' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 13px no-repeat; }
+#servicios .rpl-grid .rpl-price { margin-top: auto; padding-top: 14px; color: var(--p-silver); }
+#servicios .rpl-grid .rpl-price strong { color: #fff; }
+#servicios .rpl-grid .rpl-billing { color: var(--p-silver); }
+#servicios .rpl-grid .rpl-card > .rpl-btn { min-height: 56px; margin: 0; border-radius: 0 0 26px 26px; background: transparent; color: #fff; font-weight: 600; }
+#servicios .rpl-grid .rpl-card > .rpl-btn:hover { background: rgba(255,255,255,.1); }
+#servicios .rpl-grid .rpl-card--featured > .rpl-btn { background: transparent; color: #fff; }

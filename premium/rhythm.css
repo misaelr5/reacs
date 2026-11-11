@@ -1,0 +1,32 @@
+/* Reac premium — vertical rhythm and gutters for the home, loaded last on purpose.
+   One gap between modules and one gap under each heading; change them here, not per section.
+   !important only where reac-site.css forces section padding on mobile. */
+:root {
+  --p-module: clamp(48px, 5.5vw, 80px);    /* each side of a module: the visible gap is twice this */
+  --p-head-gap: clamp(36px, 4.4vw, 64px);  /* section heading to its content */
+  --p-gutter: max(clamp(20px, 4vw, 40px), env(safe-area-inset-left), env(safe-area-inset-right));
+}
+#main-content > section { padding-inline: 0 !important; }
+#main-content > section:not(#hero-sec):not(#clientes) { padding-block: var(--p-module) !important; }
+#main-content > #clientes { padding-bottom: calc(var(--p-module) - 4px) !important; } /* the marquee row carries 4px of its own */
+#main-content > section[id] { scroll-margin-top: 72px; }
+
+#main-content .p-svc__head, #main-content .rix-head, #main-content .pj-head, #main-content .tst-head { margin-bottom: var(--p-head-gap); }
+
+/* Proceso follows the same container as every other module */
+#main-content #proceso > .pj-wrap { max-width: var(--p-max); }
+#main-content > #testimonios { padding-bottom: calc(var(--p-module) - 16px) !important; } /* the card row keeps 16px for its shadow */
+#main-content .tst-head { padding-inline: var(--p-gutter); }
+
+/* First paint: the process module is the one block whose layout dominates the first paint
+   (see artifacts/ui-2026-11-09/layout-ablation.mjs), so it skips layout and paint until it
+   approaches the viewport. Its content stays in the DOM for search, find-in-page, anchors and
+   assistive technology. Only this module gets the treatment: applying it down the whole page
+   made later anchors land off-target while the estimates settled. */
+@supports (content-visibility: auto) {
+  #main-content > #proceso { content-visibility: auto; contain-intrinsic-size: auto 1200px; }
+  @media (min-width: 901px) { #main-content > #proceso { contain-intrinsic-size: auto 880px; } }
+}
+@media print {
+  #main-content > section { content-visibility: visible !important; contain: none !important; }
+}

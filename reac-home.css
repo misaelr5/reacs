@@ -317,7 +317,7 @@
 .case-deck button{font:inherit;cursor:pointer;color:#fdfcfe;background:#161a30;border:1px solid #414869;border-radius:12px;min-height:48px;min-width:48px}
 .case-deck-arrows button{display:inline-flex;align-items:center;justify-content:center;gap:14px;padding:10px 18px;font-size:14px;font-weight:700}
 .case-deck button:hover{background:#252b4b}.case-deck button:focus-visible{outline:3px solid #ff997c;outline-offset:3px}
-.case-deck-picker{display:flex;gap:10px;justify-content:center;padding:12px 0 24px}
+.case-deck-picker{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:12px 0 24px}
 .case-deck-picker button{font-size:13px}.case-deck-picker button[aria-pressed="true"]{background:#363d78;border-color:#b9bdff}
 .case-deck[data-enhanced] .case-list{position:relative;overflow:hidden;isolation:isolate}
 .case-deck[data-enhanced] .case-card{grid-area:1/1;visibility:hidden;pointer-events:none;border-top:0;align-self:start;padding-top:24px;padding-bottom:28px;min-width:0}

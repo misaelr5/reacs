@@ -1,0 +1,38 @@
+/* Reac premium — brand intro (see premium/intro.js). The veil is decorative: content renders
+   underneath from the first paint, and the CSS animation ends it even if the timer never runs. */
+html[data-intro]::before,
+html[data-intro]::after {
+  content: ''; position: fixed; z-index: 2147483000; pointer-events: none;
+}
+/* veil + a thin light line under the mark */
+html[data-intro]::before {
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent, rgba(110,116,255,.9) 35%, #f2f4f8 50%, rgba(250,54,1,.75) 65%, transparent) center calc(50% + 56px) / 0 1px no-repeat,
+    radial-gradient(40% 34% at 50% 50%, rgba(46,55,255,.12), transparent 70%),
+    #000;
+  animation: reacIntroVeil .64s cubic-bezier(.22,1,.36,1) both;
+}
+/* the real symbol from /uploads */
+html[data-intro]::after {
+  top: 50%; left: 50%; width: 76px; height: 76px; margin: -38px 0 0 -38px;
+  background: url('/uploads/reac-symbol.svg') center / contain no-repeat;
+  animation: reacIntroMark .64s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes reacIntroVeil {
+  0% { opacity: 1; background-size: 0 1px, auto, auto; }
+  55% { opacity: 1; background-size: 148px 1px, auto, auto; }
+  100% { opacity: 0; background-size: 196px 1px, auto, auto; visibility: hidden; }
+}
+@keyframes reacIntroMark {
+  0% { opacity: 0; transform: translateY(8px) scale(.94); filter: blur(6px); }
+  40% { opacity: 1; transform: none; filter: blur(0); }
+  62% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: scale(1.05); visibility: hidden; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-intro]::before, html[data-intro]::after { display: none; }
+}
+@media print {
+  html[data-intro]::before, html[data-intro]::after { display: none; }
+}

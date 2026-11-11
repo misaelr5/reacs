@@ -15,7 +15,7 @@ const EMAIL = /^[A-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9](?:[A-Z0-9-]*[A-Z0-9])?(?:
 const ATTRIBUTION_FIELDS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid', 'landing_page', 'referrer'] as const;
 const FIELDS = new Set(['form_type', 'nombre', 'contacto', 'empresa', 'interes', 'mensaje', 'privacy_consent', '_gotcha', ...ATTRIBUTION_FIELDS]);
 const WHATSAPP = /^\+?[0-9][0-9 .()\-]{6,23}$/;
-const INTERESTS = new Set(['web_nueva', 'mejorar_web', 'mas_consultas', 'automatizar', 'sistema', 'no_seguro']);
+const INTERESTS = new Set(['web_nueva', 'mejorar_web', 'mas_consultas', 'automatizar', 'sistema', 'seguridad', 'no_seguro']);
 
 // One atomic Redis operation: separate INCR/EXPIRE calls can leave a permanent
 // counter after a partial failure. REST transport adds no client dependency.

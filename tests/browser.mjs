@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {chromium} from 'playwright-core';
 import AxeBuilder from '@axe-core/playwright';
+import {cases} from '../content/cases.mjs';
 const base=process.env.TEST_URL||'http://127.0.0.1:4174';
 const manifest=JSON.parse(readFileSync('artifacts/build-manifest.json','utf8'));
 const browser=await chromium.launch({channel:'chrome',headless:true});
@@ -39,11 +40,11 @@ try{
     report.accessibility.push({path:entry.path,violations:axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary,html:n.html}))}))});
   }
   await page.goto(base+'/');await page.setViewportSize({width:1440,height:900});
-  const homeNav=page.locator('.site-nav');await page.waitForFunction(()=>getComputedStyle(document.querySelector('.site-nav')).visibility==='hidden');assert.equal(await homeNav.isVisible(),false);
+  const homeNav=page.locator('.site-nav');assert.equal(await homeNav.isVisible(),true);assert.equal(await homeNav.locator('.p-nav__cta').isVisible(),true);
   await page.locator('#hero-sec').evaluate(node=>window.scrollTo({top:node.offsetTop+node.offsetHeight+1,behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('.site-nav')).visibility==='visible');
-  await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('.site-nav')).visibility==='hidden');
+  await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));assert.equal(await homeNav.isVisible(),true);
   const quickAction=page.locator('.whatsapp-quick-action');assert.equal(await quickAction.isVisible(),true);assert.match(await quickAction.getAttribute('href'),/https:\/\/wa\.me\/5493544657866/);
-  await page.setViewportSize({width:390,height:844});assert.equal(await homeNav.isVisible(),false);assert.equal(await quickAction.isVisible(),false);assert.equal(await page.locator('.mobile-sticky-cta').isVisible(),true);
+  await page.setViewportSize({width:390,height:844});assert.equal(await homeNav.isVisible(),true);assert.equal(await quickAction.isVisible(),false);assert.equal(await page.locator('.mobile-sticky-cta').isVisible(),true);
   await page.locator('#hero-sec').evaluate(node=>window.scrollTo({top:node.offsetTop+node.offsetHeight+1,behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('.site-nav')).visibility==='visible');
   await page.locator('#proceso').evaluate(node=>window.scrollTo({top:node.getBoundingClientRect().top+scrollY,behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('.mobile-sticky-cta')).visibility==='visible');
   for(const width of [320,375,390,430]){
@@ -63,8 +64,8 @@ try{
       assert.ok(state.size>=48);assert.equal(state.background,'rgb(19, 125, 72)');assert.equal(state.image,'none');
     }
   }
-  await page.locator('#ct-nombre').focus();assert.equal(await page.locator('.mobile-sticky-cta').isVisible(),false);
-  await page.locator('#ct-nombre').blur();assert.equal(await page.locator('.mobile-sticky-cta').isVisible(),true);
+  assert.equal(await page.locator('#ct-form').count(),0);
+  assert.equal(await page.locator('.ct-direct__channel--primary').isVisible(),true);
   const touchContext=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true,reducedMotion:'reduce'});
   // Intercept the destination: verify a real tap without contacting WhatsApp or sending a message.
   await touchContext.route('https://wa.me/**',route=>route.fulfill({status:200,contentType:'text/html',body:'WhatsApp destination intercepted for test'}));
@@ -80,22 +81,35 @@ try{
   await page.keyboard.press('Escape');assert.equal(await page.locator('.mobile-nav').getAttribute('open'),null);
   await page.locator('.mobile-nav summary').click();await page.setViewportSize({width:1440,height:900});await page.waitForFunction(()=>document.querySelector('.mobile-nav')?.getAttribute('open')===null);
   await page.setViewportSize({width:390,height:844});
-  await page.locator('[data-action="setProbCon"]').click();assert.equal(await page.locator('[data-prob-panel="sin"]').isVisible(),false);assert.equal(await page.locator('[data-prob-panel="con"]').isVisible(),true);
-  const toggle=page.locator('.sim-toggle').first();const before=await toggle.getAttribute('aria-pressed');await toggle.click();assert.notEqual(await toggle.getAttribute('aria-pressed'),before);
-  const budget=page.locator('[data-action="changeBudget"]');await budget.fill('100');await budget.dispatchEvent('input');assert.match(await page.locator('[data-budget-output]').textContent(),/3\.000/);
-  assert.equal(await page.locator('.case-card').count(),5);
-  await page.locator('.case-copy .case-link').first().click();assert.match(page.url(),/proyectos\/remediacion-malware-wordpress$/);
+  assert.equal(await page.locator('#proceso .pjl-beam').count(),7);
+  assert.equal(await page.locator('#proceso .pjl-beam--lead').count(),1);
+  assert.equal(await page.locator('#proceso .pjl-beam .pjl-label[href]').count(),7);
+  assert.equal(await page.locator('#proceso .pjl-desc').count(),7);
+  // the fan's labels and the heading never touch, at any desktop width
+  for(const width of [1100,1280,1440,1920]){
+    await page.setViewportSize({width,height:900});
+    // measure the rendered lines of text, not the label boxes (balanced wrapping leaves them wider than the words)
+    const groups=await page.locator('#proceso .pjl-label, #proceso .pj-head').evaluateAll(nodes=>nodes.map(node=>{const range=document.createRange();range.selectNodeContents(node);return {name:node.textContent.trim().slice(0,24),rects:[...range.getClientRects()].filter(r=>r.width&&r.height).map(r=>({l:r.left,r:r.right,t:r.top,b:r.bottom}))};}));
+    const hit=(a,b)=>!(a.r<=b.l||b.r<=a.l||a.b<=b.t||b.b<=a.t);
+    for(let i=0;i<groups.length;i++)for(let j=i+1;j<groups.length;j++)assert.ok(!groups[i].rects.some(a=>groups[j].rects.some(b=>hit(a,b))),`${groups[i].name} overlaps ${groups[j].name} at ${width}`);
+    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),`fan overflows at ${width}`);
+  }
+  await page.setViewportSize({width:390,height:844});
+  assert.equal(await page.locator('#proceso .pj-cta').getAttribute('href'),'/contacto');
+  assert.equal(await page.locator('.rfx-card').count(),4);
+  await page.locator('.rfx-card .rfx-title a').first().click();assert.match(page.url(),/proyectos\/travel-days$/);
   await page.getByRole('link',{name:'Consultar por un trabajo parecido'}).click();assert.ok(page.url().endsWith('/contacto'));
   await page.goto(base+'/');
   const summary=page.locator('.imp-faq summary').first();await summary.click();assert.equal(await page.locator('.imp-faq').first().getAttribute('open'),'');
-  await page.goto(base+'/contacto');await page.locator('#ct-interes').selectOption('web_nueva');await page.locator('#ct-nombre').fill('Prueba local');await page.locator('#ct-contacto').fill('audit@example.test');await page.locator('#ct-mensaje').fill('Verificación local sin envío a proveedores.');await page.locator('[name=privacy_consent]').check();
-  await page.locator('[data-submit-button]').click();await page.waitForFunction(()=>document.getElementById('ct-form')?.dataset.state==='error');assert.ok(page.url().endsWith('/contacto'));assert.equal(await page.locator('[data-submit-button]').isEnabled(),true);
+  await page.goto(base+'/contacto');assert.equal(await page.locator('form').count(),0);
+  assert.match(await page.locator('.ct-direct__channel--primary').getAttribute('href'),/^https:\/\/wa\.me\/5493544657866/);
+  assert.equal(await page.locator('.ct-direct__channel[href^="mailto:"]').getAttribute('href'),'mailto:ledesma.rme@gmail.com');
   report.interactions.push('Desktop WhatsApp quick action and mobile sticky CTA','Mobile navigation/Escape/resize','Comparison panels','Simulator toggle/range','Case detail and contact navigation','Native FAQ disclosure','Safe unavailable contact response');
   await page.goto(base+'/desarrollo-web');assert.equal(await page.locator('.site-nav').isVisible(),true);await page.screenshot({path:'artifacts/service-mobile.png',fullPage:true});
   await page.goto(base+'/');await page.screenshot({path:'artifacts/home-mobile.png'});
   const noJS=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});const staticPage=await noJS.newPage();await staticPage.goto(base+'/');
-  assert.match(await staticPage.locator('h1').getAttribute('aria-label'),/Impulsamos tu empresa con desarrollo web.*ciberseguridad/);assert.equal(await staticPage.locator('.p-hero__word.is-current').textContent(),'desarrollo web');assert.equal(await staticPage.locator('.case-card').count(),5);assert.equal(await staticPage.locator('.case-card').last().isVisible(),true);await staticPage.locator('.imp-faq summary').first().click();assert.equal(await staticPage.locator('.imp-faq').first().getAttribute('open'),'');
-  report.interactions.push('JavaScript disabled: real heading, five featured cases and native FAQ');await noJS.close();
+  assert.match(await staticPage.locator('h1').getAttribute('aria-label'),/Impulsamos tu empresa con desarrollo web.*ciberseguridad/);assert.equal(await staticPage.locator('.p-hero__word.is-current').textContent(),'Desarrollo web');assert.equal(await staticPage.locator('.rfx-card').count(),4);assert.equal(await staticPage.locator('.rfx-card').last().isVisible(),true);await staticPage.locator('.imp-faq summary').first().click();assert.equal(await staticPage.locator('.imp-faq').first().getAttribute('open'),'');
+  report.interactions.push('JavaScript disabled: real heading, current featured cases and native FAQ');await noJS.close();
   for(const path of ['/index.html','/Reac.dc.html','/google-ads.html','/politica-de-privacidad.html']){const response=await fetch(base+path,{redirect:'manual'});assert.equal(response.status,308);}
   for(const path of ['/README.md','/package.json','/site.config.mjs','/support.js','/.env','/api/source.ts']){const response=await fetch(base+path);assert.equal(response.status,404,path);}
   const headers=await fetch(base+'/');assert.ok(headers.headers.get('content-security-policy').includes("script-src 'self'"));assert.ok(!headers.headers.get('content-security-policy').includes('unsafe-eval'));

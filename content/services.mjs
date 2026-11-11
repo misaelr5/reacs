@@ -18,11 +18,11 @@ export const services = [
     evidenceLink: '/proyectos#mas-servicios',
     evidenceLabel: 'Ver el proyecto web autogestionable de Más Servicios',
     faqs: [
-      ['¿Cuánto cuesta desarrollar una web?', 'El precio depende de las páginas, el contenido, la gestión interna y las integraciones. La home publica una referencia de desarrollo web desde USD 200; el presupuesto final requiere definir el alcance. Dominio, hosting, mantenimiento y servicios externos deben quedar detallados en la propuesta.'],
+      ['¿Cuánto cuesta desarrollar una web?', 'El precio depende de las páginas, el contenido, la gestión interna y las integraciones. El desarrollo web arranca desde USD 200; el presupuesto final requiere definir el alcance. Dominio, hosting, mantenimiento y servicios externos deben quedar detallados en la propuesta.'],
       ['¿Puedo actualizar la web por mi cuenta?', 'Sí, cuando el proyecto incluye un gestor de contenidos. Si solo necesitás cambios ocasionales, una solución estática puede simplificar el mantenimiento. Lo decidimos según quién va a editar y con qué frecuencia.'],
       ['¿La web queda preparada para Google Ads?', 'Podemos preparar una landing específica, sus llamadas a la acción y los eventos de medición. La publicación de campañas y la inversión publicitaria se acuerdan por separado.']
     ],
-    related: ['landing-pages', 'google-ads', 'sistemas-crm']
+    related: ['landing-pages', 'google-ads', 'sistemas-crm', 'ciberseguridad']
   },
   {
     slug: 'landing-pages', name: 'Landing pages',
@@ -67,7 +67,7 @@ export const services = [
     evidenceLink: '/nosotros',
     evidenceLabel: 'Conocer al equipo de marketing y desarrollo de Reac Studio',
     faqs: [
-      ['¿Cuánto cuesta contratar marketing digital?', 'La home publica una referencia de gestión desde USD 150 por mes. El alcance y la cantidad de canales se definen en una propuesta. La inversión en anuncios de Google o Meta se paga aparte.'],
+      ['¿Cuánto cuesta contratar marketing digital?', 'La gestión arranca desde USD 150 por mes. El alcance y la cantidad de canales se definen en una propuesta. La inversión en anuncios de Google o Meta se paga aparte.'],
       ['¿Tengo que contratar todos los servicios?', 'No. Podés empezar por una necesidad concreta. Si detectamos que otra parte del recorrido está limitando el resultado, lo explicamos y priorizamos con vos.'],
       ['¿Cómo se evalúa el resultado?', 'Definimos indicadores vinculados al objetivo, como consultas recibidas y su calidad. Para relacionarlos con ventas necesitamos información del seguimiento comercial; la atribución no siempre permite asignar cada venta a un único canal.']
     ],
@@ -141,7 +141,7 @@ export const services = [
     faqs: [
       ['¿Qué tareas de una PyME conviene automatizar?', 'El registro de consultas, avisos internos, clasificación inicial y preparación de reportes son candidatos cuando existen datos y reglas claras. Empezamos por una tarea frecuente, de bajo riesgo y fácil de comprobar.'],
       ['¿Pueden crear un asistente para mi negocio?', 'Podemos evaluar un asistente con fuentes de información acotadas y derivación a una persona. Primero definimos qué puede responder, qué debe evitar y cómo revisar su calidad.'],
-      ['¿Cuánto cuesta una automatización?', 'La home publica una referencia desde USD 250 por proyecto. El alcance depende de las herramientas y excepciones del proceso. Consumo de APIs, licencias y mantenimiento deben presupuestarse por separado cuando correspondan.']
+      ['¿Cuánto cuesta una automatización?', 'Arranca desde USD 250 por proyecto. El alcance depende de las herramientas y excepciones del proceso. Consumo de APIs, licencias y mantenimiento deben presupuestarse por separado cuando correspondan.']
     ],
     related: ['sistemas-crm', 'desarrollo-web']
   },
@@ -159,14 +159,39 @@ export const services = [
     ],
     decision: 'Adaptar un CRM existente suele acelerar el inicio cuando el proceso es estándar. Un desarrollo propio tiene sentido si hay reglas o integraciones que las herramientas disponibles no resuelven razonablemente. También implica mantenimiento, seguridad y costos de evolución que deben considerarse desde el comienzo.',
     process: ['Relevamos el proceso y las herramientas que ya usás.', 'Comparamos reutilizar, integrar o desarrollar, junto con sus costos.', 'Implementamos el alcance acordado y probamos permisos y flujos de trabajo.', 'Preparamos migración, capacitación y continuidad operativa según el proyecto.'],
-    evidence: 'El portfolio incluye un CRM Comercial identificado como proyecto académico y un Panel Administrativo Modular identificado como proyecto comercial. Las fichas describen el desafío, la solución y el alcance documentado, sin atribuir métricas de negocio no verificadas.',
-    evidenceLink: '/proyectos#crm-comercial',
-    evidenceLabel: 'Ver el CRM Comercial y su alcance académico',
+    evidence: 'REAC LEADS es el CRM que construimos y usamos en Reac Studio para gestionar prospectos, seguimientos y cobros. En el portfolio también hay otros sistemas comerciales y académicos.',
+    evidenceLink: '/proyectos/crm-reac-studio',
+    evidenceLabel: 'Ver el caso de REAC LEADS',
     faqs: [
       ['¿Qué es un CRM?', 'Es una herramienta para organizar relaciones comerciales: datos de clientes, consultas, responsables y próximos pasos. Su utilidad depende de que el equipo lo use con un proceso claro.'],
       ['¿Necesito un CRM personalizado?', 'No necesariamente. Primero revisamos opciones existentes. El desarrollo a medida se justifica cuando aporta una capacidad necesaria que no puede cubrirse de forma razonable con configuración o integraciones.'],
       ['¿Se puede conectar la web con el CRM?', 'Sí, si el CRM ofrece una API, un webhook u otro mecanismo compatible. Revisamos permisos, validación de datos, duplicados y qué ocurre cuando alguno de los sistemas no está disponible.']
     ],
     related: ['automatizacion-ia', 'desarrollo-web']
+  },
+  {
+    slug: 'ciberseguridad', name: 'Ciberseguridad',
+    title: 'Ciberseguridad para sitios web y WordPress | Reac Studio',
+    description: 'Evaluaciones de seguridad autorizadas, remediación de WordPress comprometido y hardening. Alcance acordado, resultados confidenciales y retesting.',
+    h1: 'Ciberseguridad para sitios web, aplicaciones y WordPress',
+    intro: 'Reac Studio evalúa la seguridad de sitios web, aplicaciones y APIs sobre activos que su responsable autoriza por escrito. Buscamos debilidades antes de que alguien las aproveche, te entregamos un plan claro para corregirlas y, cuando hace falta, intervenimos instalaciones WordPress comprometidas.',
+    fit: 'Tiene sentido cuando tu sitio o aplicación maneja datos de clientes, cuando vas a publicar algo nuevo, cuando notás comportamientos extraños o cuando un WordPress fue comprometido. El trabajo empieza por definir qué activos se revisan, quién lo autoriza y en qué ventana de tiempo.',
+    deliverables: [
+      ['Evaluación autorizada', 'Auditoría, análisis de vulnerabilidades y pentesting web y de APIs sobre el alcance acordado. Trabajamos solo con autorización escrita del responsable de cada activo y dentro de los límites definidos antes de empezar.'],
+      ['Remediación de WordPress', 'Investigamos indicadores de compromiso, respaldamos archivos y base de datos antes de intervenir, eliminamos el código malicioso identificado y reemplazamos el core por una instalación verificada.'],
+      ['Hardening y retesting', 'Aplicamos o recomendamos medidas de hardening según el entorno y volvemos a probar las correcciones para comprobar que cada hallazgo quedó resuelto.']
+    ],
+    decision: 'Antes de empezar definimos por escrito qué activos se revisan, quién autoriza el trabajo, qué pruebas están permitidas y en qué horario. Los resultados son confidenciales: los compartimos solo con el responsable acordado, con hallazgos priorizados y pasos para corregirlos. Una evaluación reduce riesgos dentro de su alcance, pero no certifica que un sistema sea invulnerable ni evita que aparezcan vulnerabilidades nuevas.',
+    process: ['Acordamos activos, autorización escrita, pruebas permitidas y ventana de trabajo.', 'Evaluamos el alcance acordado y documentamos cada hallazgo con su prioridad.', 'Entregamos un plan confidencial de corrección; si está incluido, intervenimos y aplicamos hardening.', 'Volvemos a probar las correcciones y cerramos con las recomendaciones pendientes.'],
+    evidence: 'En el caso de remediación de malware en WordPress investigamos el compromiso, respaldamos el contenido, eliminamos el código malicioso identificado y aplicamos medidas de hardening. La identidad del cliente y los archivos del sitio no se publican.',
+    evidenceLink: '/proyectos/remediacion-malware-wordpress',
+    evidenceLabel: 'Ver el caso de remediación de malware en WordPress',
+    faqs: [
+      ['¿Pueden revisar cualquier sitio o aplicación?', 'No. Trabajamos solo sobre activos con autorización escrita de su responsable y dentro del alcance acordado.'],
+      ['¿Cuánto cuesta una evaluación de seguridad?', 'Se cotiza a medida, según los activos y el alcance acordado. Lo definimos después de una primera conversación sobre qué necesitás revisar.'],
+      ['¿La evaluación garantiza que mi sitio no va a ser atacado?', 'No. Reduce riesgos dentro del alcance revisado, pero ningún trabajo puede certificar que un sistema sea invulnerable. Conviene volver a evaluar después de cambios importantes.'],
+      ['¿Qué pasa con la información que encuentran?', 'Los resultados son confidenciales y se comparten solo con el responsable que autorizó el trabajo.']
+    ],
+    related: ['desarrollo-web', 'sistemas-crm']
   }
 ];

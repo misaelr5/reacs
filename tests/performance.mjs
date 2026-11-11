@@ -2,6 +2,7 @@ import {chromium} from 'playwright-core';
 import {writeFileSync,readFileSync,statSync} from 'node:fs';
 import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
+const base=process.env.TEST_URL||'http://127.0.0.1:4174';
 const results=[];
 try{
   for(const path of ['/','/desarrollo-web','/google-ads']){
@@ -17,7 +18,7 @@ try{
       new PerformanceObserver(list=>{for(const entry of list.getEntries())if(!entry.hadRecentInput)window.auditMetrics.cls+=entry.value;}).observe({type:'layout-shift',buffered:true});
       new PerformanceObserver(list=>{for(const entry of list.getEntries())if(entry.interactionId)window.auditMetrics.interactions.push(entry.duration);}).observe({type:'event',buffered:true,durationThreshold:16});
     });
-    await page.goto('http://127.0.0.1:4174'+path);await page.waitForTimeout(5000);
+    await page.goto(base+path);await page.waitForTimeout(5000);
     if(path==='/') await page.locator('#hero-sec').evaluate(node=>window.scrollTo({top:node.offsetTop+node.offsetHeight+1,behavior:'instant'}));
     await page.locator('.mobile-nav summary').click();await page.locator('.mobile-nav summary').click();await page.waitForTimeout(300);
     const metrics=await page.evaluate(()=>{
@@ -26,10 +27,10 @@ try{
     });
     results.push({path,...metrics});await context.close();
   }
-  const page=await browser.newPage({viewport:{width:320,height:800}});await page.goto('http://127.0.0.1:4174/recursos/auditoria-sitio-web.html');await page.emulateMedia({media:'print'});
+  const page=await browser.newPage({viewport:{width:320,height:800}});await page.goto(base+'/recursos/auditoria-sitio-web.html');await page.emulateMedia({media:'print'});
 const print=await page.locator('.page').first().evaluate(n=>({width:n.getBoundingClientRect().width,minHeight:getComputedStyle(n).minHeight}));assert.ok(Math.abs(print.width-210*96/25.4)<1,'A4 width preserved');for(const links of await page.locator('.resource-web-links').all())assert.equal(await links.isVisible(),false);
   const homeScripts=[...readFileSync('dist/index.html','utf8').matchAll(/<script[^>]+src="\/([^"?]+\.js)"/g)].map(match=>match[1]);
-  const report={method:'Single cold-cache Chrome lab sample per page; 390x844, 4x CPU slowdown, 1.6 Mbps down/0.75 Mbps up, 150ms latency; local server. Not field Core Web Vitals or p75 INP. JavaScript size is uncompressed.',results,print,homeJavaScriptBytes:homeScripts.reduce((sum,file)=>sum+statSync('dist/'+file).size,0)};
+  const report={base,method:'Single cold-cache Chrome lab sample per page; 390x844, 4x CPU slowdown, 1.6 Mbps down/0.75 Mbps up, 150ms latency. Not field Core Web Vitals or p75 INP. JavaScript size is local and uncompressed.',results,print,homeJavaScriptBytes:homeScripts.reduce((sum,file)=>sum+statSync('dist/'+file).size,0)};
   writeFileSync('artifacts/performance-report.json',JSON.stringify(report,null,2));
   console.log(JSON.stringify({results:results.map(r=>({path:r.path,LCP_ms:Math.round(r.lcp),FCP_ms:Math.round(r.fcp),TTFB_ms:Math.round(r.ttfb),CLS:r.cls,maxObservedInteraction_ms:Math.max(0,...r.interactions)})),homeJavaScriptBytes:report.homeJavaScriptBytes,print}));
 }finally{await browser.close();}

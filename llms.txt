@@ -1,6 +1,6 @@
 # Reac Studio
 
-> Reac Studio: desarrollo web, landing pages, marketing digital y automatización para empresas, PyMEs y profesionales. Desde Córdoba para Argentina y Latinoamérica.
+> Reac Studio: desarrollo de software, diseño web, marketing digital, automatizaciones y ciberseguridad. Desde Córdoba para Argentina y Latinoamérica.
 
 ## Sitio oficial
 
@@ -20,6 +20,7 @@
 - Meta Ads: https://reacstudio.com/meta-ads
 - Automatización con IA: https://reacstudio.com/automatizacion-ia
 - Sistemas, CRM e integraciones: https://reacstudio.com/sistemas-crm
+- Ciberseguridad: https://reacstudio.com/ciberseguridad
 
 ## Identidad
 

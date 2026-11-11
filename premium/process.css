@@ -1,0 +1,18 @@
+/* Reac services fan: section frame, heading and closing call to action. The fan itself lives in showcase.css. */
+#proceso.pj-process { position: relative; overflow: hidden; background: var(--p-black); color: var(--p-ink); font-family: var(--p-font); padding-block: clamp(72px, 8vw, 112px); scroll-margin-top: 80px; }
+#proceso.pj-process > .pj-wrap { max-width: 1440px; margin: 0 auto !important; padding-inline: var(--p-gutter); }
+.pj-head { display: flex; align-items: end; justify-content: space-between; gap: 28px 64px; margin-bottom: 40px; }
+.pj-head h2 { max-width: 19ch; font-size: clamp(2rem, 3.8vw, 3.5rem); }
+.pj-intro { max-width: 37ch; }
+.pj-intro > p { margin: 0; font-size: 1rem; line-height: 1.65; color: var(--p-silver-hi); }
+
+.pj-footer { display: flex; justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 16px 28px; margin-top: 24px; }
+.pj-footer > p { margin: 0; font-size: .9375rem; color: var(--p-silver); }
+.pj-cta { display: inline-flex; align-items: center; justify-content: center; gap: 24px; min-height: 48px; padding: 0 20px; border: 1px solid var(--p-line-strong); border-radius: var(--p-r-sm); background: var(--p-glass); color: var(--p-ink); font-size: .875rem; font-weight: 500; text-decoration: none; transition: background-color .3s var(--p-ease),border-color .3s var(--p-ease); }
+.pj-cta:hover { background: var(--p-glass-hi); border-color: var(--p-blue-soft); }
+.pj-cta:focus-visible { outline: 2px solid var(--p-blue-soft); outline-offset: 4px; }
+@media (max-width: 600px) {
+  .pj-head { display: block; margin-bottom: 28px; }
+  .pj-intro { margin-top: 20px; }
+  .pj-footer { align-items: start; flex-direction: column; }
+}

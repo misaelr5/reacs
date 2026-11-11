@@ -1,0 +1,56 @@
+/* Direct contact: native links, usable without scripts or a configured backend. */
+/* Same anatomy as the pricing cards: a black sheet over a coloured base that shows only as the action bar and its glow. */
+#contacto .ct-panel.ct-direct {
+  --base: #1F27EB; --glow: #6E74FF;
+  position: relative; display: flex; flex-direction: column; max-width: none; padding: 0; overflow: visible; text-align: center;
+  border: 0; border-radius: 26px; background: var(--base);
+  box-shadow: 0 40px 70px -26px var(--glow), 0 0 0 1px rgba(255,255,255,.35);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+  transition: transform .45s var(--p-ease), box-shadow .45s var(--p-ease);
+}
+.ct-direct__sheet {
+  position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; align-items: center;
+  padding: clamp(48px, 8vw, 104px) clamp(20px, 5vw, 64px) clamp(32px, 5vw, 56px);
+  border-radius: 26px 26px 22px 22px; background: #0A0B0E; color: var(--p-ink);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 10px 24px -8px rgba(0,0,0,.7);
+}
+/* the colour bloom drifts toward the pointer (pricing.js); the sheen only exists while hovering */
+.ct-direct__sheet::before { content: ''; position: absolute; z-index: -1; inset: 0; opacity: .42; background: radial-gradient(70% 55% at 100% 0%, var(--glow), transparent 70%); }
+.ct-direct h2 { max-width: 16ch; margin: 20px 0; font-family: var(--p-font); font-size: var(--p-fs-h2); font-weight: 400; line-height: 1.06; letter-spacing: -.035em; text-wrap: balance; }
+.ct-direct__intro { max-width: 46ch; margin: 0; color: var(--p-silver-hi); font-size: 1.0625rem; line-height: 1.6; text-wrap: pretty; }
+.ct-direct__channel { color: var(--p-ink); text-underline-offset: 3px; overflow-wrap: anywhere; }
+#contacto .ct-direct__channel--primary { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 68px; padding: 12px 20px; border-radius: 0 0 26px 26px; color: #fff; font-size: 1.125rem; font-weight: 600; text-decoration: none; transition: background-color .25s var(--p-ease); }
+.ct-direct__channel--primary svg { flex: none; width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .35s var(--p-ease); }
+.ct-direct__channel--primary:hover { background: rgba(255,255,255,.1); }
+.ct-direct__channel--primary:hover svg { transform: translateX(4px); }
+.ct-direct__channel:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.ct-direct__channel--primary:focus-visible { outline-offset: -5px; }
+.ct-direct__alt { margin: 36px 0 0; padding-top: 22px; width: min(100%, 420px); border-top: 1px solid rgba(255,255,255,.1); font-size: .875rem; line-height: 1.6; color: var(--p-silver-hi); }
+.ct-direct__privacy { margin: 6px 0 0; font-size: .8125rem; line-height: 1.6; color: var(--p-silver); }
+.ct-direct__privacy a { color: var(--p-silver-hi); text-underline-offset: 3px; }
+
+@media (hover: hover) and (pointer: fine) {
+  #contacto .ct-panel.ct-direct:hover { transform: translateY(-6px); box-shadow: 0 48px 80px -28px var(--glow), 0 0 0 1px rgba(255,255,255,.45); }
+}
+
+/* entrance: runs once (pricing.js); `translate` stays separate from the hover `transform` */
+@media (prefers-reduced-motion: no-preference) {
+  #contacto .ct-direct[data-anim] { opacity: 0; translate: 0 34px; transition: opacity .7s var(--p-ease), translate .9s var(--p-ease), transform .45s var(--p-ease), box-shadow .45s var(--p-ease); }
+  #contacto .ct-direct[data-anim="on"] { opacity: 1; translate: 0 0; }
+  /* a single light travels along the frame once the panel is in place */
+  .ct-direct[data-anim]::after {
+    content: ''; position: absolute; inset: -1px; z-index: 3; pointer-events: none; padding: 1px; border-radius: inherit;
+    background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.7) 48%, var(--glow) 52%, transparent 65%) 0 0 / 300% 100% no-repeat;
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    opacity: 0;
+  }
+  .ct-direct[data-anim="on"]::after { animation: ctFrameLight 1.8s var(--p-ease) .35s both; }
+}
+@keyframes ctFrameLight {
+  0% { opacity: 0; background-position: 100% 0; }
+  25% { opacity: 1; }
+  100% { opacity: 0; background-position: 0 0; }
+}
+@media (max-width: 640px) { .ct-direct__channel--primary { min-height: 60px; font-size: 1.0625rem; } }
+@media (prefers-reduced-motion: reduce) { #contacto .ct-panel.ct-direct, .ct-direct__channel--primary, .ct-direct__channel--primary svg { transition: none; } }

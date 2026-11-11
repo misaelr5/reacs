@@ -9,10 +9,10 @@
   function init() {
     root.classList.add('js');
     setupHeroTitle();
-    setupHomeNav();
+    setupNavMenu();
     setupReveal();
     setupBento();
-    setupComparison();
+    setupExplodedFigure();
     setupSimulator();
     setupCaseDecks();
   }
@@ -126,19 +126,102 @@
     title.replaceChildren(fragment);
   }
 
-  function setupHomeNav() {
-    const nav = query('.site-nav');
-    const hero = query('#hero-sec');
-    if (!nav || !hero) return;
-    let frame = 0;
-    const sync = () => {
-      frame = 0;
-      nav.classList.toggle('nav-hidden', hero.getBoundingClientRect().bottom > 0);
+  function setupNavMenu() {
+    const menu = query('.p-menu');
+    if (!menu) return;
+    const trigger = menu.querySelector('summary');
+    const panel = menu.querySelector('.mobile-nav-panel');
+    const links = [...panel.querySelectorAll('a')];
+    const heading = panel.querySelector('.p-menu__head');
+    const foot = panel.querySelector('.p-menu__foot');
+    const bars = [...trigger.querySelectorAll('.p-menu__icon > span')];
+    const gsap = window.gsap;
+    let expanded = false;
+    let animation;
+    let focusFirst = false;
+    menu.dataset.menuReady = '';
+    trigger.setAttribute('aria-expanded', 'false');
+    panel.inert = true;
+
+    const finishClose = () => {
+      if (expanded) return;
+      menu.open = false;
+      panel.style.removeProperty('pointer-events');
     };
-    const schedule = () => { if (!frame) frame = requestAnimationFrame(sync); };
-    addEventListener('scroll', schedule, { passive: true });
-    addEventListener('resize', schedule);
-    sync();
+    if (gsap) {
+      animation = gsap.timeline({ paused: true, onReverseComplete: finishClose, onComplete: () => {
+        if (expanded && focusFirst) links[0].focus({ preventScroll: true });
+        focusFirst = false;
+      } })
+        .fromTo(panel, { clipPath: 'inset(0 0 100% 0 round 24px)', y: -10, opacity: 0 },
+          { clipPath: 'inset(0 0 0% 0 round 24px)', y: 0, opacity: 1, duration: .48, ease: 'power3.out' }, 0)
+        .fromTo([heading, ...links, foot].filter(Boolean), { y: 18, opacity: 0 },
+          { y: 0, opacity: 1, duration: .38, stagger: .045, ease: 'power3.out' }, .1)
+        .to(bars[0], { y: 3, rotation: 45, duration: .3, ease: 'power2.inOut' }, 0)
+        .to(bars[1], { y: -3, rotation: -45, duration: .3, ease: 'power2.inOut' }, 0);
+    }
+    const setOpen = (value, restoreFocus = false, immediate = false) => {
+      expanded = value;
+      trigger.setAttribute('aria-expanded', String(value));
+      panel.inert = !value;
+      if (restoreFocus) trigger.focus({ preventScroll: true });
+      if (value) {
+        menu.open = true;
+        panel.style.removeProperty('pointer-events');
+        if (animation) {
+          animation.timeScale(1);
+          if (reduced.matches) animation.progress(1).pause();
+          else animation.play();
+        }
+      } else {
+        focusFirst = false;
+        panel.style.pointerEvents = 'none';
+        if (!animation || reduced.matches || immediate) {
+          animation?.progress(0).pause();
+          finishClose();
+        } else if (animation.progress() === 0) finishClose();
+        else animation.timeScale(1.4).reverse();
+      }
+    };
+    trigger.addEventListener('click', event => {
+      event.preventDefault();
+      setOpen(!expanded);
+    });
+    menu.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && expanded) {
+        event.preventDefault();
+        setOpen(false, true);
+      } else if (event.key === 'ArrowDown' && event.target === trigger) {
+        event.preventDefault();
+        focusFirst = true;
+        setOpen(true);
+        if (!animation || reduced.matches || animation.progress() === 1) {
+          links[0].focus({ preventScroll: true });
+          focusFirst = false;
+        }
+      }
+    });
+    panel.addEventListener('click', event => {
+      if (event.target.closest('a')) setOpen(false, false, true);
+    });
+    document.addEventListener('click', event => {
+      if (expanded && !menu.contains(event.target)) setOpen(false);
+    });
+    menu.addEventListener('focusout', event => {
+      if (expanded && !menu.contains(event.relatedTarget)) setOpen(false);
+    });
+    matchMedia('(max-width: 980px)').addEventListener('change', () => setOpen(false, false, true));
+    // Keep native navigation snapshots and the back/forward cache closed.
+    window.addEventListener('pageswap', () => setOpen(false, false, true));
+    window.addEventListener('pagehide', () => setOpen(false, false, true));
+    window.addEventListener('pageshow', event => { if (event.persisted) setOpen(false, false, true); });
+    links.forEach(link => {
+      const target = new URL(link.href, location.href);
+      if (target.pathname === location.pathname && !target.hash) link.setAttribute('aria-current', 'page');
+    });
+    reduced.addEventListener('change', () => {
+      if (reduced.matches) setOpen(expanded, false, true);
+    });
   }
 
   function setupReveal() {
@@ -166,19 +249,17 @@
     });
   }
 
-  function setupComparison() {
-    const panels = all('[data-prob-panel]');
-    const buttons = all('[data-action="setProbSin"], [data-action="setProbCon"]');
-    if (!panels.length) return;
-    function select(value) {
-      for (const panel of panels) panel.hidden = panel.dataset.probPanel !== value;
-      for (const button of buttons) {
-        const selected = button.dataset.action === (value === 'sin' ? 'setProbSin' : 'setProbCon');
-        button.setAttribute('aria-pressed', String(selected));
-      }
-    }
-    for (const button of buttons) button.addEventListener('click', () => select(button.dataset.action === 'setProbSin' ? 'sin' : 'con'));
-    select('sin');
+  function setupExplodedFigure() {
+    const figure = query('[data-rab-fig]');
+    if (!figure) return;
+    if (reduced.matches || !('IntersectionObserver' in window)) return;
+    figure.dataset.explode = 'ready';
+    const observer = new IntersectionObserver(entries => {
+      if (!entries.some(entry => entry.isIntersecting)) return;
+      figure.dataset.explode = 'on';
+      observer.disconnect();
+    }, { threshold: .3 });
+    observer.observe(figure);
   }
 
   function setupBento() {
