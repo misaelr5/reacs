@@ -40,7 +40,7 @@ try{
     report.accessibility.push({path:entry.path,violations:axe.violations.map(v=>({id:v.id,impact:v.impact,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary,html:n.html}))}))});
   }
   await page.goto(base+'/');await page.setViewportSize({width:1440,height:900});
-  const homeNav=page.locator('.site-nav');assert.equal(await homeNav.isVisible(),true);assert.equal(await homeNav.locator('.p-nav__cta').isVisible(),true);
+  const homeNav=page.locator('.site-nav');assert.equal(await homeNav.isVisible(),true);assert.equal(await homeNav.locator('.p-nav__cta').count(),0);assert.equal(await homeNav.locator('.p-nav__bar > .site-brand').isVisible(),true);
   await page.locator('#hero-sec').evaluate(node=>window.scrollTo({top:node.offsetTop+node.offsetHeight+1,behavior:'instant'}));await page.waitForFunction(()=>getComputedStyle(document.querySelector('.site-nav')).visibility==='visible');
   await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));assert.equal(await homeNav.isVisible(),true);
   const quickAction=page.locator('.whatsapp-quick-action');assert.equal(await quickAction.isVisible(),true);assert.match(await quickAction.getAttribute('href'),/https:\/\/wa\.me\/5493544657866/);
