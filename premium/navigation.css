@@ -91,10 +91,10 @@ html.reac-dock-vt::view-transition { pointer-events: none; }
 }
 
 /* ===== Open menu as a list: every destination shows its name and what it holds, two columns on desktop. ===== */
-.p-nav .p-menu .mobile-nav-panel { width: min(600px, calc(100vw - 2 * var(--p-gutter))); padding: 62px 10px 10px; }
+.p-nav .p-menu .mobile-nav-panel { width: min(640px, calc(100vw - 2 * var(--p-gutter))); padding: 62px 10px 10px; }
 .p-menu__caption { display: none; }
 .p-menu__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; }
-.p-nav .p-menu .mobile-nav-panel a { display: grid; grid-template-columns: 44px minmax(0, 1fr) 14px; align-items: center; place-items: initial; gap: 14px; min-height: 68px; padding: 10px 14px 10px 10px; border-radius: 18px; text-align: left; transition: box-shadow .2s; }
+.p-nav .p-menu .mobile-nav-panel a { display: grid; grid-template-columns: 44px minmax(0, 1fr) 14px; place-items: center stretch; gap: 14px; min-height: 68px; padding: 10px 14px 10px 10px; border-radius: 18px; text-align: left; transition: box-shadow .2s; }
 .p-nav .p-menu .mobile-nav-panel a:is(:hover, :focus-visible) { box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); }
 .p-menu__glyph { width: 44px; height: 44px; transform: none; }
 .p-menu__glyph svg { width: 20px; height: 20px; }
