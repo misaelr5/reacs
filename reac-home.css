@@ -9,7 +9,7 @@
   }
 
     *{box-sizing:border-box;}
-    html,body{margin:0;padding:0;background:#070712;}
+    html,body{margin:0;padding:0;background:#000000;}
     body{-webkit-font-smoothing:antialiased;}
     ::selection{background:#1F27EB;color:#FDFCFE;}
     @keyframes beamMove{0%{left:-18%;opacity:0;}12%{opacity:1;}88%{opacity:1;}100%{left:118%;opacity:0;}}
@@ -302,7 +302,7 @@
     .prob-chip-ico svg{width:16px; height:16px;}
     @media(max-width:860px){.prob-cards{grid-template-columns:1fr;}.prob-card{min-height:0;}.prob-chips{grid-template-columns:1fr !important;}.prob-body{min-height:0;}}
 /* Editorial case studies: the reading order is shared across desktop and mobile. */
-.case-section{background:#070712;color:#fdfcfe;padding:100px 6vw;scroll-margin-top:90px}
+.case-section{background:#000000;color:#fdfcfe;padding:100px 6vw;scroll-margin-top:90px}
 .case-shell{max-width:1280px;margin:auto}
 .case-section-heading{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:end;margin-bottom:64px}
 .case-category{margin:0 0 16px;color:#ff997c;font-size:14px;font-weight:700;line-height:1.5}
