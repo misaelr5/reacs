@@ -3,14 +3,24 @@
    Same palette as the rest of the home: black surface, hairline, and the blue light of the services fan rising
    from the bottom. Logos stay monochrome and screenshots come up out of the black, so four brands read as one set. */
 #proyectos.rfx { position: relative; background: var(--p-black); color: var(--p-ink); font-family: var(--p-font); }
-.rfx-head { display: flex; flex-direction: column; align-items: center; gap: 24px; text-align: center; margin-bottom: var(--p-head-gap, 56px); }
-.rfx-head .p-h2 span { display: block; color: var(--p-silver); }
+/* Heading mirrors the services fan header (.pj-head): title left, short intro and the call to action right. */
+.rfx-head { display: flex; align-items: end; justify-content: space-between; gap: 28px 64px; margin-bottom: var(--p-head-gap, 56px); }
+.rfx-head .p-h2 { max-width: 19ch; font-size: clamp(2rem, 3.8vw, 3.5rem); }
+.rfx-head .p-h2 span { color: var(--p-silver); }
+.rfx-intro { max-width: 37ch; }
+.rfx-intro > p { margin: 0 0 20px; font-size: 1rem; line-height: 1.65; color: var(--p-silver-hi); }
 .rfx-all {
-  display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 999px;
-  background: var(--p-glass); border: 1px solid var(--p-line-strong); color: var(--p-ink); font-size: .9375rem; font-weight: 500; text-underline-offset: 4px;
-  transition: background-color .3s var(--p-ease);
+  display: inline-flex; align-items: center; justify-content: center; gap: 24px; min-height: 48px; padding: 0 20px;
+  border: 1px solid var(--p-line-strong); border-radius: var(--p-r-sm); background: var(--p-glass); color: var(--p-ink);
+  font-size: .875rem; font-weight: 500; text-decoration: none;
+  transition: background-color .3s var(--p-ease), border-color .3s var(--p-ease);
 }
-.rfx-all:hover { background: var(--p-glass-hi); }
+.rfx-all:hover { background: var(--p-glass-hi); border-color: var(--p-blue-soft); }
+.rfx-all:focus-visible { outline: 2px solid var(--p-blue-soft); outline-offset: 4px; }
+@media (max-width: 600px) {
+  .rfx-head { display: block; margin-bottom: 28px; }
+  .rfx-intro { margin-top: 20px; }
+}
 
 .rfx-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; }
 .rfx-item { grid-column: span 5; }
