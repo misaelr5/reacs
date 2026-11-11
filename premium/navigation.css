@@ -67,36 +67,44 @@ html.reac-dock-vt::view-transition { pointer-events: none; }
   .p-nav *, ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; transition: none !important; }
 }
 
-/* ===== Floating island (right): brand, menu and CTA share one pill; the menu grows out of it. ===== */
-.p-nav .p-nav__bar { justify-content: flex-end; }
-.p-nav .p-nav__actions { position: relative; isolation: isolate; padding: 5px 5px 5px 8px; }
-.p-nav .p-nav__actions .site-brand { width: 40px; height: 40px; }
-.p-nav .p-nav__actions .site-brand-mark { width: 26px; height: 26px; }
-.p-nav .p-menu .mobile-nav-panel { z-index: -1; inset: -1px -1px auto auto; width: max(calc(100% + 2px), 470px); padding: 64px 18px 20px; border-radius: 30px; }
+/* ===== Two black islands: the brand alone on the far left, the menu alone on the far right. =====
+   Pure black surfaces and a white hairline; no glass, no gradients, no coloured bloom. The menu panel grows out of its pill. */
+.p-nav .p-nav__bar { justify-content: space-between; }
+.p-nav .p-nav__bar > .site-brand { width: 54px; height: 54px; border: 1px solid rgba(255,255,255,.16); border-radius: 50%; background: #000; transition: border-color .2s; }
+.p-nav .p-nav__bar > .site-brand:hover { border-color: rgba(255,255,255,.4); }
+.p-nav .p-nav__bar > .site-brand .site-brand-mark { width: 26px; height: 26px; }
+.p-nav .p-nav__actions { position: relative; isolation: isolate; padding: 4px; border-color: rgba(255,255,255,.16); background: #000; box-shadow: none; }
+.p-nav .p-menu summary { min-width: 120px; }
+.p-nav .p-menu summary:hover, .p-nav .p-menu[open] summary { background: #000; }
+.p-nav .p-menu:not([open]) summary:hover { box-shadow: inset 0 0 0 1px rgba(255,255,255,.22); }
+.p-nav .p-menu .mobile-nav-panel { z-index: -1; inset: -1px -1px auto auto; width: max(calc(100% + 2px), 470px); padding: 64px 18px 20px; border-color: rgba(255,255,255,.16); border-radius: 30px; background: #000; box-shadow: 0 30px 70px -20px #000; }
+.p-nav .p-menu .mobile-nav-panel a { background: transparent; }
+.p-menu__glyph { border-color: rgba(255,255,255,.16); background: #000; box-shadow: none; transition: transform .16s ease-out, background-color .2s, border-color .2s, color .2s; }
+.p-nav .p-menu .mobile-nav-panel a:is(:hover,:focus-visible) .p-menu__glyph { background: #fff; border-color: #fff; color: #000; box-shadow: none; }
+.p-nav .p-menu .mobile-nav-panel a[aria-current="page"] .p-menu__glyph { border-color: rgba(255,255,255,.6); background: #000; color: #fff; }
+.p-menu__caption { font-weight: 500; letter-spacing: -.01em; }
 @media (max-width: 600px) {
-  .p-nav .p-nav__actions { width: 100%; justify-content: space-between; }
-  .p-nav .p-menu .mobile-nav-panel { width: calc(100% + 2px); padding-top: 60px; }
+  .p-nav .p-nav__bar > .site-brand { width: 50px; height: 50px; }
+  .p-nav .p-menu summary { min-width: 104px; }
+  /* the panel spans the bar, from the brand's edge to the menu's */
+  .p-nav .p-menu .mobile-nav-panel { width: calc(100vw - 28px); padding-top: 60px; }
 }
 
-/* ===== Finish: glass island, hairline after the brand, arrow chip in the CTA, lit dock icons. ===== */
-.p-nav .p-nav__actions {
-  border-color: rgba(255,255,255,.16); background: rgba(8,9,12,.92);
-  -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5);
-  box-shadow: 0 18px 40px -18px rgba(0,0,0,.9), 0 0 0 1px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.1);
+/* ===== Open menu as a list: every destination shows its name and what it holds, two columns on desktop. ===== */
+.p-nav .p-menu .mobile-nav-panel { width: min(600px, calc(100vw - 2 * var(--p-gutter))); padding: 62px 10px 10px; }
+.p-menu__caption { display: none; }
+.p-menu__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; }
+.p-nav .p-menu .mobile-nav-panel a { display: grid; grid-template-columns: 44px minmax(0, 1fr) 14px; align-items: center; place-items: initial; gap: 14px; min-height: 68px; padding: 10px 14px 10px 10px; border-radius: 18px; text-align: left; transition: box-shadow .2s; }
+.p-nav .p-menu .mobile-nav-panel a:is(:hover, :focus-visible) { box-shadow: inset 0 0 0 1px rgba(255,255,255,.16); }
+.p-menu__glyph { width: 44px; height: 44px; transform: none; }
+.p-menu__glyph svg { width: 20px; height: 20px; }
+.p-menu__copy { position: static; display: grid; gap: 3px; width: auto; height: auto; margin: 0; overflow: visible; clip-path: none; white-space: normal; text-align: left; }
+.p-menu__text { color: #fff; font-size: .9375rem; font-weight: 500; line-height: 1.25; }
+.p-menu__note { display: block; color: var(--p-silver); font-size: .8125rem; line-height: 1.35; }
+.p-menu__arrow { display: block; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; opacity: .35; transition: opacity .2s, transform .2s; }
+.p-nav .p-menu .mobile-nav-panel a:is(:hover, :focus-visible) .p-menu__arrow { opacity: 1; transform: translate(2px, -2px); }
+@media (max-width: 600px) {
+  .p-nav .p-menu .mobile-nav-panel { width: calc(100vw - 28px); padding: 60px 6px 6px; }
+  .p-menu__grid { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .p-nav .p-menu .mobile-nav-panel a { min-height: 62px; }
 }
-.p-nav .p-nav__actions .site-brand { position: relative; margin-right: 6px; border-radius: 50%; transition: background-color .2s; }
-.p-nav .p-nav__actions .site-brand::after { content: ''; position: absolute; right: -6px; top: 50%; width: 1px; height: 18px; margin-top: -9px; background: rgba(255,255,255,.16); }
-.p-nav .p-nav__actions .site-brand:hover { background: rgba(255,255,255,.08); }
-.p-nav .p-menu summary:hover, .p-nav .p-menu[open] summary { background: rgba(255,255,255,.08); }
-.p-nav .p-nav__cta { gap: 12px; padding: 0 7px 0 20px; border-color: #fff; background: linear-gradient(180deg, #fff, #e9ebf2); box-shadow: inset 0 -1px 0 rgba(8,9,11,.12), 0 6px 18px -8px rgba(255,255,255,.35); transition: box-shadow .25s var(--p-ease); }
-.p-nav .p-nav__cta:hover { background: linear-gradient(180deg, #fff, #e9ebf2); box-shadow: inset 0 -1px 0 rgba(8,9,11,.12), 0 0 0 4px var(--p-blue-glow); }
-.p-nav .p-nav__cta svg { box-sizing: border-box; width: 30px; height: 30px; padding: 7px; border-radius: 50%; background: #08090b; stroke: #fff; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform .35s var(--p-ease), background-color .25s var(--p-ease); }
-.p-nav .p-nav__cta:hover svg { background: var(--p-blue); transform: rotate(45deg); }
-/* the open panel takes the pricing-card bloom from its top corner */
-.p-nav .p-menu .mobile-nav-panel { background: radial-gradient(70% 90% at 100% 0%, rgba(46,55,255,.2), transparent 70%), #050608; border-color: rgba(255,255,255,.16); box-shadow: 0 30px 70px -20px #000, inset 0 1px 0 rgba(255,255,255,.08); }
-.p-nav .p-menu .mobile-nav-panel a { background: transparent; }
-.p-menu__glyph { border-color: rgba(255,255,255,.14); background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.02)); box-shadow: inset 0 1px 0 rgba(255,255,255,.1); transition: transform .16s ease-out, background-color .2s, border-color .2s, color .2s, box-shadow .25s; }
-.p-nav .p-menu .mobile-nav-panel a:is(:hover,:focus-visible) .p-menu__glyph { background: var(--p-blue); border-color: #858aff; box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 10px 24px -8px var(--p-blue); }
-.p-nav .p-menu .mobile-nav-panel a[aria-current="page"] .p-menu__glyph { background: rgba(110,116,255,.18); }
-.p-menu__caption { font-weight: 500; letter-spacing: -.01em; }
-@media (max-width: 600px) { .p-nav .p-nav__cta { gap: 8px; padding: 0 6px 0 15px; } }
