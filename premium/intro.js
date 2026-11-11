@@ -20,6 +20,7 @@
   const done = () => {
     if (!root.hasAttribute('data-intro') || root.getAttribute('data-intro') === 'live') return;
     root.removeAttribute('data-intro');
+    root.classList.remove('reac-veil-run');
     document.dispatchEvent(new Event('reac:intro-done'));
   };
   root.setAttribute('data-intro', '');
@@ -31,6 +32,8 @@
     script.src = loader;
     document.head.append(script);
   }
+  // Run the veil's clock from the first rendered frame (see intro.css).
+  requestAnimationFrame(() => root.classList.add('reac-veil-run'));
   root.addEventListener('animationend', event => { if (event.pseudoElement === '::before') done(); });
   setTimeout(done, 15000);
 })();

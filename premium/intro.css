@@ -16,6 +16,10 @@ html[data-intro]::after {
   background: url('/uploads/reac-symbol.svg') center / contain no-repeat;
   animation: reacIntroMark 1.5s cubic-bezier(.22,1,.36,1) both;
 }
+/* The animation clock starts at style computation, which on script-heavy pages runs well before the
+   first paint. intro.js marks the first rendered frame; until then the veil holds. */
+html[data-intro]:not(.reac-veil-run)::before,
+html[data-intro]:not(.reac-veil-run)::after { animation-play-state: paused; }
 html[data-intro="live"]::before,
 html[data-intro="live"]::after { display: none; }
 @keyframes reacIntroVeil {

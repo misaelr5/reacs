@@ -6,7 +6,13 @@ import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
 
 const root = document.documentElement;
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-const LATE = 1100;
+// The CSS veil starts with the first paint and holds for about a second; past that, the loader would only
+// stretch it. Network time before that paint does not count, and before any paint it is never late.
+const LATE = 900;
+const late = () => {
+  const paint = performance.getEntriesByType('paint')[0];
+  return Boolean(paint) && performance.now() - paint.startTime > LATE;
+};
 
 const SYMBOL = [
   'M207 394 306 291c17-17 34-25 61-25h339c55 0 99 45 99 100v46c0 31-12 59-35 82L668 583l166 179h-84L601 601l66-68 52-51c12-12 18-27 18-45v-50c0-28-23-50-51-50H418c-11 0-20 4-28 12l-34 38-149 7Z',
@@ -40,7 +46,7 @@ async function field(canvas) {
 function run() {
   const { gsap, ScrambleTextPlugin, CustomEase } = window;
   if (root.getAttribute('data-intro') !== '' || reduced.matches) return;
-  if (!gsap || !ScrambleTextPlugin || !CustomEase || performance.now() > LATE) return;
+  if (!gsap || !ScrambleTextPlugin || !CustomEase || late()) return;
   gsap.registerPlugin(DrawSVGPlugin, ScrambleTextPlugin, CustomEase);
 
   const veil = document.createElement('div');
@@ -77,6 +83,7 @@ function run() {
     gl?.destroy();
     veil.remove();
     root.removeAttribute('data-intro');
+    root.classList.remove('reac-veil-run');
   };
   const exit = () => {
     exiting = true;
@@ -112,6 +119,7 @@ function run() {
   }, { once: true });
 }
 
-// intro.js inserts this module dynamically, so it can arrive before the deferred GSAP scripts have run.
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run, { once: true });
-else run();
+// intro.js inserts this module dynamically, so it can evaluate while the deferred GSAP scripts are still
+// pending (readyState is already "interactive" then); those have all run by DOMContentLoaded.
+if (window.gsap && window.ScrambleTextPlugin && window.CustomEase) run();
+else document.addEventListener('DOMContentLoaded', run, { once: true });
