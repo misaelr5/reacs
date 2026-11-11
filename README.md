@@ -1,4 +1,4 @@
-﻿# Reac Studio
+# Reac Studio
 
 Sitio comercial estático con HTML completo y contacto directo por WhatsApp y email. Dominio canónico de producción: https://reacstudio.com. El host `reacs-studio.vercel.app` queda como alias técnico anterior y redirige al dominio oficial.
 
@@ -34,7 +34,7 @@ Abrir http://127.0.0.1:4174. El servidor está limitado a esta computadora. Reco
 - `reac-ui.js`: interacciones; `reac-site.js`: consentimiento, medición y contacto.
 - `scripts/build.mjs`: genera `dist/`, metadata, schema, sitemap y robots con una lista de archivos permitidos. Agrupa el CSS publicado por página con nombre basado en su contenido, conservando el orden original; los archivos fuente permanecen separados. Conserva la preparación de la navegación antes de la captura de View Transitions.
 - `api/contact.ts`: responde 410 al formulario retirado; `lib/contact.ts` conserva la entrega anterior como referencia inactiva.
-- `premium/intro.css` y `premium/intro.js`: introducción breve con el símbolo real, una vez por sesión y sin bloquear interacción; se omite con movimiento reducido.
+- `premium/intro.css` y `premium/intro.js`: introducción breve con el símbolo real, una vez por sesión y sin bloquear interacción; se omite con movimiento reducido. `premium/loader.js` añade el dibujo del símbolo con GSAP y solicita el campo OGL de `loader-field.js` mediante importación dinámica. Si el módulo llega tarde o falla, la introducción CSS termina por sí sola. `premium/arrival.js` anima encabezados internos e imágenes diferidas.
 - `premium/contact.css`: contacto directo compartido entre la home y `/contacto`.
 - `vercel.json`: build, rutas y encabezados.
 
@@ -71,6 +71,12 @@ git diff --check
 ```
 
 Navegador y performance requieren servidor en 4174 y Chrome instalado. Playwright viene con la herramienta de accesibilidad. `lint` es comprobación sintáctica y estructural propia, no ESLint. TypeScript comprueba backend y pruebas TS. Las pruebas de entrega y analytics usan proveedores simulados, sin mensajes reales.
+
+Ejecutar `tests/build-config.mjs` antes de las pruebas de navegador: reconstruye y reemplaza `dist/` varias veces. No ejecutar builds en paralelo ni mientras el navegador está leyendo ese directorio.
+
+El build minifica el CSS con esbuild y publica scripts minificados bajo `/js/` con nombres basados en su contenido. Vercel configura un año de caché `immutable` para `/styles/` y `/js/`; al cambiar el contenido cambia la URL, por lo que no se reutiliza una versión anterior. Se conservan el orden del CSS y el atributo `blocking="render"` del script de navegación. El código fuente sigue separado y editable.
+
+Validación de optimización local del 11 de noviembre de 2026: CSS de la home de aproximadamente 213 KB a 177 KB (36 KB al comprimir con gzip localmente; no es una medición de transferencia de Vercel). Una muestra de Chrome con caché fría, CPU 4x y red de 1,6 Mbps/150 ms dio LCP de 4,08 s en la home, 3,04 s en `/desarrollo-web` y 2,52 s en `/google-ads`; CLS de 0,036 en la home y 0 en esas páginas internas. Son muestras de laboratorio locales, con margen de mejora en carga inicial; no certifican Core Web Vitals de producción. Consultar `artifacts/performance-report.json` y repetir la medición sobre el dominio después de un despliegue autorizado.
 
 ## Publicación
 

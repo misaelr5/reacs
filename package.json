@@ -3,23 +3,27 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "engines": { "node": "24.x" },
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "build": "node scripts/build.mjs",
     "dev": "node --env-file-if-exists=.env.local scripts/serve.mjs",
     "lint": "node scripts/check.mjs",
     "typecheck": "tsc --noEmit",
     "test": "node --test tests/*.test.ts tests/*.test.mjs",
-    "test:browser": "node tests/browser.mjs && node tests/analytics.browser.mjs && node tests/cases.browser.mjs && node tests/navigation.browser.mjs && node tests/hero.browser.mjs && node tests/lower-layout.browser.mjs",
+    "test:browser": "node tests/browser.mjs && node tests/analytics.browser.mjs && node tests/cases.browser.mjs && node tests/navigation.browser.mjs && node tests/hero.browser.mjs && node tests/lower-layout.browser.mjs && node tests/loading.browser.mjs",
     "indexnow": "node --env-file-if-exists=.env.local scripts/indexnow.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
     "@types/node": "24.13.3",
+    "esbuild": "0.28.2",
     "parse5": "8.0.1",
     "typescript": "5.9.3"
   },
   "dependencies": {
-    "gsap": "3.15.0"
+    "gsap": "3.15.0",
+    "ogl": "1.0.11"
   }
 }

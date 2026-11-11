@@ -37,6 +37,13 @@
 
 /* Diagnóstico: the same card laid on its side, head on the left and detail on the right */
 .rpl-diag { flex-direction: row; align-items: stretch; margin-top: 20px; }
+/* Match the project cards: a quiet blue fade rising from a black surface. */
+#recursos .rpl-diag {
+  background: radial-gradient(110% 55% at 50% 100%, rgba(46,55,255,.14), transparent 70%), var(--p-black);
+  border-color: var(--p-line);
+}
+#recursos .rpl-diag__head { background: transparent; box-shadow: none; }
+#recursos .rpl-diag__head::before { background: none; }
 .rpl-diag .rpl-diag__head { flex: 1 1 auto; min-width: 0; flex-direction: row; align-items: center; justify-content: space-between; gap: 32px; padding: 26px 26px; }
 .rpl-diag__question { margin: 0; font-size: .875rem; color: rgba(255,255,255,.86); }
 .rpl-diag .rpl-name { margin-top: 8px; font-size: clamp(1.5rem, 1.2rem + 1vw, 2.125rem); }

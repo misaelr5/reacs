@@ -6,7 +6,7 @@
 /* Heading mirrors the services fan header (.pj-head): title left, short intro and the call to action right. */
 .rfx-head { display: flex; align-items: end; justify-content: space-between; gap: 28px 64px; margin-bottom: var(--p-head-gap, 56px); }
 .rfx-head .p-h2 { max-width: 19ch; font-size: clamp(2rem, 3.8vw, 3.5rem); }
-.rfx-head .p-h2 span { color: var(--p-silver); }
+.rfx-head .p-h2, .rfx-head .p-h2 span { color: #fff; }
 .rfx-intro { max-width: 37ch; }
 .rfx-intro > p { margin: 0 0 20px; font-size: 1rem; line-height: 1.65; color: var(--p-silver-hi); }
 .rfx-all {

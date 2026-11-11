@@ -142,8 +142,8 @@ html.reac-faq-vt::view-transition { pointer-events: none; }
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 2.5rem clamp(2rem, 6vw, 6rem); align-items: center;
   padding: clamp(28px, 4vw, 56px);
   background:
-    radial-gradient(60% 90% at 0% 100%, rgba(46,55,255,.14), transparent 70%),
-    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.012));
+    radial-gradient(110% 55% at 50% 100%, rgba(46,55,255,.14), transparent 70%),
+    var(--p-black);
   border: 1px solid var(--p-glass-border); border-radius: var(--p-r-lg);
   box-shadow: var(--p-glass-inset), 0 30px 60px -30px rgba(0,0,0,.8);
 }

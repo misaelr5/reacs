@@ -6,6 +6,8 @@ import { site } from '../site.config.mjs';
 import { services } from '../content/services.mjs';
 import { articles } from '../content/editorial.mjs';
 import { cases } from '../content/cases.mjs';
+import * as esbuild from 'esbuild';
+import { minifyCss } from './minify.mjs';
 import { caseCard, caseDetail, caseFeatured, caseIndex } from './case-views.mjs';
 import { parse, parseFragment, serialize, serializeOuter, attr, setAttr, find, all, hasClass, textContent, remove, append, escape as e } from './html.mjs';
 
@@ -65,6 +67,7 @@ function schema(meta, doc) {
   return { '@context': 'https://schema.org', '@graph': graph };
 }
 
+const loadingPlugins = ['/SplitText.min.js', '/CustomEase.min.js', '/ScrambleTextPlugin.min.js'];
 function prepare(html, meta) {
   const doc = parse(html);
   const head = find(doc, n => n.tagName === 'head');
@@ -77,6 +80,19 @@ function prepare(html, meta) {
   // One final type layer for both the homepage and generated pages.
   for (const link of all(head, n => n.tagName === 'link' && attr(n, 'href') === '/premium/typography.css')) remove(link);
   append(head, '<link rel="stylesheet" href="/premium/typography.css">');
+  // Loading motion on every page: intro.js paints the veil before first paint; the plugins and arrival.js
+  // run right after GSAP, ahead of the render-blocking reac-ui.js. The loader module goes last so it never
+  // joins the render-blocking chain; the veil covers the wait.
+  for (const n of all(head, n => ['/premium/intro.js', '/premium/loader.js', '/premium/arrival.js', '/DrawSVGPlugin.min.js', ...loadingPlugins].includes(attr(n, 'src')) || ['/premium/intro.css', '/premium/loader.css'].includes(attr(n, 'href')))) remove(n);
+  const intro = parseFragment('<script src="/premium/intro.js"></script>').childNodes[0];
+  intro.parentNode = head; head.childNodes.unshift(intro);
+  append(head, '<link rel="stylesheet" href="/premium/intro.css"><link rel="stylesheet" href="/premium/loader.css">');
+  if (!find(head, n => n.tagName === 'script' && attr(n, 'src') === '/gsap.min.js')) append(head, '<script defer src="/gsap.min.js"></script>');
+  const gsapScript = find(head, n => n.tagName === 'script' && attr(n, 'src') === '/gsap.min.js');
+  const motion = parseFragment([...loadingPlugins, '/premium/arrival.js'].map(src => `<script defer src="${src}"></script>`).join('')).childNodes;
+  for (const node of motion) node.parentNode = gsapScript.parentNode;
+  gsapScript.parentNode.childNodes.splice(gsapScript.parentNode.childNodes.indexOf(gsapScript) + 1, 0, ...motion);
+  append(head, '<script type="module" src="/premium/loader.js"></script>');
   const robots = meta.noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large';
   const socialTitle = meta.socialTitle || meta.title;
   const socialDescription = meta.socialDescription || meta.description;
@@ -140,7 +156,7 @@ const projectSection=find(home,n=>attr(n,'id')==='proyectos');
 setAttr(projectSection,'class','rfx');
 setAttr(projectSection,'style',null);
 projectSection.childNodes=[];
-append(projectSection,`<div class="p-wrap"><header class="rfx-head"><h2 class="p-h2">El trabajo detrás <span>de cada proyecto.</span></h2><div class="rfx-intro"><p>Sitios, sistemas y campañas reales: qué problema tenía cada cliente y cómo lo resolvimos.</p><a class="rfx-all" data-cta="projects" data-placement="home_projects" href="/proyectos">Ver todos los proyectos <span aria-hidden="true">↗</span></a></div></header>${caseFeatured(["travel-days","crm-reac-studio","remediacion-malware-wordpress","comunidad-cristiana-villa-sarmiento"].map(slug=>cases.find(project=>project.slug===slug)))}</div>`);
+append(projectSection,`<div class="p-wrap"><header class="rfx-head"><h2 class="p-h2" data-title-fx="scan">El trabajo detrás <span>de cada proyecto.</span></h2><div class="rfx-intro"><p>Sitios, sistemas y campañas reales: qué problema tenía cada cliente y cómo lo resolvimos.</p><a class="rfx-all" data-cta="projects" data-placement="home_projects" href="/proyectos">Ver todos los proyectos <span aria-hidden="true">↗</span></a></div></header>${caseFeatured(["travel-days","crm-reac-studio","remediacion-malware-wordpress","comunidad-cristiana-villa-sarmiento"].map(slug=>cases.find(project=>project.slug===slug)))}</div>`);
 const nav = serializeOuter(find(home,n=>hasClass(n,'site-nav'))).replace('site-nav nav-hidden','site-nav').replaceAll('href="#hero-sec"','href="/"').replaceAll('href="#contacto"','href="/contacto"').replaceAll('href="#proceso"','href="/#proceso"');
 const socialNode = find(home, n => hasClass(n, 'p-dock'));
 // Interior pages reuse the same destinations with their existing, static footer styles.
@@ -221,8 +237,9 @@ for(const [i,resource] of resources.entries()) {
 for(const [file,path,title] of [['404.html','/404','Página no encontrada | Reac Studio'],['gracias.html','/gracias','Canales de contacto | Reac Studio'],['politica-de-privacidad.html','/politica-de-privacidad','Política de privacidad | Reac Studio']]) prepare(readFileSync(resolve(root,file),'utf8'),{path,file:'/'+file,title,description:title.split('|')[0].trim()+'. Información de Reac Studio.',label:title.split('|')[0].trim(),noindex:true});
 
 for(const file of ['reac-site.css','reac-home.css','reac-pages.css','reac-site.js','reac-ui.js','og-image.png','favicon.ico','favicon.svg','icon.png','apple-touch-icon.png'])copyFileSync(resolve(root,file),resolve(output,file));
-copyFileSync(resolve(root,'node_modules/gsap/dist/gsap.min.js'),resolve(output,'gsap.min.js'));copyFileSync(resolve(root,'node_modules/gsap/dist/SplitText.min.js'),resolve(output,'SplitText.min.js'));
-mkdirSync(resolve(output,'premium'),{recursive:true});for(const file of readdirSync(resolve(root,'premium')))copyFileSync(resolve(root,'premium',file),resolve(output,'premium',file));
+for(const file of ['gsap.min.js',...loadingPlugins.map(src=>src.slice(1))])copyFileSync(resolve(root,'node_modules/gsap/dist',file),resolve(output,file));
+// The loader modules are published only as the esbuild bundle below.
+mkdirSync(resolve(output,'premium'),{recursive:true});for(const file of readdirSync(resolve(root,'premium')).filter(file=>!file.startsWith('loader')||file.endsWith('.css')))copyFileSync(resolve(root,'premium',file),resolve(output,'premium',file));
 // A small experimental directory, generated from the same public facts and routes.
 const llms = `# ${site.name}\n\n> ${site.description}\n\n## Sitio oficial\n\n${[['Inicio','/'],['Servicios','/servicios'],['Proyectos','/proyectos'],['Nosotros','/nosotros'],['Contacto','/contacto'],['Recursos','/recursos']].map(([name,path])=>`- ${name}: ${url(path)}`).join('\n')}\n\n## Servicios\n\n${services.map(service=>`- ${service.name}: ${url('/'+service.slug)}`).join('\n')}\n\n## Identidad\n\n- Nombre principal: ${site.name}\n- Variantes: ${site.alternateNames.join(', ')}\n- Trabajo remoto desde Córdoba, Argentina, para empresas, negocios y profesionales de Argentina y Latinoamérica.\n\n## Perfiles oficiales\n\n${site.socialProfiles.map(profile=>'- '+profile).join('\n')}\n\nEste directorio es un complemento experimental. No reemplaza el contenido HTML, robots.txt ni sitemap.xml.\n`;
 save('/llms.txt',llms);writeFileSync(resolve(root,'llms.txt'),llms);
@@ -246,13 +263,32 @@ if(indexNowKey) {
   save('/'+indexNowKey+'.txt',indexNowKey);
 }
 mkdirSync(resolve(root,'artifacts'),{recursive:true});
+// Production scripts are minified and content-hashed under /js/, which vercel.json serves immutable.
+// The loader is bundled with DrawSVG and OGL; its WebGL field is a lazy chunk fetched on first visits only.
+const loaderBundle = await esbuild.build({
+  entryPoints: [resolve(root, 'premium/loader.js')], outdir: resolve(output, 'js'), entryNames: '[name].[hash]',
+  bundle: true, splitting: true, format: 'esm', minify: true, target: 'es2022', metafile: true, logLevel: 'error'
+});
+const scripts = new Map([['/premium/loader.js', '/' + relative(output, resolve(root, Object.entries(loaderBundle.metafile.outputs).find(([, out]) => out.entryPoint === 'premium/loader.js')[0])).replaceAll('\\', '/')]]);
+const publishScript = src => {
+  if (!scripts.has(src)) {
+    if (!/^\/[a-zA-Z0-9/._-]+\.js$/.test(src) || src.includes('..')) throw new Error('Unsupported script: ' + src);
+    const source = readFileSync(resolve(output, '.' + src), 'utf8');
+    const code = src.endsWith('.min.js') ? source : esbuild.transformSync(source, { loader: 'js', minify: true, target: 'es2022' }).code;
+    const name = src.split('/').at(-1).replace(/\.js$/, '');
+    const href = '/js/' + name + '.' + createHash('sha256').update(code).digest('hex').slice(0, 12) + '.js';
+    save(href, code);
+    scripts.set(src, href);
+  }
+  return scripts.get(src);
+};
 // Bundle only the published output. Keep authoring files separate and preserve
 // cascade order; absolute URLs keep fonts/images valid under /styles/.
 for (const page of generated) {
   const file = resolve(output, '.' + page.file);
   const doc = parse(readFileSync(file, 'utf8'));
   const links = all(doc, n => n.tagName === 'link' && attr(n, 'rel') === 'stylesheet' && !attr(n, 'media'));
-  const css = links.map(link => {
+  let css = links.map(link => {
     const href = attr(link, 'href');
     if (!/^\/[a-zA-Z0-9/._-]+\.css$/.test(href) || href.includes('..')) throw new Error('Unsupported stylesheet: ' + href);
     const content = readFileSync(resolve(output, '.' + href), 'utf8');
@@ -260,7 +296,9 @@ for (const page of generated) {
     if (/@import\b/i.test(content) || relativeUrl) throw new Error('Stylesheet requires URL rewriting: ' + href);
     return content;
   }).join('\n');
+  for (const script of all(doc, n => n.tagName === 'script' && attr(n, 'src')?.startsWith('/'))) setAttr(script, 'src', publishScript(attr(script, 'src')));
   if (links.length) {
+    css = minifyCss(css);
     const href = '/styles/' + createHash('sha256').update(css).digest('hex').slice(0, 12) + '.css';
     save(href, css);
     setAttr(links[0], 'href', href);

@@ -7,6 +7,7 @@ import {articles} from '../content/editorial.mjs';
 import {site} from '../site.config.mjs';
 import {services} from '../content/services.mjs';
 import {parse, all, attr, hasClass} from '../scripts/html.mjs';
+import {minifyCss} from '../scripts/minify.mjs';
 test('Published pages load one versioned stylesheet and preserve the navigation transition setup',()=>{
   const source=parse(readFileSync('Reac.dc.html','utf8'));
   const expected=all(source,n=>n.tagName==='link'&&attr(n,'rel')==='stylesheet').map(n=>readFileSync('.'+attr(n,'href'),'utf8')).join('\n');
@@ -15,8 +16,13 @@ test('Published pages load one versioned stylesheet and preserve the navigation 
     const links=all(doc,n=>n.tagName==='link'&&attr(n,'rel')==='stylesheet');
     assert.equal(links.length,1,page.path);
     assert.match(attr(links[0],'href'),/^\/styles\/[a-f0-9]{12}\.css$/);
-    if(page.path==='/' || page.path==='/servicios')assert.equal(all(doc,n=>n.tagName==='script'&&attr(n,'blocking')==='render'&&attr(n,'src')==='/reac-ui.js').length,1,page.path);
-    if(page.path==='/')assert.equal(readFileSync('dist'+attr(links[0],'href'),'utf8'),expected,'Home CSS cascade changed');
+    if(page.path==='/' || page.path==='/servicios')assert.equal(all(doc,n=>n.tagName==='script'&&attr(n,'blocking')==='render'&&/^\/js\/reac-ui\.[a-f0-9]{12}\.js$/.test(attr(n,'src')||'')).length,1,page.path);
+    for(const script of all(doc,n=>n.tagName==='script'&&attr(n,'src'))){
+      const src=attr(script,'src');
+      assert.match(src,/^\/js\/[\w.-]+\.[\w-]+\.js$/,page.path);
+      assert.ok(existsSync('dist'+src),`${page.path}: missing script ${src}`);
+    }
+    if(page.path==='/')assert.equal(readFileSync('dist'+attr(links[0],'href'),'utf8'),minifyCss(expected),'Home CSS cascade changed');
   }
 });
 test('Social proof does not ship illustrative portraits as client photos',()=>{

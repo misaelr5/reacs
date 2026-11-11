@@ -4,7 +4,8 @@ const signatures=[/sk_live_[A-Za-z0-9]{16,}/,/AKIA[A-Z0-9]{16}/,/gh[pousr]_[A-Za
 const findings=[];
 const inspect=(text,path)=>{if(signatures.some(pattern=>pattern.test(text)))findings.push(path);};
 const git=(args)=>{const result=spawnSync('git',args,{encoding:'utf8',maxBuffer:32*1024*1024});if(result.status!==0)throw new Error('Git scan failed');return result.stdout;};
-const paths=git(['ls-files','--cached','--others','--exclude-standard']).trim().split('\n').filter(path=>/\.(?:html|m?js|ts|json|md|txt|xml|svg|ya?ml)$|(?:^|\/)\.env/.test(path));
+const deleted=new Set(git(['ls-files','--deleted']).trim().split('\n'));
+const paths=git(['ls-files','--cached','--others','--exclude-standard']).trim().split('\n').filter(path=>!deleted.has(path)&&/\.(?:html|m?js|ts|json|md|txt|xml|svg|ya?ml)$|(?:^|\/)\.env/.test(path));
 for(const path of paths)inspect(readFileSync(path,'utf8'),path);
 const objects=git(['rev-list','--objects','--all']).trim().split('\n').map(line=>{const at=line.indexOf(' ');return {oid:line.slice(0,at),path:line.slice(at+1)};}).filter(item=>/\.(?:html|m?js|ts|json|ya?ml)$|(?:^|\/)\.env/.test(item.path));
 for(const item of objects){const result=spawnSync('git',['cat-file','blob',item.oid],{encoding:'utf8',maxBuffer:4*1024*1024});if(result.status===0)inspect(result.stdout,'history:'+item.oid.slice(0,8)+':'+item.path);else throw new Error('History blob could not be scanned');}

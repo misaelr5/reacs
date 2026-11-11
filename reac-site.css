@@ -18,8 +18,8 @@
   font: 600 12px/1.3 Satoshi, 'Segoe UI', sans-serif; cursor: pointer;
   transition: background-color .18s, border-color .18s;
 }
-.reac-consent button[data-consent="granted"] { background: rgba(255,255,255,.055); border-color: rgba(242,244,248,.22); }
 .reac-consent button:hover { background: rgba(255,255,255,.11); border-color: #8A90A2; }
+.reac-consent button[data-consent="granted"] { background: #000000; border-color: rgba(242,244,248,.22); }
 .reac-consent button:focus-visible, .reac-consent__policy:focus-visible { outline: 2px solid #6E74FF; outline-offset: 4px; }
 .reac-consent__policy { align-self: flex-start; display: inline-flex; align-items: center; min-height: 32px; color: #C9CED9; font-size: 12px; text-decoration: none; }
 @keyframes consent-enter { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
@@ -242,5 +242,5 @@ html.js .hero-copy>.social-links .social-link{opacity:0;animation:heroPop 1.15s 
 /* Readable accents and score labels in printable resources. */
 .page .golden b,.page>.eyebrow,.page .card .k i{color:#b9bdff}
 .page .band.red .score{background:#b72834}.page .band.green .score{background:#137347}
-.resource-web-links a{color:#b9bdff;text-underline-offset:4px}
+.resource-web-links a{color:#b9bdff;font-weight:600;text-decoration:none}.resource-web-links a:hover{color:#fff}
 .hero-btn1,.ct-send,.site-nav .imp-cta,.proj-cta{background:linear-gradient(135deg,#c73511,#b52c0a)!important;color:#fff!important}
