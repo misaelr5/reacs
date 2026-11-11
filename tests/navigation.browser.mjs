@@ -21,7 +21,10 @@ try {
     const trigger = menu.locator('summary');
     const panel = menu.locator('.mobile-nav-panel');
     await page.waitForSelector('[data-menu-ready]');
-    assert.equal(await page.locator('.p-nav__cta').isVisible(), true);
+    // brand alone on the far left, the menu alone on the far right, no header CTA
+    assert.equal(await page.locator('.p-nav__cta').count(), 0);
+    const [brandBox, menuBox] = await Promise.all([page.locator('.p-nav__bar > .site-brand').boundingBox(), page.locator('.p-nav__actions').boundingBox()]);
+    assert.ok(brandBox.x < menuBox.x, 'brand should sit left of the menu');
     for (const width of [320, 390, 768, 1440]) {
       await page.setViewportSize({ width, height: 900 });
       await trigger.click();
