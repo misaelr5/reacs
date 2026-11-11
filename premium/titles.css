@@ -1,0 +1,29 @@
+/* Reac premium — section title entrances (titles.js). Only the transient pieces live here:
+   every helper element is removed and the split reverted once a title settles. */
+.tfx-pending { visibility: hidden; }
+[data-title-playing] { position: relative; font-kerning: none; }
+[data-title-playing] .tfx-word { position: relative; }
+[data-title-playing] .tfx-char { will-change: transform, opacity; }
+
+/* Proyectos: the scanning beam. */
+.tfx-scanline {
+  position: absolute; top: -14%; bottom: -14%; left: 0; width: 2px; translate: -50% 0;
+  background: linear-gradient(180deg, transparent, #8EA2FF 22%, #FFFFFF 50%, #8EA2FF 78%, transparent);
+  box-shadow: 0 0 18px 3px var(--p-blue-glow), 0 0 42px 8px rgba(46,55,255,.18);
+  pointer-events: none;
+}
+
+/* Testimonios: the pen stroke under the italic answer. */
+[data-title-playing] em { position: relative; }
+.tfx-stroke {
+  position: absolute; left: 0; right: 0; bottom: -.06em; height: .07em; border-radius: 1em;
+  background: linear-gradient(90deg, var(--p-blue), var(--p-blue-soft), var(--p-orange));
+  transform-origin: 0% 50%; pointer-events: none;
+}
+
+/* Recursos: the highlighter bar. */
+.tfx-bar {
+  position: absolute; inset: .1em -.06em .04em; border-radius: .12em;
+  background: linear-gradient(90deg, var(--p-blue), var(--p-blue-soft));
+  pointer-events: none;
+}
