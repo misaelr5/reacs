@@ -204,11 +204,14 @@
     panel.addEventListener('click', event => {
       if (event.target.closest('a')) setOpen(false, false, true);
     });
-    document.addEventListener('click', event => {
+    // pointerdown, not click: iOS skips click on non-interactive areas.
+    document.addEventListener('pointerdown', event => {
       if (expanded && !menu.contains(event.target)) setOpen(false);
     });
+    // Safari never focuses tapped links, so a null relatedTarget is not a sign focus left the menu;
+    // outside taps are handled by the pointerdown listener above.
     menu.addEventListener('focusout', event => {
-      if (expanded && !menu.contains(event.relatedTarget)) setOpen(false);
+      if (expanded && event.relatedTarget && !menu.contains(event.relatedTarget)) setOpen(false);
     });
     matchMedia('(max-width: 980px)').addEventListener('change', () => setOpen(false, false, true));
     // Keep native navigation snapshots and the back/forward cache closed.
