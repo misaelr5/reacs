@@ -72,6 +72,9 @@
     for (const image of document.querySelectorAll('main img[loading="lazy"]')) {
       // Images already in view at load belong to the first paint (and LCP); only later ones develop.
       if (image.complete || image.getBoundingClientRect().top < innerHeight) continue;
+      // Marquees clone their items (cloneNode copies the inline opacity, not the load listener) and
+      // already move on their own.
+      if (image.closest('[data-marquee], .p-marquee')) continue;
       gsap.set(image, { opacity: 0 });
       image.addEventListener('load', () => {
         if (reduced.matches) { gsap.set(image, { clearProps: 'opacity' }); return; }

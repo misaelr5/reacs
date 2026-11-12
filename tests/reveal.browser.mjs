@@ -27,6 +27,8 @@ try {
       }
       await page.waitForTimeout(1800);
       assert.deepEqual(await page.evaluate(leftovers),[],`${path}: entrance left content hidden at ${width}px`);
+      // Marquee clones must never inherit a hidden pre-state.
+      assert.equal(await page.evaluate(()=>[...document.querySelectorAll('.p-marquee img')].filter(img=>img.style.opacity==='0').length),0,`${path}: hidden marquee logos`);
       assert.deepEqual(errors,[],path);
       await page.close();
     }
