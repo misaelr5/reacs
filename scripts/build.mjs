@@ -83,7 +83,7 @@ function prepare(html, meta) {
   // Loading motion on every page: intro.js paints the veil and the hero pre-state before first paint.
   // The plugins, arrival.js and the loader module go last, so none of them joins the render-blocking
   // chain that ends at reac-ui.js; the veil and the CSS pre-state cover the wait.
-  for (const n of all(head, n => ['/premium/intro.js', '/premium/loader.js', '/premium/arrival.js', '/DrawSVGPlugin.min.js', ...loadingPlugins].includes(attr(n, 'src')) || ['/premium/intro.css', '/premium/loader.css'].includes(attr(n, 'href')))) remove(n);
+  for (const n of all(head, n => ['/premium/intro.js', '/premium/loader.js', '/premium/arrival.js', '/premium/reveal.js', '/DrawSVGPlugin.min.js', ...loadingPlugins].includes(attr(n, 'src')) || ['/premium/intro.css', '/premium/loader.css'].includes(attr(n, 'href')))) remove(n);
   // Deferred but render-blocking: it still runs before the first paint, without stalling the parser.
   const intro = parseFragment('<script defer blocking="render" src="/premium/intro.js"></script>').childNodes[0];
   intro.parentNode = head; head.childNodes.unshift(intro);
@@ -91,7 +91,7 @@ function prepare(html, meta) {
   if (!find(head, n => n.tagName === 'script' && attr(n, 'src') === '/gsap.min.js')) append(head, '<script defer src="/gsap.min.js"></script>');
   // intro.js injects the loader module only on a first visit (data-loader is rewritten to the bundle).
   setAttr(intro, 'data-loader', '/premium/loader.js');
-  append(head, [...loadingPlugins, '/premium/arrival.js'].map(src => `<script defer fetchpriority="low" src="${src}"></script>`).join(''));
+  append(head, [...loadingPlugins, '/premium/arrival.js', '/premium/reveal.js'].map(src => `<script defer fetchpriority="low" src="${src}"></script>`).join(''));
   const robots = meta.noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large';
   const socialTitle = meta.socialTitle || meta.title;
   const socialDescription = meta.socialDescription || meta.description;
