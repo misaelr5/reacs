@@ -5,7 +5,7 @@ export const services = [
     title: 'Desarrollo web para empresas y profesionales | Reac Studio',
     description: 'Sitios web para presentar servicios, facilitar consultas y gestionar contenido. Reac Studio conecta diseño, desarrollo e integraciones según tu negocio.',
     h1: 'Desarrollo web para empresas, negocios y profesionales',
-    intro: 'En Reac Studio diseñamos y desarrollamos sitios web para empresas, negocios y profesionales. Explicamos tu oferta, facilitamos el contacto y conectamos la web con tus procesos comerciales. Trabajamos desde Villa Dolores, Córdoba, de forma remota con Argentina y Latinoamérica.',
+    intro: 'En Reac Studio diseñamos y desarrollamos sitios web para empresas, negocios y profesionales. Explicamos tu oferta, facilitamos el contacto y conectamos la web con tus procesos comerciales. Trabajamos desde Córdoba, Argentina, de forma remota con todo el país y Latinoamérica.',
     fit: 'Conviene empezar por una web cuando tu negocio depende de redes sociales, cuando cuesta entender qué vendés o cuando recibís visitas que no encuentran cómo consultar. Antes de elegir tecnología, definimos qué necesita hacer la persona que llega al sitio y quién va a mantener el contenido.',
     deliverables: [
       ['Estructura y mensaje', 'Ordenamos servicios, páginas, contenidos y llamadas a la acción según el objetivo comercial. La navegación tiene que ayudar a encontrar una respuesta y un siguiente paso claro.'],
@@ -54,7 +54,7 @@ export const services = [
     title: 'Marketing digital para empresas y negocios | Reac Studio',
     description: 'Estrategia, campañas y medición para ordenar tu captación de consultas. Reac Studio conecta marketing digital, web y seguimiento comercial.',
     h1: 'Marketing digital para empresas y negocios',
-    intro: 'Reac Studio ayuda a empresas, negocios y profesionales a ordenar su estrategia digital: qué ofrecer, a quién, por qué canales y cómo medir las consultas que llegan. Desde Villa Dolores, Córdoba, conectamos marketing, web y seguimiento comercial en un mismo plan de trabajo remoto.',
+    intro: 'Reac Studio ayuda a empresas, negocios y profesionales a ordenar su estrategia digital: qué ofrecer, a quién, por qué canales y cómo medir las consultas que llegan. Desde Córdoba, Argentina, conectamos marketing, web y seguimiento comercial en un mismo plan de trabajo remoto.',
     fit: 'Tiene sentido revisar la estrategia cuando publicás sin un objetivo, usás varios canales sin coordinación o no sabés cuáles generan oportunidades. El primer paso es entender tu oferta, tus márgenes, tu capacidad de atención y cómo decide comprar tu cliente.',
     deliverables: [
       ['Diagnóstico y prioridades', 'Revisamos la presencia digital, los mensajes, los puntos de contacto y los datos disponibles. Priorizamos acciones según su relación con el objetivo y los recursos del negocio.'],
@@ -126,7 +126,7 @@ export const services = [
     title: 'Automatización con IA para empresas | Reac Studio',
     description: 'Automatizá tareas repetitivas con integraciones, reglas e IA cuando aporta valor. Reac Studio define permisos, revisión humana y mantenimiento del proceso.',
     h1: 'Automatización con IA para empresas',
-    intro: 'En Reac Studio analizamos procesos de empresas y negocios y conectamos herramientas para reducir trabajo manual. Usamos inteligencia artificial cuando aporta valor, con límites claros, revisión humana y un recorrido definido para los errores. Trabajamos de forma remota desde Villa Dolores, Córdoba.',
+    intro: 'En Reac Studio analizamos procesos de empresas y negocios y conectamos herramientas para reducir trabajo manual. Usamos inteligencia artificial cuando aporta valor, con límites claros, revisión humana y un recorrido definido para los errores. Trabajamos de forma remota desde Córdoba, Argentina.',
     fit: 'Conviene automatizar una tarea cuando se repite, tiene entradas reconocibles y podés describir qué significa hacerla bien. Si el proceso cambia todos los días o todavía nadie es responsable del resultado, primero hay que ordenarlo. Una regla simple puede resolver mejor el problema que un modelo de IA.',
     deliverables: [
       ['Mapa del proceso', 'Identificamos disparadores, datos, herramientas, responsables y excepciones. Elegimos una primera tarea acotada para comprobar si la automatización ahorra trabajo sin trasladar el problema a otra persona.'],

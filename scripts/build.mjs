@@ -35,8 +35,6 @@ const generated = [];
 const orgId = url('/#organization');
 const websiteId = url('/#website');
 const servedAreas = [
-  { '@type': 'Place', name: 'Villa Dolores' },
-  { '@type': 'AdministrativeArea', name: 'Traslasierra' },
   { '@type': 'AdministrativeArea', name: 'Córdoba' },
   { '@type': 'Country', name: 'Argentina' },
   { '@type': 'Place', name: 'Latinoamérica' }
