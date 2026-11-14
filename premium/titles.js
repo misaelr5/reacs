@@ -215,6 +215,7 @@
     }, { once: true });
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup, { once: true });
-  else setup();
+  // Deferred scripts execute in the interactive state; SplitText may be a later deferred script.
+  if (document.readyState === 'complete') setup();
+  else document.addEventListener('DOMContentLoaded', setup, { once: true });
 })();

@@ -12,7 +12,7 @@
     "lint": "node scripts/check.mjs",
     "typecheck": "tsc --noEmit",
     "test": "node --test tests/*.test.ts tests/*.test.mjs",
-    "test:browser": "node tests/browser.mjs && node tests/analytics.browser.mjs && node tests/cases.browser.mjs && node tests/navigation.browser.mjs && node tests/hero.browser.mjs && node tests/lower-layout.browser.mjs && node tests/loading.browser.mjs && node tests/reveal.browser.mjs && node tests/fan.browser.mjs",
+    "test:browser": "node tests/browser.mjs && node tests/analytics.browser.mjs && node tests/cases.browser.mjs && node tests/navigation.browser.mjs && node tests/hero.browser.mjs && node tests/lower-layout.browser.mjs && node tests/loading.browser.mjs && node tests/reveal.browser.mjs && node tests/fan.browser.mjs && node tests/motion-startup.browser.mjs",
     "indexnow": "node --env-file-if-exists=.env.local scripts/indexnow.mjs"
   },
   "devDependencies": {

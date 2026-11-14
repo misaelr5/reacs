@@ -39,7 +39,7 @@
 /* Width follows the current phrase; the fixed line height prevents vertical jumps. */
 .p-hero__service-line { display: flex; align-items: baseline; justify-content: center; gap: .12em; margin-top: .06em; font-size: .7em; }
 .p-hero__words {
-  display: inline-grid; overflow: hidden; min-width: 0; box-sizing: content-box;
+  display: inline-grid; grid-template-columns: minmax(0, 1fr); overflow: hidden; min-width: 0; box-sizing: content-box;
   color: #B8BDFF; text-shadow: 0 0 7px rgba(126,139,255,.55); filter: drop-shadow(0 0 12px rgba(76,89,255,.4)); font-family: var(--p-font-accent);
   font-style: italic; font-weight: 400; font-size: 1em;
   line-height: 1.24; height: 1.24em; letter-spacing: -.045em; padding: .06em .08em .1em; text-transform: none;
@@ -47,6 +47,8 @@
   border-radius: 0;
 }
 .p-hero__word { position: relative; grid-area: 1 / 1; width: max-content; white-space: nowrap; visibility: hidden; text-align: left; }
+/* Hidden phrases remain measurable by JS without reserving the longest phrase's width in the fallback. */
+.p-hero__word:not(.is-current) { position: absolute; inset: 0 auto auto 0; }
 .p-hero__word.is-current { visibility: visible; }
 /* A narrow reflection crosses the letter shapes once per phrase. */
 .p-hero__word::after {

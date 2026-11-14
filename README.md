@@ -72,6 +72,8 @@ git diff --check
 
 Navegador y performance requieren servidor en 4174 y Chrome instalado. Playwright viene con la herramienta de accesibilidad. `lint` es comprobación sintáctica y estructural propia, no ESLint. TypeScript comprueba backend y pruebas TS. Las pruebas de entrega y analytics usan proveedores simulados, sin mensajes reales.
 
+`tests/motion-startup.browser.mjs` comprueba que la rotación y las ocho entradas de títulos se ejecuten realmente, además del centrado sin JavaScript. Para comprobar ambos motores, definir `TEST_BROWSERS=chromium,firefox` y disponer del Firefox de Playwright (`node node_modules/playwright-core/cli.js install firefox`); `FIREFOX_EXECUTABLE` permite indicar un ejecutable de prueba alternativo. La suite general lo ejecuta en Chrome por defecto.
+
 Ejecutar `tests/build-config.mjs` antes de las pruebas de navegador: reconstruye y reemplaza `dist/` varias veces. No ejecutar builds en paralelo ni mientras el navegador está leyendo ese directorio.
 
 El build minifica el CSS con esbuild y publica scripts minificados bajo `/js/` con nombres basados en su contenido. Vercel configura un año de caché `immutable` para `/styles/` y `/js/`; al cambiar el contenido cambia la URL, por lo que no se reutiliza una versión anterior. Se conservan el orden del CSS y el atributo `blocking="render"` del script de navegación. El código fuente sigue separado y editable.
