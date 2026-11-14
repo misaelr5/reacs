@@ -116,11 +116,16 @@
       fan: {
         hide: el => {
           gsap.set(el.querySelectorAll('.pjl-ray'), { clipPath: 'circle(0% at 19% 143%)' });
-          gsap.set(el.querySelectorAll('.pjl-label'), { opacity: 0, y: 14 });
+          // A GSAP y transform normalizes CSS translate and loses the labels' percentage/calc anchor.
+          gsap.set(el.querySelectorAll('.pjl-label'), { opacity: 0, '--pjl-reveal-y': '14px' });
         },
-        show: el => gsap.timeline({ onComplete: () => gsap.set(el.querySelectorAll('.pjl-ray'), { clearProps: 'clipPath' }) })
+        show: el => gsap.timeline()
           .to(el.querySelectorAll('.pjl-ray'), { clipPath: 'circle(170% at 19% 143%)', duration: 1.7, ease: 'power2.inOut', stagger: .05 })
-          .to(el.querySelectorAll('.pjl-label'), { opacity: 1, y: 0, duration: .7, ease, stagger: .08, clearProps: 'opacity,transform' }, .55)
+          .to(el.querySelectorAll('.pjl-label'), { opacity: 1, '--pjl-reveal-y': '0px', duration: .7, ease, stagger: .08 }, .55),
+        reset: el => {
+          gsap.set(el.querySelectorAll('.pjl-ray'), { clearProps: 'clipPath' });
+          gsap.set(el.querySelectorAll('.pjl-label'), { clearProps: 'opacity,--pjl-reveal-y' });
+        }
       }
     };
 
@@ -157,6 +162,7 @@
 
     const running = new Set();
     const settle = el => {
+      recipes[targets.get(el)].reset?.(el);
       splits.get(el)?.revert();
       splits.delete(el);
       gsap.set(el, { clearProps: 'opacity,transform,filter,clipPath' });

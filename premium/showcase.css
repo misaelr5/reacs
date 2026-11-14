@@ -11,7 +11,8 @@
 .pjl-beam--lead .pjl-glow { stroke-width: 9; opacity: .8; }
 .pjl-beam--lead .pjl-core { stroke-width: 2.6; }
 
-.pjl-label { position: absolute; z-index: 1; left: var(--x); top: var(--y); display: flex; flex-direction: column; align-items: center; width: max-content; max-width: 10.5em; translate: -50% calc(-100% - 10px); color: var(--p-silver-hi); text-align: center; text-decoration: none; transition: color .3s var(--p-ease); }
+/* Keep positioning in CSS; the entrance owns only its extra vertical offset. */
+.pjl-label { position: absolute; z-index: 1; left: var(--x); top: var(--y); display: flex; flex-direction: column; align-items: center; width: max-content; max-width: 10.5em; translate: -50% calc(-100% - 10px + var(--pjl-reveal-y, 0px)); color: var(--p-silver-hi); text-align: center; text-decoration: none; transition: color .3s var(--p-ease); }
 .pjl-label strong { font-size: clamp(1rem, .7rem + .55vw, 1.3125rem); font-weight: 500; line-height: 1.2; letter-spacing: -.02em; text-wrap: balance; }
 .pjl-label small { margin-top: 5px; color: var(--p-silver); font-size: .8125rem; line-height: 1.3; }
 .pjl-label svg { display: inline-block; width: .6em; height: .6em; margin-left: .3em; vertical-align: .3em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; opacity: .45; transition: opacity .3s var(--p-ease); }
@@ -42,7 +43,7 @@
   .pjl-beam { position: relative; padding-bottom: 16px; }
   .pjl-beam::after { content: ''; position: absolute; left: 0; bottom: 0; width: max(35%, var(--len)); height: 2px; border-radius: 2px; background: linear-gradient(90deg, rgba(46,55,255,.2), #4F6BFF 60%, #8EA2FF); box-shadow: 0 0 12px rgba(79,107,255,.7), 0 0 30px rgba(46,55,255,.35); }
   .pjl-beam--lead::after { height: 3px; background: linear-gradient(90deg, rgba(46,55,255,.3), #6E80FF 50%, #F2F4FF); box-shadow: 0 0 16px rgba(142,162,255,.9), 0 0 44px rgba(46,55,255,.55); }
-  .pjl-label { position: static; display: inline-flex; flex-direction: row; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; max-width: none; translate: none; text-align: left; }
+  .pjl-label { position: static; display: inline-flex; flex-direction: row; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; max-width: none; translate: 0 var(--pjl-reveal-y, 0px); text-align: left; }
   .pjl-label small { margin: 0; }
   .pjl-desc, .pjl-beam--lead .pjl-desc { position: static; width: auto; max-width: 60ch; margin-top: 6px; padding: 0; translate: none; border: 0; background: none; color: var(--p-silver); text-align: left; opacity: 1; }
   .pjl:has(.pjl-beam:not(.pjl-beam--lead) :is(:hover, :focus-visible)) .pjl-beam--lead .pjl-desc { opacity: 1; }
