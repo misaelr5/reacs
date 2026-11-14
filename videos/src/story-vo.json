@@ -1,0 +1,765 @@
+[
+ {
+  "id": "hook",
+  "text": "Martín perdió tres clientes en una semana. Y no tenía idea por qué.",
+  "words": [
+   {
+    "text": "Martín",
+    "start": 0.097166,
+    "end": 0.533499
+   },
+   {
+    "text": "perdió",
+    "start": 0.568875,
+    "end": 0.828291
+   },
+   {
+    "text": "tres",
+    "start": 0.899041,
+    "end": 1.028749
+   },
+   {
+    "text": "clientes",
+    "start": 1.075958,
+    "end": 1.512249
+   },
+   {
+    "text": "en",
+    "start": 1.51225,
+    "end": 1.571208
+   },
+   {
+    "text": "una",
+    "start": 1.583,
+    "end": 1.736291
+   },
+   {
+    "text": "semana",
+    "start": 1.748125,
+    "end": 2.1255
+   },
+   {
+    "text": "Y",
+    "start": 2.995291,
+    "end": 3.113207
+   },
+   {
+    "text": "no",
+    "start": 3.136791,
+    "end": 3.231124
+   },
+   {
+    "text": "tenía",
+    "start": 3.290083,
+    "end": 3.514124
+   },
+   {
+    "text": "idea",
+    "start": 3.549541,
+    "end": 3.785374
+   },
+   {
+    "text": "por",
+    "start": 3.844333,
+    "end": 3.938666
+   },
+   {
+    "text": "qué",
+    "start": 4.009416,
+    "end": 4.150916
+   }
+  ]
+ },
+ {
+  "id": "setup",
+  "text": "Tiene un estudio contable en Córdoba. Su web la armó un conocido hace años, y nadie la volvió a tocar.",
+  "words": [
+   {
+    "text": "Tiene",
+    "start": 0.097166,
+    "end": 0.309416
+   },
+   {
+    "text": "un",
+    "start": 0.333,
+    "end": 0.391958
+   },
+   {
+    "text": "estudio",
+    "start": 0.403791,
+    "end": 0.804749
+   },
+   {
+    "text": "contable",
+    "start": 0.863666,
+    "end": 1.252832
+   },
+   {
+    "text": "en",
+    "start": 1.252833,
+    "end": 1.358958
+   },
+   {
+    "text": "Córdoba",
+    "start": 1.37075,
+    "end": 1.771708
+   },
+   {
+    "text": "Su",
+    "start": 2.653291,
+    "end": 2.853749
+   },
+   {
+    "text": "web",
+    "start": 2.877375,
+    "end": 3.05425
+   },
+   {
+    "text": "la",
+    "start": 3.066041,
+    "end": 3.148582
+   },
+   {
+    "text": "armó",
+    "start": 3.148583,
+    "end": 3.372624
+   },
+   {
+    "text": "un",
+    "start": 3.372625,
+    "end": 3.514125
+   },
+   {
+    "text": "conocido",
+    "start": 3.514166,
+    "end": 3.985832
+   },
+   {
+    "text": "hace",
+    "start": 3.985833,
+    "end": 4.221666
+   },
+   {
+    "text": "años",
+    "start": 4.2335,
+    "end": 4.634458
+   },
+   {
+    "text": "y",
+    "start": 4.811333,
+    "end": 4.882083
+   },
+   {
+    "text": "nadie",
+    "start": 4.905666,
+    "end": 5.129707
+   },
+   {
+    "text": "la",
+    "start": 5.165083,
+    "end": 5.235833
+   },
+   {
+    "text": "volvió",
+    "start": 5.271208,
+    "end": 5.530624
+   },
+   {
+    "text": "a",
+    "start": 5.530666,
+    "end": 5.566041
+   },
+   {
+    "text": "tocar",
+    "start": 5.625,
+    "end": 5.884416
+   }
+  ]
+ },
+ {
+  "id": "hacked",
+  "text": "Un día, un cliente nuevo lo buscó en Google. Y lo primero que vio fue esto: este sitio puede haber sido hackeado. Cerró la pestaña y llamó a otro contador.",
+  "words": [
+   {
+    "text": "Un",
+    "start": 0.097166,
+    "end": 0.250457
+   },
+   {
+    "text": "día",
+    "start": 0.321208,
+    "end": 0.604208
+   },
+   {
+    "text": "un",
+    "start": 0.781125,
+    "end": 0.88725
+   },
+   {
+    "text": "cliente",
+    "start": 0.934416,
+    "end": 1.288207
+   },
+   {
+    "text": "nuevo",
+    "start": 1.323583,
+    "end": 1.571208
+   },
+   {
+    "text": "lo",
+    "start": 1.606583,
+    "end": 1.677333
+   },
+   {
+    "text": "buscó",
+    "start": 1.700958,
+    "end": 2.019374
+   },
+   {
+    "text": "en",
+    "start": 2.042916,
+    "end": 2.101874
+   },
+   {
+    "text": "Google",
+    "start": 2.160833,
+    "end": 2.538208
+   },
+   {
+    "text": "Y",
+    "start": 3.384416,
+    "end": 3.490541
+   },
+   {
+    "text": "lo",
+    "start": 3.525958,
+    "end": 3.596708
+   },
+   {
+    "text": "primero",
+    "start": 3.655666,
+    "end": 3.950457
+   },
+   {
+    "text": "que",
+    "start": 4.009416,
+    "end": 4.091957
+   },
+   {
+    "text": "vio",
+    "start": 4.115583,
+    "end": 4.268874
+   },
+   {
+    "text": "fue",
+    "start": 4.292458,
+    "end": 4.481124
+   },
+   {
+    "text": "esto",
+    "start": 4.492916,
+    "end": 4.775916
+   },
+   {
+    "text": "este",
+    "start": 5.106125,
+    "end": 5.318375
+   },
+   {
+    "text": "sitio",
+    "start": 5.342,
+    "end": 5.625
+   },
+   {
+    "text": "puede",
+    "start": 5.707541,
+    "end": 5.896207
+   },
+   {
+    "text": "haber",
+    "start": 5.896208,
+    "end": 6.084874
+   },
+   {
+    "text": "sido",
+    "start": 6.1085,
+    "end": 6.367916
+   },
+   {
+    "text": "hackeado",
+    "start": 6.367916,
+    "end": 6.768874
+   },
+   {
+    "text": "Cerró",
+    "start": 7.6415,
+    "end": 7.9835
+   },
+   {
+    "text": "la",
+    "start": 8.007083,
+    "end": 8.077833
+   },
+   {
+    "text": "pestaña",
+    "start": 8.148583,
+    "end": 8.549541
+   },
+   {
+    "text": "y",
+    "start": 8.584916,
+    "end": 8.6320819
+   },
+   {
+    "text": "llamó",
+    "start": 8.643875,
+    "end": 8.938666
+   },
+   {
+    "text": "a",
+    "start": 8.938666,
+    "end": 8.950457
+   },
+   {
+    "text": "otro",
+    "start": 9.021208,
+    "end": 9.198083
+   },
+   {
+    "text": "contador",
+    "start": 9.245291,
+    "end": 9.669832
+   }
+  ]
+ },
+ {
+  "id": "slow",
+  "text": "Los que sí entraban desde el celular esperaban, esperaban... y no encontraban cómo escribirle.",
+  "words": [
+   {
+    "text": "Los",
+    "start": 0.097166,
+    "end": 0.285832
+   },
+   {
+    "text": "que",
+    "start": 0.344791,
+    "end": 0.427332
+   },
+   {
+    "text": "sí",
+    "start": 0.450958,
+    "end": 0.545291
+   },
+   {
+    "text": "entraban",
+    "start": 0.545291,
+    "end": 0.934457
+   },
+   {
+    "text": "desde",
+    "start": 0.981583,
+    "end": 1.134874
+   },
+   {
+    "text": "el",
+    "start": 1.134916,
+    "end": 1.217457
+   },
+   {
+    "text": "celular",
+    "start": 1.22925,
+    "end": 1.594833
+   },
+   {
+    "text": "esperaban",
+    "start": 1.618416,
+    "end": 2.137291
+   },
+   {
+    "text": "esperaban",
+    "start": 2.231583,
+    "end": 2.797624
+   },
+   {
+    "text": "y",
+    "start": 2.880208,
+    "end": 2.950958
+   },
+   {
+    "text": "no",
+    "start": 2.974541,
+    "end": 3.068874
+   },
+   {
+    "text": "encontraban",
+    "start": 3.068875,
+    "end": 3.611333
+   },
+   {
+    "text": "cómo",
+    "start": 3.634916,
+    "end": 3.811791
+   },
+   {
+    "text": "escribirle",
+    "start": 3.823583,
+    "end": 4.377833
+   }
+  ]
+ },
+ {
+  "id": "turn",
+  "text": "Ahí Martín nos escribió.",
+  "words": [
+   {
+    "text": "Ahí",
+    "start": 0.097166,
+    "end": 0.321207
+   },
+   {
+    "text": "Martín",
+    "start": 0.344791,
+    "end": 0.674999
+   },
+   {
+    "text": "nos",
+    "start": 0.675,
+    "end": 0.88725
+   },
+   {
+    "text": "escribió",
+    "start": 0.88725,
+    "end": 1.347166
+   }
+  ]
+ },
+ {
+  "id": "fix",
+  "text": "Primero limpiamos el código malicioso y blindamos su WordPress. Después rediseñamos la web: rápida, clara, y con WhatsApp a un toque.",
+  "words": [
+   {
+    "text": "Primero",
+    "start": 0.097166,
+    "end": 0.450957
+   },
+   {
+    "text": "limpiamos",
+    "start": 0.474541,
+    "end": 0.957999
+   },
+   {
+    "text": "el",
+    "start": 0.958,
+    "end": 1.040541
+   },
+   {
+    "text": "código",
+    "start": 1.08775,
+    "end": 1.335375
+   },
+   {
+    "text": "malicioso",
+    "start": 1.37075,
+    "end": 1.936791
+   },
+   {
+    "text": "y",
+    "start": 1.972166,
+    "end": 2.0193319
+   },
+   {
+    "text": "blindamos",
+    "start": 2.042916,
+    "end": 2.443874
+   },
+   {
+    "text": "su",
+    "start": 2.443875,
+    "end": 2.573583
+   },
+   {
+    "text": "WordPress",
+    "start": 2.632541,
+    "end": 3.186791
+   },
+   {
+    "text": "Después",
+    "start": 4.068416,
+    "end": 4.457582
+   },
+   {
+    "text": "rediseñamos",
+    "start": 4.504708,
+    "end": 5.058958
+   },
+   {
+    "text": "la",
+    "start": 5.094333,
+    "end": 5.176874
+   },
+   {
+    "text": "web",
+    "start": 5.21225,
+    "end": 5.459875
+   },
+   {
+    "text": "rápida",
+    "start": 5.707541,
+    "end": 6.202832
+   },
+   {
+    "text": "clara",
+    "start": 6.367916,
+    "end": 6.709916
+   },
+   {
+    "text": "y",
+    "start": 6.875,
+    "end": 6.933958
+   },
+   {
+    "text": "con",
+    "start": 6.992916,
+    "end": 7.110832
+   },
+   {
+    "text": "WhatsApp",
+    "start": 7.169791,
+    "end": 7.499999
+   },
+   {
+    "text": "a",
+    "start": 7.511791,
+    "end": 7.5353739
+   },
+   {
+    "text": "un",
+    "start": 7.558958,
+    "end": 7.700458
+   },
+   {
+    "text": "toque",
+    "start": 7.71225,
+    "end": 7.983458
+   }
+  ]
+ },
+ {
+  "id": "result",
+  "text": "Hoy, cuando lo buscan, encuentran un estudio en el que da gusto confiar. Y las consultas le llegan directo al celular.",
+  "words": [
+   {
+    "text": "Hoy",
+    "start": 0.097166,
+    "end": 0.391957
+   },
+   {
+    "text": "cuando",
+    "start": 0.675,
+    "end": 0.910833
+   },
+   {
+    "text": "lo",
+    "start": 0.946208,
+    "end": 1.016958
+   },
+   {
+    "text": "buscan",
+    "start": 1.052375,
+    "end": 1.42975
+   },
+   {
+    "text": "encuentran",
+    "start": 1.51225,
+    "end": 1.983958
+   },
+   {
+    "text": "un",
+    "start": 2.019333,
+    "end": 2.090083
+   },
+   {
+    "text": "estudio",
+    "start": 2.113666,
+    "end": 2.549999
+   },
+   {
+    "text": "en",
+    "start": 2.561791,
+    "end": 2.6089569
+   },
+   {
+    "text": "el",
+    "start": 2.62075,
+    "end": 2.750458
+   },
+   {
+    "text": "que",
+    "start": 2.785833,
+    "end": 2.844791
+   },
+   {
+    "text": "da",
+    "start": 2.880208,
+    "end": 2.962749
+   },
+   {
+    "text": "gusto",
+    "start": 2.998125,
+    "end": 3.257541
+   },
+   {
+    "text": "confiar",
+    "start": 3.304708,
+    "end": 3.670291
+   },
+   {
+    "text": "Y",
+    "start": 4.563666,
+    "end": 4.669791
+   },
+   {
+    "text": "las",
+    "start": 4.705208,
+    "end": 4.834916
+   },
+   {
+    "text": "consultas",
+    "start": 4.8585,
+    "end": 5.330208
+   },
+   {
+    "text": "le",
+    "start": 5.365583,
+    "end": 5.471708
+   },
+   {
+    "text": "llegan",
+    "start": 5.4835,
+    "end": 5.742916
+   },
+   {
+    "text": "directo",
+    "start": 5.778291,
+    "end": 6.073082
+   },
+   {
+    "text": "al",
+    "start": 6.073125,
+    "end": 6.143875
+   },
+   {
+    "text": "celular",
+    "start": 6.155666,
+    "end": 6.580207
+   }
+  ]
+ },
+ {
+  "id": "cta",
+  "text": "¿Tu web trabaja para vos, o en tu contra? Comentá REVISIÓN, o escribinos por WhatsApp. Lo vemos juntos, sin compromiso.",
+  "words": [
+   {
+    "text": "Tu",
+    "start": 0.097166,
+    "end": 0.215082
+   },
+   {
+    "text": "web",
+    "start": 0.238666,
+    "end": 0.415541
+   },
+   {
+    "text": "trabaja",
+    "start": 0.46275,
+    "end": 0.828333
+   },
+   {
+    "text": "para",
+    "start": 0.88725,
+    "end": 1.02875
+   },
+   {
+    "text": "vos",
+    "start": 1.064166,
+    "end": 1.358957
+   },
+   {
+    "text": "o",
+    "start": 1.524041,
+    "end": 1.606582
+   },
+   {
+    "text": "en",
+    "start": 1.618416,
+    "end": 1.724541
+   },
+   {
+    "text": "tu",
+    "start": 1.736333,
+    "end": 1.795291
+   },
+   {
+    "text": "contra",
+    "start": 1.85425,
+    "end": 2.172666
+   },
+   {
+    "text": "Comentá",
+    "start": 3.05425,
+    "end": 3.455208
+   },
+   {
+    "text": "REVISIÓN",
+    "start": 3.490583,
+    "end": 4.021249
+   },
+   {
+    "text": "o",
+    "start": 4.150958,
+    "end": 4.233499
+   },
+   {
+    "text": "escribinos",
+    "start": 4.268875,
+    "end": 4.752375
+   },
+   {
+    "text": "por",
+    "start": 4.823125,
+    "end": 4.92925
+   },
+   {
+    "text": "WhatsApp",
+    "start": 4.964625,
+    "end": 5.377375
+   },
+   {
+    "text": "Lo",
+    "start": 6.226416,
+    "end": 6.403291
+   },
+   {
+    "text": "vemos",
+    "start": 6.426875,
+    "end": 6.650916
+   },
+   {
+    "text": "juntos",
+    "start": 6.66275,
+    "end": 7.169833
+   },
+   {
+    "text": "sin",
+    "start": 7.417458,
+    "end": 7.653291
+   },
+   {
+    "text": "compromiso",
+    "start": 7.688666,
+    "end": 8.242916
+   }
+  ]
+ }
+]

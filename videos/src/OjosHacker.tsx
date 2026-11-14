@@ -1,5 +1,5 @@
 import { AbsoluteFill, Sequence, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { BrandBug, C, EndCard, Glass, Stage, WordsIn, useIn } from "./brand";
+import { BrandBug, C, EndCard, Glass, Music, Sfx, Stage, WordsIn, useIn } from "./brand";
 
 // Reel 3 — "Así ve tu web un hacker". Service: evaluación de seguridad autorizada.
 // Purely illustrative: the "x-ray" layer shows risk labels, never runnable commands.
@@ -22,6 +22,16 @@ export const OjosHacker = () => {
   return (
     <Stage>
       <BrandBug />
+      <Music track="tech" volume={0.55} />
+      <Sfx name="whoosh" at={0.1} />
+      <Sfx name="shutter-modern" at={SCAN_START} volume={0.5} />
+      <Sfx name="whoosh" at={SCAN_START + 0.2} volume={0.5} />
+      {TAGS.map((t, i) => (
+        <Sfx key={t.text} name="switch" at={TAG_START + i * TAG_LEN} volume={0.7} />
+      ))}
+      <Sfx name="whoosh" at={LINE_START} />
+      <Sfx name="whoosh" at={END_START} />
+      <Sfx name="mouse-click" at={END_START + 0.3} volume={0.8} />
       <Sequence durationInFrames={LINE_START * fps} name="Rayos X">
         <AbsoluteFill style={{ alignItems: "center" }}>
           <WordsIn

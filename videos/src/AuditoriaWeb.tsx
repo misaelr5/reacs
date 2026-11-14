@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { AbsoluteFill, Sequence, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { BrandBug, C, EndCard, Glass, Stage, WordsIn, useIn } from "./brand";
+import { BrandBug, C, EndCard, Glass, Music, Sfx, Stage, WordsIn, useIn } from "./brand";
 
 // Reel 1 — "Tu web pierde consultas por 4 cosas". Service: desarrollo web.
 // The audited site is fictional; no client or metric is implied.
@@ -30,6 +30,15 @@ export const AuditoriaWeb = () => {
   return (
     <Stage>
       <BrandBug />
+      <Music track="tech" volume={0.55} />
+      <Sfx name="whoosh" at={0.1} />
+      <Sfx name="whoosh" at={0.5} volume={0.4} />
+      {FLAGS.map((f, i) => (
+        <Sfx key={f.area} name="switch" at={FLAG_START + i * FLAG_LEN} volume={0.7} />
+      ))}
+      <Sfx name="ding" at={FIX_START + 0.2} volume={0.5} />
+      <Sfx name="whoosh" at={END_START} />
+      <Sfx name="mouse-click" at={END_START + 0.3} volume={0.8} />
       <Sequence durationInFrames={END_START * fps} name="Auditoría">
         <AbsoluteFill style={{ alignItems: "center" }}>
           <WordsIn

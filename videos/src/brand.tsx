@@ -1,5 +1,7 @@
 import { loadFont } from "@remotion/fonts";
+import { Audio } from "@remotion/media";
 import type { CSSProperties, ReactNode } from "react";
+import { Grain, Particles, useSpringAt } from "./fx";
 import {
   AbsoluteFill,
   Easing,
@@ -85,7 +87,9 @@ export const Stage = ({
           filter: "blur(40px)",
         }}
       />
+      <Particles />
       {children}
+      <Grain />
     </AbsoluteFill>
   );
 };
@@ -157,20 +161,61 @@ export const WordsIn = ({
 );
 
 const Word = ({ word, start, color }: { word: string; start: number; color?: string }) => {
-  const p = useIn(start, 0.55);
+  const s = useSpringAt(start, 13, 130);
+  const p = Math.min(1, s);
   return (
-    <span
-      style={{
-        display: "inline-block",
-        opacity: p,
-        translate: `0px ${(1 - p) * 60}px`,
-        filter: `blur(${(1 - p) * 10}px)`,
-        ...(color ? { color } : chromeText),
-      }}
-    >
-      {word}
+    <span style={{ display: "inline-block", perspective: 800 }}>
+      <span
+        style={{
+          display: "inline-block",
+          opacity: Math.min(1, s * 1.6),
+          transformOrigin: "50% 100%",
+          transform: `translateY(${(1 - s) * 70}px) rotateX(${(1 - s) * -85}deg) scale(${0.85 + 0.15 * s})`,
+          filter: `blur(${(1 - p) * 8}px)`,
+          ...(color ? { color, textShadow: `0 0 40px ${color}66` } : chromeText),
+        }}
+      >
+        {word}
+      </span>
     </span>
   );
+};
+
+export type Track = "tech" | "tension" | "uplift";
+
+/** Background music (original tracks from scripts/music.py) with fade in/out. */
+export const Music = ({
+  track,
+  volume = 0.5,
+  from = 0,
+  duration,
+}: {
+  track: Track;
+  volume?: number;
+  from?: number;
+  duration?: number;
+}) => {
+  const frame = useCurrentFrame();
+  const { fps, durationInFrames } = useVideoConfig();
+  const start = from * fps;
+  const end = duration === undefined ? durationInFrames : start + duration * fps;
+  return (
+    <Audio
+      name={`Música ${track}`}
+      src={staticFile(`music/${track}.wav`)}
+      from={start}
+      durationInFrames={end - start}
+      volume={interpolate(frame, [start, start + 0.6 * fps, end - 1 * fps, end], [0, volume, volume, 0], clamp)}
+    />
+  );
+};
+
+export type SfxName = "whoosh" | "mouse-click" | "ding" | "switch" | "shutter-modern";
+
+/** One-shot sound effect at `at` seconds. */
+export const Sfx = ({ name, at, volume = 0.6 }: { name: SfxName; at: number; volume?: number }) => {
+  const { fps } = useVideoConfig();
+  return <Audio name={name} src={staticFile(`sfx/${name}.wav`)} from={Math.round(at * fps)} volume={volume} />;
 };
 
 /** Rounded glass panel used for cards. */

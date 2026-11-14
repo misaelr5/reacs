@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { AbsoluteFill, Sequence, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
-import { BrandBug, C, EndCard, Glass, Stage, WordsIn, useIn } from "./brand";
+import { BrandBug, C, EndCard, Glass, Music, Sfx, Stage, WordsIn, useIn } from "./brand";
 
 // Reel 2 — "5 señales de que hackearon tu web". Service: ciberseguridad (WordPress remediation).
 const SIGNS = [
@@ -23,6 +23,18 @@ export const SenalesHackeo = () => {
   return (
     <Stage accent={C.orangeGlow}>
       <BrandBug />
+      <Music track="tension" volume={0.55} />
+      <Sfx name="whoosh" at={0.1} />
+      <Sfx name="whoosh" at={0.6} />
+      {SIGNS.map((s, i) => (
+        <Sfx key={s.visual} name="switch" at={HOOK + i * SIGN_LEN} volume={0.7} />
+      ))}
+      <Sfx name="whoosh" at={ASK_START} />
+      {STEPS.map((s, i) => (
+        <Sfx key={s} name="mouse-click" at={FIX_START + 0.45 + i * 0.4} volume={0.8} />
+      ))}
+      <Sfx name="ding" at={FIX_START + 1.4} volume={0.45} />
+      <Sfx name="whoosh" at={END_START} />
       <Sequence durationInFrames={HOOK * fps} name="Gancho">
         <Hook />
       </Sequence>
