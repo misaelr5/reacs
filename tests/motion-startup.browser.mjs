@@ -17,15 +17,22 @@ for(const engine of engines){
     });
     const page=await context.newPage(),errors=[];
     page.on('pageerror',error=>errors.push(error.message));
-    await page.goto(base);await page.waitForLoadState('networkidle');
+    // Wait for the behavior under test, rather than unrelated background network activity.
+    await page.goto(base);
+    await page.waitForFunction(()=>document.querySelectorAll('.tfx-pending').length>=6);
     assert.ok(await page.locator('.tfx-pending').count()>=6,engine+': headings never armed their entrances');
     const initial=await page.locator('.p-hero__word.is-current').textContent();
     await page.waitForFunction(text=>document.querySelector('.p-hero__word.is-current')?.textContent!==text,initial,{timeout:10000});
     await page.waitForFunction(()=>document.querySelectorAll('.p-hero__word.is-current').length===1);
     for(const title of await page.locator('[data-title-fx]').all()){
       const effect=await title.getAttribute('data-title-fx');
+      const markup=await title.innerHTML();
       await title.evaluate(node=>node.scrollIntoView({block:'center',behavior:'instant'}));
       await page.waitForFunction(fx=>window.titleEntrances.includes(fx),effect,{timeout:5000});
+      await page.waitForFunction(node=>!node.hasAttribute('data-title-playing'),await title.elementHandle());
+      assert.equal(await title.innerHTML(),markup,engine+': title markup changed');
+      assert.equal(await title.evaluate(node=>getComputedStyle(node).opacity),'1');
+      assert.equal(await title.evaluate(node=>node.style.transform),'');
     }
     assert.deepEqual(errors,[],engine);
     await context.close();

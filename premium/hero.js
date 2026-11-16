@@ -15,15 +15,25 @@
     // No GSAP or reduced motion: drop the CSS pre-state and show the final composition.
     if (!gsap || reduced.matches) { hero.classList.add('is-live'); return; }
 
-    // Title, lead and CTAs are readable from the first render; the entrance belongs to the
-    // decorative chrome only, so a slow script never hides content.
-    gsap.set(slabs, { '--fan': 0, '--show': 0 });
-    gsap.set(arc, { '--spin': '-26deg' });
+    // Arm only after GSAP is available: static HTML remains readable on failure.
+    // Animate whole lines, preserving the service rotator's own transforms.
+    const content = [...hero.querySelectorAll('.p-hero__title > *, .p-hero__lead, .p-hero__cta, .p-hero__proof')];
+    gsap.set(slabs, { '--fan': 0.92, '--show': 0 });
+    gsap.set(arc, { '--spin': '-4deg' });
     hero.classList.add('is-live');
-    gsap.timeline({ defaults: { ease: 'expo.out' } })
-      .to(arc, { '--spin': '0deg', duration: 2.4, ease: 'power3.out' }, 0)
-      .to(slabs, { '--fan': 1, duration: 2, stagger: { each: .06, from: 'start' } }, 0.05)
-      .to(slabs, { '--show': 1, duration: 1.1, ease: 'power2.out', stagger: .06 }, 0.05);
+    const entrance = gsap.timeline({ defaults: { ease: 'power2.out' } })
+      .fromTo(content, { autoAlpha: 0, y: 16 }, {
+        autoAlpha: 1, y: 0, duration: .85, stagger: .09,
+        clearProps: 'opacity,visibility,transform'
+      }, 0)
+      .to(arc, { '--spin': '0deg', duration: 1.5 }, .05)
+      .to(slabs, { '--fan': 1, duration: 1.4, stagger: .035 }, .05)
+      .to(slabs, { '--show': 1, duration: 1, stagger: .035 }, .05);
+    reduced.addEventListener('change', () => {
+      if (!reduced.matches) return;
+      entrance.progress(1).kill();
+      gsap.set(content, { clearProps: 'opacity,visibility,transform' });
+    });
 
     // Slow idle drift, paused while the hero is off screen.
     const drift = gsap.to(arc, { '--drift': '3deg', duration: 9, ease: 'sine.inOut', yoyo: true, repeat: -1, paused: true });

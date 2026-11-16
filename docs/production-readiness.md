@@ -1,5 +1,19 @@
 ﻿# Reac Studio — informe de implementación
 
+## Revisión del 16 de noviembre de 2026 — entradas de títulos
+
+Los títulos de sección usan una única entrada de 0,65 s (opacidad y 14 px de desplazamiento), sin modificar letras, dividir el texto ni crear capas decorativas. Los encabezados de páginas interiores siguen el mismo criterio. Se conserva la entrada suave del hero aprobada previamente.
+
+Se reutilizan GSAP e IntersectionObserver: no se agregan dependencias. El contenido inicial permanece visible; los títulos inferiores se animan una sola vez. Sin JavaScript o con movimiento reducido el texto queda disponible. Activar movimiento reducido durante una entrada detiene la animación y restaura el título. El build existente conserva minificación y nombres de assets basados en contenido para invalidar la caché.
+
+El módulo de títulos pasa de 5.340 a 1.355 bytes minificado (75 % menos); esta reducción corresponde a ese módulo, no al total del sitio. La prueba de arranque comprueba que cada título termina visible, conserva su HTML y no deja transformaciones inline.
+
+Validación local: lint, TypeScript, 31 tests, 54 comprobaciones HTTP/SEO, build reproducible y suite completa de navegador en Chrome (27 páginas, 189 comprobaciones responsive, sin infracciones automáticas de accesibilidad). `npm audit` no reportó vulnerabilidades. La comprobación específica de títulos verifica que el HTML original se conserva y que el texto termina visible; también se verificaron las ocho entradas en Firefox. La suite completa de Firefox quedó sin validar por esperas de red; no se equipara esta prueba específica con una auditoría completa de ese navegador.
+
+Muestra de rendimiento del build final: LCP de 3.684 ms en home, 2.324 ms en desarrollo web y 2.268 ms en Google Ads; CLS de 0,039 / 0,002 / 0,005. Una muestra local por ruta, 390×844, caché fría, CPU 4×, red de 1,6 Mbps y latencia de 150 ms. No son Core Web Vitals de usuarios reales. La home aún supera la referencia de 2,5 s para LCP en este escenario y requiere seguimiento; no se afirma una optimización total del sitio.
+
+La preparación es local y no acredita un despliegue. Los pendientes de cuentas de medición y datos legales de [PENDIENTES.md](PENDIENTES.md) siguen requiriendo información y verificación propias.
+
 ## Revisión del 10 de noviembre de 2026
 
 La arquitectura actual es estática, con contacto directo por WhatsApp y email. El endpoint antiguo devuelve 410 y no entrega mensajes. Resend/Upstash ya no son requisito de publicación; el informe inferior es histórico.

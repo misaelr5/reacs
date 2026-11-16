@@ -69,19 +69,10 @@
           return timeline;
         }
       },
-      // Words climb out of their own masks, tilted, and straighten on the line.
+      // Interior-page headings use the same quiet whole-title entrance as the home.
       rise: {
-        hide: el => {
-          if (!SplitText) return recipes.focus.hide(el);
-          const split = SplitText.create(el, { type: 'words', mask: 'words' });
-          splits.set(el, split);
-          gsap.set(split.words, { yPercent: 110, rotation: 6, transformOrigin: '0% 100%' });
-        },
-        show: el => {
-          const split = splits.get(el);
-          if (!split) return recipes.focus.show(el);
-          return gsap.to(split.words, { yPercent: 0, rotation: 0, duration: 1, ease, stagger: .04 });
-        }
+        hide: el => gsap.set(el, { opacity: 0, y: 14 }),
+        show: el => gsap.to(el, { opacity: 1, y: 0, duration: .65, ease: 'power2.out' })
       },
       // List items are written in from the left, leaning forward like a pen stroke.
       tick: {
