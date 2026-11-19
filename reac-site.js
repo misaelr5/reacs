@@ -82,7 +82,7 @@
     const banner = document.createElement('section');
     banner.id = 'reac-consent'; banner.className = 'reac-consent';
     banner.setAttribute('aria-label', 'Preferencias de privacidad');
-    banner.innerHTML = '<div class="reac-consent__copy"><strong>Tu privacidad,<br>a tu manera.</strong><span>Podés aceptar Analytics para ayudarnos a mejorar la web, o rechazarlo y seguir navegando.</span></div><div class="reac-consent__actions"><button type="button" data-consent="denied">Rechazar Analytics</button><button type="button" data-consent="granted">Aceptar Analytics</button></div><a class="reac-consent__policy" href="/politica-de-privacidad">Política de privacidad</a>';
+    banner.innerHTML = '<div class="reac-consent__copy"><strong>Tu privacidad, a tu manera.</strong><span>Podés aceptar Analytics para ayudarnos a mejorar la web, o rechazarlo y seguir navegando.</span></div><div class="reac-consent__actions"><button type="button" data-consent="denied">Rechazar Analytics</button><button type="button" data-consent="granted">Aceptar Analytics</button></div><a class="reac-consent__policy" href="/politica-de-privacidad">Política de privacidad</a>';
     document.body.appendChild(banner);
     if (force) banner.querySelector('button').focus();
     banner.addEventListener('click', event => {
