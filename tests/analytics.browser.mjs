@@ -43,6 +43,11 @@ try{
  assert.equal(events.filter(args=>/contact_form|generate_lead/.test(args[1]||'')).length,0);
  assert.ok(!JSON.stringify(events).includes('private@example.test'));assert.ok(!JSON.stringify(events).includes('private-click-id'));assert.equal(contactRequests,0);
  await page.goto(origin+'/google-ads');assert.ok(events.some(args=>args[1]==='service_view'&&args[2].service==='google-ads'));
+ await page.locator('.page-cta[data-service=google-ads]').first().click();
+ const quote=events.find(args=>args[1]==='whatsapp_click'&&args[2].service==='google-ads');
+ assert.ok(quote);
+ assert.equal(quote[2].placement,'service_google-ads');
+ assert.ok(!JSON.stringify(quote).includes('wa.me'));
  await page.locator('[data-service=google-ads][href="/contacto"]').first().click();await page.waitForURL(origin+'/contacto');
  assert.ok(events.some(args=>args[1]==='cta_click'&&args[2].service==='google-ads'));
  const before=events.filter(args=>args[0]==='event').length;

@@ -22,10 +22,6 @@
       try { const referrer = new URL(document.referrer); attribution.referrer = cleanValue(referrer.origin + referrer.pathname, 500); } catch { /* invalid referrer */ }
     }
     try { sessionStorage.setItem(attributionKey, JSON.stringify(attribution)); } catch { /* attribution remains available on this page */ }
-    for (const [name, value] of Object.entries(attribution)) {
-      const field = document.querySelector(`#ct-form input[name="${name}"]`);
-      if (field) field.value = value;
-    }
     return attribution;
   }
   const campaignContext = () => {

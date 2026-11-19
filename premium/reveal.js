@@ -148,8 +148,8 @@
     // Only what starts below the fold is held back.
     const pending = new Set([...targets.keys()].filter(el => el.getBoundingClientRect().top >= innerHeight));
     if (!pending.size) return;
-    let index = 0;
-    for (const el of pending) recipes[targets.get(el)].hide(el, index++);
+    // One style write per block. Defer transforms and text splitting until the block enters.
+    pending.forEach(el => el.classList.add('reac-reveal-pending'));
 
     const running = new Set();
     const settle = el => {
@@ -168,7 +168,10 @@
       elements.forEach((el, i) => {
         pending.delete(el);
         observer.unobserve(el);
-        const animation = recipes[targets.get(el)].show(el);
+        const recipe = recipes[targets.get(el)];
+        recipe.hide(el, i);
+        el.classList.remove('reac-reveal-pending');
+        const animation = recipe.show(el);
         animation.delay(i * step);
         running.add(animation);
         // then(), not onComplete: a recipe may own its timeline's onComplete.
@@ -205,7 +208,7 @@
       if (!reduced.matches) return;
       observer.disconnect();
       running.forEach(animation => animation.progress(1));
-      pending.forEach(settle);
+      pending.forEach(el => el.classList.remove('reac-reveal-pending'));
       pending.clear();
     }, { once: true });
   }

@@ -7,10 +7,6 @@ export function caseVisual(project, detail = false, sizes = '') {
   return `<img src="/uploads/${e(src)}"${responsive} alt="${e(project.imageAlt || 'Captura del sitio de '+project.name)}" width="${project.width}" height="${project.height}" loading="lazy" decoding="async">`;
 }
 
-export function caseDeck(projects, heading = 'h3') {
-  return `<div class="case-deck" data-case-deck role="region" aria-label="Casos destacados"><div class="case-deck-controls" hidden><div class="case-deck-status" role="status" aria-atomic="true"><span data-case-count>1 / ${projects.length}</span><span data-case-name>${e(projects[0].name)}</span></div><div class="case-deck-arrows"><button type="button" data-case-prev aria-label="Caso anterior"><span aria-hidden="true">←</span><span>Anterior</span></button><button type="button" data-case-next aria-label="Caso siguiente"><span>Siguiente</span><span aria-hidden="true">→</span></button></div></div><div class="case-list">${projects.map(project=>caseCard(project,heading)).join('')}</div><div class="case-deck-picker" aria-label="Elegir un caso" hidden>${projects.map((project,i)=>`<button type="button" data-case-go="${i}" aria-label="Ver caso ${i+1}: ${e(project.name)}" aria-pressed="${i===0}"><span aria-hidden="true">${heading === 'h3' ? `${caseVisual(project)}<strong>${e(project.name)}</strong><small>${e(project.category)}</small>` : String(i+1).padStart(2,'0')}</span></button>`).join('')}</div></div>`;
-}
-
 export function caseCard(project, heading = 'h3') {
   if (heading === 'h3') return `<article class="case-card case-card--story" id="${e(project.slug)}"><header class="case-project-heading"><div><p class="case-category">${e(project.category)}</p><h3>${e(project.name)}</h3></div><span class="case-type">${e(project.type)}</span></header><figure class="case-project-media"><a class="case-preview" href="/proyectos/${project.slug}" aria-label="Ver caso: ${e(project.name)}">${caseVisual(project)}</a>${project.imageCaption ? `<figcaption>${e(project.imageCaption)}</figcaption>` : ''}</figure><div class="case-copy"><div class="case-brief"><h4>Qué necesitaban</h4><p>${e(project.need)}</p></div><div class="case-brief"><h4>Qué hicimos</h4><ul>${project.work.map(item=>`<li>${e(item)}</li>`).join('')}</ul></div><div class="case-actions">${project.url ? `<a class="case-contact" href="${e(project.url)}" target="_blank" rel="noopener noreferrer">Visitar sitio <span aria-hidden="true">↗</span></a>` : ''}<a class="case-link" href="/proyectos/${project.slug}" aria-label="Ver caso completo de ${e(project.name)}">Explorar el proyecto <span aria-hidden="true">↗</span></a><a class="case-link" data-cta="project_contact" data-placement="case_${project.slug}" href="/contacto">Quiero algo parecido</a></div></div></article>`;
 
@@ -36,10 +32,10 @@ export function caseIndex(projects) {
 // Home: four featured cases in a 7/5 then 5/7 zigzag. Each card says what was done before the click:
 // the case headline is the link, then the summary and the services involved (the full catalog lives at /proyectos).
 const caseLogos = {
-  'travel-days': ['logo-travel-days-cutout.webp', 660, 257],
+  'travel-days': ['logo-travel-days-cutout.webp', 324, 126],
   'crm-reac-studio': null,
   'remediacion-malware-wordpress': null,
-  'comunidad-cristiana-villa-sarmiento': ['logo-ccvs-letters-cutout.webp', 480, 240],
+  'comunidad-cristiana-villa-sarmiento': ['logo-ccvs-letters-cutout.webp', 264, 132],
 };
 export function caseFeatured(projects) {
   const arrow = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg>';

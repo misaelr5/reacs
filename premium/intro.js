@@ -26,7 +26,7 @@
   root.setAttribute('data-intro', '');
   // The full loader (and its WebGL chunk) is fetched only now, on the visit that shows the veil.
   const loader = document.currentScript?.dataset.loader;
-  if (loader) {
+  if (loader && matchMedia('(min-width: 761px) and (pointer: fine)').matches && !navigator.connection?.saveData) {
     const script = document.createElement('script');
     script.type = 'module';
     script.src = loader;

@@ -37,7 +37,7 @@
 .p-hero .p-hero__btn.p-btn--ghost { background: transparent; border-color: rgba(242,244,248,.24); font-weight: 500; }
 
 /* Width follows the current phrase; the fixed line height prevents vertical jumps. */
-.p-hero__service-line { display: flex; align-items: baseline; justify-content: center; gap: .12em; margin-top: .06em; font-size: .7em; }
+.p-hero__service-line { display: flex; align-items: baseline; justify-content: center; gap: .12em; margin-top: .06em; font-size: 1em; }
 .p-hero__words {
   display: inline-grid; grid-template-columns: minmax(0, 1fr); overflow: hidden; min-width: 0; box-sizing: content-box;
   color: #B8BDFF; text-shadow: 0 0 7px rgba(126,139,255,.55); filter: drop-shadow(0 0 12px rgba(76,89,255,.4)); font-family: var(--p-font-accent);

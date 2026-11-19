@@ -4,23 +4,32 @@
 
 ## Sitio oficial
 
-- Inicio: https://reacstudio.com/
-- Servicios: https://reacstudio.com/servicios
-- Proyectos: https://reacstudio.com/proyectos
-- Nosotros: https://reacstudio.com/nosotros
-- Contacto: https://reacstudio.com/contacto
-- Recursos: https://reacstudio.com/recursos
+- [Inicio](https://reacstudio.com/)
+- [Servicios](https://reacstudio.com/servicios)
+- [Proyectos](https://reacstudio.com/proyectos)
+- [Nosotros](https://reacstudio.com/nosotros)
+- [Contacto](https://reacstudio.com/contacto)
+- [Recursos](https://reacstudio.com/recursos)
 
 ## Servicios
 
-- Desarrollo web: https://reacstudio.com/desarrollo-web
-- Landing pages: https://reacstudio.com/landing-pages
-- Marketing digital: https://reacstudio.com/marketing-digital
-- Google Ads: https://reacstudio.com/google-ads
-- Meta Ads: https://reacstudio.com/meta-ads
-- Automatización con IA: https://reacstudio.com/automatizacion-ia
-- Sistemas, CRM e integraciones: https://reacstudio.com/sistemas-crm
-- Ciberseguridad: https://reacstudio.com/ciberseguridad
+- [Desarrollo web](https://reacstudio.com/desarrollo-web): Diseño y desarrollo de sitios web institucionales para empresas. Desde Córdoba, Reac Studio trabaja con negocios de Argentina para presentar servicios y recibir consultas.
+- [Landing pages](https://reacstudio.com/landing-pages): Landing pages para presentar una oferta y facilitar consultas desde campañas. Reac Studio conecta mensaje, diseño móvil, formularios y medición.
+- [Marketing digital](https://reacstudio.com/marketing-digital): Estrategia, campañas y medición para ordenar tu captación de consultas. Reac Studio conecta marketing digital, web y seguimiento comercial.
+- [Google Ads](https://reacstudio.com/google-ads): Campañas de Google Ads alineadas con búsquedas, anuncios y landing pages. Revisá tu captación de consultas con Reac Studio, en Argentina y LATAM.
+- [Meta Ads](https://reacstudio.com/meta-ads): Estrategia y gestión de Meta Ads para negocios. Conectamos oferta, anuncios de Instagram y Facebook, destino y seguimiento de consultas con Reac Studio.
+- [Automatización con IA](https://reacstudio.com/automatizacion-ia): Automatizá tareas repetitivas con integraciones, reglas e IA cuando aporta valor. Reac Studio define permisos, revisión humana y mantenimiento del proceso.
+- [Sistemas, CRM e integraciones](https://reacstudio.com/sistemas-crm): CRM, sistemas internos e integraciones para ordenar clientes y operaciones. Reac Studio prioriza herramientas existentes y desarrollo a medida cuando hace falta.
+- [Ciberseguridad](https://reacstudio.com/ciberseguridad): Evaluaciones de seguridad autorizadas, remediación de WordPress comprometido y hardening. Alcance acordado, resultados confidenciales y retesting.
+
+## Proyectos
+
+- [Remediación de malware en WordPress](https://reacstudio.com/proyectos/remediacion-malware-wordpress): Investigar el compromiso. Recuperar el sitio.
+- [REAC LEADS](https://reacstudio.com/proyectos/crm-reac-studio): Clientes, cobros y prospección en un mismo sistema.
+- [Travel Days](https://reacstudio.com/proyectos/travel-days): Una nueva forma de presentar cada viaje.
+- [Portfolio de Misael Ledesma](https://reacstudio.com/proyectos/portfolio-de-misael-ledesma): Perfil, proyectos y contacto en un solo lugar.
+- [Comunidad Cristiana](https://reacstudio.com/proyectos/comunidad-cristiana-villa-sarmiento): La comunidad, también cerca en la web.
+- [Más Servicios](https://reacstudio.com/proyectos/mas-servicios): Una web que el equipo puede actualizar.
 
 ## Identidad
 
@@ -30,8 +39,8 @@
 
 ## Perfiles oficiales
 
-- https://www.instagram.com/reacstudio/
-- https://www.tiktok.com/@reac.studio
-- https://www.facebook.com/profile.php?id=61594342015629
+- [instagram.com](https://www.instagram.com/reacstudio/)
+- [tiktok.com](https://www.tiktok.com/@reac.studio)
+- [facebook.com](https://www.facebook.com/profile.php?id=61594342015629)
 
 Este directorio es un complemento experimental. No reemplaza el contenido HTML, robots.txt ni sitemap.xml.

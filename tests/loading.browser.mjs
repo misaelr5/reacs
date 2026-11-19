@@ -4,8 +4,11 @@ import {chromium} from 'playwright-core';
 const base=process.env.TEST_URL||'http://127.0.0.1:4174';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try {
-  for(const mode of ['normal','reduced','blocked-loader']) {
-    const context=await browser.newContext({reducedMotion:mode==='reduced'?'reduce':'no-preference'});
+  for(const mode of ['normal','mobile','reduced','blocked-loader']) {
+    const context=await browser.newContext({
+      reducedMotion:mode==='reduced'?'reduce':'no-preference',
+      ...(mode==='mobile'?{viewport:{width:390,height:844},isMobile:true,hasTouch:true}:{})
+    });
     await context.addInitScript(()=>localStorage.setItem('reac_analytics_consent','denied'));
     if(mode==='blocked-loader')await context.route(/\/js\/loader\.[^/]+\.js$/,route=>route.abort());
     const page=await context.newPage();
@@ -14,6 +17,7 @@ try {
     page.on('pageerror',error=>errors.push(error.message));
     page.on('request',request=>{if(/\/loader-field[.-]/.test(request.url()))fields.push(request.url());});
     await page.goto(base+'/servicios');
+    if(mode==='mobile')assert.equal(await page.evaluate(()=>performance.getEntriesByType('resource').some(r=>/\/js\/loader\./.test(r.name))),false,'mobile fetched decorative loader');
     await page.waitForFunction(()=>!document.documentElement.hasAttribute('data-intro'),null,{timeout:18000});
     await page.waitForFunction(()=>{
       const title=document.querySelector('h1');

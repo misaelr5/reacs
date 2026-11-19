@@ -12,8 +12,8 @@
     const arc = hero.querySelector('[data-chrome-arc]');
     const slabs = [...hero.querySelectorAll('.p-chrome__slab')];
 
-    // No GSAP or reduced motion: drop the CSS pre-state and show the final composition.
-    if (!gsap || reduced.matches) { hero.classList.add('is-live'); return; }
+    // On touch devices, paint the headline and contact action in their final positions.
+    if (!gsap || reduced.matches || !finePointer.matches) { hero.classList.add('is-live'); return; }
 
     // Arm only after GSAP is available: static HTML remains readable on failure.
     // Animate whole lines, preserving the service rotator's own transforms.

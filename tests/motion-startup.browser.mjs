@@ -20,6 +20,9 @@ for(const engine of engines){
     // Wait for the behavior under test, rather than unrelated background network activity.
     await page.goto(base);
     await page.waitForFunction(()=>document.querySelectorAll('.tfx-pending').length>=6);
+    const firstPending = page.locator('h2.tfx-pending').first();
+    const pendingTitle = (await firstPending.innerText()).replace(/\s+/g, ' ').trim();
+    assert.ok(await page.getByRole('heading', { level: 2, name: pendingTitle, exact: true }).count(), 'pending heading missing from accessibility tree');
     assert.ok(await page.locator('.tfx-pending').count()>=6,engine+': headings never armed their entrances');
     const initial=await page.locator('.p-hero__word.is-current').textContent();
     await page.waitForFunction(text=>document.querySelector('.p-hero__word.is-current')?.textContent!==text,initial,{timeout:10000});

@@ -13,6 +13,21 @@ const meta = (doc, key) => attr(one(doc, n => n.tagName === 'meta' && (attr(n, '
 const orgId = site.url + '/#organization';
 const websiteId = site.url + '/#website';
 
+test('Service quote links preserve the service and use the configured WhatsApp number', () => {
+  for (const service of services) {
+    const doc = docs.get('/' + service.slug);
+    const links = all(doc, n => n.tagName === 'a' && hasClass(n, 'page-cta'));
+    assert.ok(links.length > 0, service.slug);
+    for (const link of links) {
+      const href = new URL(attr(link, 'href'));
+      assert.equal(href.origin, 'https://wa.me');
+      assert.equal(href.pathname, '/' + site.whatsapp);
+      assert.ok(href.searchParams.get('text')?.includes(service.name));
+      assert.equal(attr(link, 'data-service'), service.slug);
+    }
+  }
+});
+
 test('Every page has unique, consistent metadata and a connected identity graph', () => {
   const titles = new Set(); const descriptions = new Set();
   for (const [path, doc] of docs) {

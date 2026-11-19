@@ -1,3 +1,4 @@
 /* Armed by JS only for section headings initially below the viewport.
    No character wrappers, filters or decorative layers are needed. */
-.tfx-pending { visibility: hidden; }
+.tfx-pending { opacity: 0; }
+@media print { .tfx-pending { opacity: 1; } }

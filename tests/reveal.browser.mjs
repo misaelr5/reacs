@@ -6,7 +6,7 @@ const browser=await chromium.launch({channel:'chrome',headless:true});
 // Inline styles a pending or unfinished entrance leaves behind. The closed mobile menu is GSAP-owned, and
 // marquee tracks keep a running transform, so transforms are not checked.
 const leftovers=()=>[...document.querySelectorAll('main *, footer *')].filter(node=>!node.closest('.mobile-nav-panel')&&
-  ((node.style.opacity&&Number(node.style.opacity)<1)||node.style.clipPath||node.style.filter)).map(node=>node.tagName+'.'+String(node.className.baseVal??node.className).split(' ')[0]);
+  (node.classList.contains('reac-reveal-pending')||(node.style.opacity&&Number(node.style.opacity)<1)||node.style.clipPath||node.style.filter)).map(node=>node.tagName+'.'+String(node.className.baseVal??node.className).split(' ')[0]);
 try {
   for(const reducedMotion of ['no-preference','reduce']) for(const width of [320,1440]) {
     const context=await browser.newContext({reducedMotion,viewport:{width,height:800}});

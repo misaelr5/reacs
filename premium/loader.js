@@ -28,13 +28,9 @@ function navMark() {
   return null;
 }
 
-// OGL and the shaders are a separate chunk, fetched only when the loader actually runs.
-// Start fetching it as soon as this module evaluates, in parallel with the rest of the page.
-const fieldModule = root.getAttribute('data-intro') === '' && !reduced.matches ? import('./loader-field.js') : null;
-
 async function field(canvas) {
   try {
-    const { createField } = await fieldModule;
+    const { createField } = await import('./loader-field.js');
     return createField(canvas);
   } catch {
     return null;

@@ -16,7 +16,6 @@ const fragment = /* glsl */ `
   uniform vec2 uRes;
   uniform float uTime;
   uniform float uReveal;
-  uniform float uPixel;
   float hash(vec2 p) { p = fract(p * vec2(123.34, 456.21)); p += dot(p, p + 45.32); return fract(p.x * p.y); }
   float noise(vec2 p) {
     vec2 i = floor(p), f = fract(p), u = f * f * (3. - 2. * f);
@@ -26,8 +25,8 @@ const fragment = /* glsl */ `
   float bayer2(vec2 a) { a = floor(a); return fract(a.x / 2. + a.y * a.y * .75); }
   float bayer4(vec2 a) { return bayer2(.5 * a) * .25 + bayer2(a); }
   void main() {
-    vec2 cell = floor(gl_FragCoord.xy / uPixel);
-    vec2 p = (cell * uPixel - .5 * uRes) / uRes.y;
+    vec2 cell = floor(gl_FragCoord.xy);
+    vec2 p = (cell - .5 * uRes) / uRes.y;
     float warp = fbm(p * 2.2 + vec2(0., -uTime * .25));
     float n = fbm(p * 3.4 + warp * 1.6 + vec2(uTime * .08, 0.));
     float contour = 1. - smoothstep(0., .045, abs(fract(n * 6. - uTime * .35) - .5));
@@ -54,12 +53,13 @@ export function createField(canvas) {
     if (navigator.connection?.saveData) return null;
     const context = canvas.getContext('webgl2', { alpha: true, depth: false, antialias: false, premultipliedAlpha: false, failIfMajorPerformanceCaveat: true });
     if (!context) return null;
-    const dpr = Math.min(devicePixelRatio || 1, 1.5);
+    // Each dither cell covers three CSS pixels. Shade it once, then scale the canvas.
+    const dpr = 1 / 3;
     const renderer = new Renderer({ canvas, dpr, alpha: true, premultipliedAlpha: false, antialias: false, depth: false });
     const gl = renderer.gl;
     if (!gl) return null;
     gl.clearColor(0, 0, 0, 0);
-    const uniforms = { uRes: { value: [1, 1] }, uTime: { value: 0 }, uReveal: { value: 0 }, uPixel: { value: 3 * dpr } };
+    const uniforms = { uRes: { value: [1, 1] }, uTime: { value: 0 }, uReveal: { value: 0 } };
     const program = new Program(gl, { vertex, fragment, uniforms, transparent: true });
     const mesh = new Mesh(gl, { geometry: new Triangle(gl), program });
     const resize = () => {

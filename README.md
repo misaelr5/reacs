@@ -34,7 +34,7 @@ Abrir http://127.0.0.1:4174. El servidor está limitado a esta computadora. Reco
 - `reac-ui.js`: interacciones; `reac-site.js`: consentimiento, medición y contacto.
 - `scripts/build.mjs`: genera `dist/`, metadata, schema, sitemap y robots con una lista de archivos permitidos. Agrupa el CSS publicado por página con nombre basado en su contenido, conservando el orden original; los archivos fuente permanecen separados. Conserva la preparación de la navegación antes de la captura de View Transitions.
 - `api/contact.ts`: responde 410 al formulario retirado; `lib/contact.ts` conserva la entrega anterior como referencia inactiva.
-- `premium/intro.css` y `premium/intro.js`: introducción breve con el símbolo real, una vez por sesión y sin bloquear interacción; se omite con movimiento reducido. `premium/loader.js` añade el dibujo del símbolo con GSAP y solicita el campo OGL de `loader-field.js` mediante importación dinámica. Si el módulo llega tarde o falla, la introducción CSS termina por sí sola. `premium/arrival.js` anima encabezados internos e imágenes diferidas.
+- `premium/intro.css` y `premium/intro.js`: introducción breve con el símbolo real, una vez por sesión y sin bloquear interacción; se omite con movimiento reducido. `premium/loader.js` se carga en pantallas desde 761 px con puntero preciso y sin ahorro de datos activo. Añade el dibujo del símbolo con GSAP y solicita el campo OGL de `loader-field.js` mediante importación dinámica. Si el módulo llega tarde o falla, la introducción CSS termina por sí sola. `premium/arrival.js` anima encabezados internos e imágenes diferidas.
 - `premium/contact.css`: contacto directo compartido entre la home y `/contacto`.
 - `vercel.json`: build, rutas y encabezados.
 

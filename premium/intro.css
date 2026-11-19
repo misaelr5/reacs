@@ -1,6 +1,8 @@
 /* Reac premium — brand intro (see premium/intro.js). The veil is decorative: content renders
    underneath from the first paint, and the CSS animation ends it even if no script runs.
    premium/loader.js marks the veil "live" when it takes over with the full loader. */
+.reac-reveal-pending { opacity: 0; }
+@media print { .reac-reveal-pending { opacity: 1; } }
 html[data-intro]::before,
 html[data-intro]::after {
   content: ''; position: fixed; z-index: 2147483000; pointer-events: none;

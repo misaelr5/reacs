@@ -3,7 +3,7 @@ export const services = [
   {
     slug: 'desarrollo-web', name: 'Desarrollo web',
     title: 'Desarrollo web para empresas y profesionales | Reac Studio',
-    description: 'Sitios web para presentar servicios, facilitar consultas y gestionar contenido. Reac Studio conecta diseño, desarrollo e integraciones según tu negocio.',
+    description: 'Diseño y desarrollo de sitios web institucionales para empresas. Desde Córdoba, Reac Studio trabaja con negocios de Argentina para presentar servicios y recibir consultas.',
     h1: 'Desarrollo web para empresas, negocios y profesionales',
     intro: 'En Reac Studio diseñamos y desarrollamos sitios web para empresas, negocios y profesionales. Explicamos tu oferta, facilitamos el contacto y conectamos la web con tus procesos comerciales. Trabajamos desde Córdoba, Argentina, de forma remota con todo el país y Latinoamérica.',
     fit: 'Conviene empezar por una web cuando tu negocio depende de redes sociales, cuando cuesta entender qué vendés o cuando recibís visitas que no encuentran cómo consultar. Antes de elegir tecnología, definimos qué necesita hacer la persona que llega al sitio y quién va a mantener el contenido.',
@@ -147,7 +147,7 @@ export const services = [
   },
   {
     slug: 'sistemas-crm', name: 'Sistemas, CRM e integraciones',
-    title: 'Sistemas y CRM para empresas | Reac Studio',
+    title: 'Software a medida, sistemas y CRM para empresas | Reac Studio',
     description: 'CRM, sistemas internos e integraciones para ordenar clientes y operaciones. Reac Studio prioriza herramientas existentes y desarrollo a medida cuando hace falta.',
     h1: 'Sistemas y CRM para ordenar el seguimiento de tu negocio',
     intro: 'Reac Studio conecta sitios, herramientas y procesos comerciales para que tu equipo pueda trabajar con información organizada. Evaluamos un CRM existente, integraciones o desarrollo a medida según las necesidades reales del negocio.',
