@@ -4,7 +4,7 @@
   box-sizing: border-box; display: flex; flex-direction: column; align-items: stretch;
   gap: 14px; width: min(408px, calc(100% - 48px)); margin: 0; padding: 22px;
   border: 1px solid transparent; border-radius: 20px;
-  background: radial-gradient(ellipse at 100% 0, #181a38, #08090e 67%) padding-box,
+  background: radial-gradient(ellipse at 100% 0, #181a38, #000000 67%) padding-box,
     linear-gradient(145deg, #6e74ff, #383b50 42%, #252633 75%) border-box;
   color: var(--p-ink, #f2f4f8); font-family: var(--p-font, Satoshi, 'Segoe UI', sans-serif); line-height: 1.5;
   box-shadow: 0 16px 48px rgba(0,0,0,.58); isolation: isolate; color-scheme: dark;
