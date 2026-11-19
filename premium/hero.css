@@ -124,7 +124,7 @@
   background: #fff; box-shadow: 0 0 8px 2px #fff, 0 0 22px 6px rgba(110,116,255,.75), 0 0 40px 10px rgba(46,55,255,.4);
   opacity: 0;
 }
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
   .p-hero__meteor::before { animation: hero-meteor-tail 9s cubic-bezier(.45,.05,.35,1) 2.4s infinite; }
   .p-hero__meteor::after { animation: hero-meteor-head 9s cubic-bezier(.45,.05,.35,1) 2.4s infinite; }
 }
@@ -144,7 +144,7 @@
   position: absolute; inset: -50%; opacity: .16; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1.4 -.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
   .p-hero__grain { animation: hero-grain 1.2s steps(4) infinite; }
 }
 @keyframes hero-grain {

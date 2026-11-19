@@ -69,17 +69,30 @@
     const hero = document.querySelector('#hero-sec.p-hero');
     const atmos = hero?.querySelector('[data-hero-atmosphere]');
     if (!atmos) return;
-    let frame = 0;
+    let frame = 0, lastProgress;
+    const canAnimate = () => finePointer.matches && !reduced.matches;
     const apply = () => {
       frame = 0;
-      const progress = reduced.matches ? 0 : Math.min(1, Math.max(0, -hero.getBoundingClientRect().top / hero.offsetHeight));
-      atmos.style.setProperty('--hero-p', progress.toFixed(3));
+      const progress = canAnimate() ? Math.min(1, Math.max(0, -hero.getBoundingClientRect().top / hero.offsetHeight)) : 0;
+      const value = progress.toFixed(3);
+      if (value === lastProgress) return;
+      atmos.style.setProperty('--hero-p', value);
+      lastProgress = value;
     };
     const request = () => { if (!frame) frame = requestAnimationFrame(apply); };
-    addEventListener('scroll', request, { passive: true });
-    addEventListener('resize', request, { passive: true });
-    reduced.addEventListener('change', request);
-    apply();
+    const sync = () => {
+      removeEventListener('scroll', request);
+      removeEventListener('resize', request);
+      if (canAnimate()) {
+        addEventListener('scroll', request, { passive: true });
+        addEventListener('resize', request, { passive: true });
+      }
+      if (frame) cancelAnimationFrame(frame);
+      apply();
+    };
+    finePointer.addEventListener('change', sync);
+    reduced.addEventListener('change', sync);
+    sync();
   }
 
   // SplitText once per element; the h1's aria-label keeps the full sentence accessible.

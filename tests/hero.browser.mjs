@@ -85,8 +85,23 @@ try {
   assert.equal(await staticPage.locator('.p-hero__avatars').count(), 0);
   assert.equal(await staticPage.locator('.p-hero__proof').getAttribute('href'), '#testimonios');
   await noJS.close();
+  const touch = await browser.newContext({isMobile:true,hasTouch:true,viewport:{width:390,height:844}});
+  await touch.addInitScript(() => {
+    localStorage.setItem('reac_analytics_consent','denied');
+    sessionStorage.setItem('reac_intro_seen','1');
+  });
+  const touchPage = await touch.newPage();
+  await touchPage.goto(base);
+  await touchPage.evaluate(() => scrollTo({top:innerHeight / 2,behavior:'instant'}));
+  const touchAtmosphere = await touchPage.locator('[data-hero-atmosphere]').evaluate(node => ({
+    progress: getComputedStyle(node).getPropertyValue('--hero-p').trim(),
+    grain: getComputedStyle(node.querySelector('.p-hero__grain')).animationName,
+    meteor: getComputedStyle(node.querySelector('.p-hero__meteor'),'::before').animationName
+  }));
+  assert.deepEqual(touchAtmosphere, {progress:'0.000',grain:'none',meteor:'none'});
+  await touch.close();
   assert.deepEqual(errors, []);
-  console.log('Hero passed: two centered lines, sentence-case neon rotation, footer dock, scroll-linked atmosphere, reduced motion, 8 widths, Axe and no JavaScript.');
+  console.log('Hero passed: two centered lines, neon rotation, footer dock, desktop and touch atmosphere, reduced motion, 8 widths, Axe and no JavaScript.');
 } finally {
   await browser.close();
 }

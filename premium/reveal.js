@@ -45,7 +45,7 @@
     // Every recipe: hide() sets the pre-state, show() returns the entrance.
     const recipes = {
       focus: {
-        hide: el => gsap.set(el, coarse.matches ? { opacity: 0, y: 18 } : { opacity: 0, y: 18, filter: 'blur(10px)' }),
+        hide: el => gsap.set(el, { opacity: 0, y: 18, filter: 'blur(10px)' }),
         show: el => gsap.to(el, { opacity: 1, y: 0, filter: 'blur(0px)', duration: .9, ease })
       },
       // Cards swing down on a hinge along their top edge.
@@ -152,30 +152,29 @@
     pending.forEach(el => el.classList.add('reac-reveal-pending'));
 
     const running = new Set();
-    const settle = el => {
-      recipes[targets.get(el)].reset?.(el);
+    const settle = (el, recipe) => {
+      recipe.reset?.(el);
       splits.get(el)?.revert();
       splits.delete(el);
       gsap.set(el, { clearProps: 'opacity,transform,filter,clipPath' });
     };
     const reveal = elements => {
       // One stagger per batch, in reading order; long batches never wait more than half a second.
-      elements.sort((a, b) => {
-        const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
-        return Math.abs(ra.top - rb.top) > 8 ? ra.top - rb.top : ra.left - rb.left;
-      });
+      const ordered = elements.map(el => ({ el, rect: el.getBoundingClientRect() }));
+      ordered.sort((a, b) => Math.abs(a.rect.top - b.rect.top) > 8 ? a.rect.top - b.rect.top : a.rect.left - b.rect.left);
       const step = Math.min(.08, .5 / elements.length);
-      elements.forEach((el, i) => {
+      ordered.forEach(({ el }, i) => {
         pending.delete(el);
         observer.unobserve(el);
-        const recipe = recipes[targets.get(el)];
+        // Touch scrolling keeps entrances on transform and opacity, even for large visual sections.
+        const recipe = coarse.matches ? recipes.rise : recipes[targets.get(el)];
         recipe.hide(el, i);
         el.classList.remove('reac-reveal-pending');
         const animation = recipe.show(el);
         animation.delay(i * step);
         running.add(animation);
         // then(), not onComplete: a recipe may own its timeline's onComplete.
-        animation.then(() => { running.delete(animation); settle(el); });
+        animation.then(() => { running.delete(animation); settle(el, recipe); });
       });
     };
     // Blocks entering in the same frame share one stagger.
